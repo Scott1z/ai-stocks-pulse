@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-08-10T18:38:27.884546+00:00",
+  "updated_at": "2026-08-10T19:20:14.894129+00:00",
   "sector": {
     "sentiment": "mixed",
-    "text": "AI sector sentiment is mixed: Nvidia slipped 2.5% despite BofA's bullish outlook and a reported $500B infrastructure funding push, while Oracle rose 2.4% on new Gemini-powered deals. Concerns weighed on Arm (-4.6%) and Coherent (-12.4%) amid fears of cooling AI investment and an optical AI selloff.",
+    "text": "El sector de IA muestra señales mixtas: Nvidia negocia un paquete de infraestructura de IA por 500.000 millones de dólares, pero sus acciones cayeron 2,2% pese al optimismo por su próximo reporte. Oracle subió 3,2% tras expandir acuerdos con Gemini de Google, mientras Broadcom y AMD retrocedieron levemente en medio de toma de ganancias.",
     "stats": {
       "upCount": 6,
       "totalCount": 9,
-      "avgChangePct": 0.21,
+      "avgChangePct": 0.39,
       "newsCount": 8
     }
   },
@@ -14,98 +14,107 @@
     {
       "ticker": "NVDA",
       "name": "NVIDIA",
-      "price": 218.42,
-      "changePct": -2.4737,
+      "price": 219.11,
+      "changePct": -2.1656,
       "spark": [
         218.52,
-        218.42
+        218.42,
+        219.11
       ]
     },
     {
       "ticker": "MSFT",
       "name": "Microsoft",
-      "price": 505.45,
-      "changePct": 1.092,
+      "price": 505.51,
+      "changePct": 1.104,
       "spark": [
         505.02,
-        505.45
+        505.45,
+        505.51
       ]
     },
     {
       "ticker": "GOOGL",
       "name": "Alphabet",
-      "price": 354.67,
-      "changePct": 0.1044,
+      "price": 355.37,
+      "changePct": 0.302,
       "spark": [
         354.29,
-        354.67
+        354.67,
+        355.37
       ]
     },
     {
       "ticker": "META",
       "name": "Meta Platforms",
-      "price": 593.46,
-      "changePct": 0.2297,
+      "price": 593.12,
+      "changePct": 0.1723,
       "spark": [
         592.99,
-        593.46
+        593.46,
+        593.12
       ]
     },
     {
       "ticker": "AMZN",
       "name": "Amazon",
-      "price": 276.45,
-      "changePct": 0.7177,
+      "price": 277.14,
+      "changePct": 0.9691,
       "spark": [
         276.74,
-        276.45
+        276.45,
+        277.14
       ]
     },
     {
       "ticker": "AVGO",
       "name": "Broadcom",
-      "price": 424.26,
-      "changePct": -0.8182,
+      "price": 424.5,
+      "changePct": -0.7621,
       "spark": [
         424.19,
-        424.26
+        424.26,
+        424.5
       ]
     },
     {
       "ticker": "ORCL",
       "name": "Oracle",
-      "price": 150.61,
-      "changePct": 2.4418,
+      "price": 151.69,
+      "changePct": 3.1764,
       "spark": [
         150.75,
-        150.61
+        150.61,
+        151.69
       ]
     },
     {
       "ticker": "PLTR",
       "name": "Palantir",
-      "price": 175.85,
-      "changePct": 2.2324,
+      "price": 176.14,
+      "changePct": 2.401,
       "spark": [
         175.9,
-        175.85
+        175.85,
+        176.14
       ]
     },
     {
       "ticker": "AMD",
       "name": "Advanced Micro Devices",
-      "price": 475.59,
-      "changePct": -1.6075,
+      "price": 475.27,
+      "changePct": -1.6737,
       "spark": [
         475.43,
-        475.59
+        475.59,
+        475.27
       ]
     }
   ],
   "news": [
     {
-      "headline": "BofA sees multi-quarter Nvidia earnings upgrade cycle",
-      "summary": "BofA expects Nvidia's Q2 report to beat estimates and raise guidance, driven by Vera Rubin platform shipments.",
+      "headline": "BofA espera un ciclo de mejoras para Nvidia",
+      "summary": "Bank of America proyecta que el próximo reporte trimestral de Nvidia supere expectativas y eleve su guía, impulsado por su plataforma Vera Rubin.",
       "tickers": [
         "NVDA"
       ],
@@ -115,8 +124,8 @@
       "published_at": "2026-08-10T17:50:44+00:00"
     },
     {
-      "headline": "Nvidia in talks for $500B AI infrastructure funding",
-      "summary": "Nvidia reportedly negotiating with Apollo, Blackstone, BlackRock and Goldman Sachs to finance massive AI chip and power buildout.",
+      "headline": "Nvidia busca 500.000 millones para infraestructura de IA",
+      "summary": "Nvidia negocia con Apollo, Blackstone, BlackRock y Goldman Sachs un financiamiento masivo para chips y centros de datos de IA.",
       "tickers": [
         "NVDA"
       ],
@@ -126,8 +135,42 @@
       "published_at": "2026-08-10T17:23:21+00:00"
     },
     {
-      "headline": "Alphabet raises AI capex guidance to $205B",
-      "summary": "Alphabet lifts 2026 AI spending outlook, boosting demand for GPUs, memory chips and networking equipment across suppliers.",
+      "headline": "Oracle refuerza su plataforma con IA de Google",
+      "summary": "Oracle integra los modelos Gemini de Google en su nube empresarial y suma contratos públicos, fortaleciendo su posición en IA corporativa.",
+      "tickers": [
+        "ORCL",
+        "GOOGL"
+      ],
+      "sentiment": "positive",
+      "source_url": "https://simplywall.st/stocks/us/software/nyse-orcl/oracle/news/does-oracles-gemini-fueled-government-deals-deepen-its-ai-mo",
+      "source": "Simply Wall Street",
+      "published_at": "2026-08-10T17:38:58+00:00"
+    },
+    {
+      "headline": "Acciones de Oracle suben pese a rebaja crediticia",
+      "summary": "Oracle avanzó casi 2% aunque S&P bajó su calificación por la deuda usada en la expansión de centros de datos de IA.",
+      "tickers": [
+        "ORCL"
+      ],
+      "sentiment": "neutral",
+      "source_url": "https://www.benzinga.com/markets/tech/26/08/61084268/oracle-stock-is-gaining-monday-whats-going-on",
+      "source": "Benzinga",
+      "published_at": "2026-08-10T17:11:45+00:00"
+    },
+    {
+      "headline": "Broadcom mejora seguridad de su nube con IA",
+      "summary": "Broadcom añadió funciones de IA a VMware Cloud Foundation para reforzar la ciberseguridad y competir con Nutanix e IBM.",
+      "tickers": [
+        "AVGO"
+      ],
+      "sentiment": "positive",
+      "source_url": "https://www.tradingview.com/news/zacks:2a93dc973094b:0-broadcom-boosts-vcf-security-can-it-fend-off-nutanix-and-ibm/",
+      "source": "TradingView",
+      "published_at": "2026-08-10T16:37:12+00:00"
+    },
+    {
+      "headline": "Alphabet dispara su gasto en infraestructura de IA",
+      "summary": "Alphabet elevó su guía de inversión 2026 a hasta 205.000 millones de dólares, impulsando demanda de GPUs y chips de memoria.",
       "tickers": [
         "GOOGL",
         "NVDA",
@@ -139,53 +182,19 @@
       "published_at": "2026-08-10T15:08:15+00:00"
     },
     {
-      "headline": "Oracle deepens AI moat with Gemini integration",
-      "summary": "Oracle embeds Google's Gemini AI into enterprise and government platforms, expanding its cloud AI footprint.",
+      "headline": "Palo Alto sube tras alerta sobre agentes de IA",
+      "summary": "Las acciones de Palo Alto subieron 4,3% luego de reportes sobre agentes autónomos de IA usados en ciberataques reales.",
       "tickers": [
-        "ORCL",
-        "GOOGL"
+        "PLTR"
       ],
       "sentiment": "positive",
-      "source_url": "https://simplywall.st/stocks/us/software/nyse-orcl/oracle/news/does-oracles-gemini-fueled-government-deals-deepen-its-ai-mo",
-      "source": "Simply Wall Street",
-      "published_at": "2026-08-10T17:38:58+00:00"
+      "source_url": "https://stockstory.org/us/stocks/nasdaq/panw/news/why-up-down/palo-alto-networks-panw-stock-is-up-what-you-need-to-know",
+      "source": "StockStory",
+      "published_at": "2026-08-10T17:17:47+00:00"
     },
     {
-      "headline": "Oracle stock rises despite credit downgrade",
-      "summary": "Oracle gained nearly 2% even after S&P cut its rating over debt-funded AI data-center expansion.",
-      "tickers": [
-        "ORCL"
-      ],
-      "sentiment": "neutral",
-      "source_url": "https://www.benzinga.com/markets/tech/26/08/61084268/oracle-stock-is-gaining-monday-whats-going-on",
-      "source": "Benzinga",
-      "published_at": "2026-08-10T17:11:45+00:00"
-    },
-    {
-      "headline": "Broadcom strengthens VMware cloud security with AI",
-      "summary": "Broadcom upgrades VCF security features using AI to compete with Nutanix and IBM in private cloud.",
-      "tickers": [
-        "AVGO"
-      ],
-      "sentiment": "positive",
-      "source_url": "https://www.tradingview.com/news/zacks:2a93dc973094b:0-broadcom-boosts-vcf-security-can-it-fend-off-nutanix-and-ibm/",
-      "source": "TradingView",
-      "published_at": "2026-08-10T16:37:12+00:00"
-    },
-    {
-      "headline": "Arm Holdings drops on AI investment cooling fears",
-      "summary": "Arm fell 4.6% amid profit-taking and concerns over slowing AI investment and rising interest rates.",
-      "tickers": [
-        "NVDA"
-      ],
-      "sentiment": "negative",
-      "source_url": "https://www.tradingkey.com/news/market-movers/262092900-market-movers-arm-20260810",
-      "source": "TradingKey",
-      "published_at": "2026-08-10T14:12:45+00:00"
-    },
-    {
-      "headline": "Coherent shares plunge 12% amid optical AI selloff",
-      "summary": "Coherent stock fell 12.4% as investors questioned optical AI premium ahead of Lumentum's earnings report.",
+      "headline": "Coherent se desploma 12% en medio de dudas ópticas",
+      "summary": "Las acciones de Coherent cayeron 12,4% mientras el mercado espera si la debilidad en IA óptica es sectorial o específica.",
       "tickers": [
         "PLTR"
       ],
