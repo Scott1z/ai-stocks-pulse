@@ -1,0 +1,106 @@
+{
+  "updated_at": "2026-08-10T18:16:07.054059+00:00",
+  "sector": {
+    "sentiment": "mixed",
+    "text": "",
+    "stats": {
+      "upCount": 0,
+      "totalCount": 0,
+      "avgChangePct": 0.0,
+      "newsCount": 0
+    }
+  },
+  "stocks": [
+    {
+      "ticker": "NVDA",
+      "name": "NVIDIA",
+      "price": null,
+      "changePct": null,
+      "spark": [
+        0,
+        0
+      ]
+    },
+    {
+      "ticker": "MSFT",
+      "name": "Microsoft",
+      "price": null,
+      "changePct": null,
+      "spark": [
+        0,
+        0
+      ]
+    },
+    {
+      "ticker": "GOOGL",
+      "name": "Alphabet",
+      "price": null,
+      "changePct": null,
+      "spark": [
+        0,
+        0
+      ]
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms",
+      "price": null,
+      "changePct": null,
+      "spark": [
+        0,
+        0
+      ]
+    },
+    {
+      "ticker": "AMZN",
+      "name": "Amazon",
+      "price": null,
+      "changePct": null,
+      "spark": [
+        0,
+        0
+      ]
+    },
+    {
+      "ticker": "AVGO",
+      "name": "Broadcom",
+      "price": null,
+      "changePct": null,
+      "spark": [
+        0,
+        0
+      ]
+    },
+    {
+      "ticker": "ORCL",
+      "name": "Oracle",
+      "price": null,
+      "changePct": null,
+      "spark": [
+        0,
+        0
+      ]
+    },
+    {
+      "ticker": "PLTR",
+      "name": "Palantir",
+      "price": null,
+      "changePct": null,
+      "spark": [
+        0,
+        0
+      ]
+    },
+    {
+      "ticker": "AMD",
+      "name": "Advanced Micro Devices",
+      "price": null,
+      "changePct": null,
+      "spark": [
+        0,
+        0
+      ]
+    }
+  ],
+  "news": []
+}
