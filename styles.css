@@ -1,13 +1,12 @@
 /* ---------------------------------------------------------------------
    AI Stocks Pulse — design system
-   Direction: the stock certificate, not the ledger sheet. Warm parchment
-   paper with navy ink and a rare gold accent — the classic dual-tone of
-   an engraved stock certificate or a bank's letterhead, which reads as
-   unmistakably financial in a way plain green ledger paper didn't.
-   Navy stays the primary interactive accent; gold is a deliberately
-   scarce second accent (the hero panel's border, brand touches) —
-   never used for semantics, which stay green/red/slate. Single
-   deliberate theme: this material doesn't have a "dark mode."
+   Direction: the colors people already recognize from finance software,
+   not an invented editorial palette. Cool neutral white/grey base (the
+   convention almost every banking or trading app uses, for legibility
+   and comfort over long sessions) with a single navy-blue accent — one
+   accent only, everywhere, per the Lila Rule. Semantics (rise/fall/
+   mixed) stay green/red/slate and never borrow the accent hue. Single
+   deliberate theme: this is a daily tool, not a themeable brand site.
 
    Prose voice: General Sans, self-hosted (see fonts/GENERAL-SANS-LICENSE.txt)
    — the open-license alternative to SF Pro, so the page reads the same
@@ -71,20 +70,17 @@
 }
 
 :root {
-  --paper: #f3efe2;
-  --panel: #fffdf7;
-  --panel-raised: #ece4cf;
-  --line: #ddd3ba;
-  --line-strong: #c7ba98;
-  --text: #16212f;
-  --text-dim: #5a6472;
-  --text-faint: #8b93a0;
+  --paper: #f7f8fa;
+  --panel: #ffffff;
+  --panel-raised: #eef1f5;
+  --line: #e2e6ec;
+  --line-strong: #ccd3dc;
+  --text: #101828;
+  --text-dim: #475467;
+  --text-faint: #98a2b3;
 
   --accent: #1c3a5e;
-  --accent-dim: rgba(28, 58, 94, 0.1);
-
-  --gold: #b8933f;
-  --gold-dim: rgba(184, 147, 63, 0.14);
+  --accent-dim: rgba(28, 58, 94, 0.08);
 
   --rise: #2e7d4f;
   --rise-dim: rgba(46, 125, 79, 0.1);
@@ -322,13 +318,13 @@ header, main, footer { position: relative; z-index: 1; }
 .sentiment-bearish { color: var(--fall); border-color: rgba(158,58,47,0.3); }
 .sentiment-mixed { color: var(--mixed); border-color: rgba(91,107,122,0.3); }
 
-/* "Ticker readout" panel — hairline top border in gold instead of a
-   gradient card, so it reads as an instrument, not a marketing tile.
-   The one deliberate use of the rare secondary accent. */
+/* "Ticker readout" panel — hairline top border in the single accent
+   instead of a gradient card, so it reads as an instrument, not a
+   marketing tile. */
 .hero-card {
   background: var(--panel);
   border: 1px solid var(--line);
-  border-top: 2px solid var(--gold);
+  border-top: 2px solid var(--accent);
   border-radius: var(--radius-sm);
   padding: 26px 26px 28px;
   display: flex;
@@ -647,7 +643,7 @@ header, main, footer { position: relative; z-index: 1; }
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(22, 33, 47, 0.45);
+  background: rgba(16, 24, 40, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -660,14 +656,14 @@ header, main, footer { position: relative; z-index: 1; }
   position: relative;
   background: var(--panel);
   border: 1px solid var(--line);
-  border-top: 2px solid var(--gold);
+  border-top: 2px solid var(--accent);
   border-radius: var(--radius-sm);
   padding: 32px 28px 28px;
   max-width: 520px;
   width: 100%;
   max-height: 85vh;
   overflow-y: auto;
-  box-shadow: 0 20px 50px -16px rgba(22, 33, 47, 0.4);
+  box-shadow: 0 20px 50px -16px rgba(16, 24, 40, 0.4);
 }
 
 .modal-close {
@@ -810,7 +806,7 @@ header, main, footer { position: relative; z-index: 1; }
   padding: 12px 20px;
   border-radius: var(--radius-pill);
   font-size: 0.85rem;
-  box-shadow: 0 10px 30px -12px rgba(22, 33, 47, 0.35);
+  box-shadow: 0 10px 30px -12px rgba(16, 24, 40, 0.35);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease, transform 0.2s ease;

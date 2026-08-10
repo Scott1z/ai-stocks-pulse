@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" rx="64" fill="#f3efe2"/>
-  <!-- candlestick glyph: navy sessions, one gold (mixed) -->
-  <line x1="146" y1="140" x2="146" y2="372" stroke="#1c3a5e" stroke-width="10"/>
-  <rect x="118" y="190" width="56" height="110" fill="#1c3a5e"/>
-  <line x1="256" y1="120" x2="256" y2="330" stroke="#b8933f" stroke-width="10"/>
-  <rect x="228" y="150" width="56" height="90" fill="#f3efe2" stroke="#b8933f" stroke-width="10"/>
-  <line x1="366" y1="170" x2="366" y2="392" stroke="#1c3a5e" stroke-width="10"/>
-  <rect x="338" y="230" width="56" height="120" fill="#1c3a5e"/>
+  <rect width="512" height="512" rx="64" fill="#f7f8fa"/>
+  <!-- candlestick glyph: the universal green-up/red-down convention -->
+  <line x1="146" y1="140" x2="146" y2="372" stroke="#2e7d4f" stroke-width="10"/>
+  <rect x="118" y="190" width="56" height="110" fill="#2e7d4f"/>
+  <line x1="256" y1="120" x2="256" y2="330" stroke="#9e3a2f" stroke-width="10"/>
+  <rect x="228" y="150" width="56" height="90" fill="#9e3a2f"/>
+  <line x1="366" y1="170" x2="366" y2="392" stroke="#2e7d4f" stroke-width="10"/>
+  <rect x="338" y="230" width="56" height="120" fill="#2e7d4f"/>
 </svg>

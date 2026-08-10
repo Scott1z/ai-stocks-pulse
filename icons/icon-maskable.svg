@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" fill="#f3efe2"/>
-  <line x1="180" y1="180" x2="180" y2="350" stroke="#1c3a5e" stroke-width="9"/>
-  <rect x="155" y="215" width="50" height="95" fill="#1c3a5e"/>
-  <line x1="270" y1="160" x2="270" y2="310" stroke="#b8933f" stroke-width="9"/>
-  <rect x="245" y="185" width="50" height="75" fill="#f3efe2" stroke="#b8933f" stroke-width="9"/>
-  <line x1="360" y1="200" x2="360" y2="365" stroke="#1c3a5e" stroke-width="9"/>
-  <rect x="335" y="245" width="50" height="100" fill="#1c3a5e"/>
+  <rect width="512" height="512" fill="#f7f8fa"/>
+  <line x1="180" y1="180" x2="180" y2="350" stroke="#2e7d4f" stroke-width="9"/>
+  <rect x="155" y="215" width="50" height="95" fill="#2e7d4f"/>
+  <line x1="270" y1="160" x2="270" y2="310" stroke="#9e3a2f" stroke-width="9"/>
+  <rect x="245" y="185" width="50" height="75" fill="#9e3a2f"/>
+  <line x1="360" y1="200" x2="360" y2="365" stroke="#2e7d4f" stroke-width="9"/>
+  <rect x="335" y="245" width="50" height="100" fill="#2e7d4f"/>
 </svg>
