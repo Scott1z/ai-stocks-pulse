@@ -5,7 +5,7 @@ fetch_and_curate.py
 Corre en background (cron), NO en cada visita a la landing page.
 
 Flujo:
-  1. Trae noticias de Alpha Vantage News & Sentiment (topic=technology + tickers de IA).
+  1. Trae noticias de Alpha Vantage News & Sentiment (filtradas por tickers de IA).
   2. Trae precios actuales de Finnhub para los mismos tickers (Alpha Vantage News no incluye
      cotizaciones, y su límite free de 25 req/día no alcanza para 9 quotes por corrida).
   3. Actualiza price_history.json (ventana local de los últimos puntos) para poder dibujar
@@ -57,7 +57,6 @@ TICKER_NAMES = {
     "AMD": "Advanced Micro Devices",
 }
 
-TOPICS = "technology"
 MAX_CANDIDATES = 15  # cuántos artículos pre-filtrados se mandan al LLM
 HISTORY_POINTS = 12  # puntos que se guardan por ticker para el sparkline
 MODEL = "claude-sonnet-5"
@@ -111,7 +110,9 @@ def fetch_alphavantage_news() -> list[dict]:
 
     params = {
         "function": "NEWS_SENTIMENT",
-        "topics": TOPICS,
+        # No "topics" filter: Alpha Vantage ANDs topics with tickers, and that
+        # combination reliably returns zero results. The ticker list already
+        # scopes this to AI-sector companies, which is enough on its own.
         "tickers": ",".join(AI_TICKERS),
         "apikey": AV_API_KEY,
         "sort": "RELEVANCE",
@@ -186,7 +187,7 @@ def fetch_prices(tickers: list[str]) -> dict[str, dict]:
     prices = {}
     for ticker in tickers:
         params = {"symbol": ticker, "token": FINNHUB_API_KEY}
-        url = "https://finnhub.io/api/v2/quote?" + urlencode(params)
+        url = "https://finnhub.io/api/v1/quote?" + urlencode(params)
         try:
             with urlopen(url, timeout=10) as resp:
                 quote = json.loads(resp.read().decode())
