@@ -32,6 +32,11 @@
 </head>
 <body>
 
+<div id="preloader" aria-hidden="true">
+  <img src="icons/icon.svg" alt="" class="preloader-logo">
+  <span class="preloader-name">AI Stocks <strong>Pulse</strong></span>
+</div>
+
 <header class="topbar">
   <div class="brand">
     <img src="icons/icon.svg" alt="" class="brand-mark">
@@ -131,6 +136,36 @@
     <p class="stock-modal-chart-caption" id="stockModalChartCaption"></p>
     <h3 class="stock-modal-news-title">Fundamentales</h3>
     <div class="stock-modal-fundamentals" id="stockModalFundamentals"></div>
+    <button class="fundamentals-help-toggle" id="fundamentalsHelpToggle" type="button" aria-expanded="false" aria-controls="fundamentalsHelp">
+      ¿Qué significan estos números? <span class="fundamentals-help-chevron" aria-hidden="true">⌄</span>
+    </button>
+    <dl class="fundamentals-help" id="fundamentalsHelp" hidden>
+      <div class="fundamentals-help-item">
+        <dt>P/E (TTM)</dt>
+        <dd>Precio sobre Ganancia. Compara el precio de la acción con lo que la empresa ganó por acción en el último año. Un número alto suele indicar que el mercado espera mucho crecimiento futuro; uno bajo, que crece poco o está barata.</dd>
+      </div>
+      <div class="fundamentals-help-item">
+        <dt>Cap. de mercado</dt>
+        <dd>El valor total de la empresa en bolsa (precio de la acción × cantidad de acciones en circulación). Es la forma más simple de comparar el tamaño entre dos empresas.</dd>
+      </div>
+      <div class="fundamentals-help-item">
+        <dt>Rango 52 semanas</dt>
+        <dd>El precio más bajo y más alto que tocó la acción en el último año. Sirve para ubicar el precio actual: ¿está cerca de sus máximos o de sus mínimos recientes?</dd>
+      </div>
+      <div class="fundamentals-help-item">
+        <dt>EPS (TTM)</dt>
+        <dd>Ganancia por Acción. Cuánta ganancia neta generó la empresa en el último año, dividida entre el total de acciones. Cuanto más alto, más gana la empresa por cada acción que existe.</dd>
+      </div>
+      <div class="fundamentals-help-item">
+        <dt>ROE (TTM)</dt>
+        <dd>Retorno sobre el Patrimonio. Mide qué tan bien usa la empresa el dinero de sus accionistas para generar ganancias. Un ROE alto suele ser señal de un negocio eficiente.</dd>
+      </div>
+      <div class="fundamentals-help-item">
+        <dt>Margen neto (TTM)</dt>
+        <dd>De cada 100 dólares que vende la empresa, cuántos terminan siendo ganancia real. Un margen alto indica un negocio más rentable, no solo más grande.</dd>
+      </div>
+      <p class="fundamentals-help-disclaimer">Esto es información educativa para entender los números, no es asesoría de inversión.</p>
+    </dl>
     <h3 class="stock-modal-news-title">Noticias relacionadas</h3>
     <div class="stock-modal-news" id="stockModalNews"></div>
   </div>

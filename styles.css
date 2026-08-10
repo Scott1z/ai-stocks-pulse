@@ -132,6 +132,46 @@ a { color: inherit; }
 header, main, footer { position: relative; z-index: 1; }
 
 /* ---------------------------------------------------------------------
+   Preloader — brand moment while init() fetches data.json and renders;
+   also hides the empty-shell flash before the JS has painted anything.
+   --------------------------------------------------------------------- */
+
+#preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  background: var(--paper);
+  transition: opacity 0.4s ease;
+}
+#preloader.hidden { opacity: 0; pointer-events: none; }
+
+.preloader-logo {
+  width: 40px;
+  height: 40px;
+  animation: preloader-pulse 1.4s ease-in-out infinite;
+}
+.preloader-name {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-dim);
+}
+.preloader-name strong { color: var(--accent); font-weight: 700; }
+
+@keyframes preloader-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.08); opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .preloader-logo { animation: none; }
+}
+
+/* ---------------------------------------------------------------------
    Topbar
    --------------------------------------------------------------------- */
 
@@ -772,6 +812,62 @@ header, main, footer { position: relative; z-index: 1; }
 .stock-modal-fundamentals .stat-value.unavailable {
   color: var(--text-faint);
   font-weight: 500;
+}
+
+.fundamentals-help-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0;
+  margin: -8px 0 20px;
+  border: none;
+  background: transparent;
+  font-family: var(--font-prose);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: color 0.12s ease;
+}
+.fundamentals-help-toggle:hover,
+.fundamentals-help-toggle:focus-visible { color: var(--accent); }
+.fundamentals-help-chevron {
+  display: inline-block;
+  font-size: 0.9em;
+  transition: transform 0.12s ease;
+}
+.fundamentals-help-toggle[aria-expanded="true"] .fundamentals-help-chevron {
+  transform: rotate(180deg);
+}
+
+.fundamentals-help {
+  margin: -8px 0 26px;
+  padding: 4px 0 0;
+  border-top: 1px solid var(--line);
+}
+.fundamentals-help-item {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+.fundamentals-help-item dt {
+  font-family: var(--font-data);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  margin: 0 0 4px;
+}
+.fundamentals-help-item dd {
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--text-dim);
+  margin: 0;
+}
+.fundamentals-help-disclaimer {
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  font-style: italic;
+  margin: 12px 0 0;
 }
 
 .stock-modal-news { border-top: 1px solid var(--line); }

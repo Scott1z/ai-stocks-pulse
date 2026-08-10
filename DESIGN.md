@@ -213,6 +213,11 @@ Borders are hairlines throughout (1px), never thick. The two deliberate exceptio
 - **Structure:** `stat-value` (monospace, tabular-nums, bold) stacked over `stat-label` (small, `--text-faint`, sentence case), in a `repeat(3, 1fr)` grid with a hairline top border. The fundamentals grid additionally gets a hairline bottom border since it sits mid-modal, not at a section's end.
 - **Missing data:** shown honestly as a muted "N/D" in place of the value — never a fabricated number, never the row silently disappearing. Finnhub's free-tier coverage varies by ticker, so this state is common, not an edge case.
 
+### Fundamentals Glossary (collapsible)
+- **Purpose:** the Stat Block shows numbers, not meaning — P/E, ROE, and net margin are opaque to anyone outside finance. Rather than explaining them to everyone by default, a "¿Qué significan estos números?" text toggle sits right under the grid, collapsed by default, and expands into plain-language definitions in place.
+- **Why contextual, not a page-level panel:** the explanation only matters at the exact moment someone is looking at unfamiliar numbers. A permanent panel on the main page would be noise for the (majority of) visitors who already know what a P/E is, and would be disconnected from the numbers it explains.
+- **Style:** a `<dl>` of term/definition pairs — `dt` in the monospace label voice, `dd` in small prose — separated by hairlines, closing with an italic one-line disclaimer ("información educativa, no asesoría de inversión"). The toggle itself is a plain text button, no border or fill, with a chevron that rotates 180° on expand.
+
 ### Sentiment / Status Badges
 - **Style:** pill, tinted background at ~8–10% opacity of the semantic/accent color, full-opacity text in the same color. Same recipe for sector sentiment, per-stock tags, and the demo/live status pill.
 - **State:** the demo/live pill additionally gets a small leading dot; when live, the dot carries the halo shadow described in Elevation.
@@ -223,6 +228,12 @@ Borders are hairlines throughout (1px), never thick. The two deliberate exceptio
 
 ### Ticker Tape (signature component)
 - **Style:** full-bleed strip, `--panel` background, top and bottom hairlines, continuously scrolling monospace items (ticker / price / change, tabular-nums) separated by hairline rules. Pauses on hover; falls back to a manually scrollable static strip under `prefers-reduced-motion`.
+
+### Preloader
+- **Purpose:** covers the empty-shell flash while `init()` fetches `data.json` and renders — and doubles as a brand moment, the logo the visitor sees for a beat before the page proper appears.
+- **Structure:** a fixed, full-viewport `--paper` overlay, centered flex column: the 40px brand mark with a slow scale/opacity pulse, and the wordmark below it (same "AI Stocks **Pulse**" markup and accent-on-"Pulse" treatment as the topbar's brand lockup).
+- **Timing:** removed from `init()` once real content has painted, not on a fixed timer or on window `load` (which would wait on fonts/icons that don't block first paint) — `load` is kept only as a safety net in case `init()` throws. A 250ms floor keeps it from flashing imperceptibly on a fast local fetch. Fades via opacity over 0.4s, then the node is removed from the DOM entirely.
+- **Motion:** the pulse animation is skipped under `prefers-reduced-motion`.
 
 ### Navigation (topbar)
 - **Style:** single row, 68px tall (auto height under 640px), brand mark + wordmark left, status pill + install button right. No shadow, no border — separated from the ticker tape below it only by the tape's own top hairline.

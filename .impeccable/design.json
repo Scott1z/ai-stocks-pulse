@@ -78,6 +78,14 @@
       "css": ".ds-stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px 10px; border-top: 1px solid var(--line, #e2e6ec); padding-top: 18px; } .ds-stat { text-align: left; } .ds-stat-value { font-family: ui-monospace, monospace; font-variant-numeric: tabular-nums; font-size: 1.1rem; font-weight: 600; color: var(--text, #101828); } .ds-stat-value--na { color: var(--text-faint, #98a2b3); font-weight: 500; } .ds-stat-label { font-size: 0.7rem; color: var(--text-faint, #98a2b3); margin-top: 3px; }"
     },
     {
+      "name": "Fundamentals Glossary",
+      "kind": "custom",
+      "refersTo": "fundamentals-help",
+      "description": "Collapsible plain-language glossary for the Stat Block's fundamentals, collapsed by default under a text-only toggle. Contextual by design: explains P/E, market cap, 52-week range, EPS, ROE and net margin right where a visitor is already looking at them, instead of a permanent page-level panel that would be noise for visitors who already know the terms.",
+      "html": "<button class=\"ds-help-toggle\" aria-expanded=\"false\">¿Qué significan estos números? <span class=\"ds-help-chevron\">⌄</span></button><dl class=\"ds-help-panel\"><div class=\"ds-help-item\"><dt>P/E (TTM)</dt><dd>Precio sobre Ganancia. Compara el precio con lo que la empresa ganó por acción en el último año.</dd></div></dl>",
+      "css": ".ds-help-toggle { display: inline-flex; align-items: center; gap: 5px; padding: 0; border: none; background: transparent; font-size: 0.8rem; font-weight: 600; color: var(--text-dim, #475467); cursor: pointer; } .ds-help-toggle:hover { color: var(--accent, #1c3a5e); } .ds-help-chevron { display: inline-block; font-size: 0.9em; transition: transform 0.12s ease; } .ds-help-toggle[aria-expanded=\"true\"] .ds-help-chevron { transform: rotate(180deg); } .ds-help-panel { border-top: 1px solid var(--line, #e2e6ec); } .ds-help-item { padding: 12px 0; border-bottom: 1px solid var(--line, #e2e6ec); } .ds-help-item dt { font-family: ui-monospace, monospace; font-size: 0.72rem; font-weight: 700; color: var(--text, #101828); margin: 0 0 4px; } .ds-help-item dd { font-size: 0.82rem; line-height: 1.55; color: var(--text-dim, #475467); margin: 0; }"
+    },
+    {
       "name": "Ledger Row",
       "kind": "custom",
       "refersTo": "stock-row",
@@ -124,6 +132,14 @@
       "description": "Signature component. One symbol/price/change entry in the continuously scrolling ticker tape, separated by hairline rules.",
       "html": "<span class=\"ds-ticker-item\"><span class=\"ds-ticker-symbol\">NVDA</span><span class=\"ds-ticker-price\">$219.11</span><span class=\"ds-ticker-change ds-ticker-change--down\">-2.2%</span></span>",
       "css": ".ds-ticker-item { display: inline-flex; align-items: baseline; gap: 9px; padding: 11px 24px; font-family: ui-monospace, monospace; font-size: 0.78rem; font-variant-numeric: tabular-nums; white-space: nowrap; border-right: 1px solid var(--line, #e2e6ec); color: var(--text-dim, #475467); } .ds-ticker-symbol { color: var(--text, #101828); font-weight: 700; } .ds-ticker-change--up { color: var(--rise, #2e7d4f); } .ds-ticker-change--down { color: var(--fall, #9e3a2f); }"
+    },
+    {
+      "name": "Preloader",
+      "kind": "custom",
+      "refersTo": "preloader",
+      "description": "Fixed full-viewport brand moment shown from the HTML before app.js paints anything, covering the empty-shell flash while init() fetches data.json. Removed once real content is ready (not on a fixed timer), with window 'load' as a safety net and a 250ms minimum display floor. Reuses the topbar's exact wordmark markup so the brand identity is continuous, not a separate asset.",
+      "html": "<div id=\"preloader\"><img src=\"icons/icon.svg\" alt=\"\" class=\"ds-preloader-logo\"><span class=\"ds-preloader-name\">AI Stocks <strong>Pulse</strong></span></div>",
+      "css": "#preloader { position: fixed; inset: 0; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; background: var(--paper, #f7f8fa); transition: opacity 0.4s ease; } #preloader.hidden { opacity: 0; pointer-events: none; } .ds-preloader-logo { width: 40px; height: 40px; animation: preloader-pulse 1.4s ease-in-out infinite; } .ds-preloader-name { font-size: 1rem; font-weight: 600; letter-spacing: -0.01em; color: var(--text-dim, #475467); } .ds-preloader-name strong { color: var(--accent, #1c3a5e); font-weight: 700; } @keyframes preloader-pulse { 0%, 100% { transform: scale(1); opacity: 0.7; } 50% { transform: scale(1.08); opacity: 1; } }"
     }
   ],
   "narrative": {

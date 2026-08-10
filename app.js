@@ -610,6 +610,8 @@ function openStockModal(stock) {
       : "Historial de precio todavía corto — se enriquece cada hora que corre el pipeline.";
 
   document.getElementById("stockModalFundamentals").innerHTML = buildFundamentalsGrid(stock.fundamentals);
+  document.getElementById("fundamentalsHelp").hidden = true;
+  document.getElementById("fundamentalsHelpToggle").setAttribute("aria-expanded", "false");
 
   const related = NEWS.filter((n) => n.ticker === stock.ticker);
   const relatedEl = document.getElementById("stockModalNews");
@@ -638,6 +640,14 @@ function closeStockModal() {
 function initStockModal() {
   const grid = document.getElementById("stockGrid");
   const overlay = document.getElementById("stockModal");
+  const helpToggle = document.getElementById("fundamentalsHelpToggle");
+  const helpPanel = document.getElementById("fundamentalsHelp");
+
+  helpToggle.addEventListener("click", () => {
+    const expanded = helpToggle.getAttribute("aria-expanded") === "true";
+    helpToggle.setAttribute("aria-expanded", String(!expanded));
+    helpPanel.hidden = expanded;
+  });
 
   const activate = (target) => {
     const row = target.closest(".stock-row");
@@ -768,6 +778,31 @@ function initServiceWorker() {
 }
 
 // ---------------------------------------------------------------------------
+// Preloader — shown instantly from the HTML, hidden once init() has
+// actually painted real content (not on a fixed timer, and not on window
+// "load", which would wait on fonts/icons that don't block first paint).
+// A small minimum display time keeps it from flashing imperceptibly on a
+// fast local fetch; window "load" stays as a safety net in case init()
+// throws somewhere unexpected.
+// ---------------------------------------------------------------------------
+
+const PRELOADER_MIN_MS = 250;
+const preloaderStart = performance.now();
+
+function hidePreloader() {
+  const el = document.getElementById("preloader");
+  if (!el || el.dataset.hidden) return;
+  el.dataset.hidden = "1";
+  const wait = Math.max(0, PRELOADER_MIN_MS - (performance.now() - preloaderStart));
+  setTimeout(() => {
+    el.classList.add("hidden");
+    setTimeout(() => el.remove(), 400);
+  }, wait);
+}
+
+window.addEventListener("load", hidePreloader);
+
+// ---------------------------------------------------------------------------
 // Init
 // ---------------------------------------------------------------------------
 
@@ -785,6 +820,7 @@ async function init() {
   initStockModal();
   initInstallPrompt();
   initServiceWorker();
+  hidePreloader();
 }
 
 init();
