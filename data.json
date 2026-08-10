@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-08-10T21:26:22.355118+00:00",
+  "updated_at": "2026-08-10T23:54:27.918048+00:00",
   "sector": {
     "sentiment": "mixed",
-    "text": "El sector IA mostró señales mixtas: Nvidia cayó 2,9% pese a su alianza de $500.000 millones para financiar infraestructura de cómputo con Apollo, BlackRock y Goldman Sachs, mientras Oracle subió 2,7% impulsada por acuerdos con Gemini de Google. Broadcom y AMD retrocedieron, reflejando cautela en semiconductores, aunque Microsoft y Palantir avanzaron por nuevos contratos ligados a IA.",
+    "text": "El sector de IA mostró señales mixtas: Nvidia anunció una alianza de US$500.000 millones con Wall Street para financiar infraestructura de cómputo, pero su acción cayó 2,9% junto con Qualcomm (-3,4%) y Marvell (-4,6%) por presión en semiconductores. En contraste, Salesforce (+2,5%) y Oracle (+2,7%) avanzaron impulsadas por resultados sólidos y expansión en IA empresarial.",
     "stats": {
-      "upCount": 6,
-      "totalCount": 9,
-      "avgChangePct": 0.17,
+      "upCount": 12,
+      "totalCount": 21,
+      "avgChangePct": -0.17,
       "newsCount": 8
     }
   },
@@ -20,8 +20,18 @@
         218.52,
         218.42,
         219.11,
+        217.55,
         217.55
-      ]
+      ],
+      "fundamentals": {
+        "peTTM": 33.8067,
+        "epsTTM": 6.529999999999999,
+        "marketCapM": 5395995,
+        "week52High": 236.54,
+        "week52Low": 164.07,
+        "roeTTM": 111.66,
+        "netMarginTTM": 62.97
+      }
     },
     {
       "ticker": "MSFT",
@@ -32,8 +42,18 @@
         505.02,
         505.45,
         505.51,
+        506.06,
         506.06
-      ]
+      ],
+      "fundamentals": {
+        "peTTM": 28.0774,
+        "epsTTM": 17.9466,
+        "marketCapM": 3755321,
+        "week52High": 553.72,
+        "week52Low": 349.2,
+        "roeTTM": 33.22,
+        "netMarginTTM": 40.31
+      }
     },
     {
       "ticker": "GOOGL",
@@ -44,8 +64,18 @@
         354.29,
         354.67,
         355.37,
+        357.52,
         357.52
-      ]
+      ],
+      "fundamentals": {
+        "peTTM": 17.7554,
+        "epsTTM": 19.9118,
+        "marketCapM": 4335963,
+        "week52High": 408.61,
+        "week52Low": 194.33,
+        "roeTTM": 50.839999999999996,
+        "netMarginTTM": 54.77
+      }
     },
     {
       "ticker": "META",
@@ -56,8 +86,18 @@
         592.99,
         593.46,
         593.12,
+        594.92,
         594.92
-      ]
+      ],
+      "fundamentals": {
+        "peTTM": 22.1501,
+        "epsTTM": 26.558100000000003,
+        "marketCapM": 1508378.4,
+        "week52High": 796.25,
+        "week52Low": 520.26,
+        "roeTTM": 29.73,
+        "netMarginTTM": 29.84
+      }
     },
     {
       "ticker": "AMZN",
@@ -68,8 +108,18 @@
         276.74,
         276.45,
         277.14,
+        278.09,
         278.09
-      ]
+      ],
+      "fundamentals": {
+        "peTTM": 21.885,
+        "epsTTM": 12.4325,
+        "marketCapM": 2960627.8,
+        "week52High": 287.2,
+        "week52Low": 196,
+        "roeTTM": 30.5,
+        "netMarginTTM": 17.44
+      }
     },
     {
       "ticker": "AVGO",
@@ -80,8 +130,18 @@
         424.19,
         424.26,
         424.5,
+        422.4,
         422.4
-      ]
+      ],
+      "fundamentals": {
+        "peTTM": 68.5992,
+        "epsTTM": 6.007099999999999,
+        "marketCapM": 2011124.2,
+        "week52High": 495,
+        "week52Low": 281.87,
+        "roeTTM": 36.4,
+        "netMarginTTM": 38.85
+      }
     },
     {
       "ticker": "ORCL",
@@ -92,8 +152,18 @@
         150.75,
         150.61,
         151.69,
+        151.05,
         151.05
-      ]
+      ],
+      "fundamentals": {
+        "peTTM": 24.9308,
+        "epsTTM": 5.860099999999999,
+        "marketCapM": 425992.88,
+        "week52High": 345.72,
+        "week52Low": 114.5,
+        "roeTTM": 50.38,
+        "netMarginTTM": 25.37
+      }
     },
     {
       "ticker": "PLTR",
@@ -104,8 +174,18 @@
         175.9,
         175.85,
         176.14,
+        175.23,
         175.23
-      ]
+      ],
+      "fundamentals": {
+        "peTTM": 139.588,
+        "epsTTM": 1.1735,
+        "marketCapM": 421094,
+        "week52High": 207.52,
+        "week52Low": 106.37,
+        "roeTTM": 37.47,
+        "netMarginTTM": 49
+      }
     },
     {
       "ticker": "AMD",
@@ -116,25 +196,300 @@
         475.43,
         475.59,
         475.27,
+        469.56,
         469.56
-      ]
+      ],
+      "fundamentals": {
+        "peTTM": 120.1889,
+        "epsTTM": 3.8971999999999998,
+        "marketCapM": 773295.2,
+        "week52High": 584.73,
+        "week52Low": 149.22,
+        "roeTTM": 10.07,
+        "netMarginTTM": 15.58
+      }
+    },
+    {
+      "ticker": "TSM",
+      "name": "Taiwan Semiconductor",
+      "price": 418.47,
+      "changePct": -0.3738,
+      "spark": [
+        418.47,
+        418.47
+      ],
+      "fundamentals": {
+        "peTTM": 27.1232,
+        "epsTTM": 87.3818,
+        "marketCapM": 61459716,
+        "week52High": 2535,
+        "week52Low": 1125,
+        "roeTTM": 39.86,
+        "netMarginTTM": 50.7
+      }
+    },
+    {
+      "ticker": "ARM",
+      "name": "Arm Holdings",
+      "price": 267.85,
+      "changePct": -5.2093,
+      "spark": [
+        267.85,
+        267.85
+      ],
+      "fundamentals": {
+        "peTTM": 293.2703,
+        "epsTTM": 0.9748000000000001,
+        "marketCapM": 306174.22,
+        "week52High": 452.7,
+        "week52Low": 100.02,
+        "roeTTM": 13,
+        "netMarginTTM": 20.25
+      }
+    },
+    {
+      "ticker": "SMCI",
+      "name": "Super Micro Computer",
+      "price": 31.46,
+      "changePct": 1.0601,
+      "spark": [
+        31.46,
+        31.46
+      ],
+      "fundamentals": {
+        "peTTM": 16.3794,
+        "epsTTM": 1.8352000000000002,
+        "marketCapM": 20431.482,
+        "week52High": 58.78,
+        "week52Low": 19.48,
+        "roeTTM": 18.22,
+        "netMarginTTM": 3.7
+      }
+    },
+    {
+      "ticker": "MRVL",
+      "name": "Marvell Technology",
+      "price": 208.56,
+      "changePct": -4.6452,
+      "spark": [
+        208.56,
+        208.56
+      ],
+      "fundamentals": {
+        "peTTM": 72.2879,
+        "epsTTM": 2.9195,
+        "marketCapM": 182649.84,
+        "week52High": 329.88,
+        "week52Low": 61.44,
+        "roeTTM": 16.84,
+        "netMarginTTM": 28.99
+      }
+    },
+    {
+      "ticker": "QCOM",
+      "name": "Qualcomm",
+      "price": 162.17,
+      "changePct": -3.3897,
+      "spark": [
+        162.17,
+        162.17
+      ],
+      "fundamentals": {
+        "peTTM": 18.6164,
+        "epsTTM": 8.6404,
+        "marketCapM": 172369.64,
+        "week52High": 259.92,
+        "week52Low": 121.99,
+        "roeTTM": 37.330000000000005,
+        "netMarginTTM": 21.01
+      }
+    },
+    {
+      "ticker": "CRM",
+      "name": "Salesforce",
+      "price": 197.51,
+      "changePct": 2.4748,
+      "spark": [
+        197.51,
+        197.51
+      ],
+      "fundamentals": {
+        "peTTM": 19.8115,
+        "epsTTM": 8.6432,
+        "marketCapM": 158947.42,
+        "week52High": 269.11,
+        "week52Low": 146.32,
+        "roeTTM": 14.95,
+        "netMarginTTM": 18.73
+      }
+    },
+    {
+      "ticker": "NOW",
+      "name": "ServiceNow",
+      "price": 127.44,
+      "changePct": 2.05,
+      "spark": [
+        127.44,
+        127.44
+      ],
+      "fundamentals": {
+        "peTTM": 77.3209,
+        "epsTTM": 1.6017000000000001,
+        "marketCapM": 129125.914,
+        "week52High": 194.73,
+        "week52Low": 81.24,
+        "roeTTM": 13.77,
+        "netMarginTTM": 11.34
+      }
+    },
+    {
+      "ticker": "ADBE",
+      "name": "Adobe",
+      "price": 272.96,
+      "changePct": 2.9222,
+      "spark": [
+        272.96,
+        272.96
+      ],
+      "fundamentals": {
+        "peTTM": 14.5831,
+        "epsTTM": 17.474200000000003,
+        "marketCapM": 105420.97,
+        "week52High": 370.86,
+        "week52Low": 190.12,
+        "roeTTM": 62.39,
+        "netMarginTTM": 28.69
+      }
+    },
+    {
+      "ticker": "SNOW",
+      "name": "Snowflake",
+      "price": 334.7,
+      "changePct": 1.2739,
+      "spark": [
+        334.7,
+        334.7
+      ],
+      "fundamentals": {
+        "peTTM": null,
+        "epsTTM": -3.5145,
+        "marketCapM": 116007.016,
+        "week52High": 331.4,
+        "week52Low": 118.3,
+        "roeTTM": -57.21000000000001,
+        "netMarginTTM": -23.79
+      }
+    },
+    {
+      "ticker": "IBM",
+      "name": "IBM",
+      "price": 236.31,
+      "changePct": -0.4088,
+      "spark": [
+        236.31,
+        236.31
+      ],
+      "fundamentals": {
+        "peTTM": 20.8804,
+        "epsTTM": 11.2633,
+        "marketCapM": 223901.06,
+        "week52High": 332.46,
+        "week52Low": 199.19,
+        "roeTTM": 33.51,
+        "netMarginTTM": 15.52
+      }
+    },
+    {
+      "ticker": "AAPL",
+      "name": "Apple",
+      "price": 308.26,
+      "changePct": -1.6181,
+      "spark": [
+        308.26,
+        308.26
+      ],
+      "fundamentals": {
+        "peTTM": 34.7202,
+        "epsTTM": 8.723299999999998,
+        "marketCapM": 4476472.5,
+        "week52High": 344.5699,
+        "week52Low": 216.58,
+        "roeTTM": 137.17999999999998,
+        "netMarginTTM": 27.62
+      }
+    },
+    {
+      "ticker": "TSLA",
+      "name": "Tesla",
+      "price": 330.88,
+      "changePct": 0.7,
+      "spark": [
+        330.88,
+        330.88
+      ],
+      "fundamentals": {
+        "peTTM": 340.9728,
+        "epsTTM": 1.0766,
+        "marketCapM": 1297742.4,
+        "week52High": 498.83,
+        "week52Low": 297.38,
+        "roeTTM": 4.569999999999999,
+        "netMarginTTM": 3.67
+      }
     }
   ],
   "news": [
     {
-      "headline": "Nvidia lanza plataforma de financiamiento IA por $500.000 millones",
-      "summary": "Nvidia se alía con Apollo, BlackRock, Blackstone y Goldman Sachs para movilizar capital privado hacia infraestructura de cómputo IA.",
+      "headline": "Salesforce sube por segundo día consecutivo",
+      "summary": "La acción avanzó 2,47% pese a la caída generalizada del mercado, mostrando fortaleza relativa frente a competidores.",
+      "tickers": [
+        "CRM"
+      ],
+      "sentiment": "positive",
+      "source_url": "https://www.marketwatch.com/data-news/salesforce-inc-stock-outperforms-competitors-on-strong-trading-day-fbf5e169-7b0a496d24ce?mod=goog_fin_scmw",
+      "source": "MarketWatch",
+      "published_at": "2026-08-10T20:37:33+00:00"
+    },
+    {
+      "headline": "Qualcomm cae por presión en el sector de chips",
+      "summary": "La acción bajó 3,31% por enfriamiento del gasto de consumidores y un ciclo de actualización de smartphones más lento.",
+      "tickers": [
+        "QCOM",
+        "NVDA",
+        "AAPL"
+      ],
+      "sentiment": "negative",
+      "source_url": "https://www.tradingkey.com/news/market-movers/262093507-market-movers-qcom-20260810",
+      "source": "TradingKey",
+      "published_at": "2026-08-10T20:15:47+00:00"
+    },
+    {
+      "headline": "Nvidia lanza plataforma de US$500.000 millones para IA",
+      "summary": "Nvidia se une a BlackRock, Goldman Sachs y otros gigantes financieros para movilizar capital privado hacia infraestructura de cómputo de IA.",
       "tickers": [
         "NVDA"
       ],
       "sentiment": "positive",
-      "source_url": "https://www.cnbc.com/2026/08/10/nvidia-wall-street-asset-managers-500-billion-ai-push.html",
-      "source": "CNBC",
-      "published_at": "2026-08-10T19:08:50+00:00"
+      "source_url": "https://nvidianews.nvidia.com/news/nvidia-partners-with-apollo-blackrock-blackstone-brookfield-goldman-sachs-and-kkr-to-establish-ai-compute-infrastructure-financing-platforms-to-mobilize-over-500-billion-of-third-party-capital",
+      "source": "NVIDIA Newsroom",
+      "published_at": "2026-08-10T20:06:13+00:00"
     },
     {
-      "headline": "BofA prevé ciclo de mejoras para Nvidia tras próximos resultados",
-      "summary": "Bank of America espera que el reporte trimestral de Nvidia supere expectativas e inicie un ciclo de mejoras sostenido.",
+      "headline": "Marvell cotiza lejos de máximos pese a fuerte rally",
+      "summary": "Su alto múltiplo de valuación depende de ganancias fuera del negocio operativo, generando dudas entre inversores.",
+      "tickers": [
+        "MRVL",
+        "NVDA",
+        "AMD"
+      ],
+      "sentiment": "neutral",
+      "source_url": "https://www.trefis.com/articles/610757/marvell-technology-stocks-multiple-leans-on-profit-from-below-the-operating-line/2026-08-10",
+      "source": "Trefis",
+      "published_at": "2026-08-10T19:39:44+00:00"
+    },
+    {
+      "headline": "BofA prevé un ciclo alcista para resultados de Nvidia",
+      "summary": "El banco espera que Nvidia supere expectativas gracias a su nueva plataforma Vera Rubin, iniciando mejoras sostenidas en próximos trimestres.",
       "tickers": [
         "NVDA"
       ],
@@ -144,8 +499,8 @@
       "published_at": "2026-08-10T17:50:44+00:00"
     },
     {
-      "headline": "Oracle refuerza su ventaja en IA con contratos gubernamentales",
-      "summary": "Oracle integra modelos Gemini de Google en su nube empresarial y suma proyectos públicos, fortaleciendo su posición en IA.",
+      "headline": "Oracle refuerza su nube con IA de Google Gemini",
+      "summary": "Oracle integra modelos Gemini en aplicaciones empresariales y proyectos gubernamentales, ampliando su ventaja competitiva en IA.",
       "tickers": [
         "ORCL",
         "GOOGL"
@@ -156,30 +511,8 @@
       "published_at": "2026-08-10T17:38:58+00:00"
     },
     {
-      "headline": "Acción de Oracle sube pese a rebaja crediticia",
-      "summary": "Oracle avanza casi 2% aunque S&P bajó su calificación por la expansión de centros de datos financiada con deuda.",
-      "tickers": [
-        "ORCL"
-      ],
-      "sentiment": "neutral",
-      "source_url": "https://www.benzinga.com/markets/tech/26/08/61084268/oracle-stock-is-gaining-monday-whats-going-on",
-      "source": "Benzinga",
-      "published_at": "2026-08-10T17:11:45+00:00"
-    },
-    {
-      "headline": "Broadcom mejora seguridad de su plataforma VMware con IA",
-      "summary": "Broadcom refuerza VMware Cloud Foundation con funciones de seguridad basadas en IA para competir con Nutanix e IBM.",
-      "tickers": [
-        "AVGO"
-      ],
-      "sentiment": "positive",
-      "source_url": "https://www.tradingview.com/news/zacks:2a93dc973094b:0-broadcom-boosts-vcf-security-can-it-fend-off-nutanix-and-ibm/",
-      "source": "TradingView",
-      "published_at": "2026-08-10T16:37:12+00:00"
-    },
-    {
-      "headline": "Chevron firma acuerdo energético de 20 años para centros IA",
-      "summary": "Chevron proveerá gas natural a centros de datos de Microsoft, consolidándose como proveedor clave para la demanda de IA.",
+      "headline": "Chevron y Microsoft firman acuerdo energético para IA",
+      "summary": "Pacto de 20 años provee energía a gas para centros de datos de IA, asegurando suministro a largo plazo para hyperscalers.",
       "tickers": [
         "MSFT"
       ],
@@ -189,19 +522,8 @@
       "published_at": "2026-08-10T19:11:40+00:00"
     },
     {
-      "headline": "Qualcomm cae 3,3% en medio de debilidad en semiconductores",
-      "summary": "La acción retrocedió por preocupaciones sobre gasto de consumidores, competencia y desaceleración en actualizaciones de smartphones.",
-      "tickers": [
-        "NVDA"
-      ],
-      "sentiment": "negative",
-      "source_url": "https://www.tradingkey.com/news/market-movers/262093507-market-movers-qcom-20260810",
-      "source": "TradingKey",
-      "published_at": "2026-08-10T20:15:47+00:00"
-    },
-    {
-      "headline": "Fortinet sube 3,35% tras resultados que superan expectativas",
-      "summary": "Fortinet superó previsiones de facturación y flujo de caja, impulsado por su estrategia de ciberseguridad basada en IA.",
+      "headline": "Fortinet sube tras superar expectativas trimestrales",
+      "summary": "La acción avanzó 3,35% gracias a un fuerte flujo de caja libre y un giro estratégico hacia software.",
       "tickers": [
         "MSFT",
         "PLTR",
