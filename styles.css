@@ -505,9 +505,12 @@ header, main, footer { position: relative; z-index: 1; }
   align-items: center;
   padding: 18px 4px;
   border-bottom: 1px solid var(--line);
+  cursor: pointer;
   transition: background 0.12s ease;
 }
-.stock-row:hover { background: var(--panel-raised); }
+.stock-row:hover,
+.stock-row:focus-visible { background: var(--panel-raised); }
+.stock-row:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 
 .stock-id { display: flex; flex-direction: column; min-width: 0; }
 .stock-ticker {
@@ -724,6 +727,73 @@ header, main, footer { position: relative; z-index: 1; }
 }
 .modal-source-link:hover { border-bottom-color: var(--accent); }
 .modal-source-link[hidden] { display: none; }
+
+/* Stock detail modal — wider than the news modal to fit the chart. */
+.stock-modal-panel { max-width: 600px; }
+
+.stock-modal-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding-right: 28px;
+  margin-bottom: 12px;
+}
+.stock-modal-head .stock-ticker { display: block; font-size: 1.15rem; }
+.stock-modal-head .stock-name { font-size: 0.85rem; }
+.stock-modal-price-block { text-align: right; }
+.stock-modal-price-block .price-value { font-size: 1.3rem; }
+.stock-modal-price-block .price-change { font-size: 0.95rem; margin-top: 2px; }
+
+.stock-modal-chart { margin: 20px 0 8px; }
+.stock-detail-chart { width: 100%; height: 180px; display: block; }
+
+.stock-modal-chart-caption {
+  font-family: var(--font-data);
+  font-size: 0.7rem;
+  color: var(--text-faint);
+  margin: 0 0 26px;
+}
+
+.stock-modal-news-title {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-faint);
+  margin: 0 0 10px;
+}
+
+.stock-modal-news { border-top: 1px solid var(--line); }
+.stock-modal-news-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 12px 4px;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+.stock-modal-news-item:hover,
+.stock-modal-news-item:focus-visible { background: var(--panel-raised); }
+.stock-modal-news-headline {
+  font-size: 0.85rem;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.stock-modal-news-empty {
+  font-size: 0.85rem;
+  color: var(--text-faint);
+  padding: 12px 4px;
+  margin: 0;
+}
 
 /* ---------------------------------------------------------------------
    Toast

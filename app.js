@@ -363,6 +363,47 @@ function buildCompositeChart(stocks) {
   };
 }
 
+// Enlarged single-stock chart for the stock detail modal — same visual
+// language as the hero composite chart (grid, area fill, endpoint), but
+// plotting raw price instead of % return. Not candles: we only track the
+// price at each pipeline run (price_history.json), not real OHLC data, so
+// this is honestly a richer version of the row's sparkline, not a
+// TradingView-grade chart.
+function buildStockDetailChart(spark) {
+  const w = 560, h = 200, pad = 14;
+  const min = Math.min(...spark);
+  const max = Math.max(...spark);
+  const range = max - min || 1;
+  const stepX = spark.length > 1 ? (w - pad * 2) / (spark.length - 1) : 0;
+  const coords = spark.map((v, i) => ({
+    x: pad + i * stepX,
+    y: pad + (1 - (v - min) / range) * (h - pad * 2),
+  }));
+  const linePoints = coords.map((c) => `${c.x.toFixed(1)},${c.y.toFixed(1)}`).join(" ");
+  const first = coords[0];
+  const last = coords[coords.length - 1];
+  const areaPath = `M${first.x.toFixed(1)},${h - pad} L${linePoints
+    .split(" ")
+    .join(" L")} L${last.x.toFixed(1)},${h - pad} Z`;
+
+  const up = spark[spark.length - 1] >= spark[0];
+  const color = up ? "var(--rise)" : "var(--fall)";
+
+  const gridLines = [0.25, 0.5, 0.75]
+    .map((f) => {
+      const y = (pad + f * (h - pad * 2)).toFixed(1);
+      return `<line x1="${pad}" y1="${y}" x2="${w - pad}" y2="${y}" stroke="var(--line)" stroke-width="1"/>`;
+    })
+    .join("");
+
+  return `<svg class="stock-detail-chart" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true">
+    ${gridLines}
+    <path d="${areaPath}" fill="${color}" opacity="0.14" stroke="none"/>
+    <polyline points="${linePoints}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="${last.x.toFixed(1)}" cy="${last.y.toFixed(1)}" r="4" fill="${color}"/>
+  </svg>`;
+}
+
 function renderHeroChart() {
   const el = document.getElementById("heroChart");
   const result = buildCompositeChart(STOCKS);
@@ -419,7 +460,7 @@ function renderStocks(filter = "all", query = "") {
       const changeSign = s.changePct >= 0 ? "+" : "";
       const changeCls = s.changePct >= 0 ? "up" : "down";
       return `
-      <article class="stock-row">
+      <article class="stock-row" data-ticker="${s.ticker}" tabindex="0" role="button" aria-haspopup="dialog">
         <div class="stock-id">
           <span class="stock-ticker">${s.ticker}</span>
           <span class="stock-name">${s.name}</span>
@@ -503,6 +544,84 @@ function initNewsModal() {
   });
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && !overlay.hidden) closeNewsModal();
+  });
+}
+
+function openStockModal(stock) {
+  const changeSign = stock.changePct >= 0 ? "+" : "";
+  const changeCls = stock.changePct >= 0 ? "up" : "down";
+
+  document.getElementById("stockModalTicker").textContent = stock.ticker;
+  document.getElementById("stockModalName").textContent = stock.name;
+  document.getElementById("stockModalPrice").textContent = `$${stock.price.toFixed(2)}`;
+  const changeEl = document.getElementById("stockModalChange");
+  changeEl.textContent = `${changeSign}${stock.changePct.toFixed(1)}%`;
+  changeEl.className = `stock-modal-change ${changeCls}`;
+  const tagEl = document.getElementById("stockModalTag");
+  tagEl.textContent = sentimentLabel[stock.sentiment];
+  tagEl.className = `stock-tag ${stock.sentiment}`;
+
+  document.getElementById("stockModalChart").innerHTML = buildStockDetailChart(stock.spark);
+  document.getElementById("stockModalChartCaption").textContent =
+    stock.spark.length > 2
+      ? `Últimas ${stock.spark.length} actualizaciones de precio (no es un histórico de velas)`
+      : "Historial de precio todavía corto — se enriquece cada hora que corre el pipeline.";
+
+  const related = NEWS.filter((n) => n.ticker === stock.ticker);
+  const relatedEl = document.getElementById("stockModalNews");
+  relatedEl.innerHTML = related.length
+    ? related
+        .map(
+          (n) => `<button class="stock-modal-news-item" data-related-index="${NEWS.indexOf(n)}">
+            <span class="news-dot ${n.sentiment}" aria-hidden="true"></span>
+            <span class="stock-modal-news-headline">${n.headline}</span>
+          </button>`
+        )
+        .join("")
+    : `<p class="stock-modal-news-empty">Sin noticias recientes para este ticker.</p>`;
+
+  const overlay = document.getElementById("stockModal");
+  overlay.hidden = false;
+  document.body.style.overflow = "hidden";
+  overlay.querySelector(".modal-close").focus();
+}
+
+function closeStockModal() {
+  document.getElementById("stockModal").hidden = true;
+  document.body.style.overflow = "";
+}
+
+function initStockModal() {
+  const grid = document.getElementById("stockGrid");
+  const overlay = document.getElementById("stockModal");
+
+  const activate = (target) => {
+    const row = target.closest(".stock-row");
+    if (!row) return;
+    const stock = STOCKS.find((s) => s.ticker === row.dataset.ticker);
+    if (stock) openStockModal(stock);
+  };
+
+  grid.addEventListener("click", (e) => activate(e.target));
+  grid.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      activate(e.target);
+    }
+  });
+
+  overlay.addEventListener("click", (e) => {
+    const relatedBtn = e.target.closest(".stock-modal-news-item");
+    if (relatedBtn) {
+      const news = NEWS[Number(relatedBtn.dataset.relatedIndex)];
+      closeStockModal();
+      if (news) openNewsModal(news);
+      return;
+    }
+    if (e.target === overlay || e.target.closest(".modal-close")) closeStockModal();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !overlay.hidden) closeStockModal();
   });
 }
 
@@ -619,6 +738,7 @@ async function init() {
   renderTickerTape();
   initFilters();
   initNewsModal();
+  initStockModal();
   initInstallPrompt();
   initServiceWorker();
 }

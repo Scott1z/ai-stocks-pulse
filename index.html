@@ -113,6 +113,27 @@
   </div>
 </div>
 
+<div class="modal-overlay" id="stockModal" role="dialog" aria-modal="true" aria-labelledby="stockModalName" hidden>
+  <div class="modal-panel stock-modal-panel">
+    <button class="modal-close" aria-label="Cerrar">×</button>
+    <div class="stock-modal-head">
+      <div>
+        <span class="stock-ticker" id="stockModalTicker"></span>
+        <span class="stock-name" id="stockModalName"></span>
+      </div>
+      <div class="stock-modal-price-block">
+        <div class="price-value" id="stockModalPrice"></div>
+        <div class="price-change" id="stockModalChange"></div>
+      </div>
+    </div>
+    <span class="stock-tag" id="stockModalTag"></span>
+    <div class="stock-modal-chart" id="stockModalChart"></div>
+    <p class="stock-modal-chart-caption" id="stockModalChartCaption"></p>
+    <h3 class="stock-modal-news-title">Noticias relacionadas</h3>
+    <div class="stock-modal-news" id="stockModalNews"></div>
+  </div>
+</div>
+
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script src="app.js"></script>

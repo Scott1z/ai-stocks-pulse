@@ -195,6 +195,7 @@ Borders are hairlines throughout (1px), never thick. The two deliberate exceptio
 - **Background:** transparent at rest, `--panel-raised` on hover.
 - **Border:** single bottom hairline (`--line`); no top border, no side borders, no box.
 - **Internal layout:** fixed 5-column grid shared with the header row (see Layout); ticker + name + one-line blurb in column 1 (monospace ticker, sans name/blurb), tabular-nums price and change right-aligned, a compact SVG sparkline, and a pill sentiment tag.
+- **Interaction:** the entire row is clickable/focusable (`role="button"`, `tabindex="0"`) — opens the Stock Detail Modal. This is deliberate: a table of bare numbers reads as a spreadsheet, so every row is a door to a richer view instead of decoration bolted onto the layout.
 
 ### News Row
 - **Style:** same hairline-row logic as the ledger, but 3-column (status dot / headline+meta / ticker tag). A 7×7px rounded-square dot carries semantic color; the ticker tag renders as bracketed monospace text (`[NVDA]`).
@@ -206,6 +207,13 @@ Borders are hairlines throughout (1px), never thick. The two deliberate exceptio
 - **Structure:** ticker tag (mono, hidden if the article isn't ticker-specific) → headline (display-weight, but smaller than the hero H1) → source/time meta (mono) → summary (body voice) → an explicit "Leer artículo original ↗" link, hidden when no source URL exists.
 - **Style:** `--panel` background, 2px gold top border (see Shapes), 4px radius, modal-float shadow, over a navy-tinted scrim.
 - **Dismissal:** close button (pill, top-right), click on the scrim, or Escape. Background scroll is locked while open.
+
+### Stock Detail Modal (signature component)
+- **Purpose:** a ledger row is necessarily terse (one line, truncated blurb); clicking it opens the full picture — large price/change, an enlarged chart, and every related headline — without leaving the page. This is the main answer to "the table reads like a spreadsheet": real content on demand, not decoration.
+- **Structure:** ticker + company name + large price/change (mirrors the ledger row's data, just bigger) → sentiment tag → enlarged chart → an honest caption stating how many price snapshots it's built from → "Noticias relacionadas" list filtered to that ticker.
+- **The chart is not candles.** It's the same accumulated `price_history.json` snapshots as the row's sparkline, just bigger and with a grid — deliberately not oversold as TradingView-grade OHLC data, which this project doesn't have a budget-safe source for. The caption says so explicitly.
+- **Related news are clickable too:** each item swaps this modal for the News Modal with that article — a chain, not a dead end. An empty state ("Sin noticias recientes para este ticker") is shown honestly rather than hidden.
+- **Style:** same recipe as the News Modal (gold top border, `--panel` background, modal-float shadow) but wider (`600px` vs `520px`) to fit the chart.
 
 ### Sentiment / Status Badges
 - **Style:** pill, tinted background at ~10–14% opacity of the semantic/accent color, full-opacity text in the same color. Same recipe for sector sentiment, per-stock tags, and the demo/live status pill.
@@ -229,6 +237,8 @@ Borders are hairlines throughout (1px), never thick. The two deliberate exceptio
 - **Do** use hairlines and tonal shifts for hierarchy and depth; reach for a shadow only for the toast and the modal — things genuinely floating above the page.
 - **Do** apply the pill radius to anything clickable or status-bearing, and the 4px radius to anything you read data or an article inside of — no other radius value.
 - **Do** let a visitor read an article summary in place (the modal) rather than redirecting them off the page by default; the external link stays available but explicit.
+- **Do** make every ledger row a door to a richer detail view (chart + related news) rather than adding decorative imagery to fill space — a data table's answer to "feels empty" is more real content, not illustration.
+- **Do** be explicit when a chart isn't full OHLC data — the caption on the Stock Detail Modal says so rather than implying more precision than the pipeline actually tracks.
 - **Do** treat real data (sparklines, the composite chart, the ticker tape) as the page's visual anchor instead of decorative imagery.
 
 ### Don't:
