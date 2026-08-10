@@ -65,6 +65,7 @@ const DEMO_STOCKS = [
 const DEMO_NEWS = [
   {
     headline: "NVIDIA supera expectativas de ingresos por cuarto trimestre consecutivo",
+    summary: "NVIDIA reportó ingresos por encima de lo esperado por el mercado, impulsados por la demanda sostenida de chips para centros de datos de IA. Los analistas destacan que la guía para el próximo trimestre también superó estimaciones, reforzando la narrativa de crecimiento del sector.",
     source: "Reuters",
     time: "hace 2 h",
     ticker: "NVDA",
@@ -73,6 +74,7 @@ const DEMO_NEWS = [
   },
   {
     headline: "Microsoft anuncia inversión adicional de $10B en infraestructura de IA",
+    summary: "Microsoft ampliará su inversión en centros de datos dedicados a IA, citando la fuerte adopción empresarial de Copilot y la demanda de capacidad de cómputo en Azure. La compañía espera que el gasto se traduzca en crecimiento de ingresos durante los próximos trimestres.",
     source: "Bloomberg",
     time: "hace 3 h",
     ticker: "MSFT",
@@ -81,6 +83,7 @@ const DEMO_NEWS = [
   },
   {
     headline: "Meta libera nueva versión de Llama con mejoras en razonamiento",
+    summary: "Meta lanzó una actualización de su familia de modelos Llama con mejor capacidad de razonamiento y menor costo de inferencia. La compañía busca que más desarrolladores adopten sus modelos open-source frente a alternativas cerradas de la competencia.",
     source: "TechCrunch",
     time: "hace 5 h",
     ticker: "META",
@@ -89,6 +92,7 @@ const DEMO_NEWS = [
   },
   {
     headline: "AMD reduce previsión de ventas de GPUs de IA para el próximo trimestre",
+    summary: "AMD ajustó a la baja sus proyecciones de ventas de GPUs para IA, citando mayor competencia de NVIDIA y ciclos de compra más cautelosos por parte de los grandes proveedores de nube. La acción cayó tras el anuncio.",
     source: "CNBC",
     time: "hace 6 h",
     ticker: "AMD",
@@ -97,6 +101,7 @@ const DEMO_NEWS = [
   },
   {
     headline: "Alphabet enfrenta escrutinio regulatorio por prácticas de datos en Gemini",
+    summary: "Reguladores europeos abrieron una revisión sobre cómo Alphabet utiliza datos de usuarios para entrenar su modelo Gemini. La compañía sostiene que cumple con la normativa vigente, pero el proceso podría extenderse varios meses.",
     source: "The Verge",
     time: "hace 8 h",
     ticker: "GOOGL",
@@ -105,6 +110,7 @@ const DEMO_NEWS = [
   },
   {
     headline: "Amazon presenta chip Trainium3 para entrenamiento de modelos a menor costo",
+    summary: "AWS presentó su tercera generación de chips propios para entrenamiento de IA, prometiendo mejor rendimiento por dólar frente a GPUs de terceros. Amazon busca reducir su dependencia de proveedores externos de hardware.",
     source: "Reuters",
     time: "hace 10 h",
     ticker: "AMZN",
@@ -113,6 +119,7 @@ const DEMO_NEWS = [
   },
   {
     headline: "Analistas de Wall Street elevan precio objetivo del sector semiconductores IA",
+    summary: "Varias casas de análisis subieron sus precios objetivo para el sector de semiconductores ligados a IA, citando demanda estructural de largo plazo. No todos los analistas coinciden: algunos advierten sobre valuaciones ya elevadas.",
     source: "MarketWatch",
     time: "hace 12 h",
     ticker: null,
@@ -121,6 +128,7 @@ const DEMO_NEWS = [
   },
   {
     headline: "Preocupa el ritmo de gasto de capital ('capex') de las grandes tecnológicas en IA",
+    summary: "Inversores comienzan a cuestionar si el ritmo de inversión en infraestructura de IA de las grandes tecnológicas es sostenible sin un retorno claro todavía. El tema domina las llamadas de resultados del trimestre.",
     source: "Financial Times",
     time: "hace 14 h",
     ticker: null,
@@ -200,6 +208,7 @@ function findBlurbForTicker(newsItems, ticker) {
 function normalizeRealData(json) {
   const news = (json.news || []).map((n) => ({
     headline: n.headline,
+    summary: n.summary || "",
     source: n.source || hostnameFromUrl(n.source_url),
     time: relativeTime(n.published_at),
     ticker: (n.tickers && n.tickers[0]) || null,
@@ -427,15 +436,11 @@ function renderStocks(filter = "all", query = "") {
 
 function renderNews() {
   const list = document.getElementById("newsList");
-  list.innerHTML = NEWS.map((n) => {
-    const headline = n.url
-      ? `<a href="${n.url}" target="_blank" rel="noopener noreferrer">${n.headline}</a>`
-      : n.headline;
-    return `
-    <article class="news-item">
+  list.innerHTML = NEWS.map((n, i) => `
+    <article class="news-item" data-index="${i}" tabindex="0" role="button" aria-haspopup="dialog">
       <span class="news-dot ${n.sentiment}" aria-hidden="true"></span>
       <div class="news-body">
-        <p class="news-headline">${headline}</p>
+        <p class="news-headline">${n.headline}</p>
         <div class="news-meta">
           <span>${n.source}</span>
           <span>·</span>
@@ -443,8 +448,62 @@ function renderNews() {
         </div>
       </div>
       ${n.ticker ? `<span class="news-ticker-tag">[${n.ticker}]</span>` : `<span></span>`}
-    </article>`;
-  }).join("");
+    </article>`
+  ).join("");
+}
+
+function openNewsModal(item) {
+  document.getElementById("modalTicker").textContent = item.ticker ? `[${item.ticker}]` : "";
+  document.getElementById("modalTicker").hidden = !item.ticker;
+  document.getElementById("modalHeadline").textContent = item.headline;
+  document.getElementById("modalMeta").textContent = `${item.source} · ${item.time}`;
+  document.getElementById("modalSummary").textContent =
+    item.summary || "No hay un resumen disponible para esta noticia.";
+
+  const linkEl = document.getElementById("modalSourceLink");
+  if (item.url) {
+    linkEl.href = item.url;
+    linkEl.hidden = false;
+  } else {
+    linkEl.hidden = true;
+  }
+
+  const overlay = document.getElementById("newsModal");
+  overlay.hidden = false;
+  document.body.style.overflow = "hidden";
+  overlay.querySelector(".modal-close").focus();
+}
+
+function closeNewsModal() {
+  document.getElementById("newsModal").hidden = true;
+  document.body.style.overflow = "";
+}
+
+function initNewsModal() {
+  const list = document.getElementById("newsList");
+  const overlay = document.getElementById("newsModal");
+
+  const activate = (target) => {
+    const item = target.closest(".news-item");
+    if (!item) return;
+    const news = NEWS[Number(item.dataset.index)];
+    if (news) openNewsModal(news);
+  };
+
+  list.addEventListener("click", (e) => activate(e.target));
+  list.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      activate(e.target);
+    }
+  });
+
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay || e.target.closest(".modal-close")) closeNewsModal();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !overlay.hidden) closeNewsModal();
+  });
 }
 
 function renderLastUpdated() {
@@ -559,6 +618,7 @@ async function init() {
   renderDataSourcePill();
   renderTickerTape();
   initFilters();
+  initNewsModal();
   initInstallPrompt();
   initServiceWorker();
 }

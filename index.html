@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>AI Stocks Pulse: Resumen del sector IA</title>
 <meta name="description" content="Resumen diario del sector de acciones de Inteligencia Artificial: precios, tendencia y noticias en una sola vista.">
-<meta name="theme-color" content="#eef2ea">
+<meta name="theme-color" content="#f3efe2">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon.svg">
@@ -82,9 +82,20 @@
 </main>
 
 <footer class="site-footer">
-  <p>AI Stocks Pulse es una demo con datos de ejemplo. No es asesoría de inversión.</p>
-  <p class="footer-sub">Próximo paso: conectar noticias y precios en vivo.</p>
+  <p>AI Stocks Pulse resume automáticamente el sector de acciones de IA. No es asesoría de inversión.</p>
+  <p class="footer-sub">Los resúmenes de noticias son generados por IA a partir de las fuentes citadas.</p>
 </footer>
+
+<div class="modal-overlay" id="newsModal" role="dialog" aria-modal="true" aria-labelledby="modalHeadline" hidden>
+  <div class="modal-panel">
+    <button class="modal-close" aria-label="Cerrar">×</button>
+    <span class="news-ticker-tag" id="modalTicker"></span>
+    <h2 class="modal-headline" id="modalHeadline"></h2>
+    <p class="modal-meta" id="modalMeta"></p>
+    <p class="modal-summary" id="modalSummary"></p>
+    <a class="modal-source-link" id="modalSourceLink" target="_blank" rel="noopener noreferrer">Leer artículo original ↗</a>
+  </div>
+</div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 

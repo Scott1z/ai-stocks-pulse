@@ -1,29 +1,31 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-10T12:00:00Z",
+  "generatedAt": "2026-08-10T18:50:00Z",
   "title": "Design System: AI Stocks Pulse",
   "extensions": {
     "colorMeta": {
-      "paper": { "role": "neutral", "displayName": "Ledger Sage", "canonical": "#eef2ea", "tonalRamp": ["#262f1d", "#475837", "#667e4e", "#85a168", "#a3b98e", "#bfceb0", "#dbe4d3", "#f2f5ef"] },
-      "panel-raised": { "role": "neutral", "displayName": "Raised Sage", "canonical": "#f6f9f2", "tonalRamp": ["#283418", "#4b622d", "#6b8c40", "#8bb258", "#a8c581", "#c3d7a8", "#dde8ce", "#f3f7ee"] },
-      "hairline": { "role": "neutral", "displayName": "Sage Hairline", "canonical": "#dde3d6", "tonalRamp": ["#272d1f", "#48553a", "#677953", "#869c6e", "#a5b492", "#c0cbb3", "#dce2d5", "#f2f5f0"] },
-      "hairline-strong": { "role": "neutral", "displayName": "Sage Rule", "canonical": "#c5cdbc", "tonalRamp": ["#272c21", "#48523d", "#677557", "#869673", "#a4b196", "#c0c9b6", "#dce0d6", "#f2f4f0"] },
-      "ink": { "role": "neutral", "displayName": "Ledger Ink", "canonical": "#1c231d", "tonalRamp": ["#222b23", "#3f4f42", "#5b715e", "#77927b", "#99ad9c", "#b8c6ba", "#d7dfd8", "#f1f4f1"] },
-      "ink-dim": { "role": "neutral", "displayName": "Faded Ink", "canonical": "#5c6a5c", "tonalRamp": ["#242924", "#424c42", "#5f6d5f", "#7c8d7c", "#9daa9d", "#bbc4bb", "#d9ded9", "#f1f3f1"] },
-      "ink-faint": { "role": "neutral", "displayName": "Pencil Grey", "canonical": "#8b9789", "tonalRamp": ["#252924", "#444c43", "#616c60", "#7f8c7d", "#9fa99d", "#bcc3bb", "#daded9", "#f2f3f1"] },
-      "accent-navy": { "role": "primary", "displayName": "Fountain-Pen Navy", "canonical": "#2d4a6b", "tonalRamp": ["#172536", "#2a4665", "#3c6390", "#5381b7", "#7ea1c9", "#a5bed9", "#cddaea", "#edf2f7"] },
-      "rise-green": { "role": "secondary", "displayName": "Ledger Green", "canonical": "#2f7a4f", "tonalRamp": ["#153724", "#286743", "#39935f", "#4ebb7d", "#7acc9d", "#a3dcbb", "#cbebd9", "#edf8f1"] },
-      "fall-red": { "role": "secondary", "displayName": "Ledger Red", "canonical": "#a13a2f", "tonalRamp": ["#3b1511", "#6f2820", "#9e392e", "#c84e42", "#d67b71", "#e2a39c", "#efccc8", "#f9edeb"] },
-      "mixed-ochre": { "role": "secondary", "displayName": "Ledger Ochre", "canonical": "#8a7233", "tonalRamp": ["#382e15", "#685627", "#957b37", "#bd9e4c", "#cdb679", "#ddcca2", "#ece3cb", "#f8f5ec"] }
+      "paper": { "role": "neutral", "displayName": "Parchment", "canonical": "#f3efe2", "tonalRamp": ["#362f16", "#65572a", "#907c3c", "#b79f52", "#c9b77d", "#dacda5", "#eae3cc", "#f8f5ed"] },
+      "panel-raised": { "role": "neutral", "displayName": "Raised Parchment", "canonical": "#ece4cf", "tonalRamp": ["#372e16", "#665528", "#927a3a", "#ba9c50", "#cbb57b", "#dbcca4", "#ebe2cc", "#f8f5ed"] },
+      "hairline": { "role": "neutral", "displayName": "Parchment Hairline", "canonical": "#ddd3ba", "tonalRamp": ["#332c19", "#60522f", "#897543", "#ae965b", "#c2b184", "#d5c9aa", "#e7e0cf", "#f7f4ee"] },
+      "hairline-strong": { "role": "neutral", "displayName": "Parchment Rule", "canonical": "#c7ba98", "tonalRamp": ["#322b1b", "#5d5132", "#847348", "#a99560", "#beaf88", "#d2c8ac", "#e6e0d1", "#f6f4ee"] },
+      "ink": { "role": "neutral", "displayName": "Navy Ink", "canonical": "#16212f", "tonalRamp": ["#182534", "#2e4461", "#41628b", "#587fb1", "#829fc4", "#a8bcd6", "#cedae8", "#eef2f7"] },
+      "ink-dim": { "role": "neutral", "displayName": "Faded Ink", "canonical": "#5a6472", "tonalRamp": ["#22252b", "#3f4650", "#5a6472", "#768293", "#98a1ae", "#b8bec7", "#d7dbe0", "#f1f2f4"] },
+      "ink-faint": { "role": "neutral", "displayName": "Pencil Grey", "canonical": "#8b93a0", "tonalRamp": ["#22252a", "#40464f", "#5c6470", "#788291", "#9aa1ac", "#b9bec6", "#d8dadf", "#f1f2f4"] },
+      "accent-navy": { "role": "primary", "displayName": "Fountain-Pen Navy", "canonical": "#1c3a5e", "tonalRamp": ["#12243b", "#21446e", "#2f619d", "#427fc7", "#729fd5", "#9dbce2", "#c8daef", "#ebf2f9"] },
+      "accent-gold": { "role": "tertiary", "displayName": "Certificate Gold", "canonical": "#b8933f", "tonalRamp": ["#392e14", "#6a5524", "#987934", "#c19c49", "#d0b576", "#decba0", "#ede2ca", "#f8f5ec"] },
+      "rise-green": { "role": "secondary", "displayName": "Ledger Green", "canonical": "#2e7d4f", "tonalRamp": ["#153823", "#266842", "#37955e", "#4cbd7b", "#79ce9c", "#a2ddba", "#cbecd9", "#ecf8f1"] },
+      "fall-red": { "role": "secondary", "displayName": "Ledger Red", "canonical": "#9e3a2f", "tonalRamp": ["#3b1612", "#6e2821", "#9d3a2f", "#c74f42", "#d57b71", "#e2a49d", "#efccc8", "#f9edeb"] },
+      "mixed-slate": { "role": "secondary", "displayName": "Ink Slate", "canonical": "#5b6b7a", "tonalRamp": ["#21262c", "#3d4852", "#576675", "#738596", "#96a4b1", "#b6c0c9", "#d6dbe0", "#f0f2f4"] }
     },
     "typographyMeta": {
       "display": { "displayName": "Display", "purpose": "Hero H1 only." },
-      "body": { "displayName": "Body", "purpose": "Reading copy: sector summary, hero subhead, news headlines, stock blurbs." },
+      "body": { "displayName": "Body", "purpose": "Reading copy: sector summary, hero subhead, news headlines, stock blurbs, the modal's article summary." },
       "label": { "displayName": "Label / Data", "purpose": "Every number, ticker, timestamp, and uppercase short label. Doubles as the tabular-nums numeric voice." }
     },
     "shadows": [
-      { "name": "toast-float", "value": "0 10px 30px -12px rgba(28, 35, 29, 0.35)", "purpose": "The only permitted drop shadow — the transient toast overlay." },
-      { "name": "live-status-halo", "value": "0 0 0 3px rgba(47, 122, 79, 0.1)", "purpose": "Soft ring around the live-status dot when data.json is real, not demo." }
+      { "name": "toast-float", "value": "0 10px 30px -12px rgba(22, 33, 47, 0.35)", "purpose": "The transient status toast." },
+      { "name": "modal-float", "value": "0 20px 50px -16px rgba(22, 33, 47, 0.4)", "purpose": "The news-summary modal — heavier than the toast because it sits over a dark scrim." },
+      { "name": "live-status-halo", "value": "0 0 0 3px rgba(46, 125, 79, 0.1)", "purpose": "Soft ring around the live-status dot when data.json is real, not demo." }
     ],
     "motion": [
       { "name": "ease-standard", "value": "0.12s ease", "purpose": "Default transition for hover/focus/active state changes on buttons, chips, rows, inputs." },
@@ -42,7 +44,7 @@
       "refersTo": "button-ghost",
       "description": "The only button variant in use (e.g. 'Instalar app'). Pill radius, transparent fill, navy on hover.",
       "html": "<button class=\"ds-btn-ghost\">Instalar app</button>",
-      "css": ".ds-btn-ghost { font-weight: 600; font-size: 0.82rem; padding: 9px 16px; border-radius: 999px; border: 1px solid var(--line-strong, #c5cdbc); background: transparent; color: var(--text, #1c231d); cursor: pointer; transition: transform 0.12s ease, border-color 0.12s ease, color 0.12s ease; } .ds-btn-ghost:hover { border-color: var(--accent, #2d4a6b); color: var(--accent, #2d4a6b); } .ds-btn-ghost:active { transform: scale(0.96); } .ds-btn-ghost:focus-visible { outline: 2px solid var(--accent, #2d4a6b); outline-offset: 2px; }"
+      "css": ".ds-btn-ghost { font-weight: 600; font-size: 0.82rem; padding: 9px 16px; border-radius: 999px; border: 1px solid var(--line-strong, #c7ba98); background: transparent; color: var(--text, #16212f); cursor: pointer; transition: transform 0.12s ease, border-color 0.12s ease, color 0.12s ease; } .ds-btn-ghost:hover { border-color: var(--accent, #1c3a5e); color: var(--accent, #1c3a5e); } .ds-btn-ghost:active { transform: scale(0.96); } .ds-btn-ghost:focus-visible { outline: 2px solid var(--accent, #1c3a5e); outline-offset: 2px; }"
     },
     {
       "name": "Filter Chip",
@@ -50,7 +52,7 @@
       "refersTo": "chip",
       "description": "Default (unselected) filter chip. Monospace uppercase label, transparent fill.",
       "html": "<button class=\"ds-chip\">Alcistas</button>",
-      "css": ".ds-chip { font-family: ui-monospace, \"SF Mono\", monospace; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line-strong, #c5cdbc); background: transparent; color: var(--text-dim, #5c6a5c); cursor: pointer; transition: border-color 0.12s ease, color 0.12s ease, background 0.12s ease; } .ds-chip:hover { color: var(--text, #1c231d); border-color: var(--accent, #2d4a6b); } .ds-chip:focus-visible { outline: 2px solid var(--accent, #2d4a6b); outline-offset: 2px; }"
+      "css": ".ds-chip { font-family: ui-monospace, \"SF Mono\", monospace; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line-strong, #c7ba98); background: transparent; color: var(--text-dim, #5a6472); cursor: pointer; transition: border-color 0.12s ease, color 0.12s ease, background 0.12s ease; } .ds-chip:hover { color: var(--text, #16212f); border-color: var(--accent, #1c3a5e); } .ds-chip:focus-visible { outline: 2px solid var(--accent, #1c3a5e); outline-offset: 2px; }"
     },
     {
       "name": "Filter Chip — Active",
@@ -58,7 +60,7 @@
       "refersTo": "chip-active",
       "description": "Selected filter chip. The only place a chip becomes a filled solid-navy surface.",
       "html": "<button class=\"ds-chip-active\">Todas</button>",
-      "css": ".ds-chip-active { font-family: ui-monospace, \"SF Mono\", monospace; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--accent, #2d4a6b); background: var(--accent, #2d4a6b); color: var(--panel, #ffffff); cursor: pointer; }"
+      "css": ".ds-chip-active { font-family: ui-monospace, \"SF Mono\", monospace; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--accent, #1c3a5e); background: var(--accent, #1c3a5e); color: var(--panel, #fffdf7); cursor: pointer; }"
     },
     {
       "name": "Sentiment Badge",
@@ -66,23 +68,31 @@
       "refersTo": "stock-tag-bullish",
       "description": "Pill badge at ~10% tint of the semantic color; used for sector sentiment, per-stock tags, and news dots. bullish/bearish/mixed modifiers shown.",
       "html": "<span class=\"ds-badge ds-badge--bullish\">Alcista</span>",
-      "css": ".ds-badge { display: inline-flex; align-items: center; font-family: ui-monospace, monospace; font-size: 0.63rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; } .ds-badge--bullish { color: var(--rise, #2f7a4f); background: rgba(47,122,79,0.1); } .ds-badge--bearish { color: var(--fall, #a13a2f); background: rgba(161,58,47,0.1); } .ds-badge--mixed { color: var(--mixed, #8a7233); background: rgba(138,114,51,0.1); }"
+      "css": ".ds-badge { display: inline-flex; align-items: center; font-family: ui-monospace, monospace; font-size: 0.63rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; } .ds-badge--bullish { color: var(--rise, #2e7d4f); background: rgba(46,125,79,0.1); } .ds-badge--bearish { color: var(--fall, #9e3a2f); background: rgba(158,58,47,0.1); } .ds-badge--mixed { color: var(--mixed, #5b6b7a); background: rgba(91,107,122,0.1); }"
     },
     {
       "name": "Ledger Row",
       "kind": "custom",
       "refersTo": "stock-row",
       "description": "Signature component. One row of the stock table: ticker/name/blurb, tabular-nums price and change, sparkline, sentiment tag — sharing a fixed column grid with the table header.",
-      "html": "<div class=\"ds-ledger-row\"><div class=\"ds-ledger-id\"><span class=\"ds-ledger-ticker\">NVDA</span><span class=\"ds-ledger-name\">NVIDIA</span></div><div class=\"ds-ledger-price\">$128.45</div><div class=\"ds-ledger-change ds-ledger-change--up\">+3.2%</div><svg class=\"ds-ledger-spark\" viewBox=\"0 0 100 36\" preserveAspectRatio=\"none\"><polyline points=\"0,30 20,24 40,26 60,14 80,18 100,6\" fill=\"none\" stroke=\"#2f7a4f\" stroke-width=\"2\"/></svg><span class=\"ds-badge ds-badge--bullish\">Alcista</span></div>",
-      "css": ".ds-ledger-row { display: grid; grid-template-columns: minmax(150px,1.6fr) 70px 60px 90px 80px; gap: 16px; align-items: center; padding: 18px 4px; border-bottom: 1px solid var(--line, #dde3d6); transition: background 0.12s ease; } .ds-ledger-row:hover { background: var(--panel-raised, #f6f9f2); } .ds-ledger-id { display: flex; flex-direction: column; } .ds-ledger-ticker { font-family: ui-monospace, monospace; font-weight: 700; font-size: 0.95rem; } .ds-ledger-name { font-size: 0.76rem; color: var(--text-faint, #8b9789); } .ds-ledger-price { font-family: ui-monospace, monospace; font-variant-numeric: tabular-nums; font-weight: 600; text-align: right; } .ds-ledger-change { font-family: ui-monospace, monospace; font-variant-numeric: tabular-nums; font-weight: 600; text-align: right; } .ds-ledger-change--up { color: var(--rise, #2f7a4f); } .ds-ledger-change--down { color: var(--fall, #a13a2f); } .ds-ledger-spark { width: 100%; height: 36px; } .ds-badge { display: inline-flex; align-items: center; font-family: ui-monospace, monospace; font-size: 0.63rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; } .ds-badge--bullish { color: var(--rise, #2f7a4f); background: rgba(47,122,79,0.1); }"
+      "html": "<div class=\"ds-ledger-row\"><div class=\"ds-ledger-id\"><span class=\"ds-ledger-ticker\">NVDA</span><span class=\"ds-ledger-name\">NVIDIA</span></div><div class=\"ds-ledger-price\">$128.45</div><div class=\"ds-ledger-change ds-ledger-change--up\">+3.2%</div><svg class=\"ds-ledger-spark\" viewBox=\"0 0 100 36\" preserveAspectRatio=\"none\"><polyline points=\"0,30 20,24 40,26 60,14 80,18 100,6\" fill=\"none\" stroke=\"#2e7d4f\" stroke-width=\"2\"/></svg><span class=\"ds-badge ds-badge--bullish\">Alcista</span></div>",
+      "css": ".ds-ledger-row { display: grid; grid-template-columns: minmax(150px,1.6fr) 70px 60px 90px 80px; gap: 16px; align-items: center; padding: 18px 4px; border-bottom: 1px solid var(--line, #ddd3ba); transition: background 0.12s ease; } .ds-ledger-row:hover { background: var(--panel-raised, #ece4cf); } .ds-ledger-id { display: flex; flex-direction: column; } .ds-ledger-ticker { font-family: ui-monospace, monospace; font-weight: 700; font-size: 0.95rem; } .ds-ledger-name { font-size: 0.76rem; color: var(--text-faint, #8b93a0); } .ds-ledger-price { font-family: ui-monospace, monospace; font-variant-numeric: tabular-nums; font-weight: 600; text-align: right; } .ds-ledger-change { font-family: ui-monospace, monospace; font-variant-numeric: tabular-nums; font-weight: 600; text-align: right; } .ds-ledger-change--up { color: var(--rise, #2e7d4f); } .ds-ledger-change--down { color: var(--fall, #9e3a2f); } .ds-ledger-spark { width: 100%; height: 36px; } .ds-badge { display: inline-flex; align-items: center; font-family: ui-monospace, monospace; font-size: 0.63rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; } .ds-badge--bullish { color: var(--rise, #2e7d4f); background: rgba(46,125,79,0.1); }"
     },
     {
       "name": "News Row",
       "kind": "custom",
       "refersTo": "news-item",
-      "description": "One row of the news list: rounded-square status dot, headline + source/time meta, bracketed monospace ticker tag. Quieter than the ledger row — no pill tag.",
-      "html": "<div class=\"ds-news-row\"><span class=\"ds-news-dot ds-news-dot--up\"></span><div class=\"ds-news-body\"><p class=\"ds-news-headline\">NVIDIA supera expectativas de ingresos</p><div class=\"ds-news-meta\">Reuters · hace 2 h</div></div><span class=\"ds-news-tag\">[NVDA]</span></div>",
-      "css": ".ds-news-row { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 14px; padding: 16px 4px; border-bottom: 1px solid var(--line, #dde3d6); } .ds-news-dot { width: 7px; height: 7px; border-radius: 2px; } .ds-news-dot--up { background: var(--rise, #2f7a4f); } .ds-news-dot--down { background: var(--fall, #a13a2f); } .ds-news-body { min-width: 0; } .ds-news-headline { font-size: 0.92rem; font-weight: 500; margin: 0 0 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .ds-news-meta { font-family: ui-monospace, monospace; font-size: 0.72rem; color: var(--text-faint, #8b9789); } .ds-news-tag { font-family: ui-monospace, monospace; font-size: 0.72rem; font-weight: 600; color: var(--text-dim, #5c6a5c); white-space: nowrap; }"
+      "description": "One row of the news list: rounded-square status dot, headline + source/time meta, bracketed monospace ticker tag. The whole row is clickable/focusable and opens the News Modal — it never navigates away on its own.",
+      "html": "<div class=\"ds-news-row\" tabindex=\"0\" role=\"button\"><span class=\"ds-news-dot ds-news-dot--up\"></span><div class=\"ds-news-body\"><p class=\"ds-news-headline\">NVIDIA supera expectativas de ingresos</p><div class=\"ds-news-meta\">Reuters · hace 2 h</div></div><span class=\"ds-news-tag\">[NVDA]</span></div>",
+      "css": ".ds-news-row { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 14px; padding: 16px 4px; border-bottom: 1px solid var(--line, #ddd3ba); cursor: pointer; transition: background 0.12s ease; } .ds-news-row:hover, .ds-news-row:focus-visible { background: var(--panel-raised, #ece4cf); } .ds-news-dot { width: 7px; height: 7px; border-radius: 2px; } .ds-news-dot--up { background: var(--rise, #2e7d4f); } .ds-news-dot--down { background: var(--fall, #9e3a2f); } .ds-news-body { min-width: 0; } .ds-news-headline { font-size: 0.92rem; font-weight: 500; margin: 0 0 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .ds-news-meta { font-family: ui-monospace, monospace; font-size: 0.72rem; color: var(--text-faint, #8b93a0); } .ds-news-tag { font-family: ui-monospace, monospace; font-size: 0.72rem; font-weight: 600; color: var(--text-dim, #5a6472); white-space: nowrap; }"
+    },
+    {
+      "name": "News Modal",
+      "kind": "custom",
+      "refersTo": "modal-panel",
+      "description": "Signature component. Opens when a News Row is clicked: reads the article's curated summary in place instead of redirecting off the page. Gold top border (one of only two places gold appears), navy-tinted scrim behind it, explicit 'read original' link at the bottom.",
+      "html": "<div class=\"ds-modal-overlay\"><div class=\"ds-modal-panel\"><button class=\"ds-modal-close\" aria-label=\"Cerrar\">×</button><span class=\"ds-modal-ticker\">[NVDA]</span><h2 class=\"ds-modal-headline\">BofA sees multi-quarter Nvidia earnings upgrade cycle</h2><p class=\"ds-modal-meta\">Yahoo Finance · hace 1 h</p><p class=\"ds-modal-summary\">BofA expects Nvidia's Q2 report to beat estimates and raise guidance, driven by upcoming platform shipments.</p><a class=\"ds-modal-link\" href=\"#\">Leer artículo original ↗</a></div></div>",
+      "css": ".ds-modal-overlay { position: fixed; inset: 0; background: rgba(22, 33, 47, 0.45); display: flex; align-items: center; justify-content: center; padding: 24px; } .ds-modal-panel { position: relative; background: var(--panel, #fffdf7); border: 1px solid var(--line, #ddd3ba); border-top: 2px solid var(--gold, #b8933f); border-radius: 4px; padding: 32px 28px 28px; max-width: 520px; width: 100%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 50px -16px rgba(22,33,47,0.4); } .ds-modal-close { position: absolute; top: 14px; right: 14px; width: 28px; height: 28px; border-radius: 999px; border: 1px solid var(--line-strong, #c7ba98); background: transparent; color: var(--text-dim, #5a6472); font-size: 1.1rem; cursor: pointer; } .ds-modal-ticker { display: inline-block; font-family: ui-monospace, monospace; font-size: 0.72rem; font-weight: 600; color: var(--text-dim, #5a6472); margin-bottom: 10px; } .ds-modal-headline { font-size: 1.2rem; font-weight: 700; line-height: 1.3; margin: 0 0 8px; padding-right: 28px; } .ds-modal-meta { font-family: ui-monospace, monospace; font-size: 0.75rem; color: var(--text-faint, #8b93a0); margin: 0 0 18px; } .ds-modal-summary { font-size: 0.95rem; line-height: 1.6; color: var(--text, #16212f); margin: 0 0 22px; } .ds-modal-link { font-size: 0.82rem; font-weight: 600; color: var(--accent, #1c3a5e); text-decoration: none; border-bottom: 1px solid var(--accent-dim, rgba(28,58,94,0.1)); }"
     },
     {
       "name": "Search Input",
@@ -90,7 +100,7 @@
       "refersTo": "search-input",
       "description": "The one text input in the system. Sharp 4px radius (input language, not pill language).",
       "html": "<input class=\"ds-input\" type=\"search\" placeholder=\"Buscar empresa o ticker…\">",
-      "css": ".ds-input { font-size: 0.85rem; padding: 9px 14px; border-radius: 4px; border: 1px solid var(--line-strong, #c5cdbc); background: var(--panel, #ffffff); color: var(--text, #1c231d); min-width: 220px; outline: none; transition: border-color 0.12s ease; } .ds-input:focus { border-color: var(--accent, #2d4a6b); } .ds-input::placeholder { color: var(--text-faint, #8b9789); }"
+      "css": ".ds-input { font-size: 0.85rem; padding: 9px 14px; border-radius: 4px; border: 1px solid var(--line-strong, #c7ba98); background: var(--panel, #fffdf7); color: var(--text, #16212f); min-width: 220px; outline: none; transition: border-color 0.12s ease; } .ds-input:focus { border-color: var(--accent, #1c3a5e); } .ds-input::placeholder { color: var(--text-faint, #8b93a0); }"
     },
     {
       "name": "Ticker Tape Item",
@@ -98,39 +108,43 @@
       "refersTo": "ticker-item",
       "description": "Signature component. One symbol/price/change entry in the continuously scrolling ticker tape, separated by hairline rules.",
       "html": "<span class=\"ds-ticker-item\"><span class=\"ds-ticker-symbol\">NVDA</span><span class=\"ds-ticker-price\">$128.45</span><span class=\"ds-ticker-change ds-ticker-change--up\">+3.2%</span></span>",
-      "css": ".ds-ticker-item { display: inline-flex; align-items: baseline; gap: 9px; padding: 11px 24px; font-family: ui-monospace, monospace; font-size: 0.78rem; font-variant-numeric: tabular-nums; white-space: nowrap; border-right: 1px solid var(--line, #dde3d6); color: var(--text-dim, #5c6a5c); } .ds-ticker-symbol { color: var(--text, #1c231d); font-weight: 700; } .ds-ticker-change--up { color: var(--rise, #2f7a4f); } .ds-ticker-change--down { color: var(--fall, #a13a2f); }"
+      "css": ".ds-ticker-item { display: inline-flex; align-items: baseline; gap: 9px; padding: 11px 24px; font-family: ui-monospace, monospace; font-size: 0.78rem; font-variant-numeric: tabular-nums; white-space: nowrap; border-right: 1px solid var(--line, #ddd3ba); color: var(--text-dim, #5a6472); } .ds-ticker-symbol { color: var(--text, #16212f); font-weight: 700; } .ds-ticker-change--up { color: var(--rise, #2e7d4f); } .ds-ticker-change--down { color: var(--fall, #9e3a2f); }"
     }
   ],
   "narrative": {
     "northStar": "The Quiet Terminal",
-    "overview": "A calm, considered instrument for reading the AI stocks sector — not another black AI-dashboard clone with a purple-to-teal glow, and not generic glossy abstract art either (both were tried and explicitly rejected during this project). The system borrows its materiality from the accounting ledger — pale sage paper, near-black ink, red ink for losses — and its discipline from a financial terminal: tabular numbers, a real ticker tape, a real composite chart. Nothing performs; everything reports.\n\nThe system is deliberately single-theme (light only). A ledger page doesn't have a dark mode any more than a terminal has a light one — committing to one world was a conscious choice, not an omission.",
+    "overview": "A calm, considered instrument for reading the AI stocks sector — not another black AI-dashboard clone with a purple-to-teal glow, not generic glossy abstract art, and not eco-toned ledger paper either (all three were tried and explicitly rejected during this project, the last for \"not feeling like finance\"). The system now borrows its materiality from the engraved stock certificate — warm parchment, navy ink, a rare stroke of gold — the dual-tone financial institutions have used on certificates and letterhead for a century. Its discipline still comes from a terminal: tabular numbers, a real ticker tape, a real composite chart. Nothing performs; everything reports.\n\nThe system is deliberately single-theme (light only). This material doesn't have a dark mode any more than a certificate does — committing to one world was a conscious choice, not an omission.",
     "keyCharacteristics": [
-      "Pale sage-green paper background, never pure white or black",
-      "One accent color (fountain-pen navy) reserved for brand/interactive moments only",
-      "A separate, distinct semantic triad (green/red/ochre) for rise/fall/mixed — never reuses the accent hue",
+      "Warm parchment background, never green-tinted, pure white, or black",
+      "Navy as the primary interactive accent; gold as a deliberately scarce second accent (never both at once in the same moment)",
+      "A separate, distinct semantic triad (green/red/slate) for rise/fall/mixed — never reuses either accent hue",
       "Two deliberate type voices: a plain sans for reading, a tracked-out monospace for every number and label",
-      "Flat surfaces, hairline dividers, real data visualizations instead of decorative imagery"
+      "Flat surfaces, hairline dividers, real data visualizations instead of decorative imagery",
+      "Reading an article's summary happens in place (a modal), never an automatic redirect off the page"
     ],
     "rules": [
-      { "name": "The One Voice Rule", "body": "Fountain-Pen Navy is the only brand accent on the page. It never appears twice for two different reasons in the same view — if a color is doing semantic work (rise/fall/mixed), it is never navy.", "section": "colors" },
-      { "name": "The No-Black Rule", "body": "No #000000 and no #ffffff stands alone as a surface without the sage bias — even \"white\" panels sit on sage paper, and \"black\" text carries a green undertone.", "section": "colors" },
+      { "name": "The One Voice Rule", "body": "Fountain-Pen Navy is the primary accent; Certificate Gold is a rare second one. Neither ever does semantic work — if a color means rise/fall/mixed, it is never navy or gold.", "section": "colors" },
+      { "name": "The No-Black Rule", "body": "No #000000 and no clinical #ffffff stands alone as a surface without the warm-parchment bias — even \"white\" panels sit on parchment, and \"black\" text carries a navy undertone.", "section": "colors" },
+      { "name": "The Gold Scarcity Rule", "body": "Gold appears in exactly two places (hero panel border, modal panel border) and nowhere else. A third appearance stops reading as rare and starts reading as decoration.", "section": "colors" },
       { "name": "The Two-Voice Rule", "body": "If it's read, it's the sans. If it's a number, a ticker, or a short label, it's the tracked-out monospace. Never mix the two within a single value.", "section": "typography" },
-      { "name": "The Flat-By-Default Rule", "body": "Elevation is earned only by things that are genuinely temporary or floating above the page (the toast). A permanent, in-flow element never gets a drop shadow — use a hairline or a tonal shift instead.", "section": "elevation" },
-      { "name": "The Two-Radius Rule", "body": "If it's something you click or a status you read, it's a pill (999px). If it's something you read data inside of, it's 4px. No third radius.", "section": "shapes" }
+      { "name": "The Flat-By-Default Rule", "body": "Elevation is earned only by things that are genuinely temporary or floating above the page (the toast, the modal). A permanent, in-flow element never gets a drop shadow.", "section": "elevation" },
+      { "name": "The Two-Radius Rule", "body": "If it's something you click or a status you read, it's a pill (999px). If it's something you read data or an article inside of, it's 4px. No third radius.", "section": "shapes" }
     ],
     "dos": [
-      "Do keep the accent (Fountain-Pen Navy) exclusive to brand/interactive moments — never reuse it for rise/fall/mixed semantics.",
+      "Do keep Fountain-Pen Navy as the everyday interactive accent, and Certificate Gold rare (exactly two borders, nowhere else) — never let either do rise/fall/mixed semantic work.",
       "Do run every number, ticker, and short label through the monospace label voice with tabular-nums; keep sentences in the sans.",
-      "Do use hairlines and tonal shifts for hierarchy and depth; reach for the toast's shadow only for genuinely floating, temporary UI.",
-      "Do apply the pill radius to anything clickable or status-bearing, and the 4px radius to anything you read data inside of — no other radius value.",
+      "Do use hairlines and tonal shifts for hierarchy and depth; reach for a shadow only for the toast and the modal.",
+      "Do apply the pill radius to anything clickable or status-bearing, and the 4px radius to anything you read data or an article inside of — no other radius value.",
+      "Do let a visitor read an article summary in place (the modal) rather than redirecting them off the page by default; the external link stays available but explicit.",
       "Do treat real data (sparklines, the composite chart, the ticker tape) as the page's visual anchor instead of decorative imagery."
     ],
     "donts": [
-      "Don't introduce a dark mode or a black background — the light ledger-paper world is a deliberate, single-theme commitment.",
-      "Don't add drop shadows to permanent in-flow elements (cards, rows, panels).",
+      "Don't introduce a dark mode or a black background, and don't drift back toward green-tinted \"eco\" paper — parchment-and-navy-and-gold is a deliberate commitment made after two prior directions were tried and moved away from.",
+      "Don't add drop shadows to permanent in-flow elements (cards, rows, panels) — only the toast and the modal get one.",
       "Don't default to rounded-lg (8–16px) cards; the system has exactly two radii and both are already assigned.",
       "Don't reach for a three-equal-column card grid for the stock list — it's a ledger table with a shared column grid, not a card grid.",
-      "Don't add gradients, glows, or glossy/3D abstract imagery — explicitly tried and rejected during this project for reading as generic AI-generated art."
+      "Don't add gradients, glows, or glossy/3D abstract imagery — explicitly tried and rejected during this project for reading as generic AI-generated art.",
+      "Don't make a news row (or any link out of the page) navigate automatically on click — the summary appears in place first; leaving the page is the visitor's explicit next choice."
     ]
   }
 }

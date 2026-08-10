@@ -1,33 +1,37 @@
 /* ---------------------------------------------------------------------
    AI Stocks Pulse — design system
-   Direction: ledger paper, not a terminal. Pale sage-tinted paper with
-   near-black ink text and a deep fountain-pen-navy accent — the classic
-   material of an accounting ledger (green columnar paper, blue-black
-   ink, red ink for losses), which is exactly what the stock table
-   already is. Minimal, light, considered — not another black AI
-   dashboard. Single deliberate theme: a ledger page doesn't have a
-   "dark mode" any more than a terminal has a light one.
+   Direction: the stock certificate, not the ledger sheet. Warm parchment
+   paper with navy ink and a rare gold accent — the classic dual-tone of
+   an engraved stock certificate or a bank's letterhead, which reads as
+   unmistakably financial in a way plain green ledger paper didn't.
+   Navy stays the primary interactive accent; gold is a deliberately
+   scarce second accent (the hero panel's border, brand touches) —
+   never used for semantics, which stay green/red/slate. Single
+   deliberate theme: this material doesn't have a "dark mode."
    --------------------------------------------------------------------- */
 
 :root {
-  --paper: #eef2ea;
-  --panel: #ffffff;
-  --panel-raised: #f6f9f2;
-  --line: #dde3d6;
-  --line-strong: #c5cdbc;
-  --text: #1c231d;
-  --text-dim: #5c6a5c;
-  --text-faint: #8b9789;
+  --paper: #f3efe2;
+  --panel: #fffdf7;
+  --panel-raised: #ece4cf;
+  --line: #ddd3ba;
+  --line-strong: #c7ba98;
+  --text: #16212f;
+  --text-dim: #5a6472;
+  --text-faint: #8b93a0;
 
-  --accent: #2d4a6b;
-  --accent-dim: rgba(45, 74, 107, 0.1);
+  --accent: #1c3a5e;
+  --accent-dim: rgba(28, 58, 94, 0.1);
 
-  --rise: #2f7a4f;
-  --rise-dim: rgba(47, 122, 79, 0.1);
-  --fall: #a13a2f;
-  --fall-dim: rgba(161, 58, 47, 0.1);
-  --mixed: #8a7233;
-  --mixed-dim: rgba(138, 114, 51, 0.1);
+  --gold: #b8933f;
+  --gold-dim: rgba(184, 147, 63, 0.14);
+
+  --rise: #2e7d4f;
+  --rise-dim: rgba(46, 125, 79, 0.1);
+  --fall: #9e3a2f;
+  --fall-dim: rgba(158, 58, 47, 0.1);
+  --mixed: #5b6b7a;
+  --mixed-dim: rgba(91, 107, 122, 0.1);
 
   --radius-pill: 999px;
   --radius-sm: 4px;
@@ -254,16 +258,17 @@ header, main, footer { position: relative; z-index: 1; }
   background: currentColor;
 }
 
-.sentiment-bullish { color: var(--rise); border-color: rgba(47,122,79,0.3); }
-.sentiment-bearish { color: var(--fall); border-color: rgba(161,58,47,0.3); }
-.sentiment-mixed { color: var(--mixed); border-color: rgba(138,114,51,0.3); }
+.sentiment-bullish { color: var(--rise); border-color: rgba(46,125,79,0.3); }
+.sentiment-bearish { color: var(--fall); border-color: rgba(158,58,47,0.3); }
+.sentiment-mixed { color: var(--mixed); border-color: rgba(91,107,122,0.3); }
 
-/* "Ticker readout" panel — hairline top border in ink-navy instead of a
-   gradient card, so it reads as an instrument, not a marketing tile. */
+/* "Ticker readout" panel — hairline top border in gold instead of a
+   gradient card, so it reads as an instrument, not a marketing tile.
+   The one deliberate use of the rare secondary accent. */
 .hero-card {
   background: var(--panel);
   border: 1px solid var(--line);
-  border-top: 2px solid var(--accent);
+  border-top: 2px solid var(--gold);
   border-radius: var(--radius-sm);
   padding: 26px 26px 28px;
   display: flex;
@@ -510,6 +515,16 @@ header, main, footer { position: relative; z-index: 1; }
   gap: 14px;
   padding: 16px 4px;
   border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+.news-item:hover,
+.news-item:focus-visible {
+  background: var(--panel-raised);
+}
+.news-item:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
 }
 
 .news-dot {
@@ -529,12 +544,6 @@ header, main, footer { position: relative; z-index: 1; }
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-.news-headline a {
-  text-decoration: none;
-}
-.news-headline a:hover {
-  color: var(--accent);
 }
 .news-meta {
   font-family: var(--font-data);
@@ -568,6 +577,95 @@ header, main, footer { position: relative; z-index: 1; }
 .footer-sub { margin: 6px 0 0; }
 
 /* ---------------------------------------------------------------------
+   News modal — reading a summary in place instead of leaving the page.
+   Genuinely floating/temporary, so (like the toast) it earns a shadow.
+   --------------------------------------------------------------------- */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(22, 33, 47, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 20;
+}
+.modal-overlay[hidden] { display: none; }
+
+.modal-panel {
+  position: relative;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--gold);
+  border-radius: var(--radius-sm);
+  padding: 32px 28px 28px;
+  max-width: 520px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 50px -16px rgba(22, 33, 47, 0.4);
+}
+
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.modal-close:hover { border-color: var(--accent); color: var(--accent); }
+
+#modalTicker {
+  display: inline-block;
+  margin-bottom: 10px;
+}
+#modalTicker[hidden] { display: none; }
+
+.modal-headline {
+  font-family: var(--font-prose);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0 0 8px;
+  padding-right: 28px;
+}
+
+.modal-meta {
+  font-family: var(--font-data);
+  font-size: 0.75rem;
+  color: var(--text-faint);
+  margin: 0 0 18px;
+}
+
+.modal-summary {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text);
+  margin: 0 0 22px;
+}
+
+.modal-source-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  border-bottom: 1px solid var(--accent-dim);
+}
+.modal-source-link:hover { border-bottom-color: var(--accent); }
+.modal-source-link[hidden] { display: none; }
+
+/* ---------------------------------------------------------------------
    Toast
    --------------------------------------------------------------------- */
 
@@ -582,7 +680,7 @@ header, main, footer { position: relative; z-index: 1; }
   padding: 12px 20px;
   border-radius: var(--radius-pill);
   font-size: 0.85rem;
-  box-shadow: 0 10px 30px -12px rgba(28, 35, 29, 0.35);
+  box-shadow: 0 10px 30px -12px rgba(22, 33, 47, 0.35);
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.2s ease, transform 0.2s ease;

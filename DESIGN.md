@@ -2,22 +2,24 @@
 name: AI Stocks Pulse
 description: A daily one-page reader for the AI stocks sector — price ledger, composite chart, and curated news.
 colors:
-  paper: "#eef2ea"
-  panel: "#ffffff"
-  panel-raised: "#f6f9f2"
-  hairline: "#dde3d6"
-  hairline-strong: "#c5cdbc"
-  ink: "#1c231d"
-  ink-dim: "#5c6a5c"
-  ink-faint: "#8b9789"
-  accent-navy: "#2d4a6b"
-  accent-navy-dim: "rgba(45, 74, 107, 0.1)"
-  rise-green: "#2f7a4f"
-  rise-green-dim: "rgba(47, 122, 79, 0.1)"
-  fall-red: "#a13a2f"
-  fall-red-dim: "rgba(161, 58, 47, 0.1)"
-  mixed-ochre: "#8a7233"
-  mixed-ochre-dim: "rgba(138, 114, 51, 0.1)"
+  paper: "#f3efe2"
+  panel: "#fffdf7"
+  panel-raised: "#ece4cf"
+  hairline: "#ddd3ba"
+  hairline-strong: "#c7ba98"
+  ink: "#16212f"
+  ink-dim: "#5a6472"
+  ink-faint: "#8b93a0"
+  accent-navy: "#1c3a5e"
+  accent-navy-dim: "rgba(28, 58, 94, 0.1)"
+  accent-gold: "#b8933f"
+  accent-gold-dim: "rgba(184, 147, 63, 0.14)"
+  rise-green: "#2e7d4f"
+  rise-green-dim: "rgba(46, 125, 79, 0.1)"
+  fall-red: "#9e3a2f"
+  fall-red-dim: "rgba(158, 58, 47, 0.1)"
+  mixed-slate: "#5b6b7a"
+  mixed-slate-dim: "rgba(91, 107, 122, 0.1)"
 typography:
   display:
     fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
@@ -64,9 +66,14 @@ components:
     textColor: "{colors.fall-red}"
     rounded: "{rounded.pill}"
   stock-tag-mixed:
-    backgroundColor: "{colors.mixed-ochre-dim}"
-    textColor: "{colors.mixed-ochre}"
+    backgroundColor: "{colors.mixed-slate-dim}"
+    textColor: "{colors.mixed-slate}"
     rounded: "{rounded.pill}"
+  modal-panel:
+    backgroundColor: "{colors.panel}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.sm}"
+    padding: "32px 28px 28px"
 ---
 
 # Design System: AI Stocks Pulse
@@ -75,43 +82,49 @@ components:
 
 **Creative North Star: "The Quiet Terminal"**
 
-A calm, considered instrument for reading the AI stocks sector — not another black AI-dashboard clone with a purple-to-teal glow, and not generic glossy abstract art either (both were tried and explicitly rejected during this project). The system borrows its materiality from the accounting ledger — pale sage paper, near-black ink, red ink for losses — and its discipline from a financial terminal: tabular numbers, a real ticker tape, a real composite chart. Nothing performs; everything reports.
+A calm, considered instrument for reading the AI stocks sector — not another black AI-dashboard clone with a purple-to-teal glow, not generic glossy abstract art, and not eco-toned ledger paper either (all three were tried and explicitly rejected during this project, the last for "not feeling like finance"). The system now borrows its materiality from the engraved stock certificate — warm parchment, navy ink, a rare stroke of gold — the dual-tone financial institutions have used on certificates and letterhead for a century. Its discipline still comes from a terminal: tabular numbers, a real ticker tape, a real composite chart. Nothing performs; everything reports.
 
-The system is deliberately single-theme (light only). A ledger page doesn't have a dark mode any more than a terminal has a light one — committing to one world was a conscious choice, not an omission.
+The system is deliberately single-theme (light only). This material doesn't have a dark mode any more than a certificate does — committing to one world was a conscious choice, not an omission.
 
 **Key Characteristics:**
-- Pale sage-green paper background, never pure white or black
-- One accent color (fountain-pen navy) reserved for brand/interactive moments only
-- A separate, distinct semantic triad (green/red/ochre) for rise/fall/mixed — never reuses the accent hue
+- Warm parchment background, never green-tinted, pure white, or black
+- Navy as the primary interactive accent; gold as a deliberately scarce second accent (never both at once in the same moment)
+- A separate, distinct semantic triad (green/red/slate) for rise/fall/mixed — never reuses either accent hue
 - Two deliberate type voices: a plain sans for reading, a tracked-out monospace for every number and label
 - Flat surfaces, hairline dividers, real data visualizations (ticker tape, composite chart, sparklines) instead of decorative imagery
+- Reading an article's summary happens in place (a modal), never an automatic redirect off the page
 
 ## Colors
 
-A desaturated, paper-and-ink palette: one considered accent, a separate semantic triad, and neutrals with a consistent sage-green bias rather than true grays.
+A warm parchment-and-ink palette: two accents used for different jobs, a separate semantic triad, and neutrals with a consistent warm-paper bias rather than true grays.
 
 ### Primary
-- **Fountain-Pen Navy** (`#2d4a6b`): the single accent. Brand mark, active filter state, focus rings, hairline accent on the hero panel, hover states on links/ghost buttons. Used sparingly — its rarity is the point (see The One Voice Rule).
+- **Fountain-Pen Navy** (`#1c3a5e`): the primary accent. Brand mark, active filter state, focus rings, links, hover states on ghost buttons. Used often, but never for anything semantic.
 
-### Secondary (semantic — separate from the accent, never overlapping it)
-- **Ledger Green** (`#2f7a4f`): price rises, bullish tags, "live" status dot.
-- **Ledger Red** (`#a13a2f`): price falls, bearish tags — literally "in the red."
-- **Ledger Ochre** (`#8a7233`): mixed/neutral sentiment, the third state between rise and fall.
+### Secondary (semantic — separate from both accents, never overlapping them)
+- **Ledger Green** (`#2e7d4f`): price rises, bullish tags, "live" status dot.
+- **Ledger Red** (`#9e3a2f`): price falls, bearish tags — literally "in the red."
+- **Ink Slate** (`#5b6b7a`): mixed/neutral sentiment, the third state between rise and fall.
+
+### Tertiary — rare, deliberate
+- **Certificate Gold** (`#b8933f`): the scarce second accent. Used in exactly two places by design: the hero panel's top border (marking it as "the instrument") and the news-modal panel's top border. Never a fill, never body text, never used alongside navy for the same purpose — if navy is doing the job, gold doesn't also appear.
 
 ### Neutral
-- **Ledger Sage** (`#eef2ea`): page background (`--paper`). Never pure white.
-- **Panel White** (`#ffffff`): card/panel surface — the hero readout, ticker tape, toast — distinguishable from the page itself.
-- **Raised Sage** (`#f6f9f2`): subtle hover tint for ledger rows (`--panel-raised`).
-- **Sage Hairline** (`#dde3d6`): the default divider — between ledger rows, news rows, ticker items.
-- **Sage Rule** (`#c5cdbc`): a stronger hairline for structural borders (input/chip outlines, the ledger header rule).
-- **Ledger Ink** (`#1c231d`): primary text. Near-black with a deliberate green bias, never a true black.
-- **Faded Ink** (`#5c6a5c`): secondary text (sub-copy, blurbs, chip labels at rest).
-- **Pencil Grey** (`#8b9789`): tertiary/faint text (captions, stat labels, placeholders).
+- **Parchment** (`#f3efe2`): page background (`--paper`). Warm, not green — the paper of a certificate, not a plant.
+- **Certificate White** (`#fffdf7`): card/panel surface — the hero readout, ticker tape, modal, toast — distinguishable from the page itself, still warm-toned rather than clinical white.
+- **Raised Parchment** (`#ece4cf`): subtle hover tint for ledger rows and news rows (`--panel-raised`).
+- **Parchment Hairline** (`#ddd3ba`): the default divider — between ledger rows, news rows, ticker items.
+- **Parchment Rule** (`#c7ba98`): a stronger hairline for structural borders (input/chip outlines, the ledger header rule).
+- **Navy Ink** (`#16212f`): primary text. Near-black with a deliberate navy bias, never a true black.
+- **Faded Ink** (`#5a6472`): secondary text (sub-copy, blurbs, chip labels at rest).
+- **Pencil Grey** (`#8b93a0`): tertiary/faint text (captions, stat labels, placeholders).
 
 ### Named Rules
-**The One Voice Rule.** Fountain-Pen Navy is the only brand accent on the page. It never appears twice for two different reasons in the same view — if a color is doing semantic work (rise/fall/mixed), it is never navy.
+**The One Voice Rule.** Fountain-Pen Navy is the primary accent; Certificate Gold is a rare second one. Neither ever does semantic work — if a color means rise/fall/mixed, it is never navy or gold.
 
-**The No-Black Rule.** No `#000000` and no `#ffffff` stands alone as a surface without the sage bias — even "white" panels sit on sage paper, and "black" text carries a green undertone. Pure neutrals read as generic; the tint is what makes it this system.
+**The No-Black Rule.** No `#000000` and no clinical `#ffffff` stands alone as a surface without the warm-parchment bias — even "white" panels sit on parchment, and "black" text carries a navy undertone. Pure neutrals read as generic; the warmth is what makes it this system.
+
+**The Gold Scarcity Rule.** Gold appears in exactly two places (hero panel border, modal panel border) and nowhere else. The moment gold shows up a third time, it stops reading as "rare" and starts reading as decoration — don't let that happen.
 
 ## Typography
 
@@ -119,45 +132,48 @@ A desaturated, paper-and-ink palette: one considered accent, a separate semantic
 **Body Font:** same system sans stack as Display
 **Label/Mono Font:** ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, "Liberation Mono", monospace
 
-**Character:** Two voices doing two different jobs, not one family styled two ways. The system sans reads like prose — the hero headline, the sector summary, news headlines. The monospace is the "data voice": every price, every percentage, every ticker, every timestamp, every uppercase label runs through it, in tracked-out capitals. The contrast between the two is the system's main typographic move.
+**Character:** Two voices doing two different jobs, not one family styled two ways. The system sans reads like prose — the hero headline, the sector summary, news headlines, the modal's article summary. The monospace is the "data voice": every price, every percentage, every ticker, every timestamp, every uppercase label runs through it, in tracked-out capitals. The contrast between the two is the system's main typographic move.
 
 ### Hierarchy
 - **Display** (700, `clamp(1.6rem, 3vw, 2.3rem)`, 1.2 line-height, -0.015em tracking): the hero H1 only. `text-wrap: balance` keeps it from ragging badly at any width.
-- **Body** (400, 0.98rem–1rem, 1.55–1.65 line-height): sector summary, hero subhead, news headlines, stock blurbs. Capped near 46ch on the widest body block.
-- **Label** (600, 0.63rem–0.78rem, uppercase, 0.02–0.12em tracking, monospace): eyebrows, filter chips, badges, stat labels, table headers, ticker items. This tier doubles as the numeric voice — every price and percentage uses `font-variant-numeric: tabular-nums` so columns of digits align.
+- **Body** (400, 0.95rem–1rem, 1.55–1.65 line-height): sector summary, hero subhead, news headlines, stock blurbs, the modal's article summary.
+- **Label** (600, 0.63rem–0.78rem, uppercase, 0.02–0.12em tracking, monospace): eyebrows, filter chips, badges, stat labels, table headers, ticker items, the modal's ticker tag and meta line. This tier doubles as the numeric voice — every price and percentage uses `font-variant-numeric: tabular-nums` so columns of digits align.
 
 ### Named Rules
 **The Two-Voice Rule.** If it's read, it's the sans. If it's a number, a ticker, or a short label, it's the tracked-out monospace. Never mix the two within a single value (a price is never set in the sans; a headline is never set in mono).
 
 ## Layout
 
-A single centered column, `max-width: 1180px`, 24px side padding (16px under 640px). Vertical rhythm is generous by design — section padding runs 40–56px top on desktop, tightened but never removed on mobile — because the brief was explicitly "more minimalist," not dense.
+A single centered column, `max-width: 1180px`, 24px side padding (16px under 640px). Vertical rhythm is generous by design — section padding runs 40–56px top on desktop, tightened but never removed on mobile.
 
-The hero is the one asymmetric moment: a 1.15fr/0.85fr split (text left, readout panel right) that collapses to a single column under 860px. Below the hero, everything else is a single-column stack: ticker tape (full-bleed, edge-to-edge), then the ledger table, then the news list.
+The hero is the one asymmetric moment: a 1.15fr/0.85fr split (text left, readout panel right) that collapses to a single column under 860px. Below the hero: ticker tape (full-bleed, edge-to-edge), then the ledger table, then the news list.
 
-The stock ledger uses a fixed column template (`minmax(190px, 1.6fr) 88px 78px 116px 92px` — company / price / change / trend / signal) shared between the header row and every data row, so columns stay aligned. Under 640px this collapses to a 2-column stacked layout per row (id spans full width, price/change pair up, sparkline and tag each span full width) rather than trying to preserve five columns on a phone.
+The stock ledger uses a fixed column template (`minmax(190px, 1.6fr) 88px 78px 116px 92px` — company / price / change / trend / signal) shared between the header row and every data row, so columns stay aligned. Under 640px this collapses to a 2-column stacked layout per row rather than preserving five columns on a phone.
+
+The news modal centers over the page with a fixed-position dark scrim behind it (`rgba(22, 33, 47, 0.45)`), capped at `520px` wide and `85vh` tall with internal scroll — never full-screen, always readable as "a card lifted above the page," dismissible by close button, clicking the scrim, or Escape.
 
 ## Elevation & Depth
 
-Flat by default — no ambient drop shadows anywhere in the resting UI. Depth is conveyed by hairline dividers (`--line` / `--line-strong`) and small tonal shifts (`--panel` vs `--panel-raised` on row hover), not by shadow layering. This matches the ledger-paper metaphor: paper doesn't float.
+Flat by default — no ambient drop shadows anywhere in the resting UI. Depth is conveyed by hairline dividers and small tonal shifts (`--panel` vs `--panel-raised` on row hover), not by shadow layering. Paper doesn't float — except the two things that genuinely do.
 
 ### Shadow Vocabulary
-- **Toast float** (`box-shadow: 0 10px 30px -12px rgba(28, 35, 29, 0.35)`): the one deliberate exception. The toast is a transient overlay that must read as sitting above the page, so it's the only element allowed a real shadow.
+- **Toast float** (`box-shadow: 0 10px 30px -12px rgba(22, 33, 47, 0.35)`): the transient status toast.
+- **Modal float** (`box-shadow: 0 20px 50px -16px rgba(22, 33, 47, 0.4)`): the news-summary modal — heavier than the toast because it sits over a dark scrim and needs to read as clearly detached from the page beneath it.
 - **Live-status halo** (`box-shadow: 0 0 0 3px var(--rise-dim)`): not elevation — a soft focus ring around the "live" status dot when data is real (vs. demo).
 
 ### Named Rules
-**The Flat-By-Default Rule.** Elevation is earned only by things that are genuinely temporary or floating above the page (the toast). A permanent, in-flow element never gets a drop shadow — use a hairline or a tonal shift instead.
+**The Flat-By-Default Rule.** Elevation is earned only by things that are genuinely temporary or floating above the page (the toast, the modal). A permanent, in-flow element never gets a drop shadow — use a hairline or a tonal shift instead.
 
 ## Shapes
 
 Two radii, applied by role, never mixed within it:
-- **Pill (`999px`)**: every interactive/status element — buttons, filter chips, badges (sentiment, demo/live pill, stock tags), the toast.
-- **Sharp (`4px`)**: every structural container — the hero readout panel, the search input. Reads closer to a cut paper edge than a soft app card.
+- **Pill (`999px`)**: every interactive/status element — buttons, filter chips, badges (sentiment, demo/live pill, stock tags), the toast, the modal's close button.
+- **Sharp (`4px`)**: every structural container — the hero readout panel, the search input, the news modal panel. Reads closer to a cut paper edge than a soft app card.
 
-Borders are hairlines throughout (1px), never thick. The one deliberate exception is the hero panel's 2px navy top border — a single accent stroke marking it as "the instrument," distinct from the passive hairlines everywhere else.
+Borders are hairlines throughout (1px), never thick. The two deliberate exceptions are the hero panel's and the modal panel's 2px gold top borders — see The Gold Scarcity Rule.
 
 ### Named Rules
-**The Two-Radius Rule.** If it's something you click or a status you read, it's a pill. If it's something you read data inside of, it's 4px. No third radius, no card-style 12–16px anywhere.
+**The Two-Radius Rule.** If it's something you click or a status you read, it's a pill. If it's something you read data or an article inside of, it's 4px. No third radius, no card-style 12–16px anywhere.
 
 ## Components
 
@@ -178,10 +194,18 @@ Borders are hairlines throughout (1px), never thick. The one deliberate exceptio
 - **Internal layout:** fixed 5-column grid shared with the header row (see Layout); ticker + name + one-line blurb in column 1 (monospace ticker, sans name/blurb), tabular-nums price and change right-aligned, a compact SVG sparkline, and a pill sentiment tag.
 
 ### News Row
-- **Style:** same hairline-row logic as the ledger, but 3-column (status dot / headline+meta / ticker tag). A 7×7px rounded-square dot (not a circle) carries semantic color; the ticker tag renders as bracketed monospace text (`[NVDA]`) rather than a pill, keeping the row visually quieter than the ledger's tagged rows.
+- **Style:** same hairline-row logic as the ledger, but 3-column (status dot / headline+meta / ticker tag). A 7×7px rounded-square dot carries semantic color; the ticker tag renders as bracketed monospace text (`[NVDA]`).
+- **Interaction:** the entire row is clickable/focusable (`role="button"`, `tabindex="0"`) — clicking or pressing Enter/Space opens the News Modal with that article's summary. It never navigates away on its own; leaving the page to read the original source is an explicit, separate choice made inside the modal.
+- **Hover/Focus:** `--panel-raised` background tint, same as a ledger row.
+
+### News Modal (signature component)
+- **Purpose:** read a curated ~25-word summary of an article without leaving the page — the site's whole premise is "the story in 30 seconds," so a redirect-by-default was working against that.
+- **Structure:** ticker tag (mono, hidden if the article isn't ticker-specific) → headline (display-weight, but smaller than the hero H1) → source/time meta (mono) → summary (body voice) → an explicit "Leer artículo original ↗" link, hidden when no source URL exists.
+- **Style:** `--panel` background, 2px gold top border (see Shapes), 4px radius, modal-float shadow, over a navy-tinted scrim.
+- **Dismissal:** close button (pill, top-right), click on the scrim, or Escape. Background scroll is locked while open.
 
 ### Sentiment / Status Badges
-- **Style:** pill, tinted background at ~10% opacity of the semantic color, full-opacity text in the same color. Same recipe for sector sentiment, per-stock tags, and the demo/live status pill (which uses green when live, neutral gray dot otherwise).
+- **Style:** pill, tinted background at ~10–14% opacity of the semantic/accent color, full-opacity text in the same color. Same recipe for sector sentiment, per-stock tags, and the demo/live status pill.
 - **State:** the demo/live pill additionally gets a small leading dot; when live, the dot carries the halo shadow described in Elevation.
 
 ### Inputs
@@ -197,15 +221,17 @@ Borders are hairlines throughout (1px), never thick. The one deliberate exceptio
 ## Do's and Don'ts
 
 ### Do:
-- **Do** keep the accent (Fountain-Pen Navy) exclusive to brand/interactive moments — never reuse it for rise/fall/mixed semantics.
+- **Do** keep Fountain-Pen Navy as the everyday interactive accent, and Certificate Gold rare (exactly two borders, nowhere else) — never let either do rise/fall/mixed semantic work.
 - **Do** run every number, ticker, and short label through the monospace label voice with `tabular-nums`; keep sentences in the sans.
-- **Do** use hairlines and tonal shifts for hierarchy and depth; reach for the toast's shadow only for genuinely floating, temporary UI.
-- **Do** apply the pill radius to anything clickable or status-bearing, and the 4px radius to anything you read data inside of — no other radius value.
-- **Do** treat real data (sparklines, the composite chart, the ticker tape) as the page's visual anchor instead of decorative imagery — this project explicitly rejected a generated abstract-art background for looking generic and off-palette.
+- **Do** use hairlines and tonal shifts for hierarchy and depth; reach for a shadow only for the toast and the modal — things genuinely floating above the page.
+- **Do** apply the pill radius to anything clickable or status-bearing, and the 4px radius to anything you read data or an article inside of — no other radius value.
+- **Do** let a visitor read an article summary in place (the modal) rather than redirecting them off the page by default; the external link stays available but explicit.
+- **Do** treat real data (sparklines, the composite chart, the ticker tape) as the page's visual anchor instead of decorative imagery.
 
 ### Don't:
-- **Don't** introduce a dark mode or a black background — the light ledger-paper world is a deliberate, single-theme commitment established after two prior directions (black terminal, then this) were tried and moved away from.
-- **Don't** add drop shadows to permanent in-flow elements (cards, rows, panels).
+- **Don't** introduce a dark mode or a black background, and don't drift back toward green-tinted "eco" paper — parchment-and-navy-and-gold is a deliberate commitment made after two prior directions (black terminal, then sage ledger paper) were tried and moved away from, the second explicitly for "not feeling like finance."
+- **Don't** add drop shadows to permanent in-flow elements (cards, rows, panels) — only the toast and the modal get one.
 - **Don't** default to rounded-lg (8–16px) cards; the system has exactly two radii and both are already assigned.
-- **Don't** reach for a three-equal-column card grid for the stock list — it's a ledger table with a shared column grid, not a card grid, and that structural choice is what keeps this page from reading as a generic dashboard.
+- **Don't** reach for a three-equal-column card grid for the stock list — it's a ledger table with a shared column grid, not a card grid.
 - **Don't** add gradients, glows, or glossy/3D abstract imagery — explicitly tried and rejected during this project for reading as generic AI-generated art.
+- **Don't** make a news row (or any link out of the page) navigate automatically on click — the summary appears in place first; leaving the page is the visitor's explicit next choice, not the default one.
