@@ -14,6 +14,7 @@ const DEMO_STOCKS = [
     sentiment: "bullish",
     blurb: "La demanda de chips para centros de datos de IA sigue superando las expectativas de los analistas.",
     spark: [110, 112, 109, 115, 118, 116, 121, 119, 124, 122, 126, 128.45],
+    fundamentals: { peTTM: 54.2, epsTTM: 2.37, marketCapM: 3150000, week52High: 153.13, week52Low: 86.62, roeTTM: 91.9, netMarginTTM: 55.7 },
   },
   {
     ticker: "MSFT",
@@ -23,6 +24,7 @@ const DEMO_STOCKS = [
     sentiment: "bullish",
     blurb: "Azure AI reporta un crecimiento acelerado gracias a la adopción empresarial de Copilot.",
     spark: [420, 424, 422, 428, 431, 429, 434, 437, 435, 439, 438, 441.2],
+    fundamentals: { peTTM: 36.1, epsTTM: 12.22, marketCapM: 3280000, week52High: 468.35, week52Low: 385.58, roeTTM: 34.3, netMarginTTM: 35.8 },
   },
   {
     ticker: "GOOGL",
@@ -32,6 +34,7 @@ const DEMO_STOCKS = [
     sentiment: "mixed",
     blurb: "Gemini gana terreno en búsqueda, pero preocupa el gasto en infraestructura de IA.",
     spark: [182, 181, 183, 180, 179, 181, 178, 177, 179, 178, 180, 178.9],
+    fundamentals: { peTTM: 22.4, epsTTM: 7.99, marketCapM: 2190000, week52High: 207.05, week52Low: 140.53, roeTTM: 32.9, netMarginTTM: 29.8 },
   },
   {
     ticker: "META",
@@ -41,6 +44,7 @@ const DEMO_STOCKS = [
     sentiment: "bullish",
     blurb: "Los modelos Llama open-source impulsan nuevas herramientas publicitarias con IA.",
     spark: [488, 492, 495, 490, 498, 501, 499, 505, 503, 508, 506, 512.6],
+    fundamentals: { peTTM: 27.6, epsTTM: 18.57, marketCapM: 1310000, week52High: 585.25, week52Low: 414.5, roeTTM: 38.7, netMarginTTM: 39.1 },
   },
   {
     ticker: "AMZN",
@@ -50,6 +54,7 @@ const DEMO_STOCKS = [
     sentiment: "mixed",
     blurb: "AWS lanza nuevos chips de inferencia propios para competir en costos de IA.",
     spark: [186, 187, 185, 188, 187, 189, 186, 188, 190, 187, 188, 189.3],
+    fundamentals: { peTTM: 34.8, epsTTM: 5.44, marketCapM: 1990000, week52High: 201.2, week52Low: 151.61, roeTTM: 24.3, netMarginTTM: 10.6 },
   },
   {
     ticker: "AMD",
@@ -59,6 +64,7 @@ const DEMO_STOCKS = [
     sentiment: "bearish",
     blurb: "Analistas rebajan estimaciones ante la fuerte competencia de NVIDIA en GPUs de IA.",
     spark: [163, 161, 159, 160, 158, 156, 157, 155, 153, 156, 155, 154.75],
+    fundamentals: { peTTM: 105.3, epsTTM: 1.47, marketCapM: 251000, week52High: 187.28, week52Low: 76.48, roeTTM: 5.1, netMarginTTM: 6.4 },
   },
 ];
 
@@ -226,6 +232,7 @@ function normalizeRealData(json) {
       sentiment: classifyBySign(s.changePct ?? 0),
       blurb: findBlurbForTicker(json.news || [], s.ticker),
       spark: s.spark && s.spark.length >= 2 ? s.spark : [s.price, s.price],
+      fundamentals: s.fundamentals || {},
     }));
 
   const stats = json.sector?.stats || {};
@@ -279,6 +286,41 @@ async function loadData() {
 // ---------------------------------------------------------------------------
 
 const sentimentLabel = { bullish: "Alcista", bearish: "Bajista", mixed: "Mixta" };
+
+// Finnhub reporta marketCapitalization en millones de USD.
+function formatMarketCap(millions) {
+  if (millions == null) return null;
+  if (millions >= 1e6) return `$${(millions / 1e6).toFixed(2)}T`;
+  if (millions >= 1e3) return `$${(millions / 1e3).toFixed(1)}B`;
+  return `$${millions.toFixed(0)}M`;
+}
+
+function buildFundamentalsGrid(fundamentals = {}) {
+  const na = `<span class="stat-value unavailable">N/D</span>`;
+  const stats = [
+    { label: "P/E (TTM)", value: fundamentals.peTTM != null ? fundamentals.peTTM.toFixed(1) : null },
+    { label: "Cap. de mercado", value: formatMarketCap(fundamentals.marketCapM) },
+    {
+      label: "Rango 52 semanas",
+      value:
+        fundamentals.week52Low != null && fundamentals.week52High != null
+          ? `$${fundamentals.week52Low.toFixed(2)} – $${fundamentals.week52High.toFixed(2)}`
+          : null,
+    },
+    { label: "EPS (TTM)", value: fundamentals.epsTTM != null ? `$${fundamentals.epsTTM.toFixed(2)}` : null },
+    { label: "ROE (TTM)", value: fundamentals.roeTTM != null ? `${fundamentals.roeTTM.toFixed(1)}%` : null },
+    { label: "Margen neto (TTM)", value: fundamentals.netMarginTTM != null ? `${fundamentals.netMarginTTM.toFixed(1)}%` : null },
+  ];
+
+  return stats
+    .map(
+      (s) => `<div class="stat">
+        ${s.value != null ? `<div class="stat-value">${s.value}</div>` : na}
+        <div class="stat-label">${s.label}</div>
+      </div>`
+    )
+    .join("");
+}
 
 function buildSparkline(values) {
   const w = 240, h = 44, pad = 4;
@@ -566,6 +608,8 @@ function openStockModal(stock) {
     stock.spark.length > 2
       ? `Últimas ${stock.spark.length} actualizaciones de precio (no es un histórico de velas)`
       : "Historial de precio todavía corto — se enriquece cada hora que corre el pipeline.";
+
+  document.getElementById("stockModalFundamentals").innerHTML = buildFundamentalsGrid(stock.fundamentals);
 
   const related = NEWS.filter((n) => n.ticker === stock.ticker);
   const relatedEl = document.getElementById("stockModalNews");

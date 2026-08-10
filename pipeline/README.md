@@ -8,21 +8,24 @@ datos de demostración — así que es seguro probar esto sin romper nada.
 ## Qué hace cada corrida
 
 1. Trae noticias generales de **Alpha Vantage** (`NEWS_SENTIMENT`, `topics=technology`) — 1 request.
-   No se le pasan los 9 tickers en el pedido: Alpha Vantage combina múltiples tickers con AND
-   (el artículo tendría que mencionar a las 9 empresas a la vez), lo que da 0 resultados siempre.
-2. Trae precios actuales de **Finnhub** (`/quote`) para 9 tickers — 9 requests.
+   No se le pasan los 21 tickers en el pedido: Alpha Vantage combina múltiples tickers con AND
+   (el artículo tendría que mencionar a las 21 empresas a la vez), lo que da 0 resultados siempre.
+2. Trae precios actuales de **Finnhub** (`/quote`) para 21 tickers — 21 requests.
 3. Guarda cada precio en `price_history.json` (ventana local de 12 puntos) para poder dibujar
    un sparkline real sin pagar por un endpoint histórico.
-4. Se queda solo con los artículos que mencionan alguno de nuestros 9 tickers (filtrado local,
+4. Trae fundamentales básicos de **Finnhub** (`/stock/metric`, mismo API key) para los mismos
+   21 tickers — 21 requests más: P/E (TTM), EPS (TTM), capitalización de mercado, rango de
+   52 semanas, ROE (TTM) y margen neto (TTM). Todo dentro del plan free (60 calls/min).
+5. Se queda solo con los artículos que mencionan alguno de nuestros 21 tickers (filtrado local,
    gratis) y los ordena por `relevance_score` de ESE ticker, quedándose con los 15 mejores —
    esto es lo que evita mandarle al LLM artículos irrelevantes.
-5. Una sola llamada a Claude (con **prompt caching** en el system prompt) que devuelve:
+6. Una sola llamada a Claude (con **prompt caching** en el system prompt) que devuelve:
    - las 8 noticias curadas, y
    - un resumen narrativo del sector + su sentimiento general,
    en la misma respuesta. Nunca se llama al LLM por artículo ni dos veces por corrida.
-6. Reasocia localmente la fuente y fecha de cada noticia (por URL) en vez de pedírselo al modelo,
+7. Reasocia localmente la fuente y fecha de cada noticia (por URL) en vez de pedírselo al modelo,
    así el JSON de salida del LLM se mantiene chico.
-7. Escribe `data.json` en la raíz del proyecto.
+8. Escribe `data.json` en la raíz del proyecto.
 
 ## Setup (una sola vez)
 
@@ -59,7 +62,7 @@ export $(grep -v '^#' .env | xargs)
 python3 fetch_and_curate.py
 ```
 
-Si todo sale bien vas a ver algo como `OK — 9 precios y 8 noticias escritas en .../data.json`.
+Si todo sale bien vas a ver algo como `OK — 21 precios y 8 noticias escritas en .../data.json`.
 Abrí `../data.json` para revisar el resultado, y recargá la landing page — el indicador de
 arriba debería cambiar de "DATOS DE DEMOSTRACIÓN" a "DATOS EN VIVO".
 
@@ -81,12 +84,15 @@ Si el cron no dispara en macOS reciente, es casi siempre un tema de permisos: en
 ### Por qué cada hora
 
 Alpha Vantage free tier permite **25 requests/día en total**. Esta pipeline gasta 1 request
-de Alpha Vantage por corrida (las cotizaciones van por Finnhub, que tiene un límite mucho más
-generoso — 60 calls/min). Corriendo una vez por hora usás 24 de esos 25 requests/día, con margen.
-Si más adelante querés refrescar más seguido, hay que separar el fetch de precios (Finnhub, barato)
-del de noticias (Alpha Vantage, limitado) en corridas independientes.
+de Alpha Vantage por corrida (las cotizaciones y fundamentales van por Finnhub, que tiene un
+límite mucho más generoso — 60 calls/min). Con 21 tickers, cada corrida gasta 42 requests de
+Finnhub (quote + metric por ticker), lejos del límite por minuto. Corriendo una vez por hora
+usás 24 de los 25 requests/día de Alpha Vantage, con margen. Si más adelante querés refrescar
+más seguido, hay que separar el fetch de precios (Finnhub, barato) del de noticias (Alpha
+Vantage, limitado) en corridas independientes.
 
 ## Ajustar qué empresas sigue
 
 Editá la lista `AI_TICKERS` (y el diccionario `TICKER_NAMES`) al principio de
-`fetch_and_curate.py`.
+`fetch_and_curate.py`. Si agregás muchos tickers más (decenas), revisá que 2 requests/ticker
+siga entrando cómodo en el límite de 60 calls/min de Finnhub.

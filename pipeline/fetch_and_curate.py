@@ -8,9 +8,11 @@ Flujo:
   1. Trae noticias generales de tecnología de Alpha Vantage News & Sentiment (pasar múltiples
      tickers a la API los combina con AND, no OR, así que se filtran localmente en el paso 4).
   2. Trae precios actuales de Finnhub para los mismos tickers (Alpha Vantage News no incluye
-     cotizaciones, y su límite free de 25 req/día no alcanza para 9 quotes por corrida).
+     cotizaciones, y su límite free de 25 req/día no alcanza para 21 quotes por corrida).
   3. Actualiza price_history.json (ventana local de los últimos puntos) para poder dibujar
      sparklines reales en el frontend sin depender de un endpoint histórico de pago.
+  3b. Trae fundamentales básicos (P/E, EPS, cap. de mercado, rango 52 semanas, ROE, margen
+      neto) de Finnhub /stock/metric, mismo API key que las cotizaciones.
   4. Se queda solo con los artículos que mencionan alguno de nuestros tickers de IA y los
      ordena por relevance_score (gratis, sin gastar tokens de LLM).
   5. Manda solo los top N candidatos + los cambios de precio a Claude, en una sola llamada,
@@ -46,7 +48,15 @@ FINNHUB_API_KEY = os.environ.get("FINNHUB_API_KEY")
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY")
 
 # Tickers de referencia del sector IA — ajustá esta lista a lo que te interese.
-AI_TICKERS = ["NVDA", "MSFT", "GOOGL", "META", "AMZN", "AVGO", "ORCL", "PLTR", "AMD"]
+AI_TICKERS = [
+    "NVDA", "MSFT", "GOOGL", "META", "AMZN", "AVGO", "ORCL", "PLTR", "AMD",
+    # Semis / infraestructura IA
+    "TSM", "ARM", "SMCI", "MRVL", "QCOM",
+    # Software / nube IA
+    "CRM", "NOW", "ADBE", "SNOW", "IBM",
+    # Otros mega-cap con exposición a IA
+    "AAPL", "TSLA",
+]
 TICKER_NAMES = {
     "NVDA": "NVIDIA",
     "MSFT": "Microsoft",
@@ -57,6 +67,18 @@ TICKER_NAMES = {
     "ORCL": "Oracle",
     "PLTR": "Palantir",
     "AMD": "Advanced Micro Devices",
+    "TSM": "Taiwan Semiconductor",
+    "ARM": "Arm Holdings",
+    "SMCI": "Super Micro Computer",
+    "MRVL": "Marvell Technology",
+    "QCOM": "Qualcomm",
+    "CRM": "Salesforce",
+    "NOW": "ServiceNow",
+    "ADBE": "Adobe",
+    "SNOW": "Snowflake",
+    "IBM": "IBM",
+    "AAPL": "Apple",
+    "TSLA": "Tesla",
 }
 
 MAX_CANDIDATES = 15  # cuántos artículos pre-filtrados se mandan al LLM
@@ -217,6 +239,46 @@ def fetch_prices(tickers: list[str]) -> dict[str, dict]:
     return prices
 
 
+def _first_number(metric: dict, *keys: str) -> float | None:
+    """Finnhub no documenta un único nombre estable por métrica entre planes/
+    versiones (p.ej. peBasicExclExtraTTM vs peExclExtraTTM); probamos una
+    cadena de alias y nos quedamos con el primer valor numérico presente."""
+    for key in keys:
+        value = metric.get(key)
+        if isinstance(value, (int, float)):
+            return value
+    return None
+
+
+def fetch_fundamentals(tickers: list[str]) -> dict[str, dict]:
+    """Fundamentales básicos vía Finnhub /stock/metric (incluido en el plan
+    free, mismo API key que las cotizaciones — no consume el cupo de Alpha
+    Vantage)."""
+    if not FINNHUB_API_KEY:
+        sys.exit("Falta FINNHUB_API_KEY en el entorno.")
+
+    fundamentals = {}
+    for ticker in tickers:
+        params = {"symbol": ticker, "metric": "all", "token": FINNHUB_API_KEY}
+        url = "https://finnhub.io/api/v1/stock/metric?" + urlencode(params)
+        try:
+            with urlopen(url, timeout=10) as resp:
+                metric = json.loads(resp.read().decode()).get("metric", {}) or {}
+            fundamentals[ticker] = {
+                "peTTM": _first_number(metric, "peBasicExclExtraTTM", "peExclExtraTTM", "peNormalizedAnnual", "peTTM"),
+                "epsTTM": _first_number(metric, "epsBasicExclExtraItemsTTM", "epsInclExtraItemsTTM", "epsTTM"),
+                "marketCapM": _first_number(metric, "marketCapitalization"),
+                "week52High": _first_number(metric, "52WeekHigh"),
+                "week52Low": _first_number(metric, "52WeekLow"),
+                "roeTTM": _first_number(metric, "roeTTM", "roeRfy"),
+                "netMarginTTM": _first_number(metric, "netProfitMarginTTM", "netProfitMarginAnnual"),
+            }
+        except Exception as exc:  # red intermitente, ticker sin cobertura, etc.
+            print(f"Aviso: no se pudieron obtener fundamentales de {ticker}: {exc}", file=sys.stderr)
+            fundamentals[ticker] = {}
+    return fundamentals
+
+
 def update_price_history(prices: dict[str, dict]) -> dict[str, list[float]]:
     """Mantiene una ventana local de precios por ticker para poder graficar un
     sparkline real sin pagar por un endpoint histórico."""
@@ -238,7 +300,11 @@ def update_price_history(prices: dict[str, dict]) -> dict[str, list[float]]:
     return history
 
 
-def build_stocks(prices: dict[str, dict], history: dict[str, list[float]]) -> list[dict]:
+def build_stocks(
+    prices: dict[str, dict],
+    history: dict[str, list[float]],
+    fundamentals: dict[str, dict],
+) -> list[dict]:
     stocks = []
     for ticker in AI_TICKERS:
         info = prices.get(ticker, {})
@@ -252,6 +318,7 @@ def build_stocks(prices: dict[str, dict], history: dict[str, list[float]]) -> li
             "price": price,
             "changePct": info.get("changePct"),
             "spark": series,
+            "fundamentals": fundamentals.get(ticker, {}),
         })
     return stocks
 
@@ -314,7 +381,8 @@ def main():
 
     prices = fetch_prices(AI_TICKERS)
     history = update_price_history(prices)
-    stocks = build_stocks(prices, history)
+    fundamentals = fetch_fundamentals(AI_TICKERS)
+    stocks = build_stocks(prices, history, fundamentals)
 
     valid_changes = [s["changePct"] for s in stocks if s["changePct"] is not None]
     up_count = sum(1 for c in valid_changes if c > 0)

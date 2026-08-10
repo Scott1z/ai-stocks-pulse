@@ -760,6 +760,20 @@ header, main, footer { position: relative; z-index: 1; }
   margin: 0 0 10px;
 }
 
+.stock-modal-fundamentals {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px 10px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 16px 0;
+  margin: 0 0 26px;
+}
+.stock-modal-fundamentals .stat-value.unavailable {
+  color: var(--text-faint);
+  font-weight: 500;
+}
+
 .stock-modal-news { border-top: 1px solid var(--line); }
 .stock-modal-news-item {
   display: flex;

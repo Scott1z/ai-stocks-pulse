@@ -29,9 +29,10 @@ Two things a copy-paste competitor would have to rebuild, not just restyle:
 
 ## Capabilities and Constraints
 
-- Tracked tickers are fixed for now, not user-configurable: NVDA, MSFT, GOOGL, META, AMZN, AVGO, ORCL, PLTR, AMD.
-- Alpha Vantage's free tier caps at 25 requests/day, which is the hard constraint on pipeline refresh cadence (hourly uses 24 of 25).
-- Finnhub free tier (60 calls/min) covers per-ticker price quotes, well within budget.
+- Tracked tickers are fixed for now, not user-configurable: NVDA, MSFT, GOOGL, META, AMZN, AVGO, ORCL, PLTR, AMD, TSM, ARM, SMCI, MRVL, QCOM, CRM, NOW, ADBE, SNOW, IBM, AAPL, TSLA (21 total).
+- Alpha Vantage's free tier caps at 25 requests/day, which is the hard constraint on pipeline refresh cadence (hourly uses 24 of 25) — unaffected by ticker count, since news is fetched as one general-topic request and filtered locally.
+- Finnhub free tier (60 calls/min) covers per-ticker price quotes and fundamentals (2 requests/ticker/run — 42 total), well within budget.
+- Each stock also carries basic fundamentals from Finnhub (`/stock/metric`): P/E (TTM), EPS (TTM), market cap, 52-week range, ROE (TTM), net margin (TTM), shown in the Stock Detail Modal. Coverage varies by ticker on the free tier; missing fields render as an honest "N/D", never a fabricated number.
 - Frontend makes zero LLM calls at view time — all curation happens offline in the pipeline; page load cost is flat regardless of visitor traffic.
 - Per-stock sentiment tags (bullish/bearish/mixed) are derived locally from price-change sign, not from the LLM.
 - No user accounts, no login, no personalization.

@@ -208,6 +208,11 @@ Borders are hairlines throughout (1px), never thick. The two deliberate exceptio
 - **Related news are clickable too:** each item swaps this modal for the News Modal with that article — a chain, not a dead end. An empty state ("Sin noticias recientes para este ticker") is shown honestly rather than hidden.
 - **Style:** same recipe as the News Modal (navy top border, `--panel` background, modal-float shadow) but wider (`600px` vs `520px`) to fit the chart.
 
+### Stat Block (Fundamentals Grid, Hero Stats)
+- **Purpose:** the one reusable way to show 2-6 labeled numbers side by side — the sector hero's up-count/avg-change/news-count, and the Stock Detail Modal's P/E, market cap, 52-week range, EPS, ROE, and net margin.
+- **Structure:** `stat-value` (monospace, tabular-nums, bold) stacked over `stat-label` (small, `--text-faint`, sentence case), in a `repeat(3, 1fr)` grid with a hairline top border. The fundamentals grid additionally gets a hairline bottom border since it sits mid-modal, not at a section's end.
+- **Missing data:** shown honestly as a muted "N/D" in place of the value — never a fabricated number, never the row silently disappearing. Finnhub's free-tier coverage varies by ticker, so this state is common, not an edge case.
+
 ### Sentiment / Status Badges
 - **Style:** pill, tinted background at ~8–10% opacity of the semantic/accent color, full-opacity text in the same color. Same recipe for sector sentiment, per-stock tags, and the demo/live status pill.
 - **State:** the demo/live pill additionally gets a small leading dot; when live, the dot carries the halo shadow described in Elevation.
