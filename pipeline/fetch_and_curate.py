@@ -272,7 +272,12 @@ def curate_with_claude(candidates: list[dict], stocks: list[dict]) -> dict:
 
     response = client.messages.create(
         model=MODEL,
-        max_tokens=1500,
+        # 8 items with full headline+summary+source_url (some URLs are long)
+        # plus the sector summary reliably runs past 1500 tokens and gets
+        # truncated mid-JSON. This is just a ceiling — we're billed for
+        # tokens actually generated, not this cap — so it's generous on
+        # purpose.
+        max_tokens=4000,
         system=[
             {
                 "type": "text",
