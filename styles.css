@@ -8,7 +8,41 @@
    scarce second accent (the hero panel's border, brand touches) —
    never used for semantics, which stay green/red/slate. Single
    deliberate theme: this material doesn't have a "dark mode."
+
+   Prose voice: General Sans, self-hosted (see fonts/LICENSE.txt) — the
+   open-license alternative to SF Pro, so the page reads the same
+   considered, precise character everywhere instead of falling back to
+   Segoe UI / Roboto on non-Apple devices.
    --------------------------------------------------------------------- */
+
+@font-face {
+  font-family: "General Sans";
+  src: url("fonts/GeneralSans-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "General Sans";
+  src: url("fonts/GeneralSans-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "General Sans";
+  src: url("fonts/GeneralSans-Semibold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "General Sans";
+  src: url("fonts/GeneralSans-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
   --paper: #f3efe2;
@@ -37,7 +71,7 @@
   --radius-sm: 4px;
   --maxw: 1180px;
 
-  --font-prose: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-prose: "General Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-data: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
   color-scheme: light;

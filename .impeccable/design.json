@@ -18,8 +18,8 @@
       "mixed-slate": { "role": "secondary", "displayName": "Ink Slate", "canonical": "#5b6b7a", "tonalRamp": ["#21262c", "#3d4852", "#576675", "#738596", "#96a4b1", "#b6c0c9", "#d6dbe0", "#f0f2f4"] }
     },
     "typographyMeta": {
-      "display": { "displayName": "Display", "purpose": "Hero H1 only." },
-      "body": { "displayName": "Body", "purpose": "Reading copy: sector summary, hero subhead, news headlines, stock blurbs, the modal's article summary." },
+      "display": { "displayName": "Display", "purpose": "Hero H1 only. Self-hosted General Sans (open-license SF Pro alternative), not the OS system font." },
+      "body": { "displayName": "Body", "purpose": "Reading copy: sector summary, hero subhead, news headlines, stock blurbs, the modal's article summary. Same self-hosted General Sans family as Display." },
       "label": { "displayName": "Label / Data", "purpose": "Every number, ticker, timestamp, and uppercase short label. Doubles as the tabular-nums numeric voice." }
     },
     "shadows": [

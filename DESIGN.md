@@ -22,13 +22,13 @@ colors:
   mixed-slate-dim: "rgba(91, 107, 122, 0.1)"
 typography:
   display:
-    fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+    fontFamily: "'General Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
     fontSize: "clamp(1.6rem, 3vw, 2.3rem)"
     fontWeight: 700
     lineHeight: 1.2
     letterSpacing: "-0.015em"
   body:
-    fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+    fontFamily: "'General Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
     fontSize: "0.98rem"
     fontWeight: 400
     lineHeight: 1.65
@@ -128,8 +128,10 @@ A warm parchment-and-ink palette: two accents used for different jobs, a separat
 
 ## Typography
 
-**Display Font:** -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif (system sans)
-**Body Font:** same system sans stack as Display
+**Display Font:** General Sans (self-hosted, `fonts/GeneralSans-*.woff2`; falls back to the OS system sans if it fails to load)
+**Body Font:** same General Sans stack as Display
+
+General Sans was chosen specifically as an open-license alternative to SF Pro — actual SF Pro isn't redistributable on the open web, and the previous system-font stack fell back to Segoe UI on Windows and Roboto on Android, which read as generic and inconsistent with the "considered instrument" character the rest of the system commits to. Self-hosted (not a CDN link) so it works offline in the PWA and doesn't depend on a third party at runtime.
 **Label/Mono Font:** ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, "Liberation Mono", monospace
 
 **Character:** Two voices doing two different jobs, not one family styled two ways. The system sans reads like prose — the hero headline, the sector summary, news headlines, the modal's article summary. The monospace is the "data voice": every price, every percentage, every ticker, every timestamp, every uppercase label runs through it, in tracked-out capitals. The contrast between the two is the system's main typographic move.
