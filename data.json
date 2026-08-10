@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-08-10T18:16:07.054059+00:00",
+  "updated_at": "2026-08-10T18:25:37.181881+00:00",
   "sector": {
     "sentiment": "mixed",
     "text": "",
     "stats": {
-      "upCount": 0,
-      "totalCount": 0,
-      "avgChangePct": 0.0,
+      "upCount": 5,
+      "totalCount": 9,
+      "avgChangePct": 0.21,
       "newsCount": 0
     }
   },
@@ -14,91 +14,91 @@
     {
       "ticker": "NVDA",
       "name": "NVIDIA",
-      "price": null,
-      "changePct": null,
+      "price": 218.52,
+      "changePct": -2.429,
       "spark": [
-        0,
-        0
+        218.52,
+        218.52
       ]
     },
     {
       "ticker": "MSFT",
       "name": "Microsoft",
-      "price": null,
-      "changePct": null,
+      "price": 505.02,
+      "changePct": 1.006,
       "spark": [
-        0,
-        0
+        505.02,
+        505.02
       ]
     },
     {
       "ticker": "GOOGL",
       "name": "Alphabet",
-      "price": null,
-      "changePct": null,
+      "price": 354.29,
+      "changePct": -0.0028,
       "spark": [
-        0,
-        0
+        354.29,
+        354.29
       ]
     },
     {
       "ticker": "META",
       "name": "Meta Platforms",
-      "price": null,
-      "changePct": null,
+      "price": 592.99,
+      "changePct": 0.1503,
       "spark": [
-        0,
-        0
+        592.99,
+        592.99
       ]
     },
     {
       "ticker": "AMZN",
       "name": "Amazon",
-      "price": null,
-      "changePct": null,
+      "price": 276.74,
+      "changePct": 0.8234,
       "spark": [
-        0,
-        0
+        276.74,
+        276.74
       ]
     },
     {
       "ticker": "AVGO",
       "name": "Broadcom",
-      "price": null,
-      "changePct": null,
+      "price": 424.19,
+      "changePct": -0.8346,
       "spark": [
-        0,
-        0
+        424.19,
+        424.19
       ]
     },
     {
       "ticker": "ORCL",
       "name": "Oracle",
-      "price": null,
-      "changePct": null,
+      "price": 150.75,
+      "changePct": 2.5371,
       "spark": [
-        0,
-        0
+        150.75,
+        150.75
       ]
     },
     {
       "ticker": "PLTR",
       "name": "Palantir",
-      "price": null,
-      "changePct": null,
+      "price": 175.9,
+      "changePct": 2.2615,
       "spark": [
-        0,
-        0
+        175.9,
+        175.9
       ]
     },
     {
       "ticker": "AMD",
       "name": "Advanced Micro Devices",
-      "price": null,
-      "changePct": null,
+      "price": 475.43,
+      "changePct": -1.6406,
       "spark": [
-        0,
-        0
+        475.43,
+        475.43
       ]
     }
   ],
