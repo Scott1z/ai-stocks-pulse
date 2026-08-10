@@ -7,12 +7,15 @@ datos de demostración — así que es seguro probar esto sin romper nada.
 
 ## Qué hace cada corrida
 
-1. Trae noticias de **Alpha Vantage** (`NEWS_SENTIMENT`, topic=technology + tickers de IA) — 1 request.
+1. Trae noticias generales de **Alpha Vantage** (`NEWS_SENTIMENT`, `topics=technology`) — 1 request.
+   No se le pasan los 9 tickers en el pedido: Alpha Vantage combina múltiples tickers con AND
+   (el artículo tendría que mencionar a las 9 empresas a la vez), lo que da 0 resultados siempre.
 2. Trae precios actuales de **Finnhub** (`/quote`) para 9 tickers — 9 requests.
 3. Guarda cada precio en `price_history.json` (ventana local de 12 puntos) para poder dibujar
    un sparkline real sin pagar por un endpoint histórico.
-4. Pre-filtra las noticias por `relevance_score` (ya calculado por Alpha Vantage) y se queda con
-   las 15 mejores — esto es lo que evita mandarle al LLM artículos irrelevantes.
+4. Se queda solo con los artículos que mencionan alguno de nuestros 9 tickers (filtrado local,
+   gratis) y los ordena por `relevance_score` de ESE ticker, quedándose con los 15 mejores —
+   esto es lo que evita mandarle al LLM artículos irrelevantes.
 5. Una sola llamada a Claude (con **prompt caching** en el system prompt) que devuelve:
    - las 8 noticias curadas, y
    - un resumen narrativo del sector + su sentimiento general,

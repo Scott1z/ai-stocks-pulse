@@ -5,12 +5,14 @@ fetch_and_curate.py
 Corre en background (cron), NO en cada visita a la landing page.
 
 Flujo:
-  1. Trae noticias de Alpha Vantage News & Sentiment (filtradas por tickers de IA).
+  1. Trae noticias generales de tecnología de Alpha Vantage News & Sentiment (pasar múltiples
+     tickers a la API los combina con AND, no OR, así que se filtran localmente en el paso 4).
   2. Trae precios actuales de Finnhub para los mismos tickers (Alpha Vantage News no incluye
      cotizaciones, y su límite free de 25 req/día no alcanza para 9 quotes por corrida).
   3. Actualiza price_history.json (ventana local de los últimos puntos) para poder dibujar
      sparklines reales en el frontend sin depender de un endpoint histórico de pago.
-  4. Pre-filtra las noticias localmente por relevance_score (gratis, sin gastar tokens de LLM).
+  4. Se queda solo con los artículos que mencionan alguno de nuestros tickers de IA y los
+     ordena por relevance_score (gratis, sin gastar tokens de LLM).
   5. Manda solo los top N candidatos + los cambios de precio a Claude, en una sola llamada,
      con el system prompt cacheado. El modelo devuelve la curación de noticias Y el resumen
      narrativo del sector en la misma respuesta.
@@ -110,13 +112,16 @@ def fetch_alphavantage_news() -> list[dict]:
 
     params = {
         "function": "NEWS_SENTIMENT",
-        # No "topics" filter: Alpha Vantage ANDs topics with tickers, and that
-        # combination reliably returns zero results. The ticker list already
-        # scopes this to AI-sector companies, which is enough on its own.
-        "tickers": ",".join(AI_TICKERS),
+        # No "tickers" filter here: passing multiple tickers ANDs them (an
+        # article must mention every single one), which reliably returns
+        # zero results for a 9-ticker list. Instead we pull general tech
+        # news and match tickers ourselves in pre_filter() — the same
+        # "filter locally before spending on the LLM" pattern, just applied
+        # one step earlier.
+        "topics": "technology",
         "apikey": AV_API_KEY,
         "sort": "RELEVANCE",
-        "limit": "50",
+        "limit": "200",
     }
     url = "https://www.alphavantage.co/query?" + urlencode(params)
     with urlopen(url, timeout=20) as resp:
@@ -129,17 +134,21 @@ def fetch_alphavantage_news() -> list[dict]:
 
 
 def pre_filter(articles: list[dict]) -> list[dict]:
-    """Ordena por relevancia (ya calculada por la API) y se queda con el top N.
+    """Se queda solo con artículos que mencionan alguno de nuestros tickers de
+    IA, ordenados por la relevancia de ESE ticker (no la más alta del artículo,
+    que podría ser de una empresa no relacionada), y recorta al top N.
     Esto es lo que evita mandarle al LLM artículos irrelevantes."""
 
-    def best_relevance(article: dict) -> float:
+    def our_relevance(article: dict) -> float:
         scores = [
             float(t.get("relevance_score", 0))
             for t in article.get("ticker_sentiment", [])
+            if t.get("ticker") in AI_TICKERS
         ]
         return max(scores, default=0.0)
 
-    ranked = sorted(articles, key=best_relevance, reverse=True)
+    relevant = [a for a in articles if our_relevance(a) > 0]
+    ranked = sorted(relevant, key=our_relevance, reverse=True)
     top = ranked[:MAX_CANDIDATES]
 
     # Reducimos cada artículo a lo mínimo indispensable antes de mandarlo al LLM.
@@ -148,8 +157,11 @@ def pre_filter(articles: list[dict]) -> list[dict]:
         compact.append({
             "title": a.get("title"),
             "summary": (a.get("summary") or "")[:280],  # cortamos, no mandamos el cuerpo entero
-            "tickers": [t.get("ticker") for t in a.get("ticker_sentiment", [])],
-            "relevance_score": round(best_relevance(a), 3),
+            "tickers": [
+                t.get("ticker") for t in a.get("ticker_sentiment", [])
+                if t.get("ticker") in AI_TICKERS
+            ],
+            "relevance_score": round(our_relevance(a), 3),
             "sentiment_score": a.get("overall_sentiment_score"),
             "url": a.get("url"),
         })
