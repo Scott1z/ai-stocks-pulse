@@ -71,7 +71,11 @@ SYSTEM_PROMPT = """Sos un editor financiero especializado en inteligencia artifi
 
 Recibís un JSON con dos listas:
 - "articles": candidatos de noticias, cada uno con title, summary, tickers, relevance_score, sentiment_score.
+  Estos artículos están en inglés (fuente: Alpha Vantage).
 - "stocks": precios del día por ticker, cada uno con ticker y changePct.
+
+IMPORTANTE: todo el texto que escribas (headline, summary, sector_summary.text) va en ESPAÑOL,
+sin importar el idioma original de los artículos. Traducí y reescribí, no copies frases en inglés.
 
 Tareas (una sola respuesta, sin explicar tu razonamiento):
 1. De "articles", elegí los 8 más relevantes para un inversor que quiere entender cómo el sector de IA
