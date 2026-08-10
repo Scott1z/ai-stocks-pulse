@@ -1,106 +1,198 @@
 {
-  "updated_at": "2026-08-10T18:25:37.181881+00:00",
+  "updated_at": "2026-08-10T18:38:27.884546+00:00",
   "sector": {
     "sentiment": "mixed",
-    "text": "",
+    "text": "AI sector sentiment is mixed: Nvidia slipped 2.5% despite BofA's bullish outlook and a reported $500B infrastructure funding push, while Oracle rose 2.4% on new Gemini-powered deals. Concerns weighed on Arm (-4.6%) and Coherent (-12.4%) amid fears of cooling AI investment and an optical AI selloff.",
     "stats": {
-      "upCount": 5,
+      "upCount": 6,
       "totalCount": 9,
       "avgChangePct": 0.21,
-      "newsCount": 0
+      "newsCount": 8
     }
   },
   "stocks": [
     {
       "ticker": "NVDA",
       "name": "NVIDIA",
-      "price": 218.52,
-      "changePct": -2.429,
+      "price": 218.42,
+      "changePct": -2.4737,
       "spark": [
         218.52,
-        218.52
+        218.42
       ]
     },
     {
       "ticker": "MSFT",
       "name": "Microsoft",
-      "price": 505.02,
-      "changePct": 1.006,
+      "price": 505.45,
+      "changePct": 1.092,
       "spark": [
         505.02,
-        505.02
+        505.45
       ]
     },
     {
       "ticker": "GOOGL",
       "name": "Alphabet",
-      "price": 354.29,
-      "changePct": -0.0028,
+      "price": 354.67,
+      "changePct": 0.1044,
       "spark": [
         354.29,
-        354.29
+        354.67
       ]
     },
     {
       "ticker": "META",
       "name": "Meta Platforms",
-      "price": 592.99,
-      "changePct": 0.1503,
+      "price": 593.46,
+      "changePct": 0.2297,
       "spark": [
         592.99,
-        592.99
+        593.46
       ]
     },
     {
       "ticker": "AMZN",
       "name": "Amazon",
-      "price": 276.74,
-      "changePct": 0.8234,
+      "price": 276.45,
+      "changePct": 0.7177,
       "spark": [
         276.74,
-        276.74
+        276.45
       ]
     },
     {
       "ticker": "AVGO",
       "name": "Broadcom",
-      "price": 424.19,
-      "changePct": -0.8346,
+      "price": 424.26,
+      "changePct": -0.8182,
       "spark": [
         424.19,
-        424.19
+        424.26
       ]
     },
     {
       "ticker": "ORCL",
       "name": "Oracle",
-      "price": 150.75,
-      "changePct": 2.5371,
+      "price": 150.61,
+      "changePct": 2.4418,
       "spark": [
         150.75,
-        150.75
+        150.61
       ]
     },
     {
       "ticker": "PLTR",
       "name": "Palantir",
-      "price": 175.9,
-      "changePct": 2.2615,
+      "price": 175.85,
+      "changePct": 2.2324,
       "spark": [
         175.9,
-        175.9
+        175.85
       ]
     },
     {
       "ticker": "AMD",
       "name": "Advanced Micro Devices",
-      "price": 475.43,
-      "changePct": -1.6406,
+      "price": 475.59,
+      "changePct": -1.6075,
       "spark": [
         475.43,
-        475.43
+        475.59
       ]
     }
   ],
-  "news": []
+  "news": [
+    {
+      "headline": "BofA sees multi-quarter Nvidia earnings upgrade cycle",
+      "summary": "BofA expects Nvidia's Q2 report to beat estimates and raise guidance, driven by Vera Rubin platform shipments.",
+      "tickers": [
+        "NVDA"
+      ],
+      "sentiment": "positive",
+      "source_url": "https://uk.finance.yahoo.com/news/bofa-nvidias-next-earnings-report-175100931.html",
+      "source": "Yahoo Finance UK",
+      "published_at": "2026-08-10T17:50:44+00:00"
+    },
+    {
+      "headline": "Nvidia in talks for $500B AI infrastructure funding",
+      "summary": "Nvidia reportedly negotiating with Apollo, Blackstone, BlackRock and Goldman Sachs to finance massive AI chip and power buildout.",
+      "tickers": [
+        "NVDA"
+      ],
+      "sentiment": "positive",
+      "source_url": "https://www.tradingview.com/news/stocktwits:137e4dcdc094b:0-nvda-teams-up-with-wall-street-giants-on-massive-500b-ai-infrastructure-funding-push-report/",
+      "source": "TradingView",
+      "published_at": "2026-08-10T17:23:21+00:00"
+    },
+    {
+      "headline": "Alphabet raises AI capex guidance to $205B",
+      "summary": "Alphabet lifts 2026 AI spending outlook, boosting demand for GPUs, memory chips and networking equipment across suppliers.",
+      "tickers": [
+        "GOOGL",
+        "NVDA",
+        "AVGO"
+      ],
+      "sentiment": "positive",
+      "source_url": "https://www.tradingview.com/news/zacks:f1bdc567c094b:0-alphabet-s-higher-ai-spending-could-boost-these-etfs/",
+      "source": "TradingView",
+      "published_at": "2026-08-10T15:08:15+00:00"
+    },
+    {
+      "headline": "Oracle deepens AI moat with Gemini integration",
+      "summary": "Oracle embeds Google's Gemini AI into enterprise and government platforms, expanding its cloud AI footprint.",
+      "tickers": [
+        "ORCL",
+        "GOOGL"
+      ],
+      "sentiment": "positive",
+      "source_url": "https://simplywall.st/stocks/us/software/nyse-orcl/oracle/news/does-oracles-gemini-fueled-government-deals-deepen-its-ai-mo",
+      "source": "Simply Wall Street",
+      "published_at": "2026-08-10T17:38:58+00:00"
+    },
+    {
+      "headline": "Oracle stock rises despite credit downgrade",
+      "summary": "Oracle gained nearly 2% even after S&P cut its rating over debt-funded AI data-center expansion.",
+      "tickers": [
+        "ORCL"
+      ],
+      "sentiment": "neutral",
+      "source_url": "https://www.benzinga.com/markets/tech/26/08/61084268/oracle-stock-is-gaining-monday-whats-going-on",
+      "source": "Benzinga",
+      "published_at": "2026-08-10T17:11:45+00:00"
+    },
+    {
+      "headline": "Broadcom strengthens VMware cloud security with AI",
+      "summary": "Broadcom upgrades VCF security features using AI to compete with Nutanix and IBM in private cloud.",
+      "tickers": [
+        "AVGO"
+      ],
+      "sentiment": "positive",
+      "source_url": "https://www.tradingview.com/news/zacks:2a93dc973094b:0-broadcom-boosts-vcf-security-can-it-fend-off-nutanix-and-ibm/",
+      "source": "TradingView",
+      "published_at": "2026-08-10T16:37:12+00:00"
+    },
+    {
+      "headline": "Arm Holdings drops on AI investment cooling fears",
+      "summary": "Arm fell 4.6% amid profit-taking and concerns over slowing AI investment and rising interest rates.",
+      "tickers": [
+        "NVDA"
+      ],
+      "sentiment": "negative",
+      "source_url": "https://www.tradingkey.com/news/market-movers/262092900-market-movers-arm-20260810",
+      "source": "TradingKey",
+      "published_at": "2026-08-10T14:12:45+00:00"
+    },
+    {
+      "headline": "Coherent shares plunge 12% amid optical AI selloff",
+      "summary": "Coherent stock fell 12.4% as investors questioned optical AI premium ahead of Lumentum's earnings report.",
+      "tickers": [
+        "PLTR"
+      ],
+      "sentiment": "negative",
+      "source_url": "https://247wallst.com/cards/coherent-cohr-price-swing-01kzp337533c9nt3tn79aajty8",
+      "source": "24/7 Wall St.",
+      "published_at": "2026-08-10T14:39:50+00:00"
+    }
+  ]
 }
