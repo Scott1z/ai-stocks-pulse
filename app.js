@@ -1,0 +1,566 @@
+// ---------------------------------------------------------------------------
+// AI Stocks Pulse — data layer.
+// On load, tries to fetch ./data.json (written by pipeline/fetch_and_curate.py).
+// If it's missing or malformed (e.g. the pipeline hasn't run yet), falls back
+// to the DEMO_* constants below so the page always renders something.
+// ---------------------------------------------------------------------------
+
+const DEMO_STOCKS = [
+  {
+    ticker: "NVDA",
+    name: "NVIDIA",
+    price: 128.45,
+    changePct: 3.2,
+    sentiment: "bullish",
+    blurb: "La demanda de chips para centros de datos de IA sigue superando las expectativas de los analistas.",
+    spark: [110, 112, 109, 115, 118, 116, 121, 119, 124, 122, 126, 128.45],
+  },
+  {
+    ticker: "MSFT",
+    name: "Microsoft",
+    price: 441.2,
+    changePct: 1.1,
+    sentiment: "bullish",
+    blurb: "Azure AI reporta un crecimiento acelerado gracias a la adopción empresarial de Copilot.",
+    spark: [420, 424, 422, 428, 431, 429, 434, 437, 435, 439, 438, 441.2],
+  },
+  {
+    ticker: "GOOGL",
+    name: "Alphabet",
+    price: 178.9,
+    changePct: -0.8,
+    sentiment: "mixed",
+    blurb: "Gemini gana terreno en búsqueda, pero preocupa el gasto en infraestructura de IA.",
+    spark: [182, 181, 183, 180, 179, 181, 178, 177, 179, 178, 180, 178.9],
+  },
+  {
+    ticker: "META",
+    name: "Meta Platforms",
+    price: 512.6,
+    changePct: 2.4,
+    sentiment: "bullish",
+    blurb: "Los modelos Llama open-source impulsan nuevas herramientas publicitarias con IA.",
+    spark: [488, 492, 495, 490, 498, 501, 499, 505, 503, 508, 506, 512.6],
+  },
+  {
+    ticker: "AMZN",
+    name: "Amazon",
+    price: 189.3,
+    changePct: 0.4,
+    sentiment: "mixed",
+    blurb: "AWS lanza nuevos chips de inferencia propios para competir en costos de IA.",
+    spark: [186, 187, 185, 188, 187, 189, 186, 188, 190, 187, 188, 189.3],
+  },
+  {
+    ticker: "AMD",
+    name: "Advanced Micro Devices",
+    price: 154.75,
+    changePct: -2.1,
+    sentiment: "bearish",
+    blurb: "Analistas rebajan estimaciones ante la fuerte competencia de NVIDIA en GPUs de IA.",
+    spark: [163, 161, 159, 160, 158, 156, 157, 155, 153, 156, 155, 154.75],
+  },
+];
+
+const DEMO_NEWS = [
+  {
+    headline: "NVIDIA supera expectativas de ingresos por cuarto trimestre consecutivo",
+    source: "Reuters",
+    time: "hace 2 h",
+    ticker: "NVDA",
+    sentiment: "up",
+    url: null,
+  },
+  {
+    headline: "Microsoft anuncia inversión adicional de $10B en infraestructura de IA",
+    source: "Bloomberg",
+    time: "hace 3 h",
+    ticker: "MSFT",
+    sentiment: "up",
+    url: null,
+  },
+  {
+    headline: "Meta libera nueva versión de Llama con mejoras en razonamiento",
+    source: "TechCrunch",
+    time: "hace 5 h",
+    ticker: "META",
+    sentiment: "up",
+    url: null,
+  },
+  {
+    headline: "AMD reduce previsión de ventas de GPUs de IA para el próximo trimestre",
+    source: "CNBC",
+    time: "hace 6 h",
+    ticker: "AMD",
+    sentiment: "down",
+    url: null,
+  },
+  {
+    headline: "Alphabet enfrenta escrutinio regulatorio por prácticas de datos en Gemini",
+    source: "The Verge",
+    time: "hace 8 h",
+    ticker: "GOOGL",
+    sentiment: "mixed",
+    url: null,
+  },
+  {
+    headline: "Amazon presenta chip Trainium3 para entrenamiento de modelos a menor costo",
+    source: "Reuters",
+    time: "hace 10 h",
+    ticker: "AMZN",
+    sentiment: "up",
+    url: null,
+  },
+  {
+    headline: "Analistas de Wall Street elevan precio objetivo del sector semiconductores IA",
+    source: "MarketWatch",
+    time: "hace 12 h",
+    ticker: null,
+    sentiment: "up",
+    url: null,
+  },
+  {
+    headline: "Preocupa el ritmo de gasto de capital ('capex') de las grandes tecnológicas en IA",
+    source: "Financial Times",
+    time: "hace 14 h",
+    ticker: null,
+    sentiment: "mixed",
+    url: null,
+  },
+];
+
+const DEMO_SECTOR_SUMMARY = {
+  sentiment: "bullish",
+  text:
+    "El sector de acciones de IA muestra un tono mayoritariamente alcista hoy, liderado por NVIDIA y Microsoft " +
+    "tras resultados que superan expectativas. AMD es la excepción, cayendo por temores de mayor competencia. " +
+    "El mercado sigue de cerca el gasto en infraestructura ('capex') de las grandes tecnológicas como principal riesgo a vigilar.",
+  stats: [
+    { label: "Empresas al alza", value: "4 / 6", cls: "up" },
+    { label: "Cambio promedio", value: "+0.7%", cls: "up" },
+    { label: "Noticias hoy", value: "8" },
+  ],
+};
+
+let STOCKS = DEMO_STOCKS;
+let NEWS = DEMO_NEWS;
+let SECTOR_SUMMARY = DEMO_SECTOR_SUMMARY;
+let isLiveData = false;
+let lastUpdatedIso = null;
+
+// ---------------------------------------------------------------------------
+// data.json loading + normalization
+// ---------------------------------------------------------------------------
+// Expected shape of data.json (written by pipeline/fetch_and_curate.py):
+// {
+//   "updated_at": "<ISO 8601>",
+//   "sector": {
+//     "sentiment": "bullish" | "bearish" | "mixed",
+//     "text": "<summary>",
+//     "stats": { "upCount": n, "totalCount": n, "avgChangePct": n, "newsCount": n }
+//   },
+//   "stocks": [{ ticker, name, price, changePct, spark: number[] }],
+//   "news": [{ headline, summary, tickers: string[], sentiment: "positive"|"negative"|"neutral",
+//              source_url, source, published_at: "<ISO 8601>"|null }]
+// }
+
+function classifyBySign(changePct) {
+  if (changePct > 0.3) return "bullish";
+  if (changePct < -0.3) return "bearish";
+  return "mixed";
+}
+
+const NEWS_SENTIMENT_MAP = { positive: "up", negative: "down", neutral: "mixed" };
+
+function hostnameFromUrl(url) {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return "Fuente";
+  }
+}
+
+function relativeTime(iso) {
+  if (!iso) return "";
+  const diffMs = Date.now() - new Date(iso).getTime();
+  const diffMin = Math.round(diffMs / 60000);
+  if (diffMin < 1) return "justo ahora";
+  if (diffMin < 60) return `hace ${diffMin} min`;
+  const diffH = Math.round(diffMin / 60);
+  if (diffH < 24) return `hace ${diffH} h`;
+  const diffD = Math.round(diffH / 24);
+  return `hace ${diffD} d`;
+}
+
+function findBlurbForTicker(newsItems, ticker) {
+  const match = newsItems.find((n) => (n.tickers || []).includes(ticker));
+  return match ? match.summary : "Sin noticias recientes para este ticker.";
+}
+
+function normalizeRealData(json) {
+  const news = (json.news || []).map((n) => ({
+    headline: n.headline,
+    source: n.source || hostnameFromUrl(n.source_url),
+    time: relativeTime(n.published_at),
+    ticker: (n.tickers && n.tickers[0]) || null,
+    sentiment: NEWS_SENTIMENT_MAP[n.sentiment] || "mixed",
+    url: n.source_url || null,
+  }));
+
+  const stocks = (json.stocks || [])
+    .filter((s) => s.price != null)
+    .map((s) => ({
+      ticker: s.ticker,
+      name: s.name || s.ticker,
+      price: s.price,
+      changePct: s.changePct ?? 0,
+      sentiment: classifyBySign(s.changePct ?? 0),
+      blurb: findBlurbForTicker(json.news || [], s.ticker),
+      spark: s.spark && s.spark.length >= 2 ? s.spark : [s.price, s.price],
+    }));
+
+  const stats = json.sector?.stats || {};
+  const avg = stats.avgChangePct ?? 0;
+  const sectorSummary = {
+    sentiment: json.sector?.sentiment || "mixed",
+    text: json.sector?.text || "",
+    stats: [
+      {
+        label: "Empresas al alza",
+        value: `${stats.upCount ?? 0} / ${stats.totalCount ?? stocks.length}`,
+        cls: (stats.upCount ?? 0) >= (stats.totalCount ?? stocks.length) / 2 ? "up" : "down",
+      },
+      {
+        label: "Cambio promedio",
+        value: `${avg >= 0 ? "+" : ""}${avg.toFixed(1)}%`,
+        cls: avg >= 0 ? "up" : "down",
+      },
+      { label: "Noticias hoy", value: String(stats.newsCount ?? news.length) },
+    ],
+  };
+
+  return { stocks, news, sectorSummary };
+}
+
+async function loadData() {
+  try {
+    const res = await fetch("data.json", { cache: "no-store" });
+    if (!res.ok) throw new Error(`data.json respondió ${res.status}`);
+    const json = await res.json();
+    const normalized = normalizeRealData(json);
+
+    if (!normalized.stocks.length) throw new Error("data.json no tiene precios válidos");
+
+    STOCKS = normalized.stocks;
+    NEWS = normalized.news;
+    SECTOR_SUMMARY = normalized.sectorSummary;
+    isLiveData = true;
+    lastUpdatedIso = json.updated_at || null;
+  } catch (err) {
+    STOCKS = DEMO_STOCKS;
+    NEWS = DEMO_NEWS;
+    SECTOR_SUMMARY = DEMO_SECTOR_SUMMARY;
+    isLiveData = false;
+    lastUpdatedIso = null;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Rendering
+// ---------------------------------------------------------------------------
+
+const sentimentLabel = { bullish: "Alcista", bearish: "Bajista", mixed: "Mixta" };
+
+function buildSparkline(values) {
+  const w = 240, h = 44, pad = 4;
+  const min = Math.min(...values), max = Math.max(...values);
+  const range = max - min || 1;
+  const stepX = (w - pad * 2) / (values.length - 1);
+  const coords = values.map((v, i) => ({
+    x: pad + i * stepX,
+    y: pad + (1 - (v - min) / range) * (h - pad * 2),
+  }));
+  const linePoints = coords.map((c) => `${c.x.toFixed(1)},${c.y.toFixed(1)}`).join(" ");
+  const last = coords[coords.length - 1];
+  const first = coords[0];
+  const areaPath = `M${first.x.toFixed(1)},${h - pad} L${linePoints
+    .split(" ")
+    .join(" L")} L${last.x.toFixed(1)},${h - pad} Z`;
+
+  const up = values[values.length - 1] >= values[0];
+  const color = up ? "var(--rise)" : "var(--fall)";
+
+  return `<svg class="sparkline" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true">
+    <line x1="${pad}" y1="${h - pad}" x2="${w - pad}" y2="${h - pad}" stroke="var(--line)" stroke-width="1"/>
+    <path d="${areaPath}" fill="${color}" opacity="0.12" stroke="none"/>
+    <polyline points="${linePoints}" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="${last.x.toFixed(1)}" cy="${last.y.toFixed(1)}" r="2.5" fill="${color}"/>
+  </svg>`;
+}
+
+// Equal-weighted % return across every tracked stock — a real composite
+// "sector index" built from the same price history that feeds the
+// sparklines, not decoration. This is the hero's dominant visual.
+function buildCompositeChart(stocks) {
+  const length = Math.min(...stocks.map((s) => s.spark.length));
+  if (length < 2) return "";
+
+  const composite = [];
+  for (let i = 0; i < length; i++) {
+    const avgReturn =
+      stocks.reduce((sum, s) => sum + ((s.spark[i] - s.spark[0]) / s.spark[0]) * 100, 0) /
+      stocks.length;
+    composite.push(avgReturn);
+  }
+
+  const w = 520, h = 168, pad = 10;
+  const min = Math.min(...composite, 0);
+  const max = Math.max(...composite, 0);
+  const range = max - min || 1;
+  const stepX = (w - pad * 2) / (composite.length - 1);
+  const coords = composite.map((v, i) => ({
+    x: pad + i * stepX,
+    y: pad + (1 - (v - min) / range) * (h - pad * 2),
+  }));
+  const zeroY = pad + (1 - (0 - min) / range) * (h - pad * 2);
+  const linePoints = coords.map((c) => `${c.x.toFixed(1)},${c.y.toFixed(1)}`).join(" ");
+  const last = coords[coords.length - 1];
+  const first = coords[0];
+  const areaPath = `M${first.x.toFixed(1)},${h - pad} L${linePoints
+    .split(" ")
+    .join(" L")} L${last.x.toFixed(1)},${h - pad} Z`;
+
+  const finalReturn = composite[composite.length - 1];
+  const up = finalReturn >= 0;
+  const color = up ? "var(--rise)" : "var(--fall)";
+
+  const gridLines = [0.25, 0.5, 0.75]
+    .map((f) => {
+      const y = (pad + f * (h - pad * 2)).toFixed(1);
+      return `<line x1="${pad}" y1="${y}" x2="${w - pad}" y2="${y}" stroke="var(--line)" stroke-width="1"/>`;
+    })
+    .join("");
+
+  return {
+    finalReturn,
+    up,
+    svg: `<svg class="hero-chart-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true">
+      ${gridLines}
+      <line x1="${pad}" y1="${zeroY.toFixed(1)}" x2="${w - pad}" y2="${zeroY.toFixed(1)}" stroke="var(--line-strong)" stroke-width="1" stroke-dasharray="3,3"/>
+      <path d="${areaPath}" fill="${color}" opacity="0.14" stroke="none"/>
+      <polyline points="${linePoints}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="${last.x.toFixed(1)}" cy="${last.y.toFixed(1)}" r="3.5" fill="${color}"/>
+    </svg>`,
+  };
+}
+
+function renderHeroChart() {
+  const el = document.getElementById("heroChart");
+  const result = buildCompositeChart(STOCKS);
+  if (!result) {
+    el.innerHTML = "";
+    return;
+  }
+  const sign = result.finalReturn >= 0 ? "+" : "";
+  el.innerHTML = `
+    <div class="hero-chart-label">
+      <span class="hero-chart-title">Índice compuesto del sector</span>
+      <span class="hero-chart-value ${result.up ? "up" : "down"}">${sign}${result.finalReturn.toFixed(1)}%</span>
+    </div>
+    ${result.svg}`;
+}
+
+function renderSectorSummary() {
+  document.getElementById("sectorSummaryText").textContent =
+    SECTOR_SUMMARY.text || "Sin resumen disponible todavía.";
+
+  const sentimentEl = document.getElementById("sectorSentiment");
+  sentimentEl.textContent = `Sector ${sentimentLabel[SECTOR_SUMMARY.sentiment].toLowerCase()}`;
+  sentimentEl.className = `sentiment-badge sentiment-${SECTOR_SUMMARY.sentiment}`;
+
+  const statsEl = document.getElementById("sectorStats");
+  statsEl.innerHTML = SECTOR_SUMMARY.stats
+    .map(
+      (s) => `<div class="stat">
+        <div class="stat-value ${s.cls || ""}">${s.value}</div>
+        <div class="stat-label">${s.label}</div>
+      </div>`
+    )
+    .join("");
+}
+
+function renderStocks(filter = "all", query = "") {
+  const grid = document.getElementById("stockGrid");
+  const q = query.trim().toLowerCase();
+
+  const filtered = STOCKS.filter((s) => {
+    const matchesFilter = filter === "all" || s.sentiment === filter;
+    const matchesQuery =
+      !q || s.ticker.toLowerCase().includes(q) || s.name.toLowerCase().includes(q);
+    return matchesFilter && matchesQuery;
+  });
+
+  if (!filtered.length) {
+    grid.innerHTML = `<p style="color:var(--text-faint)">No hay empresas que coincidan con tu búsqueda.</p>`;
+    return;
+  }
+
+  grid.innerHTML = filtered
+    .map((s) => {
+      const changeSign = s.changePct >= 0 ? "+" : "";
+      const changeCls = s.changePct >= 0 ? "up" : "down";
+      return `
+      <article class="stock-row">
+        <div class="stock-id">
+          <span class="stock-ticker">${s.ticker}</span>
+          <span class="stock-name">${s.name}</span>
+          <p class="stock-blurb">${s.blurb}</p>
+        </div>
+        <div class="price-value">$${s.price.toFixed(2)}</div>
+        <div class="price-change ${changeCls}">${changeSign}${s.changePct.toFixed(1)}%</div>
+        ${buildSparkline(s.spark)}
+        <span class="stock-tag ${s.sentiment}">${sentimentLabel[s.sentiment]}</span>
+      </article>`;
+    })
+    .join("");
+}
+
+function renderNews() {
+  const list = document.getElementById("newsList");
+  list.innerHTML = NEWS.map((n) => {
+    const headline = n.url
+      ? `<a href="${n.url}" target="_blank" rel="noopener noreferrer">${n.headline}</a>`
+      : n.headline;
+    return `
+    <article class="news-item">
+      <span class="news-dot ${n.sentiment}" aria-hidden="true"></span>
+      <div class="news-body">
+        <p class="news-headline">${headline}</p>
+        <div class="news-meta">
+          <span>${n.source}</span>
+          <span>·</span>
+          <span>${n.time}</span>
+        </div>
+      </div>
+      ${n.ticker ? `<span class="news-ticker-tag">[${n.ticker}]</span>` : `<span></span>`}
+    </article>`;
+  }).join("");
+}
+
+function renderLastUpdated() {
+  const date = lastUpdatedIso ? new Date(lastUpdatedIso) : new Date();
+  const formatted = date.toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
+  document.getElementById("lastUpdated").textContent = `Actualizado a las ${formatted}`;
+}
+
+function renderDataSourcePill() {
+  const pill = document.getElementById("dataSourcePill");
+  if (isLiveData) {
+    pill.textContent = "DATOS EN VIVO";
+    pill.classList.add("live-pill");
+  } else {
+    pill.textContent = "DATOS DE DEMOSTRACIÓN";
+    pill.classList.remove("live-pill");
+  }
+}
+
+function renderTickerTape() {
+  const track = document.getElementById("tickerTrack");
+  const items = STOCKS.map((s) => {
+    const changeSign = s.changePct >= 0 ? "+" : "";
+    const changeCls = s.changePct >= 0 ? "up" : "down";
+    return `<span class="ticker-item">
+      <span class="t-ticker">${s.ticker}</span>
+      <span class="t-price">$${s.price.toFixed(2)}</span>
+      <span class="t-change ${changeCls}">${changeSign}${s.changePct.toFixed(1)}%</span>
+    </span>`;
+  }).join("");
+  // Duplicated once so the CSS translateX(-50%) loop is seamless.
+  track.innerHTML = items + items;
+}
+
+// ---------------------------------------------------------------------------
+// Interactions
+// ---------------------------------------------------------------------------
+
+function initFilters() {
+  const group = document.getElementById("filterGroup");
+  const search = document.getElementById("searchInput");
+  let activeFilter = "all";
+
+  group.addEventListener("click", (e) => {
+    const btn = e.target.closest(".chip");
+    if (!btn) return;
+    group.querySelectorAll(".chip").forEach((c) => c.classList.remove("active"));
+    btn.classList.add("active");
+    activeFilter = btn.dataset.filter;
+    renderStocks(activeFilter, search.value);
+  });
+
+  search.addEventListener("input", () => {
+    renderStocks(activeFilter, search.value);
+  });
+}
+
+function showToast(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(() => toast.classList.remove("show"), 3000);
+}
+
+function initInstallPrompt() {
+  const installBtn = document.getElementById("installBtn");
+  let deferredPrompt = null;
+
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.hidden = false;
+  });
+
+  installBtn.addEventListener("click", async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    if (outcome === "accepted") showToast("¡App instalada!");
+    deferredPrompt = null;
+    installBtn.hidden = true;
+  });
+
+  window.addEventListener("appinstalled", () => {
+    installBtn.hidden = true;
+    showToast("¡App instalada!");
+  });
+}
+
+function initServiceWorker() {
+  if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("service-worker.js").catch(() => {
+        /* offline support is best-effort for the demo */
+      });
+    });
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Init
+// ---------------------------------------------------------------------------
+
+async function init() {
+  await loadData();
+  renderHeroChart();
+  renderSectorSummary();
+  renderStocks();
+  renderNews();
+  renderLastUpdated();
+  renderDataSourcePill();
+  renderTickerTape();
+  initFilters();
+  initInstallPrompt();
+  initServiceWorker();
+}
+
+init();

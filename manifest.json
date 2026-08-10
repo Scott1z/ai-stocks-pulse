@@ -1,0 +1,25 @@
+{
+  "name": "AI Stocks Pulse",
+  "short_name": "AI Pulse",
+  "description": "Resumen diario del sector de acciones de Inteligencia Artificial: precios, tendencia y noticias en una sola vista.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#eef2ea",
+  "theme_color": "#eef2ea",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

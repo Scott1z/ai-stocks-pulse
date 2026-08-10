@@ -1,0 +1,136 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-10T12:00:00Z",
+  "title": "Design System: AI Stocks Pulse",
+  "extensions": {
+    "colorMeta": {
+      "paper": { "role": "neutral", "displayName": "Ledger Sage", "canonical": "#eef2ea", "tonalRamp": ["#262f1d", "#475837", "#667e4e", "#85a168", "#a3b98e", "#bfceb0", "#dbe4d3", "#f2f5ef"] },
+      "panel-raised": { "role": "neutral", "displayName": "Raised Sage", "canonical": "#f6f9f2", "tonalRamp": ["#283418", "#4b622d", "#6b8c40", "#8bb258", "#a8c581", "#c3d7a8", "#dde8ce", "#f3f7ee"] },
+      "hairline": { "role": "neutral", "displayName": "Sage Hairline", "canonical": "#dde3d6", "tonalRamp": ["#272d1f", "#48553a", "#677953", "#869c6e", "#a5b492", "#c0cbb3", "#dce2d5", "#f2f5f0"] },
+      "hairline-strong": { "role": "neutral", "displayName": "Sage Rule", "canonical": "#c5cdbc", "tonalRamp": ["#272c21", "#48523d", "#677557", "#869673", "#a4b196", "#c0c9b6", "#dce0d6", "#f2f4f0"] },
+      "ink": { "role": "neutral", "displayName": "Ledger Ink", "canonical": "#1c231d", "tonalRamp": ["#222b23", "#3f4f42", "#5b715e", "#77927b", "#99ad9c", "#b8c6ba", "#d7dfd8", "#f1f4f1"] },
+      "ink-dim": { "role": "neutral", "displayName": "Faded Ink", "canonical": "#5c6a5c", "tonalRamp": ["#242924", "#424c42", "#5f6d5f", "#7c8d7c", "#9daa9d", "#bbc4bb", "#d9ded9", "#f1f3f1"] },
+      "ink-faint": { "role": "neutral", "displayName": "Pencil Grey", "canonical": "#8b9789", "tonalRamp": ["#252924", "#444c43", "#616c60", "#7f8c7d", "#9fa99d", "#bcc3bb", "#daded9", "#f2f3f1"] },
+      "accent-navy": { "role": "primary", "displayName": "Fountain-Pen Navy", "canonical": "#2d4a6b", "tonalRamp": ["#172536", "#2a4665", "#3c6390", "#5381b7", "#7ea1c9", "#a5bed9", "#cddaea", "#edf2f7"] },
+      "rise-green": { "role": "secondary", "displayName": "Ledger Green", "canonical": "#2f7a4f", "tonalRamp": ["#153724", "#286743", "#39935f", "#4ebb7d", "#7acc9d", "#a3dcbb", "#cbebd9", "#edf8f1"] },
+      "fall-red": { "role": "secondary", "displayName": "Ledger Red", "canonical": "#a13a2f", "tonalRamp": ["#3b1511", "#6f2820", "#9e392e", "#c84e42", "#d67b71", "#e2a39c", "#efccc8", "#f9edeb"] },
+      "mixed-ochre": { "role": "secondary", "displayName": "Ledger Ochre", "canonical": "#8a7233", "tonalRamp": ["#382e15", "#685627", "#957b37", "#bd9e4c", "#cdb679", "#ddcca2", "#ece3cb", "#f8f5ec"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Hero H1 only." },
+      "body": { "displayName": "Body", "purpose": "Reading copy: sector summary, hero subhead, news headlines, stock blurbs." },
+      "label": { "displayName": "Label / Data", "purpose": "Every number, ticker, timestamp, and uppercase short label. Doubles as the tabular-nums numeric voice." }
+    },
+    "shadows": [
+      { "name": "toast-float", "value": "0 10px 30px -12px rgba(28, 35, 29, 0.35)", "purpose": "The only permitted drop shadow — the transient toast overlay." },
+      { "name": "live-status-halo", "value": "0 0 0 3px rgba(47, 122, 79, 0.1)", "purpose": "Soft ring around the live-status dot when data.json is real, not demo." }
+    ],
+    "motion": [
+      { "name": "ease-standard", "value": "0.12s ease", "purpose": "Default transition for hover/focus/active state changes on buttons, chips, rows, inputs." },
+      { "name": "ticker-scroll", "value": "translateX(-50%) over 42s linear infinite", "purpose": "Continuous, calm ticker-tape scroll; pauses on hover; disabled (falls back to manual overflow-x scroll) under prefers-reduced-motion." },
+      { "name": "press-scale", "value": "scale(0.96)", "purpose": "Tactile :active feedback on buttons." }
+    ],
+    "breakpoints": [
+      { "name": "tablet", "value": "860px" },
+      { "name": "mobile", "value": "640px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "The only button variant in use (e.g. 'Instalar app'). Pill radius, transparent fill, navy on hover.",
+      "html": "<button class=\"ds-btn-ghost\">Instalar app</button>",
+      "css": ".ds-btn-ghost { font-weight: 600; font-size: 0.82rem; padding: 9px 16px; border-radius: 999px; border: 1px solid var(--line-strong, #c5cdbc); background: transparent; color: var(--text, #1c231d); cursor: pointer; transition: transform 0.12s ease, border-color 0.12s ease, color 0.12s ease; } .ds-btn-ghost:hover { border-color: var(--accent, #2d4a6b); color: var(--accent, #2d4a6b); } .ds-btn-ghost:active { transform: scale(0.96); } .ds-btn-ghost:focus-visible { outline: 2px solid var(--accent, #2d4a6b); outline-offset: 2px; }"
+    },
+    {
+      "name": "Filter Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Default (unselected) filter chip. Monospace uppercase label, transparent fill.",
+      "html": "<button class=\"ds-chip\">Alcistas</button>",
+      "css": ".ds-chip { font-family: ui-monospace, \"SF Mono\", monospace; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line-strong, #c5cdbc); background: transparent; color: var(--text-dim, #5c6a5c); cursor: pointer; transition: border-color 0.12s ease, color 0.12s ease, background 0.12s ease; } .ds-chip:hover { color: var(--text, #1c231d); border-color: var(--accent, #2d4a6b); } .ds-chip:focus-visible { outline: 2px solid var(--accent, #2d4a6b); outline-offset: 2px; }"
+    },
+    {
+      "name": "Filter Chip — Active",
+      "kind": "chip",
+      "refersTo": "chip-active",
+      "description": "Selected filter chip. The only place a chip becomes a filled solid-navy surface.",
+      "html": "<button class=\"ds-chip-active\">Todas</button>",
+      "css": ".ds-chip-active { font-family: ui-monospace, \"SF Mono\", monospace; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--accent, #2d4a6b); background: var(--accent, #2d4a6b); color: var(--panel, #ffffff); cursor: pointer; }"
+    },
+    {
+      "name": "Sentiment Badge",
+      "kind": "chip",
+      "refersTo": "stock-tag-bullish",
+      "description": "Pill badge at ~10% tint of the semantic color; used for sector sentiment, per-stock tags, and news dots. bullish/bearish/mixed modifiers shown.",
+      "html": "<span class=\"ds-badge ds-badge--bullish\">Alcista</span>",
+      "css": ".ds-badge { display: inline-flex; align-items: center; font-family: ui-monospace, monospace; font-size: 0.63rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; } .ds-badge--bullish { color: var(--rise, #2f7a4f); background: rgba(47,122,79,0.1); } .ds-badge--bearish { color: var(--fall, #a13a2f); background: rgba(161,58,47,0.1); } .ds-badge--mixed { color: var(--mixed, #8a7233); background: rgba(138,114,51,0.1); }"
+    },
+    {
+      "name": "Ledger Row",
+      "kind": "custom",
+      "refersTo": "stock-row",
+      "description": "Signature component. One row of the stock table: ticker/name/blurb, tabular-nums price and change, sparkline, sentiment tag — sharing a fixed column grid with the table header.",
+      "html": "<div class=\"ds-ledger-row\"><div class=\"ds-ledger-id\"><span class=\"ds-ledger-ticker\">NVDA</span><span class=\"ds-ledger-name\">NVIDIA</span></div><div class=\"ds-ledger-price\">$128.45</div><div class=\"ds-ledger-change ds-ledger-change--up\">+3.2%</div><svg class=\"ds-ledger-spark\" viewBox=\"0 0 100 36\" preserveAspectRatio=\"none\"><polyline points=\"0,30 20,24 40,26 60,14 80,18 100,6\" fill=\"none\" stroke=\"#2f7a4f\" stroke-width=\"2\"/></svg><span class=\"ds-badge ds-badge--bullish\">Alcista</span></div>",
+      "css": ".ds-ledger-row { display: grid; grid-template-columns: minmax(150px,1.6fr) 70px 60px 90px 80px; gap: 16px; align-items: center; padding: 18px 4px; border-bottom: 1px solid var(--line, #dde3d6); transition: background 0.12s ease; } .ds-ledger-row:hover { background: var(--panel-raised, #f6f9f2); } .ds-ledger-id { display: flex; flex-direction: column; } .ds-ledger-ticker { font-family: ui-monospace, monospace; font-weight: 700; font-size: 0.95rem; } .ds-ledger-name { font-size: 0.76rem; color: var(--text-faint, #8b9789); } .ds-ledger-price { font-family: ui-monospace, monospace; font-variant-numeric: tabular-nums; font-weight: 600; text-align: right; } .ds-ledger-change { font-family: ui-monospace, monospace; font-variant-numeric: tabular-nums; font-weight: 600; text-align: right; } .ds-ledger-change--up { color: var(--rise, #2f7a4f); } .ds-ledger-change--down { color: var(--fall, #a13a2f); } .ds-ledger-spark { width: 100%; height: 36px; } .ds-badge { display: inline-flex; align-items: center; font-family: ui-monospace, monospace; font-size: 0.63rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; } .ds-badge--bullish { color: var(--rise, #2f7a4f); background: rgba(47,122,79,0.1); }"
+    },
+    {
+      "name": "News Row",
+      "kind": "custom",
+      "refersTo": "news-item",
+      "description": "One row of the news list: rounded-square status dot, headline + source/time meta, bracketed monospace ticker tag. Quieter than the ledger row — no pill tag.",
+      "html": "<div class=\"ds-news-row\"><span class=\"ds-news-dot ds-news-dot--up\"></span><div class=\"ds-news-body\"><p class=\"ds-news-headline\">NVIDIA supera expectativas de ingresos</p><div class=\"ds-news-meta\">Reuters · hace 2 h</div></div><span class=\"ds-news-tag\">[NVDA]</span></div>",
+      "css": ".ds-news-row { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 14px; padding: 16px 4px; border-bottom: 1px solid var(--line, #dde3d6); } .ds-news-dot { width: 7px; height: 7px; border-radius: 2px; } .ds-news-dot--up { background: var(--rise, #2f7a4f); } .ds-news-dot--down { background: var(--fall, #a13a2f); } .ds-news-body { min-width: 0; } .ds-news-headline { font-size: 0.92rem; font-weight: 500; margin: 0 0 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .ds-news-meta { font-family: ui-monospace, monospace; font-size: 0.72rem; color: var(--text-faint, #8b9789); } .ds-news-tag { font-family: ui-monospace, monospace; font-size: 0.72rem; font-weight: 600; color: var(--text-dim, #5c6a5c); white-space: nowrap; }"
+    },
+    {
+      "name": "Search Input",
+      "kind": "input",
+      "refersTo": "search-input",
+      "description": "The one text input in the system. Sharp 4px radius (input language, not pill language).",
+      "html": "<input class=\"ds-input\" type=\"search\" placeholder=\"Buscar empresa o ticker…\">",
+      "css": ".ds-input { font-size: 0.85rem; padding: 9px 14px; border-radius: 4px; border: 1px solid var(--line-strong, #c5cdbc); background: var(--panel, #ffffff); color: var(--text, #1c231d); min-width: 220px; outline: none; transition: border-color 0.12s ease; } .ds-input:focus { border-color: var(--accent, #2d4a6b); } .ds-input::placeholder { color: var(--text-faint, #8b9789); }"
+    },
+    {
+      "name": "Ticker Tape Item",
+      "kind": "custom",
+      "refersTo": "ticker-item",
+      "description": "Signature component. One symbol/price/change entry in the continuously scrolling ticker tape, separated by hairline rules.",
+      "html": "<span class=\"ds-ticker-item\"><span class=\"ds-ticker-symbol\">NVDA</span><span class=\"ds-ticker-price\">$128.45</span><span class=\"ds-ticker-change ds-ticker-change--up\">+3.2%</span></span>",
+      "css": ".ds-ticker-item { display: inline-flex; align-items: baseline; gap: 9px; padding: 11px 24px; font-family: ui-monospace, monospace; font-size: 0.78rem; font-variant-numeric: tabular-nums; white-space: nowrap; border-right: 1px solid var(--line, #dde3d6); color: var(--text-dim, #5c6a5c); } .ds-ticker-symbol { color: var(--text, #1c231d); font-weight: 700; } .ds-ticker-change--up { color: var(--rise, #2f7a4f); } .ds-ticker-change--down { color: var(--fall, #a13a2f); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Quiet Terminal",
+    "overview": "A calm, considered instrument for reading the AI stocks sector — not another black AI-dashboard clone with a purple-to-teal glow, and not generic glossy abstract art either (both were tried and explicitly rejected during this project). The system borrows its materiality from the accounting ledger — pale sage paper, near-black ink, red ink for losses — and its discipline from a financial terminal: tabular numbers, a real ticker tape, a real composite chart. Nothing performs; everything reports.\n\nThe system is deliberately single-theme (light only). A ledger page doesn't have a dark mode any more than a terminal has a light one — committing to one world was a conscious choice, not an omission.",
+    "keyCharacteristics": [
+      "Pale sage-green paper background, never pure white or black",
+      "One accent color (fountain-pen navy) reserved for brand/interactive moments only",
+      "A separate, distinct semantic triad (green/red/ochre) for rise/fall/mixed — never reuses the accent hue",
+      "Two deliberate type voices: a plain sans for reading, a tracked-out monospace for every number and label",
+      "Flat surfaces, hairline dividers, real data visualizations instead of decorative imagery"
+    ],
+    "rules": [
+      { "name": "The One Voice Rule", "body": "Fountain-Pen Navy is the only brand accent on the page. It never appears twice for two different reasons in the same view — if a color is doing semantic work (rise/fall/mixed), it is never navy.", "section": "colors" },
+      { "name": "The No-Black Rule", "body": "No #000000 and no #ffffff stands alone as a surface without the sage bias — even \"white\" panels sit on sage paper, and \"black\" text carries a green undertone.", "section": "colors" },
+      { "name": "The Two-Voice Rule", "body": "If it's read, it's the sans. If it's a number, a ticker, or a short label, it's the tracked-out monospace. Never mix the two within a single value.", "section": "typography" },
+      { "name": "The Flat-By-Default Rule", "body": "Elevation is earned only by things that are genuinely temporary or floating above the page (the toast). A permanent, in-flow element never gets a drop shadow — use a hairline or a tonal shift instead.", "section": "elevation" },
+      { "name": "The Two-Radius Rule", "body": "If it's something you click or a status you read, it's a pill (999px). If it's something you read data inside of, it's 4px. No third radius.", "section": "shapes" }
+    ],
+    "dos": [
+      "Do keep the accent (Fountain-Pen Navy) exclusive to brand/interactive moments — never reuse it for rise/fall/mixed semantics.",
+      "Do run every number, ticker, and short label through the monospace label voice with tabular-nums; keep sentences in the sans.",
+      "Do use hairlines and tonal shifts for hierarchy and depth; reach for the toast's shadow only for genuinely floating, temporary UI.",
+      "Do apply the pill radius to anything clickable or status-bearing, and the 4px radius to anything you read data inside of — no other radius value.",
+      "Do treat real data (sparklines, the composite chart, the ticker tape) as the page's visual anchor instead of decorative imagery."
+    ],
+    "donts": [
+      "Don't introduce a dark mode or a black background — the light ledger-paper world is a deliberate, single-theme commitment.",
+      "Don't add drop shadows to permanent in-flow elements (cards, rows, panels).",
+      "Don't default to rounded-lg (8–16px) cards; the system has exactly two radii and both are already assigned.",
+      "Don't reach for a three-equal-column card grid for the stock list — it's a ledger table with a shared column grid, not a card grid.",
+      "Don't add gradients, glows, or glossy/3D abstract imagery — explicitly tried and rejected during this project for reading as generic AI-generated art."
+    ]
+  }
+}

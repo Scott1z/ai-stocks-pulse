@@ -1,0 +1,18 @@
+# Secrets — never commit these
+pipeline/.env
+
+# Python
+pipeline/.venv/
+pipeline/__pycache__/
+pipeline/*.pyc
+
+# Pipeline runtime log (local cron only — GitHub Actions logs its own output)
+pipeline/pipeline.log
+
+# NOTE: pipeline/price_history.json is intentionally NOT ignored.
+# GitHub Actions runners are ephemeral — that file must be committed and
+# pushed each run so the next run's checkout still has the accumulated
+# price history for sparklines.
+
+# OS
+.DS_Store
