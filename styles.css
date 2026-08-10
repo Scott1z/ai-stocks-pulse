@@ -89,6 +89,14 @@
   --mixed: #5b6b7a;
   --mixed-dim: rgba(91, 107, 122, 0.1);
 
+  /* Trend glyphs — the same stroked-line language as the sparklines and
+     charts elsewhere on the page, shrunk to icon size. Colored via
+     currentColor + mask, so one glyph definition serves every place a
+     sentiment already gets a semantic color (badges, tags, news dots). */
+  --icon-trend-up: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 13 L13 3 M7 3 L13 3 L13 9' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --icon-trend-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 3 L13 13 M13 7 L13 13 L7 13' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --icon-trend-mixed: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2 9 Q5 4 8 9 T14 9' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
   --radius-pill: 999px;
   --radius-sm: 4px;
   --maxw: 1180px;
@@ -349,14 +357,20 @@ header, main, footer { position: relative; z-index: 1; }
 
 .sentiment-badge::before {
   content: "";
-  width: 6px; height: 6px;
-  border-radius: 50%;
-  background: currentColor;
+  width: 11px; height: 11px;
+  flex-shrink: 0;
+  background-color: currentColor;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-position: center; mask-position: center;
+  -webkit-mask-size: contain; mask-size: contain;
 }
 
 .sentiment-bullish { color: var(--rise); border-color: rgba(46,125,79,0.3); }
 .sentiment-bearish { color: var(--fall); border-color: rgba(158,58,47,0.3); }
 .sentiment-mixed { color: var(--mixed); border-color: rgba(91,107,122,0.3); }
+.sentiment-bullish::before { -webkit-mask-image: var(--icon-trend-up); mask-image: var(--icon-trend-up); }
+.sentiment-bearish::before { -webkit-mask-image: var(--icon-trend-down); mask-image: var(--icon-trend-down); }
+.sentiment-mixed::before { -webkit-mask-image: var(--icon-trend-mixed); mask-image: var(--icon-trend-mixed); }
 
 /* "Ticker readout" panel — hairline top border in the single accent
    instead of a gradient card, so it reads as an instrument, not a
@@ -587,6 +601,9 @@ header, main, footer { position: relative; z-index: 1; }
 
 .stock-tag {
   justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   font-family: var(--font-data);
   font-size: 0.63rem;
   font-weight: 700;
@@ -595,9 +612,21 @@ header, main, footer { position: relative; z-index: 1; }
   padding: 3px 8px;
   border-radius: var(--radius-pill);
 }
+.stock-tag::before {
+  content: "";
+  width: 9px; height: 9px;
+  flex-shrink: 0;
+  background-color: currentColor;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-position: center; mask-position: center;
+  -webkit-mask-size: contain; mask-size: contain;
+}
 .stock-tag.bullish { color: var(--rise); background: var(--rise-dim); }
 .stock-tag.bearish { color: var(--fall); background: var(--fall-dim); }
 .stock-tag.mixed { color: var(--mixed); background: var(--mixed-dim); }
+.stock-tag.bullish::before { -webkit-mask-image: var(--icon-trend-up); mask-image: var(--icon-trend-up); }
+.stock-tag.bearish::before { -webkit-mask-image: var(--icon-trend-down); mask-image: var(--icon-trend-down); }
+.stock-tag.mixed::before { -webkit-mask-image: var(--icon-trend-mixed); mask-image: var(--icon-trend-mixed); }
 
 /* ---------------------------------------------------------------------
    News — a row list with a single hairline between rows, not boxed cards.
@@ -627,13 +656,16 @@ header, main, footer { position: relative; z-index: 1; }
 }
 
 .news-dot {
-  width: 7px; height: 7px;
-  border-radius: 2px;
+  width: 10px; height: 10px;
   flex-shrink: 0;
+  background-color: currentColor;
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-position: center; mask-position: center;
+  -webkit-mask-size: contain; mask-size: contain;
 }
-.news-dot.up { background: var(--rise); }
-.news-dot.down { background: var(--fall); }
-.news-dot.mixed { background: var(--mixed); }
+.news-dot.up { color: var(--rise); -webkit-mask-image: var(--icon-trend-up); mask-image: var(--icon-trend-up); }
+.news-dot.down { color: var(--fall); -webkit-mask-image: var(--icon-trend-down); mask-image: var(--icon-trend-down); }
+.news-dot.mixed { color: var(--mixed); -webkit-mask-image: var(--icon-trend-mixed); mask-image: var(--icon-trend-mixed); }
 
 .news-body { min-width: 0; }
 .news-headline {

@@ -222,6 +222,12 @@ Borders are hairlines throughout (1px), never thick. The two deliberate exceptio
 - **Style:** pill, tinted background at ~8–10% opacity of the semantic/accent color, full-opacity text in the same color. Same recipe for sector sentiment, per-stock tags, and the demo/live status pill.
 - **State:** the demo/live pill additionally gets a small leading dot; when live, the dot carries the halo shadow described in Elevation.
 
+### Trend Glyphs
+- **Purpose:** the page's one deliberate "finance element," added after looking at how brokers like invertironline signal money/market context visually. Rather than borrow their illustration style (or their color palette, which we explicitly moved away from), every place a rise/fall/mixed sentiment already gets a semantic color now also gets a small drawn glyph: a diagonal arrow for bullish, a diagonal arrow for bearish, a short wave for mixed.
+- **Why a glyph, not an icon-library import:** the project has no build step and no icon-library dependency, so hand-rolling three simple geometric marks (the taste-skill's permitted exception for hand-rolled SVG) was more honest than adding a dependency for three shapes. The stroke language deliberately matches the sparkline and chart paths elsewhere on the page, so the badge glyph reads as a tiny version of the same chart line, not a foreign icon set.
+- **Implementation:** three SVG data URIs stored once as CSS custom properties (`--icon-trend-up/down/mixed`), applied via `mask-image` + `background-color: currentColor` wherever a sentiment class already exists (sector badge, stock tags, news dots) — one glyph definition, zero new HTML, colored automatically by the same rise/fall/mixed tokens already in place.
+- **Bonus:** the shape now carries the same information as the color, which helps at a glance and for colorblind readers who could not previously distinguish the plain dot's color alone.
+
 ### Inputs
 - **Style:** 4px radius (sharp, matches the panel language, not the pill language), `--line-strong` border, `--panel` background.
 - **Focus:** border shifts to `--accent`; no glow, no shadow — consistent with Flat-By-Default.

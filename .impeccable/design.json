@@ -65,9 +65,9 @@
       "name": "Sentiment Badge",
       "kind": "chip",
       "refersTo": "stock-tag-bullish",
-      "description": "Pill badge at ~8-10% tint of the semantic color; used for sector sentiment, per-stock tags, and news dots. bullish/bearish/mixed modifiers shown.",
+      "description": "Pill badge at ~8-10% tint of the semantic color; used for sector sentiment, per-stock tags, and news dots. bullish/bearish/mixed modifiers shown. Each modifier also carries a small trend glyph (diagonal arrow up/down, or a short wave for mixed) via mask-image + currentColor, drawn in the same stroke language as the page's sparklines/charts. Added as the project's one deliberate finance-iconography touch, inspired by how broker sites like invertironline signal money context visually, without adopting their color palette or illustration style.",
       "html": "<span class=\"ds-badge ds-badge--bullish\">Alcista</span>",
-      "css": ".ds-badge { display: inline-flex; align-items: center; font-family: ui-monospace, monospace; font-size: 0.63rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; } .ds-badge--bullish { color: var(--rise, #2e7d4f); background: rgba(46,125,79,0.1); } .ds-badge--bearish { color: var(--fall, #9e3a2f); background: rgba(158,58,47,0.1); } .ds-badge--mixed { color: var(--mixed, #5b6b7a); background: rgba(91,107,122,0.1); }"
+      "css": ".ds-badge { display: inline-flex; align-items: center; gap: 4px; font-family: ui-monospace, monospace; font-size: 0.63rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; } .ds-badge::before { content: ''; width: 9px; height: 9px; flex-shrink: 0; background-color: currentColor; mask-repeat: no-repeat; mask-position: center; mask-size: contain; } .ds-badge--bullish { color: var(--rise, #2e7d4f); background: rgba(46,125,79,0.1); } .ds-badge--bearish { color: var(--fall, #9e3a2f); background: rgba(158,58,47,0.1); } .ds-badge--mixed { color: var(--mixed, #5b6b7a); background: rgba(91,107,122,0.1); } .ds-badge--bullish::before { mask-image: var(--icon-trend-up); } .ds-badge--bearish::before { mask-image: var(--icon-trend-down); } .ds-badge--mixed::before { mask-image: var(--icon-trend-mixed); }"
     },
     {
       "name": "Stat Block",
