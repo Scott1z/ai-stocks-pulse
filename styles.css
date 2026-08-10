@@ -9,10 +9,15 @@
    never used for semantics, which stay green/red/slate. Single
    deliberate theme: this material doesn't have a "dark mode."
 
-   Prose voice: General Sans, self-hosted (see fonts/LICENSE.txt) — the
-   open-license alternative to SF Pro, so the page reads the same
+   Prose voice: General Sans, self-hosted (see fonts/GENERAL-SANS-LICENSE.txt)
+   — the open-license alternative to SF Pro, so the page reads the same
    considered, precise character everywhere instead of falling back to
    Segoe UI / Roboto on non-Apple devices.
+
+   Data voice: Azeret Mono, self-hosted (see fonts/AZERET-MONO-LICENSE.txt)
+   — replaces the generic system-monospace stack (Menlo/Consolas/etc, a
+   different font per OS) with one deliberate, technical face with a
+   clearly slashed zero, everywhere every number and ticker appears.
    --------------------------------------------------------------------- */
 
 @font-face {
@@ -39,6 +44,27 @@
 @font-face {
   font-family: "General Sans";
   src: url("fonts/GeneralSans-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Azeret Mono";
+  src: url("fonts/AzeretMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Azeret Mono";
+  src: url("fonts/AzeretMono-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Azeret Mono";
+  src: url("fonts/AzeretMono-Bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -72,7 +98,7 @@
   --maxw: 1180px;
 
   --font-prose: "General Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-data: ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --font-data: "Azeret Mono", ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, "Liberation Mono", monospace;
 
   color-scheme: light;
 }

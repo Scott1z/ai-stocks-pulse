@@ -20,7 +20,7 @@
     "typographyMeta": {
       "display": { "displayName": "Display", "purpose": "Hero H1 only. Self-hosted General Sans (open-license SF Pro alternative), not the OS system font." },
       "body": { "displayName": "Body", "purpose": "Reading copy: sector summary, hero subhead, news headlines, stock blurbs, the modal's article summary. Same self-hosted General Sans family as Display." },
-      "label": { "displayName": "Label / Data", "purpose": "Every number, ticker, timestamp, and uppercase short label. Doubles as the tabular-nums numeric voice." }
+      "label": { "displayName": "Label / Data", "purpose": "Every number, ticker, timestamp, and uppercase short label. Self-hosted Azeret Mono (slashed zero), not the OS system monospace. Doubles as the tabular-nums numeric voice." }
     },
     "shadows": [
       { "name": "toast-float", "value": "0 10px 30px -12px rgba(22, 33, 47, 0.35)", "purpose": "The transient status toast." },

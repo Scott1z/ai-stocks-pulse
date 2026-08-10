@@ -1,4 +1,4 @@
-const CACHE_NAME = "ai-stocks-pulse-v8";
+const CACHE_NAME = "ai-stocks-pulse-v9";
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -11,6 +11,9 @@ const CORE_ASSETS = [
   "./fonts/GeneralSans-Medium.woff2",
   "./fonts/GeneralSans-Semibold.woff2",
   "./fonts/GeneralSans-Bold.woff2",
+  "./fonts/AzeretMono-Regular.woff2",
+  "./fonts/AzeretMono-SemiBold.woff2",
+  "./fonts/AzeretMono-Bold.woff2",
 ];
 
 self.addEventListener("install", (event) => {
