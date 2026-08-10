@@ -14,7 +14,9 @@
       "accent-navy": { "role": "primary", "displayName": "Ledger Navy", "canonical": "#1c3a5e", "tonalRamp": ["#12243b", "#21446e", "#2f619d", "#427fc7", "#729fd5", "#9dbce2", "#c8daef", "#ebf2f9"] },
       "rise-green": { "role": "secondary", "displayName": "Ledger Green", "canonical": "#2e7d4f", "tonalRamp": ["#153823", "#266842", "#37955e", "#4cbd7b", "#79ce9c", "#a2ddba", "#cbecd9", "#ecf8f1"] },
       "fall-red": { "role": "secondary", "displayName": "Ledger Red", "canonical": "#9e3a2f", "tonalRamp": ["#3b1612", "#6e2821", "#9d3a2f", "#c74f42", "#d57b71", "#e2a49d", "#efccc8", "#f9edeb"] },
-      "mixed-slate": { "role": "secondary", "displayName": "Ink Slate", "canonical": "#5b6b7a", "tonalRamp": ["#21262c", "#3d4852", "#576675", "#738596", "#96a4b1", "#b6c0c9", "#d6dbe0", "#f0f2f4"] }
+      "mixed-slate": { "role": "secondary", "displayName": "Ink Slate", "canonical": "#5b6b7a", "tonalRamp": ["#21262c", "#3d4852", "#576675", "#738596", "#96a4b1", "#b6c0c9", "#d6dbe0", "#f0f2f4"] },
+      "icon-teal": { "role": "tertiary", "displayName": "Icon Teal", "canonical": "#1f7a72", "tonalRamp": ["#0f3d39", "#1a665f", "#248e85", "#2fb7ab", "#54d4c8", "#85e0d8", "#b6ece8", "#def7f5"] },
+      "icon-indigo": { "role": "tertiary", "displayName": "Icon Indigo", "canonical": "#4a5a8f", "tonalRamp": ["#1a2032", "#2b3554", "#3d4a76", "#4e5f97", "#7282b6", "#9aa5cb", "#c3c9e0", "#e4e7f1"] }
     },
     "typographyMeta": {
       "display": { "displayName": "Display", "purpose": "Hero H1 only. Self-hosted General Sans (open-license SF Pro alternative), not the OS system font." },
@@ -140,6 +142,14 @@
       "description": "Fixed full-viewport brand moment shown from the HTML before app.js paints anything, covering the empty-shell flash while init() fetches data.json. Removed once real content is ready (not on a fixed timer), with window 'load' as a safety net and a 250ms minimum display floor. Reuses the topbar's exact wordmark markup so the brand identity is continuous, not a separate asset.",
       "html": "<div id=\"preloader\"><img src=\"icons/icon.svg\" alt=\"\" class=\"ds-preloader-logo\"><span class=\"ds-preloader-name\">AI Stocks <strong>Pulse</strong></span></div>",
       "css": "#preloader { position: fixed; inset: 0; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; background: var(--paper, #f7f8fa); transition: opacity 0.4s ease; } #preloader.hidden { opacity: 0; pointer-events: none; } .ds-preloader-logo { width: 40px; height: 40px; animation: preloader-pulse 1.4s ease-in-out infinite; } .ds-preloader-name { font-size: 1rem; font-weight: 600; letter-spacing: -0.01em; color: var(--text-dim, #475467); } .ds-preloader-name strong { color: var(--accent, #1c3a5e); font-weight: 700; } @keyframes preloader-pulse { 0%, 100% { transform: scale(1); opacity: 0.7; } 50% { transform: scale(1.08); opacity: 1; } }"
+    },
+    {
+      "name": "Category Icon",
+      "kind": "custom",
+      "refersTo": "icon-glyph",
+      "description": "16px hand-rolled line icon, colored by concept (Navy for time/pulse, Teal for company/structure, Indigo for ratios and news, Green for dollar-value figures) rather than the page's single accent. A deliberate, user-requested exception to the One Accent Rule, inspired by invertironline's per-category icon coloring but built as our own restrained icon set instead of adopting their illustration style or palette. Appears in section headers, hero stats, and the Stock Detail Modal's fundamentals grid, reusing the same icon+color pairing wherever the same concept recurs.",
+      "html": "<h2><svg class=\"icon-glyph icon-teal\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 20h16M5 20V9.5L12 5l7 4.5V20M9 20v-6h6v6\"/></svg>Empresas del sector</h2>",
+      "css": ".icon-glyph { width: 16px; height: 16px; flex-shrink: 0; vertical-align: -3px; } .icon-navy { color: var(--accent, #1c3a5e); } .icon-teal { color: var(--icon-teal, #1f7a72); } .icon-indigo { color: var(--icon-indigo, #4a5a8f); } .icon-green { color: var(--rise, #2e7d4f); }"
     }
   ],
   "narrative": {
@@ -154,7 +164,7 @@
       "Reading an article's summary happens in place (a modal), never an automatic redirect off the page"
     ],
     "rules": [
-      { "name": "The One Accent Rule", "body": "Ledger Navy is the only brand accent on the page, full stop. It never does semantic work — if a color means rise/fall/mixed, it is never navy.", "section": "colors" },
+      { "name": "The One Accent Rule", "body": "Ledger Navy is the only brand accent on text, badges, borders, and surfaces, full stop. It never does semantic work — if a color means rise/fall/mixed, it is never navy. The one narrow exception: the Category Icon set (Teal, Indigo, plus reused Navy/Green) colors small 16px icon glyphs only, never anything else.", "section": "colors" },
       { "name": "The No-Black Rule", "body": "No #000000 and no clinical, context-free #ffffff — panels and text both carry a deliberate cool bias rather than being pure values.", "section": "colors" },
       { "name": "The Two-Voice Rule", "body": "If it's read, it's the sans. If it's a number, a ticker, or a short label, it's the tracked-out monospace. Never mix the two within a single value.", "section": "typography" },
       { "name": "The Flat-By-Default Rule", "body": "Elevation is earned only by things that are genuinely temporary or floating above the page (the toast, the two modals). A permanent, in-flow element never gets a drop shadow.", "section": "elevation" },

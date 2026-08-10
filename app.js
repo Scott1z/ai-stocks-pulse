@@ -287,6 +287,29 @@ async function loadData() {
 
 const sentimentLabel = { bullish: "Alcista", bearish: "Bajista", mixed: "Mixta" };
 
+// Category icon set — inspired by how broker sites like invertironline
+// color-code a small icon per product/data category. Deliberately outside
+// the page's One-Accent Rule (each icon keeps its own color), but the
+// shapes stay in the same restrained stroke language as the trend glyphs
+// and charts elsewhere, and colors stay desaturated to match the palette.
+const ICON_PATHS = {
+  pulse: '<path d="M4 20V13M9.5 20V7M15 20V16M20 20V4"/>',
+  building: '<path d="M4 20h16M5 20V9.5L12 5l7 4.5V20M9 20v-6h6v6"/>',
+  newspaper:
+    '<path d="M5 4.5h11.5A1.5 1.5 0 0 1 18 6v13a1 1 0 0 1-1 1H6.5A2.5 2.5 0 0 1 4 17.5V6a1.5 1.5 0 0 1 1-1.4Z"/><path d="M8 9h6M8 12.5h6M8 16h3.5"/>',
+  coin:
+    '<circle cx="12" cy="12" r="8"/><path d="M12 7.5v9M9.3 9.8c0-1.1 1.2-2 2.7-2s2.7.8 2.7 1.8c0 2.4-5.4 1-5.4 3.4 0 1 1.2 1.8 2.7 1.8s2.7-.8 2.7-1.9"/>',
+  calendarRange: '<rect x="4" y="5.5" width="16" height="14" rx="2"/><path d="M4 10h16M8 3v4M16 3v4M9 14.5h6"/>',
+  percentCircle:
+    '<circle cx="12" cy="12" r="8"/><path d="M9 15l6-6"/><circle cx="9.4" cy="9" r="0.9" fill="currentColor" stroke="none"/><circle cx="14.6" cy="15" r="0.9" fill="currentColor" stroke="none"/>',
+  scaleBalance:
+    '<path d="M12 4v16M8 20h8M6 8h5M18 8h-5M6 8l-2.5 5a2.5 2.5 0 0 0 5 0Zm12 0l-2.5 5a2.5 2.5 0 0 0 5 0Z"/>',
+};
+
+function icon(name, colorClass) {
+  return `<svg class="icon-glyph ${colorClass}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON_PATHS[name]}</svg>`;
+}
+
 // Finnhub reporta marketCapitalization en millones de USD.
 function formatMarketCap(millions) {
   if (millions == null) return null;
@@ -298,25 +321,26 @@ function formatMarketCap(millions) {
 function buildFundamentalsGrid(fundamentals = {}) {
   const na = `<span class="stat-value unavailable">N/D</span>`;
   const stats = [
-    { label: "P/E (TTM)", value: fundamentals.peTTM != null ? fundamentals.peTTM.toFixed(1) : null },
-    { label: "Cap. de mercado", value: formatMarketCap(fundamentals.marketCapM) },
+    { label: "P/E (TTM)", icon: icon("scaleBalance", "icon-indigo"), value: fundamentals.peTTM != null ? fundamentals.peTTM.toFixed(1) : null },
+    { label: "Cap. de mercado", icon: icon("coin", "icon-green"), value: formatMarketCap(fundamentals.marketCapM) },
     {
       label: "Rango 52 semanas",
+      icon: icon("calendarRange", "icon-navy"),
       value:
         fundamentals.week52Low != null && fundamentals.week52High != null
           ? `$${fundamentals.week52Low.toFixed(2)} – $${fundamentals.week52High.toFixed(2)}`
           : null,
     },
-    { label: "EPS (TTM)", value: fundamentals.epsTTM != null ? `$${fundamentals.epsTTM.toFixed(2)}` : null },
-    { label: "ROE (TTM)", value: fundamentals.roeTTM != null ? `${fundamentals.roeTTM.toFixed(1)}%` : null },
-    { label: "Margen neto (TTM)", value: fundamentals.netMarginTTM != null ? `${fundamentals.netMarginTTM.toFixed(1)}%` : null },
+    { label: "EPS (TTM)", icon: icon("coin", "icon-green"), value: fundamentals.epsTTM != null ? `$${fundamentals.epsTTM.toFixed(2)}` : null },
+    { label: "ROE (TTM)", icon: icon("percentCircle", "icon-indigo"), value: fundamentals.roeTTM != null ? `${fundamentals.roeTTM.toFixed(1)}%` : null },
+    { label: "Margen neto (TTM)", icon: icon("percentCircle", "icon-indigo"), value: fundamentals.netMarginTTM != null ? `${fundamentals.netMarginTTM.toFixed(1)}%` : null },
   ];
 
   return stats
     .map(
       (s) => `<div class="stat">
         ${s.value != null ? `<div class="stat-value">${s.value}</div>` : na}
-        <div class="stat-label">${s.label}</div>
+        <div class="stat-label">${s.icon}${s.label}</div>
       </div>`
     )
     .join("");
@@ -470,12 +494,18 @@ function renderSectorSummary() {
   sentimentEl.textContent = `Sector ${sentimentLabel[SECTOR_SUMMARY.sentiment].toLowerCase()}`;
   sentimentEl.className = `sentiment-badge sentiment-${SECTOR_SUMMARY.sentiment}`;
 
+  const HERO_STAT_ICONS = {
+    "Empresas al alza": icon("building", "icon-teal"),
+    "Cambio promedio": icon("pulse", "icon-navy"),
+    "Noticias hoy": icon("newspaper", "icon-indigo"),
+  };
+
   const statsEl = document.getElementById("sectorStats");
   statsEl.innerHTML = SECTOR_SUMMARY.stats
     .map(
       (s) => `<div class="stat">
         <div class="stat-value ${s.cls || ""}">${s.value}</div>
-        <div class="stat-label">${s.label}</div>
+        <div class="stat-label">${HERO_STAT_ICONS[s.label] || ""}${s.label}</div>
       </div>`
     )
     .join("");

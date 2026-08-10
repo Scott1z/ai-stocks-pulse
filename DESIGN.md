@@ -104,6 +104,9 @@ A cool, neutral palette with exactly one accent and a separate semantic triad �
 - **Ledger Red** (`#9e3a2f`): price falls, bearish tags — literally "in the red" — down candles in the brand mark.
 - **Ink Slate** (`#5b6b7a`): mixed/neutral sentiment, the third state between rise and fall.
 
+### Tertiary (icon-only, deliberate exception to the One Accent Rule)
+- **Icon Teal** (`#1f7a72`) and **Icon Indigo** (`#4a5a8f`): reserved exclusively for the small category-icon set (section headers, hero stats, fundamentals) described under Components. Added at the user's explicit request, inspired by how broker sites like invertironline color-code an icon per product category, after five rounds of otherwise locking the page to one accent. Scoped tightly: these two colors never appear on text, badges, borders, or any other surface, only on the 16px icon glyphs.
+
 ### Neutral
 - **Cool White** (`#f7f8fa`): page background (`--paper`). Neutral, not warm — the background of a banking dashboard, not a stationery brand.
 - **Panel White** (`#ffffff`): card/panel surface — the hero readout, ticker tape, modal, toast — distinguishable from the page itself.
@@ -115,7 +118,7 @@ A cool, neutral palette with exactly one accent and a separate semantic triad �
 - **Pencil Grey** (`#98a2b3`): tertiary/faint text (captions, stat labels, placeholders).
 
 ### Named Rules
-**The One Accent Rule.** Ledger Navy is the only brand accent on the page, full stop — not "the primary one among two." It never does semantic work — if a color means rise/fall/mixed, it is never navy.
+**The One Accent Rule.** Ledger Navy is the only brand accent on the page, full stop — not "the primary one among two." It never does semantic work — if a color means rise/fall/mixed, it is never navy. The category icon set (Icon Teal, Icon Indigo, plus reused Navy/Green) is a deliberate, narrowly-scoped exception: icon-only, never applied to text, badges, or surfaces, so the rule still holds everywhere it originally mattered.
 
 **The No-Black Rule.** No `#000000` and no clinical, context-free `#ffffff` — panels and text both carry a deliberate cool bias rather than being pure values. Pure neutrals read as generic; the considered cool tone is what makes it this system.
 
@@ -223,10 +226,17 @@ Borders are hairlines throughout (1px), never thick. The two deliberate exceptio
 - **State:** the demo/live pill additionally gets a small leading dot; when live, the dot carries the halo shadow described in Elevation.
 
 ### Trend Glyphs
-- **Purpose:** the page's one deliberate "finance element," added after looking at how brokers like invertironline signal money/market context visually. Rather than borrow their illustration style (or their color palette, which we explicitly moved away from), every place a rise/fall/mixed sentiment already gets a semantic color now also gets a small drawn glyph: a diagonal arrow for bullish, a diagonal arrow for bearish, a short wave for mixed.
+- **Purpose:** the first of two deliberate "finance element" passes, added after looking at how brokers like invertironline signal money/market context visually. Rather than borrow their illustration style (or their color palette, which we explicitly moved away from), every place a rise/fall/mixed sentiment already gets a semantic color now also gets a small drawn glyph: a diagonal arrow for bullish, a diagonal arrow for bearish, a short wave for mixed.
 - **Why a glyph, not an icon-library import:** the project has no build step and no icon-library dependency, so hand-rolling three simple geometric marks (the taste-skill's permitted exception for hand-rolled SVG) was more honest than adding a dependency for three shapes. The stroke language deliberately matches the sparkline and chart paths elsewhere on the page, so the badge glyph reads as a tiny version of the same chart line, not a foreign icon set.
 - **Implementation:** three SVG data URIs stored once as CSS custom properties (`--icon-trend-up/down/mixed`), applied via `mask-image` + `background-color: currentColor` wherever a sentiment class already exists (sector badge, stock tags, news dots) — one glyph definition, zero new HTML, colored automatically by the same rise/fall/mixed tokens already in place.
 - **Bonus:** the shape now carries the same information as the color, which helps at a glance and for colorblind readers who could not previously distinguish the plain dot's color alone.
+
+### Category Icons
+- **Purpose:** the second, bolder finance-element pass. The user asked explicitly to go further than the restrained trend glyphs, using invertironline's per-product icon coloring as the reference, and to skip the taste-skill's usual restraint for this round. Rather than adopt IOL's illustration style or palette, the page got its own small icon-per-category system: a 16px line icon, in one of four fixed colors (Navy, Teal, Indigo, Green), placed next to whatever it labels.
+- **Where:** the three section headers (pulse icon for "Resumen del sector," building for "Empresas del sector," newspaper for "Últimas noticias"), the three hero stats (building/teal for company count, pulse/navy for average change, newspaper/indigo for news count — matching their section header for continuity), and the six fundamentals in the Stock Detail Modal (scale for P/E, coin for Cap. de mercado and EPS, calendar for the 52-week range, percent-circle for ROE and net margin).
+- **Color is assigned by concept, not per instance:** every "this is a dollar figure" stat gets the coin icon in Green: every "this is a ratio" stat gets scale or percent-circle in Indigo. Reusing an icon+color pairing across the page is intentional — it teaches the icon's meaning the second time a visitor sees it, rather than reading as twelve unrelated decorations.
+- **Why hand-rolled SVG again:** same reasoning as the Trend Glyphs — no build step, no icon-library dependency. Same stroke weight and rounded-cap language as the rest of the page's line work.
+- **Scope of the One Accent Rule exception:** these are the only four places on the page where a color besides Navy/Green/Red/Slate appears, and they only ever color a 16px icon, never text, a badge, or a border. See the Colors section's Tertiary palette and the amended One Accent Rule.
 
 ### Inputs
 - **Style:** 4px radius (sharp, matches the panel language, not the pill language), `--line-strong` border, `--panel` background.
