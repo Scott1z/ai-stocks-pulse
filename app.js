@@ -511,6 +511,41 @@ function renderSectorSummary() {
     .join("");
 }
 
+function renderHeroMovers() {
+  const container = document.getElementById("heroMovers");
+  const withChange = STOCKS.filter((s) => s.changePct != null);
+  if (withChange.length < 2) {
+    container.innerHTML = "";
+    return;
+  }
+
+  const sorted = [...withChange].sort((a, b) => b.changePct - a.changePct);
+  const gainer = sorted[0];
+  const loser = sorted[sorted.length - 1];
+
+  const moverCard = (stock, label) => {
+    const tagCls = stock.changePct >= 0 ? "bullish" : "bearish";
+    const changeCls = stock.changePct >= 0 ? "up" : "down";
+    const sign = stock.changePct >= 0 ? "+" : "";
+    return `<button class="hero-mover" data-ticker="${stock.ticker}" type="button">
+      <span class="hero-mover-label">${label}</span>
+      <span class="hero-mover-row">
+        <span class="stock-tag ${tagCls}">${stock.ticker}</span>
+        <span class="hero-mover-change ${changeCls}">${sign}${stock.changePct.toFixed(1)}%</span>
+      </span>
+    </button>`;
+  };
+
+  container.innerHTML = moverCard(gainer, "Mayor suba") + moverCard(loser, "Mayor baja");
+
+  container.querySelectorAll(".hero-mover").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const stock = STOCKS.find((s) => s.ticker === btn.dataset.ticker);
+      if (stock) openStockModal(stock);
+    });
+  });
+}
+
 function renderStocks(filter = "all", query = "") {
   const grid = document.getElementById("stockGrid");
   const q = query.trim().toLowerCase();
@@ -840,6 +875,7 @@ async function init() {
   await loadData();
   renderHeroChart();
   renderSectorSummary();
+  renderHeroMovers();
   renderStocks();
   renderNews();
   renderLastUpdated();

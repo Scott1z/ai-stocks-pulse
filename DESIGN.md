@@ -238,7 +238,10 @@ Borders are hairlines throughout (1px), never thick. The two deliberate exceptio
 - **Why hand-rolled SVG again:** same reasoning as the Trend Glyphs — no build step, no icon-library dependency. Same stroke weight and rounded-cap language as the rest of the page's line work.
 - **Scope of the One Accent Rule exception:** these are the only four places on the page where a color besides Navy/Green/Red/Slate appears, and they only ever color a 16px icon, never text, a badge, or a border. See the Colors section's Tertiary palette and the amended One Accent Rule.
 
-### Inputs
+### Hero Movers
+- **Purpose:** fills the hero-text column's remaining space below the badges with real, useful data instead of decoration — the sector's top gainer and top loser, computed client-side from `STOCKS` on every render. Replaced an illustrated-asset attempt the user rejected outright ("pésimo") after seeing it installed; the lesson taken was to reach for real data before reaching for imagery.
+- **Structure:** a small label ("Mayor suba" / "Mayor baja") over a `stock-tag` (reusing the existing ticker pill with its trend glyph, so no new visual language) plus the change percentage in the tabular-nums data voice. Separated from the badges above by a hairline, echoing the Stat Block's own top-hairline convention.
+- **Interaction:** each one is a real button; clicking either opens the Stock Detail Modal for that ticker, same as clicking its row in the ledger below — one more path to the same destination, not a dead-end decoration.
 - **Style:** 4px radius (sharp, matches the panel language, not the pill language), `--line-strong` border, `--panel` background.
 - **Focus:** border shifts to `--accent`; no glow, no shadow — consistent with Flat-By-Default.
 

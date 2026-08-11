@@ -150,6 +150,14 @@
       "description": "16px hand-rolled line icon, colored by concept (Navy for time/pulse, Teal for company/structure, Indigo for ratios and news, Green for dollar-value figures) rather than the page's single accent. A deliberate, user-requested exception to the One Accent Rule, inspired by invertironline's per-category icon coloring but built as our own restrained icon set instead of adopting their illustration style or palette. Appears in section headers, hero stats, and the Stock Detail Modal's fundamentals grid, reusing the same icon+color pairing wherever the same concept recurs.",
       "html": "<h2><svg class=\"icon-glyph icon-teal\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 20h16M5 20V9.5L12 5l7 4.5V20M9 20v-6h6v6\"/></svg>Empresas del sector</h2>",
       "css": ".icon-glyph { width: 16px; height: 16px; flex-shrink: 0; vertical-align: -3px; } .icon-navy { color: var(--accent, #1c3a5e); } .icon-teal { color: var(--icon-teal, #1f7a72); } .icon-indigo { color: var(--icon-indigo, #4a5a8f); } .icon-green { color: var(--rise, #2e7d4f); }"
+    },
+    {
+      "name": "Hero Mover",
+      "kind": "custom",
+      "refersTo": "hero-movers",
+      "description": "Real-data replacement for a rejected illustrated-asset attempt: the sector's top gainer and top loser, computed client-side from STOCKS, filling the hero-text column's remaining space below the badges. Reuses the existing stock-tag pill (ticker + trend glyph) rather than a new pill style. Each one is a real button that opens the Stock Detail Modal for that ticker, same as clicking its ledger row.",
+      "html": "<div class=\"ds-hero-movers\"><button class=\"ds-hero-mover\"><span class=\"ds-hero-mover-label\">Mayor suba</span><span class=\"ds-hero-mover-row\"><span class=\"ds-badge ds-badge--bullish\">ADBE</span><span class=\"ds-hero-mover-change\" style=\"color:var(--rise,#2e7d4f)\">+2.9%</span></span></button></div>",
+      "css": ".ds-hero-movers { display: flex; gap: 32px; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--line, #e2e6ec); } .ds-hero-mover { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; background: none; border: none; padding: 0; font: inherit; text-align: left; cursor: pointer; } .ds-hero-mover-label { font-size: 0.7rem; color: var(--text-faint, #98a2b3); } .ds-hero-mover-row { display: flex; align-items: center; gap: 8px; } .ds-hero-mover-change { font-family: ui-monospace, monospace; font-variant-numeric: tabular-nums; font-weight: 600; font-size: 0.95rem; }"
     }
   ],
   "narrative": {
