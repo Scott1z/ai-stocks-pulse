@@ -796,6 +796,233 @@ function initHeroChartRange() {
   });
 }
 
+// ---------------------------------------------------------------------------
+// Comparador de acciones — hasta 3 tickers superpuestos en un mismo
+// gráfico. Reusa exactamente la curva suave (smoothPath) y el rango
+// Hoy/30d/60d del gráfico compuesto del hero, pero sin promediar: cada
+// ticker es su propia línea. Tres colores fijos, no uno por ticker — la
+// misma excepción ya documentada para Category Icons (tertiary, fuera del
+// One Accent Rule, pero acotada y desaturada), extendida acá en vez de
+// inventar una paleta nueva.
+// ---------------------------------------------------------------------------
+
+const COMPARE_COLORS = ["var(--accent)", "var(--icon-teal)", "var(--icon-indigo)"];
+const COMPARE_MAX = 3;
+let compareTickers = [];
+let compareRange = "today";
+
+function buildCompareSeries(tickers, range) {
+  return tickers.map((ticker) => {
+    const stock = STOCKS.find((s) => s.ticker === ticker);
+    if (!stock) return { ticker, name: ticker, points: null, dates: null, unavailable: true };
+    if (range === "today") {
+      return { ticker, name: stock.name, points: stock.spark, dates: null, unavailable: false };
+    }
+    const days = range === "30d" ? 30 : 60;
+    if (!Array.isArray(stock.ohlc) || stock.ohlc.length < 2) {
+      return { ticker, name: stock.name, points: null, dates: null, unavailable: true };
+    }
+    const slice = stock.ohlc.slice(-Math.min(days, stock.ohlc.length));
+    return {
+      ticker,
+      name: stock.name,
+      points: slice.map((c) => c.close),
+      dates: slice.map((c) => c.date),
+      unavailable: false,
+    };
+  });
+}
+
+function buildCompareChart(entries) {
+  const available = entries.filter((e) => !e.unavailable && e.points && e.points.length >= 2);
+  if (available.length < 2) return null;
+
+  const length = Math.min(...available.map((e) => e.points.length));
+  const w = 520, h = 200, padX = 12, padTop = 16, padBottom = 26;
+  const innerH = h - padTop - padBottom;
+
+  const series = available.map((e) => {
+    const windowed = e.points.slice(-length);
+    const base = windowed[0];
+    return windowed.map((v) => ((v - base) / base) * 100);
+  });
+
+  const allValues = series.flat().concat([0]);
+  const min = Math.min(...allValues);
+  const max = Math.max(...allValues);
+  const range = max - min || 1;
+  const stepX = (w - padX * 2) / (length - 1);
+  const zeroY = padTop + (1 - (0 - min) / range) * innerH;
+
+  const gridLines = [0.25, 0.5, 0.75]
+    .map((f) => {
+      const y = (padTop + f * innerH).toFixed(1);
+      return `<line x1="${padX}" y1="${y}" x2="${w - padX}" y2="${y}" stroke="var(--line)" stroke-width="1"/>`;
+    })
+    .join("");
+
+  const paths = available
+    .map((e, i) => {
+      const coords = series[i].map((v, j) => ({
+        x: padX + j * stepX,
+        y: padTop + (1 - (v - min) / range) * innerH,
+      }));
+      const linePath = smoothPath(coords);
+      const last = coords[coords.length - 1];
+      const color = COMPARE_COLORS[i % COMPARE_COLORS.length];
+      return `<path d="${linePath}" fill="none" stroke="${color}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="${last.x.toFixed(1)}" cy="${last.y.toFixed(1)}" r="3.5" fill="${color}"/>`;
+    })
+    .join("");
+
+  const dated = available.find((e) => e.dates);
+  const startLabel = dated ? formatShortDate(dated.dates[dated.dates.length - length]) : "Inicio";
+  const endLabel = dated ? formatShortDate(dated.dates[dated.dates.length - 1]) : "Ahora";
+
+  const svg = `<svg class="hero-chart-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true">
+    ${gridLines}
+    <line x1="${padX}" y1="${zeroY.toFixed(1)}" x2="${w - padX}" y2="${zeroY.toFixed(1)}" stroke="var(--line-strong)" stroke-width="1" stroke-dasharray="3,3"/>
+    ${paths}
+    <text x="${padX}" y="${h - 6}" class="hero-chart-axis-label">${escapeHtml(startLabel)}</text>
+    <text x="${(w - padX).toFixed(1)}" y="${h - 6}" class="hero-chart-axis-label" text-anchor="end">${escapeHtml(endLabel)}</text>
+  </svg>`;
+
+  const legend = available
+    .map((e, i) => {
+      const finalReturn = series[i][series[i].length - 1];
+      const sign = finalReturn >= 0 ? "+" : "";
+      const cls = finalReturn >= 0 ? "up" : "down";
+      return `<span class="compare-legend-item">
+        <span class="compare-legend-dot" style="background:${COMPARE_COLORS[i % COMPARE_COLORS.length]}"></span>
+        ${escapeHtml(e.ticker)}<span class="compare-legend-value ${cls}">${sign}${finalReturn.toFixed(1)}%</span>
+      </span>`;
+    })
+    .join("");
+
+  const skipped = entries.filter((e) => e.unavailable);
+  const skippedNote = skipped.length
+    ? `<p class="compare-skipped-note">${escapeHtml(
+        skipped.map((e) => e.ticker).join(", ")
+      )} sin cobertura de velas diarias para este rango — se excluye del gráfico.</p>`
+    : "";
+
+  return { svg, legend, skippedNote };
+}
+
+function renderCompareChips() {
+  const el = document.getElementById("compareChips");
+  el.innerHTML = compareTickers
+    .map((ticker, i) => {
+      const stock = STOCKS.find((s) => s.ticker === ticker);
+      const label = stock ? stock.ticker : ticker;
+      return `<span class="compare-chip">
+        <span class="compare-chip-dot" style="background:${COMPARE_COLORS[i % COMPARE_COLORS.length]}"></span>
+        ${escapeHtml(label)}
+        <button type="button" class="compare-chip-remove" data-remove="${escapeHtml(ticker)}" aria-label="Quitar ${escapeHtml(label)} del comparador">×</button>
+      </span>`;
+    })
+    .join("");
+}
+
+function renderCompareSuggestions(query) {
+  const box = document.getElementById("compareSuggestions");
+  const q = query.trim().toLowerCase();
+  if (!q || compareTickers.length >= COMPARE_MAX) {
+    box.hidden = true;
+    box.innerHTML = "";
+    return;
+  }
+  const matches = STOCKS.filter(
+    (s) =>
+      !compareTickers.includes(s.ticker) &&
+      (s.ticker.toLowerCase().includes(q) || s.name.toLowerCase().includes(q))
+  ).slice(0, 6);
+  if (!matches.length) {
+    box.hidden = true;
+    box.innerHTML = "";
+    return;
+  }
+  box.innerHTML = matches
+    .map(
+      (s) => `<button type="button" class="compare-suggestion-item" data-add="${escapeHtml(s.ticker)}">
+      <span class="compare-suggestion-ticker">${escapeHtml(s.ticker)}</span>
+      <span class="compare-suggestion-name">${escapeHtml(s.name)}</span>
+    </button>`
+    )
+    .join("");
+  box.hidden = false;
+}
+
+function renderCompareSection() {
+  renderCompareChips();
+  const chartEl = document.getElementById("compareChart");
+  const rangeToggle = `<div class="hero-chart-range" role="tablist" aria-label="Rango del comparador">
+    ${HERO_CHART_RANGES.map(
+      (r) =>
+        `<button type="button" role="tab" aria-selected="${r.key === compareRange}" class="${
+          r.key === compareRange ? "active" : ""
+        }" data-compare-range="${r.key}">${r.label}</button>`
+    ).join("")}
+  </div>`;
+
+  if (compareTickers.length < 2) {
+    chartEl.innerHTML = `${rangeToggle}<p class="compare-empty">Agregá al menos 2 empresas para comparar su rendimiento.</p>`;
+    return;
+  }
+
+  const entries = buildCompareSeries(compareTickers, compareRange);
+  const result = buildCompareChart(entries);
+  if (!result) {
+    const skipped = entries.filter((e) => e.unavailable);
+    const message = skipped.length
+      ? `${escapeHtml(skipped.map((e) => e.ticker).join(", "))} ${
+          skipped.length > 1 ? "no tienen" : "no tiene"
+        } cobertura de velas diarias para este rango — probá "Hoy" o cambiá la selección.`
+      : "Todavía no hay suficiente historial diario para este rango con estas empresas.";
+    chartEl.innerHTML = `${rangeToggle}<p class="compare-empty">${message}</p>`;
+    return;
+  }
+  chartEl.innerHTML = `${rangeToggle}<div class="compare-legend">${result.legend}</div>${result.svg}${result.skippedNote}`;
+}
+
+function initCompareSection() {
+  const searchInput = document.getElementById("compareSearchInput");
+  const suggestions = document.getElementById("compareSuggestions");
+  const chipsEl = document.getElementById("compareChips");
+  const chartEl = document.getElementById("compareChart");
+
+  searchInput.addEventListener("input", () => renderCompareSuggestions(searchInput.value));
+  searchInput.addEventListener("focus", () => renderCompareSuggestions(searchInput.value));
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest(".compare-search")) suggestions.hidden = true;
+  });
+
+  suggestions.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-add]");
+    if (!btn) return;
+    const ticker = btn.dataset.add;
+    if (!compareTickers.includes(ticker) && compareTickers.length < COMPARE_MAX) {
+      compareTickers.push(ticker);
+      searchInput.value = "";
+      suggestions.hidden = true;
+      renderCompareSection();
+    }
+  });
+
+  chipsEl.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-remove]");
+    if (!btn) return;
+    compareTickers = compareTickers.filter((t) => t !== btn.dataset.remove);
+    renderCompareSection();
+  });
+
+  chartEl.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-compare-range]");
+    if (!btn) return;
+    compareRange = btn.dataset.compareRange;
+    renderCompareSection();
+  });
+}
+
 function renderSectorSummary() {
   document.getElementById("sectorSummaryText").textContent =
     SECTOR_SUMMARY.text || "Sin resumen disponible todavía.";
@@ -1676,6 +1903,7 @@ async function init() {
   renderHeroMovers();
   renderHeroBreadth();
   renderStocks();
+  renderCompareSection();
   renderNews();
   renderEarningsCalendar();
   renderLastUpdated();
@@ -1690,6 +1918,7 @@ async function init() {
   initPositionSection();
   initHeroChartRange();
   initHeroChartInteraction();
+  initCompareSection();
   initEarningsCalendar();
   initSectionNav();
   initThemeManager();

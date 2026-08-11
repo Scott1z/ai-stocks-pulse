@@ -215,6 +215,14 @@
       "css": ".ds-hero-chart { width: 100%; height: 150px; cursor: crosshair; } .ds-axis-label { font-family: ui-monospace, monospace; font-size: 8px; fill: var(--text-faint, #98a2b3); }"
     },
     {
+      "name": "Comparador de Acciones",
+      "kind": "custom",
+      "refersTo": "compare",
+      "description": "Overlays up to 3 tickers' % return on one chart. Reuses the Composite Sector Chart's exact curve code, SVG shell, and range toggle rather than building a second chart component. Multi-line color is a scoped extension of the existing Category Icons exception to the One Accent Rule: three fixed colors by position (--accent, --icon-teal, --icon-indigo), never one hue invented per ticker. Search input with live autocomplete + removable colored chips for the picker; a dot-colored legend (ticker + final %) sits above the chart. Below 2 selected tickers shows nothing; if OHLC coverage gaps drop a selection below 2 available series, names the missing ticker(s) explicitly rather than a generic empty state.",
+      "html": "<div class=\"ds-compare-chips\"><span class=\"ds-chip\"><span class=\"ds-dot\" style=\"background:var(--accent,#1c3a5e)\"></span>NVDA<button>×</button></span><span class=\"ds-chip\"><span class=\"ds-dot\" style=\"background:var(--icon-teal,#1f7a72)\"></span>MSFT<button>×</button></span></div><div class=\"ds-compare-legend\"><span class=\"ds-legend-item\"><span class=\"ds-dot\" style=\"background:var(--accent,#1c3a5e)\"></span>NVDA <b style=\"color:var(--rise,#2e7d4f)\">+4.2%</b></span><span class=\"ds-legend-item\"><span class=\"ds-dot\" style=\"background:var(--icon-teal,#1f7a72)\"></span>MSFT <b style=\"color:var(--fall,#9e3a2f)\">-1.1%</b></span></div>",
+      "css": ".ds-compare-chips { display: flex; gap: 8px; margin-bottom: 10px; } .ds-chip { display: inline-flex; align-items: center; gap: 6px; font-family: ui-monospace, monospace; font-size: 0.72rem; font-weight: 700; padding: 6px 8px 6px 10px; border-radius: 999px; border: 1px solid var(--line-strong, #ccd3dc); background: var(--panel-raised, #eef1f5); } .ds-dot { width: 8px; height: 8px; border-radius: 50%; } .ds-compare-legend { display: flex; gap: 16px; } .ds-legend-item { display: inline-flex; align-items: center; gap: 6px; font-family: ui-monospace, monospace; font-size: 0.76rem; font-weight: 700; }"
+    },
+    {
       "name": "Watchlist Position",
       "kind": "custom",
       "refersTo": "stock-position",

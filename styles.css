@@ -834,13 +834,13 @@ header, main, footer { position: relative; z-index: 1; }
    Section headings
    --------------------------------------------------------------------- */
 
-.stocks, .news, .earnings {
+.stocks, .news, .earnings, .compare {
   max-width: var(--maxw);
   margin: 0 auto;
   padding: 44px 24px;
 }
 
-.stocks h2, .news h2, .earnings h2 {
+.stocks h2, .news h2, .earnings h2, .compare h2 {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -850,11 +850,113 @@ header, main, footer { position: relative; z-index: 1; }
   color: var(--text);
 }
 
-.earnings h2 { margin-bottom: 6px; }
-.earnings-sub {
+.earnings h2, .compare h2 { margin-bottom: 6px; }
+.earnings-sub, .compare-sub {
   font-size: 0.85rem;
   color: var(--text-faint);
   margin: 0 0 20px;
+}
+
+/* ---------------------------------------------------------------------
+   Comparador de acciones — hasta 3 tickers superpuestos en un mismo
+   gráfico (hero-chart-svg/axis-label reusados tal cual). Tres colores
+   fijos por posición (accent/icon-teal/icon-indigo), no uno por ticker.
+   --------------------------------------------------------------------- */
+
+.compare-picker { margin-bottom: 18px; }
+.compare-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px; }
+.compare-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-data);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 6px 8px 6px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-strong);
+  background: var(--panel-raised);
+}
+.compare-chip-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.compare-chip-remove {
+  font-size: 0.9rem;
+  line-height: 1;
+  color: var(--text-faint);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+}
+.compare-chip-remove:hover { color: var(--fall); }
+
+.compare-search { position: relative; max-width: 360px; }
+.compare-search input {
+  width: 100%;
+  font: inherit;
+  font-size: 0.85rem;
+  padding: 9px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line-strong);
+  background: var(--panel);
+  color: var(--text);
+}
+.compare-search input:focus { border-color: var(--accent); }
+.compare-search input::placeholder { color: var(--text-faint); }
+
+.compare-suggestions {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 5;
+  background: var(--panel);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 10px 30px -12px rgba(16, 24, 40, 0.25);
+  max-height: 220px;
+  overflow-y: auto;
+}
+.compare-suggestion-item {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  width: 100%;
+  padding: 9px 12px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  cursor: pointer;
+}
+.compare-suggestion-item:last-child { border-bottom: none; }
+.compare-suggestion-item:hover { background: var(--panel-raised); }
+.compare-suggestion-ticker { font-family: var(--font-data); font-weight: 700; font-size: 0.78rem; }
+.compare-suggestion-name { font-size: 0.78rem; color: var(--text-faint); }
+
+.compare-empty {
+  font-size: 0.85rem;
+  color: var(--text-faint);
+  padding: 24px 0;
+}
+
+.compare-legend { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 10px; }
+.compare-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-data);
+  font-size: 0.76rem;
+  font-weight: 700;
+}
+.compare-legend-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.compare-legend-value { font-variant-numeric: tabular-nums; }
+.compare-legend-value.up { color: var(--rise); }
+.compare-legend-value.down { color: var(--fall); }
+
+.compare-skipped-note {
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  margin: 10px 0 0;
 }
 
 /* ---------------------------------------------------------------------
@@ -1572,7 +1674,7 @@ header, main, footer { position: relative; z-index: 1; }
 @media (max-width: 640px) {
   html { scroll-padding-top: 68px; }
   .topbar { padding: 16px; height: auto; }
-  .hero, .filters, .stocks, .news, .earnings { padding-left: 16px; padding-right: 16px; }
+  .hero, .filters, .stocks, .news, .earnings, .compare { padding-left: 16px; padding-right: 16px; }
   .topbar-nav { display: none; }
   .demo-pill { display: none; }
   .market-status { display: none; }
