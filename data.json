@@ -1,8 +1,8 @@
 {
-  "updated_at": "2026-08-11T02:30:08.434610+00:00",
+  "updated_at": "2026-08-11T08:32:32.661987+00:00",
   "sector": {
     "sentiment": "mixed",
-    "text": "El sector de IA mostró un desempeño dispar: los fabricantes de chips como Nvidia, AMD y Arm cayeron más de un 2%, mientras que compañías de software como Oracle y Adobe subieron cerca de un 3%. La rotación sugiere cautela ante hardware, con apetito renovado por soluciones de IA en la nube y aplicaciones empresariales.",
+    "text": "El sector de IA muestra un día dispar: los grandes de software y nube como Oracle, Adobe y Salesforce suben con fuerza, mientras chipmakers como Arm, Marvell y Nvidia retroceden, reflejando cautela sobre valuaciones de semiconductores pese al optimismo en la nube.",
     "stats": {
       "upCount": 13,
       "totalCount": 23,
@@ -20,6 +20,7 @@
         218.52,
         218.42,
         219.11,
+        217.55,
         217.55,
         217.55,
         217.55
@@ -467,6 +468,7 @@
         505.51,
         506.06,
         506.06,
+        506.06,
         506.06
       ],
       "fundamentals": {
@@ -912,6 +914,7 @@
         355.37,
         357.52,
         357.52,
+        357.52,
         357.52
       ],
       "fundamentals": {
@@ -919,7 +922,7 @@
         "epsTTM": 19.9118,
         "marketCapM": 4335963,
         "week52High": 408.61,
-        "week52Low": 194.33,
+        "week52Low": 196.6,
         "roeTTM": 50.839999999999996,
         "netMarginTTM": 54.77
       },
@@ -1355,6 +1358,7 @@
         592.99,
         593.46,
         593.12,
+        594.92,
         594.92,
         594.92,
         594.92
@@ -1802,6 +1806,7 @@
         277.14,
         278.09,
         278.09,
+        278.09,
         278.09
       ],
       "fundamentals": {
@@ -2245,6 +2250,7 @@
         424.19,
         424.26,
         424.5,
+        422.4,
         422.4,
         422.4,
         422.4
@@ -2692,6 +2698,7 @@
         151.69,
         151.05,
         151.05,
+        151.05,
         151.05
       ],
       "fundamentals": {
@@ -3135,6 +3142,7 @@
         175.9,
         175.85,
         176.14,
+        175.23,
         175.23,
         175.23,
         175.23
@@ -3582,6 +3590,7 @@
         475.27,
         469.56,
         469.56,
+        469.56,
         469.56
       ],
       "fundamentals": {
@@ -4022,6 +4031,7 @@
       "price": 418.47,
       "changePct": -0.3738,
       "spark": [
+        418.47,
         418.47,
         418.47
       ],
@@ -4464,12 +4474,13 @@
       "changePct": -5.2093,
       "spark": [
         267.85,
+        267.85,
         267.85
       ],
       "fundamentals": {
-        "peTTM": 293.2703,
+        "peTTM": 289.0659,
         "epsTTM": 0.9748000000000001,
-        "marketCapM": 306174.22,
+        "marketCapM": 301784.78,
         "week52High": 452.7,
         "week52Low": 100.02,
         "roeTTM": 13,
@@ -4904,6 +4915,7 @@
       "price": 31.46,
       "changePct": 1.0601,
       "spark": [
+        31.46,
         31.46,
         31.46
       ],
@@ -5346,6 +5358,7 @@
       "changePct": -4.6452,
       "spark": [
         208.56,
+        208.56,
         208.56
       ],
       "fundamentals": {
@@ -5786,6 +5799,7 @@
       "price": 162.17,
       "changePct": -3.3897,
       "spark": [
+        162.17,
         162.17,
         162.17
       ],
@@ -6235,7 +6249,7 @@
         "epsTTM": 44.17209999999999,
         "marketCapM": 990425.9,
         "week52High": 1255,
-        "week52Low": 110.79,
+        "week52Low": 111.67,
         "roeTTM": 70.55,
         "netMarginTTM": 55.91
       },
@@ -6676,7 +6690,7 @@
         "epsTTM": 72.89280000000001,
         "marketCapM": 183323.28,
         "week52High": 2354.39,
-        "week52Low": 40.53,
+        "week52Low": 41,
         "roeTTM": 93.13,
         "netMarginTTM": 56.46
       },
@@ -7109,6 +7123,7 @@
       "price": 197.51,
       "changePct": 2.4748,
       "spark": [
+        197.51,
         197.51,
         197.51
       ],
@@ -7551,6 +7566,7 @@
       "changePct": 2.05,
       "spark": [
         127.44,
+        127.44,
         127.44
       ],
       "fundamentals": {
@@ -7991,6 +8007,7 @@
       "price": 272.96,
       "changePct": 2.9222,
       "spark": [
+        272.96,
         272.96,
         272.96
       ],
@@ -8433,13 +8450,14 @@
       "changePct": 1.2739,
       "spark": [
         334.7,
+        334.7,
         334.7
       ],
       "fundamentals": {
         "peTTM": null,
         "epsTTM": -3.5145,
         "marketCapM": 116007.016,
-        "week52High": 331.4,
+        "week52High": 340.5,
         "week52Low": 118.3,
         "roeTTM": -57.21000000000001,
         "netMarginTTM": -23.79
@@ -8873,6 +8891,7 @@
       "price": 236.31,
       "changePct": -0.4088,
       "spark": [
+        236.31,
         236.31,
         236.31
       ],
@@ -9315,6 +9334,7 @@
       "changePct": -1.6181,
       "spark": [
         308.26,
+        308.26,
         308.26
       ],
       "fundamentals": {
@@ -9322,7 +9342,7 @@
         "epsTTM": 8.723299999999998,
         "marketCapM": 4476472.5,
         "week52High": 344.5699,
-        "week52Low": 216.58,
+        "week52Low": 219.25,
         "roeTTM": 137.17999999999998,
         "netMarginTTM": 27.62
       },
@@ -9755,6 +9775,7 @@
       "price": 330.88,
       "changePct": 0.7,
       "spark": [
+        330.88,
         330.88,
         330.88
       ],
@@ -10193,8 +10214,8 @@
   ],
   "news": [
     {
-      "headline": "Jefferies rebaja a Apple; Intel vende acciones",
-      "summary": "Apple fue degradada por Jefferies mientras Intel emite nuevas acciones para financiar su plan de inversión en tecnología.",
+      "headline": "Apple es rebajada por Jefferies en medio de ventas mixtas del mercado",
+      "summary": "Jefferies bajó la calificación de Apple mientras Intel busca capital para financiar su plan de inversión tecnológica.",
       "tickers": [
         "AAPL"
       ],
