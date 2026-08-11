@@ -1,0 +1,121 @@
+# Codebase Concerns
+
+**Analysis Date:** 2026-08-11
+
+## Tech Debt
+
+**Zero automated test coverage (frontend AND pipeline):**
+- Issue: There is no test suite anywhere in the repo. Verified by exploration: no `package.json` (so no `npm test`/Jest/Vitest config could exist), no `pytest`/`unittest` files, no file matching `*test*` or `*spec*` in the entire tree (`find . -iname "*test*"` returns nothing except the unrelated string `.env.example`). `pipeline/requirements.txt` contains only `anthropic>=0.121.0,<1.0.0` — no `pytest`, `responses`, `freezegun`, or any test/mock dependency.
+- Files: entire repo — `app.js` (2290 lines), `pipeline/fetch_and_curate.py` (796 lines), `styles.css`, `index.html`.
+- Impact: This is the single biggest structural risk in the project. The pipeline (`pipeline/fetch_and_curate.py`) is invoked hourly by `.github/workflows/refresh-data.yml` and, on success, auto-commits its output (`data.json`, `pipeline/price_history.json`, `pipeline/daily_ohlc.json`, `pipeline/summary_archive.json`) directly to `main` via `git push` — with no CI gate, no lint step, no schema check, and no human review in the loop. A regression in parsing logic (Finnhub JSON shape changes, Alpha Vantage CSV format changes, a new edge case in `_strip_markdown_fence`, an off-by-one in `update_summary_archive`'s date rollover) would ship straight to the public site's data source on the very next scheduled run, silently, with no automated check to catch it before it's live. The security-sensitive `escapeHtml()`/`isSafeHttpUrl()` functions in `app.js` (relied on per `PRODUCT.md`'s Security section to neutralize untrusted Finnhub/LLM text before `innerHTML` insertion) are also untested — the claim in `PRODUCT.md` that this was "confirmed by test with a `<img onerror=...>` payload" refers to manual/ad-hoc verification, not an automated regression test that runs on every change.
+- Fix approach: Add a minimal pytest suite for `pipeline/fetch_and_curate.py` covering `_strip_markdown_fence`, `_mentions`/`pre_filter`, `update_summary_archive`'s day-rollover logic, and `fetch_earnings_calendar`'s CSV parsing (all pure functions, easy to unit test with fixture data, no live API calls needed). Add a lightweight JS test (even a plain Node script run in CI, no framework required) asserting `escapeHtml()` and `isSafeHttpUrl()` behavior against XSS payloads. Add a GitHub Actions job that runs these tests on every push/PR to `main`, separate from and prior to the hourly data-refresh workflow.
+
+**`sys.exit()` used as an error-handling mechanism inside functions that are sometimes called within `try/except Exception` blocks:**
+- Issue: `sys.exit(message)` raises `SystemExit`, which does not inherit from `Exception` (it inherits directly from `BaseException`), so `except Exception:` does not catch it. The project's own history includes a production incident (commit `4d210a7`, "Fix: pipeline moría si el modelo envolvía el JSON en un bloque markdown") where this exact class of bug — an uncaught-by-design early exit inside a path meant to be resilient — took down an entire hourly run and discarded already-fetched prices. That specific occurrence (Claude wrapping JSON in a markdown fence) is resolved (`_strip_markdown_fence()` at `pipeline/fetch_and_curate.py:697-710`, and `curate_with_claude` at `pipeline/fetch_and_curate.py:691-694` now does `raise ValueError(...)` instead of `sys.exit(...)` for that failure mode, caught by the `except Exception` at `pipeline/fetch_and_curate.py:751`). However, the same anti-pattern still exists in 7 other call sites in the same file, guarding "missing API key" at the top of fetch functions. See the full classification below.
+- Files: `pipeline/fetch_and_curate.py` (7 call sites: lines 225, 303, 340, 373, 431, 511, 653).
+- Impact: see per-site classification below — 2 of the 7 are genuinely reachable latent risks that could crash an entire hourly run and discard already-fetched data (the exact failure mode of the historical incident), even though none has fired in practice yet because the env vars are validated as present via GitHub Actions secrets before every run.
+- Fix approach: Replace all 7 `sys.exit(...)` calls with `raise RuntimeError(...)` (or a dedicated `MissingApiKeyError` exception), and let `main()` catch that specific exception type once at the top level to print the message and exit with a non-zero code — this preserves the "hard stop on missing config" behavior for a truly fresh/misconfigured run while making every one of these guards safe to nest inside any current or future `try/except Exception` block without relying on manual reasoning about call order.
+
+### `sys.exit()` call-site audit (`pipeline/fetch_and_curate.py`)
+
+| Line | Function | Guards | Called from | Wrapped in `try/except`? | Classification |
+|------|----------|--------|--------------|---------------------------|-----------------|
+| 225 | `fetch_finnhub_news()` | `FINNHUB_API_KEY` | `main()` line 717, first call in the function, unguarded | No | **Safe** — fires before any work has happened in the run; nothing to lose. |
+| 303 | `fetch_prices()` | `FINNHUB_API_KEY` | `main()` line 720, unguarded | No | **Safe** — not inside any `try/except`; if this fires, the process exits normally (in practice unreachable anyway since line 225 already validated the same key earlier in the same run). |
+| 340 | `fetch_fundamentals()` | `FINNHUB_API_KEY` | `main()` line 722, unguarded | No | **Safe** — same reasoning as line 303. |
+| 373 | `fetch_earnings_actuals()` | `FINNHUB_API_KEY` | `main()` line 729, **inside `try: ... except Exception as exc:` (lines 728-732)** | Yes | **Latent risk** — currently unreachable in practice only because `FINNHUB_API_KEY` was already unconditionally checked earlier in the same run (lines 225/303/340); if this function is ever reordered before those calls, reused elsewhere, or the earlier checks are refactored away, a missing key here would raise `SystemExit`, escape the `except Exception`, and crash the whole run — discarding the news, prices, and fundamentals already fetched. |
+| 431 | `fetch_earnings_calendar()` | `AV_API_KEY` | Only called from `fetch_daily_batch()` line 549, itself **inside `try: ... except Exception as exc:` (lines 548-554) nested inside `fetch_daily_batch()`, which is itself inside `main()`'s outer `try/except` (lines 733-737)** | Yes (doubly nested) | **Latent risk, currently unreachable** — by the time this call site is reached, `AV_API_KEY` was already validated non-empty at line 511 in the same function earlier in the same run, so it cannot fire today; but the function is a module-level, independently-callable guard, and if ever invoked standalone (e.g. a future refactor that fetches the calendar separately from OHLC), it would crash inside a should-be-caught path. |
+| 511 | `fetch_daily_batch()` | `AV_API_KEY` | `main()` line 734, **inside `try: ... except Exception as exc:` (lines 733-737)** | Yes | **Latent risk — real and reachable.** The cache short-circuit (lines 500-508) returns early *without* checking `AV_API_KEY` when `daily_ohlc.json`'s `_fetchedDate` already matches today (23 of every 24 hourly runs). But on the one run per day where the cache is stale (cache miss), this guard executes for real. If `ALPHAVANTAGE_API_KEY` is ever empty (secret revoked, expired, GitHub Actions misconfiguration, org secret removed), this fires on that day's run, `SystemExit` escapes the `except Exception` at line 735, and the entire hourly run crashes — discarding the news, prices, fundamentals, and earnings-actuals already fetched earlier in the same run (`fetch_finnhub_news`, `fetch_prices`, `fetch_fundamentals`, `fetch_earnings_actuals`), none of which get written to `data.json` because the crash happens before the single `DATA_PATH.write_text(...)` call at line 786. This is the closest structural twin to the original fixed incident. |
+| 653 | `curate_with_claude()` | `ANTHROPIC_API_KEY` | `main()` line 750, **inside `try: ... except Exception as exc:` (lines 749-755)** | Yes | **Latent risk — real and highly reachable.** This runs on essentially every hourly execution (whenever `candidates` is non-empty, i.e. any run where Finnhub returned at least one on-topic article). If `ANTHROPIC_API_KEY` is ever empty, this crashes the whole run instead of falling back to `curated = {"sector_summary": {...}, "items": []}` the way a malformed-JSON or API-error failure already does. This is the *exact same function* where the historical markdown-fence incident happened — the fix addressed the JSON-parsing failure mode but left this adjacent, structurally identical failure mode (missing key) unaddressed. |
+
+## Known Bugs
+
+Not applicable — no open/reported bugs found in code comments, `TODO`/`FIXME`/`HACK`/`XXX` markers (none found anywhere in `.py`/`.js`/`.html`/`.css` files via repo-wide grep), or commit history. The one historically fixed production bug (markdown-fence-wrapped JSON crashing the pipeline, and a separate Finnhub `/calendar/earnings` bug with missing/incorrect earnings dates — documented in `PRODUCT.md`'s Capabilities section, citing `finnhubio/Finnhub-API#528`, and worked around by switching to Alpha Vantage's `EARNINGS_CALENDAR`) is resolved and not a current concern.
+
+## Security Considerations
+
+**API keys and secrets — confirmed clean:**
+- Risk: accidental commit of live API keys.
+- Files checked: `.gitignore` (repo root), `pipeline/.env.example`, `git ls-files`, `git log --all --full-history -- "*.env" "pipeline/.env"`.
+- Findings: `.gitignore` explicitly excludes `pipeline/.env` (line 2) with the comment "Secrets — never commit these". `git ls-files` shows only `pipeline/.env.example` is tracked, and its contents are just empty key placeholders (`ALPHAVANTAGE_API_KEY=`, `FINNHUB_API_KEY=`, `ANTHROPIC_API_KEY=` — no real values). A full-history search (`git log --all --full-history -- "*.env" "pipeline/.env"`) returns zero commits — no `.env` file has ever been committed at any point in the repo's history. The three real keys (`ALPHAVANTAGE_API_KEY`, `FINNHUB_API_KEY`, `ANTHROPIC_API_KEY`) are only referenced as `${{ secrets.* }}` in `.github/workflows/refresh-data.yml:43-45`, injected as env vars at CI runtime, and never appear in any file the frontend serves — consistent with `PRODUCT.md`'s Security section claim "API keys never reach the client."
+- Current mitigation: `.gitignore` coverage + GitHub Actions encrypted secrets. No further action needed here.
+
+**No automated XSS regression test (see Tech Debt above):**
+- Risk: `escapeHtml()` (`app.js`, referenced around line 298-onward) and `isSafeHttpUrl()` (`app.js:287-293`) are the sole defense against untrusted Finnhub/LLM-sourced text and URLs being inserted via `innerHTML`. Both are correctly implemented today (verified by reading) but have no automated test locking their behavior in place.
+- Files: `app.js` (escapeHtml, isSafeHttpUrl definitions), consumers throughout the news-rendering code.
+- Current mitigation: manual verification only, per `PRODUCT.md`.
+- Recommendations: add the minimal JS test described in Tech Debt above; treat any future change to these two functions as security-sensitive and requiring explicit review.
+
+**Errors are printed to stderr but never surfaces to any alerting channel:**
+- Risk: both the pipeline (`print(..., file=sys.stderr)` throughout `pipeline/fetch_and_curate.py`) and the frontend (silent `catch`/`catch {}` blocks in `app.js`, zero `console.error`/`console.warn` calls found anywhere in `app.js`) only ever emit diagnostic output to a log stream nobody is watching in real time. A GitHub Actions run failure only surfaces via GitHub's default email-to-repo-owner notification (not configured/verified here) or by someone manually checking the Actions tab.
+- Files: `pipeline/fetch_and_curate.py` (all `print(..., file=sys.stderr)` calls), `app.js` (12 `catch` blocks, none logging).
+- Current mitigation: none beyond GitHub's default per-workflow-failure email.
+- Recommendations: not urgent given the app's scale, but worth noting if uptime/data-freshness becomes a stated product commitment — a stale `data.json` (e.g. from several consecutive crashed runs) currently has no user-facing or developer-facing signal beyond the `updated_at` timestamp already shown in the UI.
+
+## Performance Bottlenecks
+
+**Hourly pipeline run duration on Alpha Vantage cache-miss days:**
+- Problem: once per day, `fetch_daily_batch()` (`pipeline/fetch_and_curate.py:473-560`) makes 23 sequential Alpha Vantage requests (one per `OHLC_TICKERS`) with a mandatory 13-second sleep between each (`time.sleep(13)` at line 516 and again at line 547) to respect Alpha Vantage's free-tier 5-requests/minute cap, per the comment at lines 494-496.
+- Files: `pipeline/fetch_and_curate.py:473-560`.
+- Cause: hard free-tier rate limit, not a code inefficiency — already documented candidly in the code's own comments ("la corrida diaria tarda unos 4-5 minutes en vez de segundos").
+- Improvement path: none available on the free tier; only a paid Alpha Vantage plan removes this. Not a practical concern since it runs once/day and the hourly schedule tolerates a multi-minute single run.
+
+**Finnhub per-ticker request volume:**
+- Problem: `fetch_prices`, `fetch_fundamentals`, and `fetch_earnings_actuals` each loop over all 50 `AI_TICKERS` with `FINNHUB_PACING_SECONDS = 1.1` (`pipeline/fetch_and_curate.py:298`) between requests — 150 requests total per hourly run just for those three, plus 1 for news, confirmed in `PRODUCT.md` ("151 requests/run"). At ~1.1s pacing that's roughly 2.5-3 minutes of the pipeline's runtime spent purely on rate-limit sleeps for this portion alone.
+- Files: `pipeline/fetch_and_curate.py:301-321` (`fetch_prices`), `:335-363` (`fetch_fundamentals`), `:366-405` (`fetch_earnings_actuals`).
+- Cause: Finnhub's 60 calls/min free-tier limit, deliberately paced with margin (55/min target, per the comment at lines 294-297).
+- Improvement path: Finnhub's `/quote` doesn't support batch/multi-symbol requests on the free tier, so per-ticker looping is close to unavoidable without a paid plan. Growing the tracked-ticker list further will linearly increase per-run duration and eventually risk exceeding a single GitHub Actions hourly window if the ticker count grows substantially (currently 50 tickers × 3 endpoints is comfortably within an hour, but this is a structural growth limiter worth flagging alongside the Alpha Vantage one below).
+
+## Fragile Areas
+
+**Alpha Vantage's free-tier 25-requests/day ceiling is a hard, permanent growth limiter, not a transient constraint:**
+- Files: `pipeline/fetch_and_curate.py:69-96` (ticker list comments), `:470-496` (`fetch_daily_batch` docstring), `PRODUCT.md:39` (Capabilities and Constraints section).
+- The project's own framing (`PRODUCT.md:39`): "This 25/day ceiling is the hard limit on how many tickers can ever get real candlesticks on the free tier — going past 24 total (23 OHLC + 1 calendar) needs a paid Alpha Vantage plan." This is stated as a permanent architectural constraint, not something expected to resolve itself.
+- Current state: of the 50 tracked tickers (`AI_TICKERS`, `pipeline/fetch_and_curate.py:77-96`), only the original 23 (`OHLC_TICKERS = AI_TICKERS[:23]`, line 97) get real daily OHLC candlestick data. The 27 tickers added later (comment at lines 85-96, dated 2026-08-11) permanently fall back to a line chart built from the hourly `spark` price-snapshot window instead of real candles — by design, not as a temporary degradation.
+- Assessment: this is a sound, honestly-documented tradeoff for a free-tier product (the frontend explicitly avoids fabricating candle data for uncovered tickers, per `PRODUCT.md:46` re: the Comparador feature). The technical risk is that the 23/27 split is presently hardcoded as `AI_TICKERS[:23]` — any future reordering of `AI_TICKERS` (e.g. inserting a new ticker anywhere but the end of the list, or alphabetizing it) would silently reassign which tickers get real candles without an explicit, obvious signal at the point of the reorder. The only guard is the comment block at lines 69-76.
+- Fix approach (if ever revisited): make `OHLC_TICKERS` an explicit, separately-named list literal (not a slice of `AI_TICKERS`) so adding/reordering tickers in `AI_TICKERS` can never accidentally change OHLC coverage.
+
+**Auto-commit-from-CI pattern: no conflict handling on `git push`:**
+- Files: `.github/workflows/refresh-data.yml:48-54` (the "Commit updated data" step).
+- The workflow's `concurrency` block (`group: refresh-data`, `cancel-in-progress: false`, lines 22-24) correctly serializes overlapping runs of *this same workflow* (e.g. an hourly-scheduled run overlapping with a manual `workflow_dispatch` run) — a second run queues rather than racing the first or getting killed mid-write.
+- However, the final step is a plain `git push` (line 54) with no `git pull --rebase` or retry logic beforehand. If a human (or another workflow) pushes a commit directly to `main` between this job's `Checkout` step (line 30-31, which happens at job start) and its `git push` (which happens minutes later, after the multi-minute pipeline run), the push will be rejected as non-fast-forward and the step — and the whole job — fails with no retry.
+- Impact: on failure, none of the four data files (`data.json`, `pipeline/price_history.json`, `pipeline/daily_ohlc.json`, `pipeline/summary_archive.json`) are committed for that hourly run (GitHub Actions skips no steps here since it's the last step, but the failure is terminal for the job) — the site simply serves the previous hour's `data.json` until the next scheduled run succeeds. This is self-healing within an hour and does not corrupt any committed data (no partial/malformed commit is possible, since `git commit` only runs if `git diff --cached --quiet` finds changes, and a failed push doesn't roll back the local commit but also doesn't affect `origin/main`). The main risk is silent staleness with no alerting (see Security Considerations above) rather than data corruption.
+- Fix approach (low priority given current single-maintainer usage pattern): add a `git pull --rebase origin main` (or fetch + rebase) immediately before `git push`, or switch to `git push --force-with-lease` scoped only to these 4 files is not applicable — a rebase is the safer fix since it preserves any concurrent human commits to unrelated files.
+
+**Growing `daily_ohlc.json` / repo size from perpetual hourly commits:**
+- Files: `pipeline/daily_ohlc.json` (currently 74,004 bytes), `pipeline/price_history.json` (2,042 bytes), `data.json` (165,111 bytes) — all committed to `main` on every successful hourly run (`.github/workflows/refresh-data.yml:52`).
+- Because these files are rewritten (not appended-to-without-bound — `HISTORY_POINTS = 12`, `OHLC_DAYS_KEPT = 60`, `ARCHIVE_DAYS_KEPT = 30` all cap growth, per `pipeline/fetch_and_curate.py:153,161-162`) each run, the *file sizes* are bounded, but the *git history* is not — every hourly run that changes any of these files (which is effectively every run, since prices change hourly) adds a new commit and a new blob to `.git`. At 24 commits/day this accumulates indefinitely; `.git` is currently 4.3MB with 58 total commits (a mix of pipeline-data and feature commits), which is not yet a practical problem but will grow roughly linearly with pipeline runtime.
+- Assessment: not an urgent concern at current scale, but worth being aware of as a slow, permanent repo-bloat source with no cleanup mechanism (e.g. no periodic history squash/rewrite). GitHub Pages/Actions have no hard repo-size alarm at this scale, so this would only become visible as a slow clone/checkout-time regression over a long time horizon (years, at current growth rate).
+
+## Scaling Limits
+
+**Finnhub 60 calls/min and Alpha Vantage 25 req/day are the two hard external ceilings on how many tickers this product can ever track:**
+- Current capacity: 50 tickers today, ~151 Finnhub requests/run (comfortably under 60/min with 1.1s pacing) and exactly 24 Alpha Vantage requests/day (of the 25/day cap) for the 23-ticker OHLC subset + calendar.
+- Limit: Alpha Vantage's ceiling is the binding constraint — it is already at 24/25 requests used, meaning **at most 1 more ticker** could theoretically be added to `OHLC_TICKERS` before the free tier is fully exhausted (and that assumes the calendar request stays at 1). Finnhub has more headroom (no published daily cap, per `PRODUCT.md:33`) but growing the ticker list further extends per-run wall-clock time (see Performance Bottlenecks above) and eventually risks approaching Finnhub's per-minute limit if pacing isn't proportionally increased.
+- Scaling path: a paid Alpha Vantage plan is the only way to grow real-OHLC coverage beyond 23-24 tickers; this is explicitly out of scope for the current free-tier-only product framing in `PRODUCT.md`.
+
+## Dependencies at Risk
+
+Not applicable — the only pinned external Python dependency is `anthropic>=0.121.0,<1.0.0` (`pipeline/requirements.txt`), a version-range pin (not floating/unpinned), consistent with `PRODUCT.md`'s Security section claim that this is intentional so CI doesn't silently pick up an unvetted new release. No frontend package dependencies exist at all (no `package.json`, no CDN-loaded libraries — `PRODUCT.md:47` explicitly notes the share-as-image feature avoids a CDN canvas library "blocked by the CSP anyway"). No deprecated or abandoned dependencies found.
+
+## Missing Critical Features
+
+Not applicable to a concerns audit — feature scope is intentionally and explicitly bounded per `PRODUCT.md`'s Product Principles (static, cost-disciplined, no backend). No gaps were found between what `PRODUCT.md` claims exists and what the code actually implements.
+
+## Test Coverage Gaps
+
+**Everything — see Tech Debt section above for the full assessment.** Summarized by area:
+
+- **Pipeline JSON/CSV parsing** (`_strip_markdown_fence`, `fetch_earnings_calendar`'s CSV handling, `fetch_daily_batch`'s cache-read/write): 0% covered. Files: `pipeline/fetch_and_curate.py:423-467, 473-560, 697-710`. Risk: silent malformed-data commits to `main`. Priority: High.
+- **Pipeline error-fallback paths** (all `except Exception` blocks in `main()` that are supposed to degrade gracefully): 0% covered, and per the `sys.exit()` audit above, at least 2 of these paths (lines 511, 653) have an unhandled escape hatch that would defeat the fallback entirely. Files: `pipeline/fetch_and_curate.py:716-792`. Priority: High.
+- **Frontend security functions** (`escapeHtml`, `isSafeHttpUrl`): 0% automated coverage, though manually verified per `PRODUCT.md`. Files: `app.js` (escapeHtml/isSafeHttpUrl definitions near line 287-300+). Priority: High (security-sensitive).
+- **Frontend data normalization** (`normalizeRealData`, `loadData`'s demo-data fallback trigger conditions): 0% covered. Files: `app.js:387-`. Priority: Medium — a normalization bug here would silently fall back to demo data (fail-safe direction) rather than crash, so the blast radius is lower than the pipeline-side gaps.
+- **Watchlist / cost-basis localStorage logic** (`getPosition`'s old-format migration at `app.js:222-227`): 0% covered. Files: `app.js:189-245`. Priority: Low — isolated, per-device, non-destructive on failure (falls back to unset).
+
+## Out of Scope / Noted Only
+
+**`COLOR-MIGRATION.md`** exists as an untracked file at the repo root (confirmed via `git status --porcelain`: `?? COLOR-MIGRATION.md`, and `ls -la`: present on disk, 3,933 bytes). Per explicit prior project instruction, its contents were not read and are not evaluated here.
+
+---
+
+*Concerns audit: 2026-08-11*
