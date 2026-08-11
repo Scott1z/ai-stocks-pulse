@@ -116,6 +116,65 @@
   color-scheme: light;
 }
 
+/* Modo oscuro — mismo sistema de un solo acento, cool-biased (No-Black
+   Rule: ni #000 puro ni #fff puro tampoco acá). Como cada color del sitio
+   ya pasa por estas variables (auditado: cero hex hardcodeado fuera de
+   este bloque, ni en styles.css ni en app.js), redefinir el bloque alcanza
+   para que absolutamente todo — gráficos, badges, hairlines — herede el
+   tema nuevo sin tocar una sola regla más. */
+:root[data-theme="dark"] {
+  --paper: #0a1120;
+  --panel: #101a2e;
+  --panel-raised: #17233c;
+  --line: #223050;
+  --line-strong: #34486d;
+  --text: #eef1f6;
+  --text-dim: #a9b4c7;
+  --text-faint: #7986a0;
+
+  --accent: #6b9bd1;
+  --accent-dim: rgba(107, 155, 209, 0.16);
+
+  --icon-teal: #4fc2b0;
+  --icon-indigo: #9aa7e8;
+
+  --rise: #4ecb85;
+  --rise-dim: rgba(78, 203, 133, 0.16);
+  --fall: #e2695c;
+  --fall-dim: rgba(226, 105, 92, 0.16);
+  --mixed: #9fb0c9;
+  --mixed-dim: rgba(159, 176, 201, 0.16);
+
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  /* Sigue la preferencia del sistema solo si el usuario no eligió nada a
+     mano todavía (initThemeManager() en app.js recién agrega
+     data-theme="light" cuando hay una elección explícita guardada). */
+  :root:not([data-theme="light"]):not([data-theme="dark"]) {
+    --paper: #0a1120;
+    --panel: #101a2e;
+    --panel-raised: #17233c;
+    --line: #223050;
+    --line-strong: #34486d;
+    --text: #eef1f6;
+    --text-dim: #a9b4c7;
+    --text-faint: #7986a0;
+    --accent: #6b9bd1;
+    --accent-dim: rgba(107, 155, 209, 0.16);
+    --icon-teal: #4fc2b0;
+    --icon-indigo: #9aa7e8;
+    --rise: #4ecb85;
+    --rise-dim: rgba(78, 203, 133, 0.16);
+    --fall: #e2695c;
+    --fall-dim: rgba(226, 105, 92, 0.16);
+    --mixed: #9fb0c9;
+    --mixed-dim: rgba(159, 176, 201, 0.16);
+    color-scheme: dark;
+  }
+}
+
 * { box-sizing: border-box; }
 
 html {
@@ -241,6 +300,34 @@ header, main, footer { position: relative; z-index: 1; }
 .topbar-nav a.active { color: var(--accent); background: var(--accent-dim); }
 
 .topbar-actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: border-color 0.12s ease, color 0.12s ease;
+}
+.theme-toggle:hover { color: var(--text); border-color: var(--accent); }
+.theme-toggle-icon { width: 15px; height: 15px; }
+.theme-toggle .icon-moon { display: none; }
+/* El ícono visible representa el modo activo (sol = claro, luna =
+   oscuro) — misma lógica dual (atributo explícito + fallback de sistema)
+   que las variables de color de arriba, para que no haya un frame donde
+   el ícono no coincida con el tema real. */
+:root[data-theme="dark"] .theme-toggle .icon-sun { display: none; }
+:root[data-theme="dark"] .theme-toggle .icon-moon { display: block; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) .theme-toggle .icon-sun { display: none; }
+  :root:not([data-theme="light"]):not([data-theme="dark"]) .theme-toggle .icon-moon { display: block; }
+}
 
 .demo-pill {
   font-family: var(--font-data);

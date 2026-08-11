@@ -41,7 +41,8 @@ Two things a copy-paste competitor would have to rebuild, not just restyle:
 - The Stock Detail Modal's chart is a real OHLC candlestick once a ticker has daily data cached; until then (no Alpha Vantage coverage attempted for that symbol, or the fetch failed) it falls back to a line chart built from hourly price snapshots, with the caption stating which one is showing.
 - Frontend makes zero LLM calls at view time — all curation happens offline in the pipeline; page load cost is flat regardless of visitor traffic.
 - Per-stock sentiment tags (bullish/bearish/mixed) are derived locally from price-change sign, not from the LLM.
-- No user accounts, no login, no personalization.
+- No user accounts, no login, no personalization (favorites and watchlist positions are per-device, via `localStorage`).
+- Dark mode: follows system preference by default (pure CSS, no flash on load), or an explicit toggle in the topbar that overrides it and persists to `localStorage`.
 - Automatic graceful fallback: if `data.json` is missing or invalid, the page renders built-in demo data instead of breaking.
 
 ## Security

@@ -76,7 +76,7 @@ components:
 
 A calm, considered instrument for reading the AI stocks sector. This palette went through four directions before landing here — a black terminal (too generic-AI-dashboard), sage-green ledger paper (too "eco," didn't read as financial), a parchment-and-gold stock-certificate motif (distinctive, but more editorial than "commonly used and comfortable") — and settled on the colors people already recognize from finance software itself: a cool neutral white/grey base with a single navy-blue accent, the convention most banking and trading apps actually use, chosen for legibility over long daily sessions rather than for novelty. One accent, everywhere, per the Lila Rule — no second accent competing for attention.
 
-The system is deliberately single-theme (light only). This is a daily-use tool, not a themeable brand site — committing to one world was a conscious choice, not an omission.
+The system originally shipped single-theme (light only) — "committing to one world," not an omission — but grew a dark mode later at the user's request. The two themes are not two different design languages: dark mode reuses every token, ratio, and rule in this document unchanged, just with the color variable block swapped (see "Dark Mode" below). Nothing about the page's structure, spacing, iconography, or the One Accent Rule changes between themes.
 
 **Key Characteristics:**
 - Cool neutral white/light-grey background — the convention of banking and trading software, not an invented editorial palette
@@ -115,6 +115,15 @@ A cool, neutral palette with exactly one accent and a separate semantic triad �
 **The One Accent Rule.** Ledger Navy is the only brand accent on the page, full stop — not "the primary one among two." It never does semantic work — if a color means rise/fall/mixed, it is never navy. The category icon set (Icon Teal, Icon Indigo, plus reused Navy/Green) is a deliberate, narrowly-scoped exception: icon-only, never applied to text, badges, or surfaces, so the rule still holds everywhere it originally mattered.
 
 **The No-Black Rule.** No `#000000` and no clinical, context-free `#ffffff` — panels and text both carry a deliberate cool bias rather than being pure values. Pure neutrals read as generic; the considered cool tone is what makes it this system.
+
+### Dark Mode
+- **Why it works with zero structural changes:** every color on the page already routed through the CSS custom properties above — audited before implementing (no hardcoded hex in `styles.css` outside the `:root` variable block, none in `app.js` at all). So dark mode is a second variable block, not a second design pass: charts, badges, hairlines, gradients all inherit it automatically.
+- **Palette:** the same cool-navy character as light mode, same No-Black Rule (no pure `#000`, base is `#0a1120`, a navy-tinted near-black). `--accent`, `--rise`, `--fall`, `--icon-teal`, `--icon-indigo` are all lightened versions of their light-mode hues (not new colors) so they clear WCAG AA against the dark backgrounds — same hue family, same One Accent Rule, just recalibrated for the opposite contrast direction.
+- **Activation, two paths:**
+  1. **No saved preference:** pure CSS, `@media (prefers-color-scheme: dark)`, applies automatically at first paint. Zero JavaScript involved on this path specifically so there's no flash-of-wrong-theme — the alternative (setting `data-theme` via an inline `<script>` in `<head>`, the usual fix for this) isn't available here since the page has zero inline scripts by design (see PRODUCT.md's `script-src 'self'` CSP).
+  2. **Explicit choice:** the topbar toggle (sun/moon icon, next to the demo/live pill) sets `data-theme="light"` or `"dark"` on `<html>` and persists it to `localStorage` (`aisp_theme`) — this always wins over system preference.
+- **Toggle icon:** sun visible in light mode, moon in dark — the icon shows the *active* mode, not the mode you'd switch to. Same dual-path logic as the color variables (explicit attribute or media-query fallback) so the icon never mismatches the actual rendered theme on load.
+- **Also swapped:** the `<meta name="theme-color">` tag (mobile browser chrome color) and `color-scheme` (native form control/scrollbar theming), both updated by the same `applyTheme()` call that sets the attribute.
 
 ## Typography
 

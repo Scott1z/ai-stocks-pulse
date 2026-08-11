@@ -1557,6 +1557,54 @@ function showToast(message) {
   showToast._t = setTimeout(() => toast.classList.remove("show"), 3000);
 }
 
+// Modo oscuro — sin elección guardada, sigue prefers-color-scheme vía CSS
+// pura (ver @media en styles.css, cero JS involucrado, así que no hay flash
+// de tema equivocado en la primera pintura). Esta función solo entra en
+// juego para: aplicar una elección YA guardada al cargar, y manejar el
+// click del toggle. Nunca fuerza un tema si el usuario no lo pidió.
+const THEME_KEY = "aisp_theme";
+
+function applyTheme(theme) {
+  if (theme) {
+    document.documentElement.setAttribute("data-theme", theme);
+  } else {
+    document.documentElement.removeAttribute("data-theme");
+  }
+  const isDark =
+    theme === "dark" || (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches);
+  const themeColor = isDark ? "#0a1120" : "#f7f8fa";
+  document.querySelector('meta[name="theme-color"]')?.setAttribute("content", themeColor);
+  document.getElementById("themeToggle")?.setAttribute("aria-pressed", String(isDark));
+  document.getElementById("themeToggle")?.setAttribute(
+    "aria-label",
+    isDark ? "Cambiar a modo claro" : "Cambiar a modo oscuro"
+  );
+}
+
+function initThemeManager() {
+  let saved = null;
+  try {
+    saved = localStorage.getItem(THEME_KEY);
+  } catch {
+    /* localStorage unavailable — el toggle sigue funcionando, solo no persiste */
+  }
+  applyTheme(saved);
+
+  document.getElementById("themeToggle")?.addEventListener("click", () => {
+    const currentlyDark =
+      document.documentElement.getAttribute("data-theme") === "dark" ||
+      (!document.documentElement.getAttribute("data-theme") &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches);
+    const next = currentlyDark ? "light" : "dark";
+    applyTheme(next);
+    try {
+      localStorage.setItem(THEME_KEY, next);
+    } catch {
+      /* localStorage unavailable — el tema se aplica igual, solo no persiste */
+    }
+  });
+}
+
 function initInstallPrompt() {
   const installBtn = document.getElementById("installBtn");
   let deferredPrompt = null;
@@ -1644,6 +1692,7 @@ async function init() {
   initHeroChartInteraction();
   initEarningsCalendar();
   initSectionNav();
+  initThemeManager();
   initInstallPrompt();
   initServiceWorker();
   hidePreloader();
