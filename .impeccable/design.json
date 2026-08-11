@@ -150,14 +150,6 @@
       "description": "16px hand-rolled line icon, colored by concept (Navy for time/pulse, Teal for company/structure, Indigo for ratios and news, Green for dollar-value figures) rather than the page's single accent. A deliberate, user-requested exception to the One Accent Rule, inspired by invertironline's per-category icon coloring but built as our own restrained icon set instead of adopting their illustration style or palette. Appears in section headers, hero stats, and the Stock Detail Modal's fundamentals grid, reusing the same icon+color pairing wherever the same concept recurs.",
       "html": "<h2><svg class=\"icon-glyph icon-teal\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M4 20h16M5 20V9.5L12 5l7 4.5V20M9 20v-6h6v6\"/></svg>Empresas del sector</h2>",
       "css": ".icon-glyph { width: 16px; height: 16px; flex-shrink: 0; vertical-align: -3px; } .icon-navy { color: var(--accent, #1c3a5e); } .icon-teal { color: var(--icon-teal, #1f7a72); } .icon-indigo { color: var(--icon-indigo, #4a5a8f); } .icon-green { color: var(--rise, #2e7d4f); }"
-    },
-    {
-      "name": "Hero Illustration",
-      "kind": "custom",
-      "refersTo": "hero-illustration",
-      "description": "A larger thin-line illustration (coin stack, dollar bill, candlestick cluster - the same three finance motifs as the Category Icons, scaled up) filling the hero-text column's empty space below the meta badges, at the user's request to reduce visible whitespace. Generated via an image tool after one rejected attempt (chunky black-outline sticker style with a stray drop shadow) and one caught bug (a 'transparent' background that came back as a literal baked-in checkerboard, not real alpha) - fixed by generating on an explicit solid #f7f8fa fill and normalizing near-background pixels to the exact --paper value in post-processing so it seams invisibly into the page.",
-      "html": "<img src=\"images/hero-illustration.png\" alt=\"\" class=\"hero-illustration\" aria-hidden=\"true\">",
-      "css": ".hero-illustration { display: block; width: 200px; height: auto; margin: 28px 0 0; opacity: 0.92; } @media (max-width: 860px) { .hero-illustration { display: none; } }"
     }
   ],
   "narrative": {
