@@ -350,6 +350,18 @@ header, main, footer { position: relative; z-index: 1; }
 
 .hero-meta { display: flex; flex-wrap: wrap; gap: 10px; }
 
+/* Decorative accent filling the hero-text column's empty space below the
+   badges. Flat thin-line illustration (coins/bill/candlesticks) generated
+   to match the page's existing icon stroke language and palette exactly —
+   not a stock/glossy asset. Purely decorative: aria-hidden, empty alt. */
+.hero-illustration {
+  display: block;
+  width: 200px;
+  height: auto;
+  margin: 28px 0 0;
+  opacity: 0.92;
+}
+
 .updated-badge, .sentiment-badge {
   font-family: var(--font-data);
   font-size: 0.72rem;
@@ -997,6 +1009,9 @@ header, main, footer { position: relative; z-index: 1; }
 
 @media (max-width: 860px) {
   .hero { grid-template-columns: 1fr; }
+  /* Once the hero-card (real data) stacks directly below, the decorative
+     illustration would just push it further down — drop it here. */
+  .hero-illustration { display: none; }
 }
 
 @media (max-width: 640px) {
