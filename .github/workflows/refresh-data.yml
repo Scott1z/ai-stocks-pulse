@@ -7,7 +7,8 @@ name: Refresh sector data
 # (only the original 23 tickers — OHLC_TICKERS, not all 50) + the earnings
 # calendar (all 50) — fetched once per day only (23 tickers + 1 calendar
 # request, ~5 min with AV's 5 req/min pacing), cached the other 23 runs.
-# Writes data.json + pipeline/price_history.json + pipeline/daily_ohlc.json,
+# Writes data.json + pipeline/price_history.json + pipeline/daily_ohlc.json +
+# pipeline/summary_archive.json (rolling 30-day history of sector summaries),
 # and commits them back so GitHub Pages serves the latest snapshot.
 # Also runnable by hand from the Actions tab (workflow_dispatch).
 on:
@@ -48,6 +49,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data.json pipeline/price_history.json pipeline/daily_ohlc.json
+          git add data.json pipeline/price_history.json pipeline/daily_ohlc.json pipeline/summary_archive.json
           git diff --cached --quiet || git commit -m "Refresh sector data"
           git push

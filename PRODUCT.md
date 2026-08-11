@@ -46,6 +46,7 @@ Two things a copy-paste competitor would have to rebuild, not just restyle:
 - Comparador: overlay up to 3 tickers' % return on one chart, reusing the hero chart's curve/range logic. Only the original 23 tickers (of 50) have real OHLC coverage for the 30d/60d ranges; comparing a newer ticker on those ranges is handled honestly (excluded with a note, or an explicit "no coverage" message), never silently wrong.
 - Share-as-image: a button generates a 1200×630 PNG of the day's sector summary, hand-drawn on `<canvas>` (no CDN library — blocked by the CSP anyway) and theme-aware (reads live CSS colors, so it matches light/dark automatically). Downloads directly, or uses the Web Share API with a file on mobile.
 - Heatmap: a "Tabla / Mapa de calor" toggle on the Empresas section switches to a size-by-market-cap, color-by-change grid view of the same tickers — same filters/search/click-through as the table, just a different read of identical data.
+- Historial: a rolling 30-day archive of the sector summary (sentiment, text, breadth stats, top mover/loser), one entry per day, upserted by the pipeline on every hourly run so a given day never accumulates duplicates. Section stays hidden until the pipeline has written at least one day — never shown blended with demo data under a "live" badge.
 - Automatic graceful fallback: if `data.json` is missing or invalid, the page renders built-in demo data instead of breaking.
 
 ## Security

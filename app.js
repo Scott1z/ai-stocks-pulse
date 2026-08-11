@@ -166,10 +166,19 @@ const DEMO_EARNINGS = [
   { ticker: "META", name: "Meta Platforms", date: "2026-10-14", hour: "amc" },
 ];
 
+const DEMO_ARCHIVE = [
+  { date: "2026-08-05", sentiment: "mixed", text: "Jornada dispar: los semiconductores retroceden por toma de ganancias mientras el software de IA sostiene el tono positivo del sector.", stats: { upCount: 3, totalCount: 6, avgChangePct: -0.1, newsCount: 6 }, topMover: { ticker: "MSFT", changePct: 1.8 }, topLoser: { ticker: "AMD", changePct: -2.6 } },
+  { date: "2026-08-06", sentiment: "bullish", text: "El sector avanza con fuerza tras señales de demanda sostenida de cómputo para IA en la nube, liderado por los proveedores de infraestructura.", stats: { upCount: 5, totalCount: 6, avgChangePct: 1.4, newsCount: 9 }, topMover: { ticker: "NVDA", changePct: 4.1 }, topLoser: { ticker: "GOOGL", changePct: -0.6 } },
+  { date: "2026-08-07", sentiment: "bullish", text: "Nuevo máximo del día para NVIDIA impulsa al resto del sector, aunque el mercado sigue de cerca el gasto en infraestructura de las grandes tecnológicas.", stats: { upCount: 4, totalCount: 6, avgChangePct: 0.9, newsCount: 7 }, topMover: { ticker: "NVDA", changePct: 3.2 }, topLoser: { ticker: "AMD", changePct: -1.1 } },
+  { date: "2026-08-08", sentiment: "mixed", text: "Sin una tendencia clara: los resultados mixtos de la semana dejan al sector operando lateral, a la espera de nuevos catalizadores.", stats: { upCount: 3, totalCount: 6, avgChangePct: 0.1, newsCount: 5 }, topMover: { ticker: "META", changePct: 1.6 }, topLoser: { ticker: "GOOGL", changePct: -1.4 } },
+  { date: "2026-08-11", sentiment: "bullish", text: "El sector de acciones de IA muestra un tono mayoritariamente alcista, liderado por NVIDIA y Microsoft tras resultados que superan expectativas.", stats: { upCount: 4, totalCount: 6, avgChangePct: 0.7, newsCount: 8 }, topMover: { ticker: "NVDA", changePct: 3.2 }, topLoser: { ticker: "AMD", changePct: -2.1 } },
+];
+
 let STOCKS = DEMO_STOCKS;
 let NEWS = DEMO_NEWS;
 let SECTOR_SUMMARY = DEMO_SECTOR_SUMMARY;
 let EARNINGS = DEMO_EARNINGS;
+let ARCHIVE = DEMO_ARCHIVE;
 let isLiveData = false;
 let lastUpdatedIso = null;
 
@@ -249,7 +258,10 @@ function clearPosition(ticker) {
 //   "stocks": [{ ticker, name, price, changePct, spark: number[], fundamentals: {...},
 //                ohlc: [{ date, open, high, low, close }] (real daily candles, once/day) }],
 //   "news": [{ headline, summary, tickers: string[], sentiment: "positive"|"negative"|"neutral",
-//              source_url, source, published_at: "<ISO 8601>"|null }]
+//              source_url, source, published_at: "<ISO 8601>"|null }],
+//   "archive": [{ date: "YYYY-MM-DD", sentiment, text, stats: {...},
+//                 topMover: { ticker, changePct }|null, topLoser: {...}|null }]
+//              (últimos 30 días, uno por fecha, más reciente al final)
 // }
 
 function classifyBySign(changePct) {
@@ -358,7 +370,18 @@ function normalizeRealData(json) {
     hour: e.hour || "",
   }));
 
-  return { stocks, news, sectorSummary, earnings };
+  const archive = (json.archive || [])
+    .filter((a) => a.date)
+    .map((a) => ({
+      date: a.date,
+      sentiment: a.sentiment || "mixed",
+      text: a.text || "",
+      stats: a.stats || {},
+      topMover: a.topMover || null,
+      topLoser: a.topLoser || null,
+    }));
+
+  return { stocks, news, sectorSummary, earnings, archive };
 }
 
 async function loadData() {
@@ -374,6 +397,12 @@ async function loadData() {
     NEWS = normalized.news;
     SECTOR_SUMMARY = normalized.sectorSummary;
     EARNINGS = normalized.earnings;
+    // Sin fallback a DEMO_ARCHIVE acá: si hay datos reales (isLiveData=true)
+    // pero el historial todavía está vacío (pipeline recién desplegado, no
+    // acumuló días todavía), mostrar días de demostración sería mentir bajo
+    // la etiqueta de "datos reales". renderHistory() esconde la sección en
+    // ese caso, igual que el calendario de resultados cuando no hay balances.
+    ARCHIVE = normalized.archive;
     isLiveData = true;
     lastUpdatedIso = json.updated_at || null;
   } catch (err) {
@@ -381,6 +410,7 @@ async function loadData() {
     NEWS = DEMO_NEWS;
     SECTOR_SUMMARY = DEMO_SECTOR_SUMMARY;
     EARNINGS = DEMO_EARNINGS;
+    ARCHIVE = DEMO_ARCHIVE;
     isLiveData = false;
     lastUpdatedIso = null;
   }
@@ -1444,6 +1474,74 @@ function renderEarningsCalendar() {
     <div class="cal-grid">${cells.join("")}</div>`;
 }
 
+// ---------------------------------------------------------------------------
+// Historial del sector — resumen de cada día, últimos 30 (ver
+// ARCHIVE_DAYS_KEPT en el pipeline). Reusa el markup de "hero-mover"
+// (mismo botón que abre el modal de una acción) para el mayor suba/baja de
+// cada día, en vez de inventar un componente nuevo.
+// ---------------------------------------------------------------------------
+
+function renderHistory() {
+  const section = document.querySelector(".history");
+  const list = document.getElementById("historyList");
+  if (!ARCHIVE.length) {
+    if (section) section.hidden = true;
+    return;
+  }
+  if (section) section.hidden = false;
+
+  const moverButton = (mover, label) => {
+    if (!mover) return "";
+    const tagCls = mover.changePct >= 0 ? "bullish" : "bearish";
+    const changeCls = mover.changePct >= 0 ? "up" : "down";
+    const sign = mover.changePct >= 0 ? "+" : "";
+    return `<button type="button" class="hero-mover" data-ticker="${escapeHtml(mover.ticker)}">
+      <span class="hero-mover-label">${label}</span>
+      <span class="hero-mover-row">
+        <span class="stock-tag ${tagCls}">${escapeHtml(mover.ticker)}</span>
+        <span class="hero-mover-change ${changeCls}">${sign}${mover.changePct.toFixed(1)}%</span>
+      </span>
+    </button>`;
+  };
+
+  const sortedDesc = [...ARCHIVE].sort((a, b) => (a.date < b.date ? 1 : -1));
+
+  list.innerHTML = sortedDesc
+    .map((entry) => {
+      const stats = entry.stats || {};
+      const avg = stats.avgChangePct ?? 0;
+      return `<article class="history-card">
+        <div class="history-card-head">
+          <span class="history-date">${formatShortDate(entry.date)}</span>
+          <span class="sentiment-badge sentiment-${entry.sentiment}">${sentimentLabel[entry.sentiment] || entry.sentiment}</span>
+        </div>
+        <p class="history-text">${escapeHtml(entry.text) || "Sin resumen disponible para este día."}</p>
+        <div class="history-footer">
+          <div class="history-stats">
+            <span class="history-stat"><span class="stat-value ${(stats.upCount ?? 0) >= (stats.totalCount ?? 0) / 2 ? "up" : "down"}">${stats.upCount ?? 0}/${stats.totalCount ?? 0}</span> en alza</span>
+            <span class="history-stat"><span class="stat-value ${avg >= 0 ? "up" : "down"}">${avg >= 0 ? "+" : ""}${avg.toFixed(1)}%</span> promedio</span>
+            <span class="history-stat"><span class="stat-value">${stats.newsCount ?? 0}</span> noticias</span>
+          </div>
+          <div class="history-movers">
+            ${moverButton(entry.topMover, "Mayor suba")}
+            ${moverButton(entry.topLoser, "Mayor baja")}
+          </div>
+        </div>
+      </article>`;
+    })
+    .join("");
+}
+
+function initHistory() {
+  const list = document.getElementById("historyList");
+  list.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-ticker]");
+    if (!btn) return;
+    const stock = STOCKS.find((s) => s.ticker === btn.dataset.ticker);
+    if (stock) openStockModal(stock);
+  });
+}
+
 function initEarningsCalendar() {
   const list = document.getElementById("earningsList");
 
@@ -2164,6 +2262,7 @@ async function init() {
   renderCompareSection();
   renderNews();
   renderEarningsCalendar();
+  renderHistory();
   renderLastUpdated();
   renderDataSourcePill();
   renderTickerTape();
@@ -2180,6 +2279,7 @@ async function init() {
   initCompareSection();
   initShareButton();
   initEarningsCalendar();
+  initHistory();
   initSectionNav();
   initThemeManager();
   initInstallPrompt();

@@ -863,13 +863,13 @@ header, main, footer { position: relative; z-index: 1; }
    Section headings
    --------------------------------------------------------------------- */
 
-.stocks, .news, .earnings, .compare {
+.stocks, .news, .earnings, .compare, .history {
   max-width: var(--maxw);
   margin: 0 auto;
   padding: 44px 24px;
 }
 
-.stocks h2, .news h2, .earnings h2, .compare h2 {
+.stocks h2, .news h2, .earnings h2, .compare h2, .history h2 {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -911,11 +911,88 @@ header, main, footer { position: relative; z-index: 1; }
   color: var(--panel);
 }
 
-.earnings h2, .compare h2 { margin-bottom: 6px; }
-.earnings-sub, .compare-sub {
+.earnings h2, .compare h2, .history h2 { margin-bottom: 6px; }
+.earnings-sub, .compare-sub, .history-sub {
   font-size: 0.85rem;
   color: var(--text-faint);
   margin: 0 0 20px;
+}
+
+/* ---------------------------------------------------------------------
+   Historial del sector — un día por tarjeta, más reciente primero.
+   Reusa .hero-mover / .stock-tag / .stat-value tal cual (mismos
+   componentes que el resumen del día y el calendario), así el "día de
+   hoy" y "un día cualquiera del historial" se leen como la misma cosa.
+   --------------------------------------------------------------------- */
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.history-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 18px 20px;
+  background: var(--panel);
+}
+
+.history-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.history-date {
+  font-family: var(--font-data);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.history-text {
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  line-height: 1.5;
+  margin: 0 0 16px;
+}
+
+.history-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px 32px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.history-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  font-size: 0.78rem;
+  color: var(--text-faint);
+}
+.history-stat .stat-value {
+  font-family: var(--font-data);
+  font-weight: 700;
+  color: var(--text);
+}
+.history-stat .stat-value.up { color: var(--rise); }
+.history-stat .stat-value.down { color: var(--fall); }
+
+.history-movers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 28px;
+}
+
+@media (max-width: 640px) {
+  .history-footer { flex-direction: column; align-items: flex-start; }
 }
 
 /* ---------------------------------------------------------------------

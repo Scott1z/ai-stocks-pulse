@@ -156,8 +156,10 @@ MODEL = "claude-sonnet-5"
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 HISTORY_PATH = Path(__file__).parent / "price_history.json"
 OHLC_PATH = Path(__file__).parent / "daily_ohlc.json"
+ARCHIVE_PATH = Path(__file__).parent / "summary_archive.json"
 DATA_PATH = PROJECT_ROOT / "data.json"
 OHLC_DAYS_KEPT = 60  # ~3 meses hábiles, suficiente para un candlestick legible
+ARCHIVE_DAYS_KEPT = 30  # historial de resúmenes del sector que se muestra en el frontend
 
 SYSTEM_PROMPT = """Sos un editor financiero especializado en inteligencia artificial y mercados bursátiles.
 
@@ -579,6 +581,43 @@ def update_price_history(prices: dict[str, dict]) -> dict[str, list[float]]:
     return history
 
 
+def update_summary_archive(sector_summary: dict, stats: dict, stocks: list[dict]) -> list[dict]:
+    """Guarda un snapshot del resumen del día para poder navegar el historial
+    en el frontend. El pipeline corre cada hora, así que un mismo día
+    produce varias corridas: en vez de acumular hasta 24 entradas por día,
+    cada corrida pisa la entrada de HOY (fecha UTC) con el snapshot más
+    reciente, y se recorta a los últimos ARCHIVE_DAYS_KEPT días — mismo
+    patrón de archivo-caché-en-disco que price_history.json."""
+    archive: list[dict] = []
+    if ARCHIVE_PATH.exists():
+        try:
+            archive = json.loads(ARCHIVE_PATH.read_text())
+        except json.JSONDecodeError:
+            archive = []
+
+    today = datetime.now(timezone.utc).date().isoformat()
+    archive = [entry for entry in archive if entry.get("date") != today]
+
+    valid = [s for s in stocks if s.get("changePct") is not None]
+    top_mover = max(valid, key=lambda s: s["changePct"], default=None)
+    top_loser = min(valid, key=lambda s: s["changePct"], default=None)
+
+    archive.append({
+        "date": today,
+        "sentiment": sector_summary.get("sentiment", "mixed"),
+        "text": sector_summary.get("text", ""),
+        "stats": stats,
+        "topMover": {"ticker": top_mover["ticker"], "changePct": top_mover["changePct"]} if top_mover else None,
+        "topLoser": {"ticker": top_loser["ticker"], "changePct": top_loser["changePct"]} if top_loser else None,
+    })
+
+    archive.sort(key=lambda entry: entry["date"])
+    archive = archive[-ARCHIVE_DAYS_KEPT:]
+
+    ARCHIVE_PATH.write_text(json.dumps(archive, ensure_ascii=False), encoding="utf-8")
+    return archive
+
+
 def build_stocks(
     prices: dict[str, dict],
     history: dict[str, list[float]],
@@ -717,30 +756,39 @@ def main():
 
     items = attach_source_meta(curated.get("items", []), raw_articles)
     sector_summary = curated.get("sector_summary", {"sentiment": "mixed", "text": ""})
+    sector_stats = {
+        "upCount": up_count,
+        "totalCount": len(valid_changes),
+        "avgChangePct": avg_change,
+        "newsCount": len(items),
+    }
+
+    try:
+        archive = update_summary_archive(sector_summary, sector_stats, stocks)
+    except Exception as exc:  # el historial es un extra — nunca debe impedir
+        # que se escriba data.json con todo lo demás ya obtenido.
+        print(f"Aviso: no se pudo actualizar el historial de resúmenes: {exc}", file=sys.stderr)
+        archive = []
 
     data = {
         "updated_at": datetime.now(timezone.utc).isoformat(),
         "sector": {
             "sentiment": sector_summary.get("sentiment", "mixed"),
             "text": sector_summary.get("text", ""),
-            "stats": {
-                "upCount": up_count,
-                "totalCount": len(valid_changes),
-                "avgChangePct": avg_change,
-                "newsCount": len(items),
-            },
+            "stats": sector_stats,
         },
         "stocks": stocks,
         "news": items,
         "earningsCalendar": earnings_calendar,
+        "archive": archive,
     }
 
     DATA_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
     reported_count = sum(1 for s in stocks if s["lastEarnings"] is not None)
     print(
         f"OK — {len(stocks)} precios, {len(items)} noticias, "
-        f"{len(earnings_calendar)} resultados próximos y {reported_count} últimos "
-        f"resultados reportados escritos en {DATA_PATH}"
+        f"{len(earnings_calendar)} resultados próximos, {reported_count} últimos "
+        f"resultados reportados y {len(archive)} días de historial escritos en {DATA_PATH}"
     )
 
 

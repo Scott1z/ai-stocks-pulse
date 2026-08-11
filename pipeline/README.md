@@ -53,7 +53,21 @@ datos de demostración — así que es seguro probar esto sin romper nada.
    en la misma respuesta. Nunca se llama al LLM por artículo ni dos veces por corrida.
 9. Reasocia localmente la fuente y fecha de cada noticia (por URL) en vez de pedírselo al modelo,
    así el JSON de salida del LLM se mantiene chico.
-10. Escribe `data.json` en la raíz del proyecto.
+10. Actualiza `summary_archive.json` (historial de resúmenes del sector, ver más abajo) y lo
+    embebe en `data.json` bajo la clave `archive` — el frontend nunca lee ese archivo por
+    separado, todo sale de `data.json` como siempre.
+11. Escribe `data.json` en la raíz del proyecto.
+
+## Historial de resúmenes (`summary_archive.json`)
+
+Guarda un snapshot por día (sentimiento, texto del resumen, stats de amplitud, mayor
+suba/baja) para que el frontend pueda mostrar "cómo estuvo el sector" en días anteriores,
+no solo hoy. Como el pipeline corre cada hora, `update_summary_archive()` **pisa** la entrada
+del día de HOY (fecha UTC) en cada corrida en vez de agregar una nueva — así un mismo día
+nunca termina con 24 entradas, solo la más reciente. Se recorta a los últimos
+`ARCHIVE_DAYS_KEPT` (30) días en cada escritura, mismo patrón de archivo-caché-en-disco que
+`price_history.json`. Un fallo acá nunca impide que se escriba el resto de `data.json` —
+está envuelto en su propio try/except en `main()`, igual que el calendario de resultados.
 
 ## Por qué las velas diarias y el calendario de resultados corren aparte, una vez por día
 
