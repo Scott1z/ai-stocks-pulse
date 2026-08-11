@@ -156,9 +156,18 @@ const DEMO_SECTOR_SUMMARY = {
   ],
 };
 
+const DEMO_EARNINGS = [
+  { ticker: "NVDA", name: "NVIDIA", date: "2026-08-20", hour: "amc" },
+  { ticker: "AMD", name: "Advanced Micro Devices", date: "2026-08-25", hour: "amc" },
+  { ticker: "MSFT", name: "Microsoft", date: "2026-09-09", hour: "amc" },
+  { ticker: "GOOGL", name: "Alphabet", date: "2026-09-15", hour: "amc" },
+  { ticker: "META", name: "Meta Platforms", date: "2026-10-14", hour: "amc" },
+];
+
 let STOCKS = DEMO_STOCKS;
 let NEWS = DEMO_NEWS;
 let SECTOR_SUMMARY = DEMO_SECTOR_SUMMARY;
+let EARNINGS = DEMO_EARNINGS;
 let isLiveData = false;
 let lastUpdatedIso = null;
 
@@ -279,7 +288,14 @@ function normalizeRealData(json) {
     ],
   };
 
-  return { stocks, news, sectorSummary };
+  const earnings = (json.earningsCalendar || []).map((e) => ({
+    ticker: e.ticker,
+    name: e.name || e.ticker,
+    date: e.date,
+    hour: e.hour || "",
+  }));
+
+  return { stocks, news, sectorSummary, earnings };
 }
 
 async function loadData() {
@@ -294,12 +310,14 @@ async function loadData() {
     STOCKS = normalized.stocks;
     NEWS = normalized.news;
     SECTOR_SUMMARY = normalized.sectorSummary;
+    EARNINGS = normalized.earnings;
     isLiveData = true;
     lastUpdatedIso = json.updated_at || null;
   } catch (err) {
     STOCKS = DEMO_STOCKS;
     NEWS = DEMO_NEWS;
     SECTOR_SUMMARY = DEMO_SECTOR_SUMMARY;
+    EARNINGS = DEMO_EARNINGS;
     isLiveData = false;
     lastUpdatedIso = null;
   }
@@ -699,8 +717,10 @@ function updateSortIndicators() {
 
 const STOCKS_COLLAPSE_LIMIT = 3;
 const NEWS_COLLAPSE_LIMIT = 3;
+const EARNINGS_COLLAPSE_LIMIT = 3;
 let stocksExpanded = false;
 let newsExpanded = false;
+let earningsExpanded = false;
 
 function buildListToggle(kind, remaining, expanded) {
   const label = expanded ? "Ver menos" : `Ver ${remaining} más`;
@@ -786,6 +806,85 @@ function renderNews() {
 
   list.innerHTML =
     itemsHtml + (showToggle ? buildListToggle("news", indexed.length - NEWS_COLLAPSE_LIMIT, newsExpanded) : "");
+}
+
+const MONTH_NAMES_ES = [
+  "enero", "febrero", "marzo", "abril", "mayo", "junio",
+  "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre",
+];
+const EARNINGS_HOUR_LABEL = { bmo: "Antes de apertura", amc: "Después del cierre", dmh: "Durante la rueda" };
+
+// Parses "YYYY-MM-DD" by hand instead of `new Date(str)` — the latter reads
+// as UTC midnight, which shifts a day backward once converted to any
+// negative-UTC-offset local time (e.g. Argentina), a classic off-by-one.
+function formatEarningsMonth(dateStr) {
+  const [y, m] = dateStr.split("-").map(Number);
+  const name = MONTH_NAMES_ES[m - 1];
+  return `${name.charAt(0).toUpperCase()}${name.slice(1)} ${y}`;
+}
+function earningsDay(dateStr) {
+  return dateStr.split("-")[2];
+}
+
+function renderEarningsCalendar() {
+  const section = document.querySelector(".earnings");
+  const list = document.getElementById("earningsList");
+  if (!EARNINGS.length) {
+    if (section) section.hidden = true;
+    return;
+  }
+  if (section) section.hidden = false;
+
+  const showToggle = EARNINGS.length > EARNINGS_COLLAPSE_LIMIT;
+  const visible = earningsExpanded ? EARNINGS : EARNINGS.slice(0, EARNINGS_COLLAPSE_LIMIT);
+
+  let lastMonth = null;
+  const rowsHtml = visible
+    .map((e) => {
+      const monthLabel = formatEarningsMonth(e.date);
+      const monthHtml = monthLabel !== lastMonth ? `<div class="earnings-month-label">${monthLabel}</div>` : "";
+      lastMonth = monthLabel;
+      return `${monthHtml}
+      <article class="earnings-row" data-ticker="${e.ticker}" tabindex="0" role="button" aria-haspopup="dialog">
+        <span class="earnings-date">${earningsDay(e.date)}</span>
+        <div class="earnings-body">
+          <span class="earnings-ticker">${e.ticker}</span>
+          <span class="earnings-name">${e.name}</span>
+        </div>
+        <span class="earnings-hour">${EARNINGS_HOUR_LABEL[e.hour] || ""}</span>
+      </article>`;
+    })
+    .join("");
+
+  list.innerHTML =
+    rowsHtml +
+    (showToggle ? buildListToggle("earnings", EARNINGS.length - EARNINGS_COLLAPSE_LIMIT, earningsExpanded) : "");
+}
+
+function initEarningsCalendar() {
+  const list = document.getElementById("earningsList");
+
+  list.addEventListener("click", (e) => {
+    if (e.target.closest(".list-toggle")) {
+      earningsExpanded = !earningsExpanded;
+      renderEarningsCalendar();
+      return;
+    }
+    const row = e.target.closest(".earnings-row");
+    if (!row) return;
+    const stock = STOCKS.find((s) => s.ticker === row.dataset.ticker);
+    if (stock) openStockModal(stock);
+  });
+
+  list.addEventListener("keydown", (e) => {
+    if (e.target.closest(".list-toggle")) return;
+    if (e.key !== "Enter" && e.key !== " ") return;
+    const row = e.target.closest(".earnings-row");
+    if (!row) return;
+    e.preventDefault();
+    const stock = STOCKS.find((s) => s.ticker === row.dataset.ticker);
+    if (stock) openStockModal(stock);
+  });
 }
 
 function openNewsModal(item) {
@@ -1142,6 +1241,7 @@ async function init() {
   renderHeroBreadth();
   renderStocks();
   renderNews();
+  renderEarningsCalendar();
   renderLastUpdated();
   renderDataSourcePill();
   renderTickerTape();
@@ -1151,6 +1251,7 @@ async function init() {
   initLedgerSort();
   initNewsModal();
   initStockModal();
+  initEarningsCalendar();
   initInstallPrompt();
   initServiceWorker();
   hidePreloader();

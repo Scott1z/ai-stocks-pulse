@@ -1,4 +1,4 @@
-const CACHE_NAME = "ai-stocks-pulse-v21";
+const CACHE_NAME = "ai-stocks-pulse-v22";
 const CORE_ASSETS = [
   "./",
   "./index.html",

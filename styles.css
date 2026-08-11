@@ -646,13 +646,13 @@ header, main, footer { position: relative; z-index: 1; }
    Section headings
    --------------------------------------------------------------------- */
 
-.stocks, .news {
+.stocks, .news, .earnings {
   max-width: var(--maxw);
   margin: 0 auto;
   padding: 44px 24px;
 }
 
-.stocks h2, .news h2 {
+.stocks h2, .news h2, .earnings h2 {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -660,6 +660,13 @@ header, main, footer { position: relative; z-index: 1; }
   font-weight: 600;
   margin: 0 0 20px;
   color: var(--text);
+}
+
+.earnings h2 { margin-bottom: 6px; }
+.earnings-sub {
+  font-size: 0.85rem;
+  color: var(--text-faint);
+  margin: 0 0 20px;
 }
 
 /* ---------------------------------------------------------------------
@@ -901,6 +908,67 @@ header, main, footer { position: relative; z-index: 1; }
   font-weight: 600;
   color: var(--text-dim);
   white-space: nowrap;
+}
+
+/* ---------------------------------------------------------------------
+   Earnings calendar — same hairline-row logic as News, with an inline
+   month divider label whenever the group changes. Rows are clickable,
+   same as the ledger: opens the Stock Detail Modal for that ticker.
+   --------------------------------------------------------------------- */
+
+.earnings-list { border-top: 1px solid var(--line); }
+
+.earnings-month-label {
+  font-family: var(--font-data);
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-faint);
+  padding: 18px 4px 8px;
+}
+.earnings-month-label:first-child { padding-top: 4px; }
+
+.earnings-row {
+  display: grid;
+  grid-template-columns: 40px 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 4px;
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  transition: background 0.12s ease;
+}
+.earnings-row:hover,
+.earnings-row:focus-visible { background: var(--panel-raised); }
+.earnings-row:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+.earnings-date {
+  font-family: var(--font-data);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--accent);
+  text-align: center;
+}
+.earnings-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.earnings-ticker { font-family: var(--font-data); font-weight: 700; font-size: 0.85rem; }
+.earnings-name {
+  font-size: 0.78rem;
+  color: var(--text-faint);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.earnings-hour {
+  font-family: var(--font-data);
+  font-size: 0.64rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  white-space: nowrap;
+  text-align: right;
 }
 
 /* ---------------------------------------------------------------------
@@ -1180,7 +1248,7 @@ header, main, footer { position: relative; z-index: 1; }
 
 @media (max-width: 640px) {
   .topbar { padding: 16px; height: auto; }
-  .hero, .filters, .stocks, .news { padding-left: 16px; padding-right: 16px; }
+  .hero, .filters, .stocks, .news, .earnings { padding-left: 16px; padding-right: 16px; }
   .demo-pill { display: none; }
   .market-status { display: none; }
 

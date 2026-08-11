@@ -214,6 +214,12 @@ Borders are hairlines throughout (1px), never thick. The two deliberate exceptio
 - **Interaction:** the entire row is clickable/focusable (`role="button"`, `tabindex="0"`) — clicking or pressing Enter/Space opens the News Modal with that article's summary. It never navigates away on its own; leaving the page to read the original source is an explicit, separate choice made inside the modal.
 - **Hover/Focus:** `--panel-raised` background tint, same as a ledger row.
 
+### Earnings Calendar
+- **Purpose:** a forward-looking list — the next ~100 days of quarterly earnings reports for every ticker we track (Finnhub `/calendar/earnings`, filtered locally to our list), so a visitor knows what's coming, not just what already happened. Deliberately scoped to real earnings dates only; there is no reliable API for "important product events" (keynotes, launches), so the page doesn't fabricate that list.
+- **Structure:** a flat chronological list with an inline month divider (`Agosto 2026`, `Septiembre 2026`, …) inserted whenever the group changes — not separate sub-lists per month, so the List Toggle's collapse-to-3 still works on one continuous sequence.
+- **Row:** date (large, tabular-nums, `--accent`) → ticker + company name → the reporting hour in plain Spanish ("Antes de apertura" / "Después del cierre" / "Durante la rueda"), same hairline-row and hover language as News Row. Clicking a row opens the Stock Detail Modal for that ticker, same as a ledger row — one more path in, not a dead end.
+- **Empty state:** if the pipeline has no upcoming earnings for any tracked ticker in the window (or hasn't run yet), the whole section hides itself rather than showing an empty shell.
+
 ### News Modal (signature component)
 - **Purpose:** read a curated ~25-word summary of an article without leaving the page — the site's whole premise is "the story in 30 seconds," so a redirect-by-default was working against that.
 - **Structure:** ticker tag (mono, hidden if the article isn't ticker-specific) → headline (display-weight, but smaller than the hero H1) → source/time meta (mono) → summary (body voice) → an explicit "Leer artículo original ↗" link, hidden when no source URL exists.

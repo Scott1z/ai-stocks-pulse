@@ -16,7 +16,7 @@ Flujo:
       neto) de Finnhub /stock/metric, mismo API key que las cotizaciones.
   3c. Trae precios diarios reales (OHLC) de Alpha Vantage TIME_SERIES_DAILY, UNA vez por día
       (no en cada corrida horaria) — mover las noticias a Finnhub deja libre todo el cupo
-      free de Alpha Vantage (25 req/día) para esto: 21 tickers = 21 requests, una sola vez
+      free de Alpha Vantage (25 req/día) para esto: 23 tickers = 23 requests, una sola vez
       al día. Esto es lo que permite un gráfico de velas real en vez de un sparkline armado
       con snapshots de precio.
   4. Ordena los candidatos de noticias por cuántas empresas nuestras mencionan (gratis, sin
@@ -44,7 +44,7 @@ import os
 import re
 import sys
 import time
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.request import urlopen
 from urllib.parse import urlencode
@@ -61,7 +61,7 @@ ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY")
 AI_TICKERS = [
     "NVDA", "MSFT", "GOOGL", "META", "AMZN", "AVGO", "ORCL", "PLTR", "AMD",
     # Semis / infraestructura IA
-    "TSM", "ARM", "SMCI", "MRVL", "QCOM",
+    "TSM", "ARM", "SMCI", "MRVL", "QCOM", "MU", "SNDK",
     # Software / nube IA
     "CRM", "NOW", "ADBE", "SNOW", "IBM",
     # Otros mega-cap con exposición a IA
@@ -82,6 +82,8 @@ TICKER_NAMES = {
     "SMCI": "Super Micro Computer",
     "MRVL": "Marvell Technology",
     "QCOM": "Qualcomm",
+    "MU": "Micron Technology",
+    "SNDK": "SanDisk",
     "CRM": "Salesforce",
     "NOW": "ServiceNow",
     "ADBE": "Adobe",
@@ -291,6 +293,52 @@ def fetch_fundamentals(tickers: list[str]) -> dict[str, dict]:
     return fundamentals
 
 
+# --- Calendario de resultados (Finnhub) -------------------------------------
+
+EARNINGS_WINDOW_DAYS = 100  # cubre un poco más de un trimestre hacia adelante
+
+
+def fetch_earnings_calendar(tickers: list[str]) -> list[dict]:
+    """Trae fechas de presentación de resultados (balances trimestrales) de
+    Finnhub /calendar/earnings — 1 solo request para TODAS las empresas que
+    reportan en la ventana, filtrado localmente a nuestros tickers (mismo
+    patrón que las noticias: un endpoint genérico, filtro propio después)."""
+    if not FINNHUB_API_KEY:
+        sys.exit("Falta FINNHUB_API_KEY en el entorno.")
+
+    today = datetime.now(timezone.utc).date()
+    end = today + timedelta(days=EARNINGS_WINDOW_DAYS)
+    params = {
+        "from": today.isoformat(),
+        "to": end.isoformat(),
+        "token": FINNHUB_API_KEY,
+    }
+    url = "https://finnhub.io/api/v1/calendar/earnings?" + urlencode(params)
+    try:
+        with urlopen(url, timeout=20) as resp:
+            payload = json.loads(resp.read().decode())
+    except Exception as exc:  # red intermitente, etc. — no es crítico, seguimos sin calendario
+        print(f"Aviso: no se pudo obtener el calendario de resultados: {exc}", file=sys.stderr)
+        return []
+
+    tickers_set = set(tickers)
+    entries = [e for e in payload.get("earningsCalendar", []) if e.get("symbol") in tickers_set]
+    entries.sort(key=lambda e: (e.get("date") or "", e.get("symbol") or ""))
+
+    return [
+        {
+            "ticker": e["symbol"],
+            "name": TICKER_NAMES.get(e["symbol"], e["symbol"]),
+            "date": e.get("date"),
+            "hour": e.get("hour"),  # "bmo" | "amc" | "dmh" | ""
+            "epsEstimate": e.get("epsEstimate"),
+            "quarter": e.get("quarter"),
+            "year": e.get("year"),
+        }
+        for e in entries
+    ]
+
+
 # --- Precios diarios / OHLC (Alpha Vantage, una vez por día) ---------------
 
 
@@ -298,7 +346,7 @@ def fetch_daily_ohlc(tickers: list[str]) -> dict[str, list[dict]]:
     """Trae velas diarias reales (open/high/low/close) de Alpha Vantage
     TIME_SERIES_DAILY. Sacar las noticias de Alpha Vantage (ver
     fetch_finnhub_news) deja libre todo el cupo free de 25 req/día para esto,
-    pero solo alcanza para UNA corrida diaria (21 tickers), no una por hora.
+    pero solo alcanza para UNA corrida diaria (23 tickers), no una por hora.
 
     Por eso esta función es un caché con fecha: si ya se corrió hoy, devuelve
     lo que ya está guardado en disco sin gastar requests. El pipeline sigue
@@ -469,6 +517,7 @@ def main():
     history = update_price_history(prices)
     fundamentals = fetch_fundamentals(AI_TICKERS)
     ohlc = fetch_daily_ohlc(AI_TICKERS)
+    earnings_calendar = fetch_earnings_calendar(AI_TICKERS)
     stocks = build_stocks(prices, history, fundamentals, ohlc)
 
     valid_changes = [s["changePct"] for s in stocks if s["changePct"] is not None]
@@ -498,10 +547,14 @@ def main():
         },
         "stocks": stocks,
         "news": items,
+        "earningsCalendar": earnings_calendar,
     }
 
     DATA_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"OK — {len(stocks)} precios y {len(items)} noticias escritas en {DATA_PATH}")
+    print(
+        f"OK — {len(stocks)} precios, {len(items)} noticias y "
+        f"{len(earnings_calendar)} resultados próximos escritos en {DATA_PATH}"
+    )
 
 
 if __name__ == "__main__":
