@@ -879,6 +879,38 @@ header, main, footer { position: relative; z-index: 1; }
   color: var(--text);
 }
 
+.stocks-head-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 0 0 20px;
+}
+.stocks-head-row h2 { margin: 0; }
+
+.stocks-view-toggle { display: flex; gap: 4px; }
+.stocks-view-toggle button {
+  font-family: var(--font-data);
+  font-size: 0.66rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 5px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: border-color 0.12s ease, color 0.12s ease, background 0.12s ease;
+}
+.stocks-view-toggle button:hover { color: var(--text); border-color: var(--accent); }
+.stocks-view-toggle button.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--panel);
+}
+
 .earnings h2, .compare h2 { margin-bottom: 6px; }
 .earnings-sub, .compare-sub {
   font-size: 0.85rem;
@@ -986,6 +1018,66 @@ header, main, footer { position: relative; z-index: 1; }
   font-size: 0.72rem;
   color: var(--text-faint);
   margin: 10px 0 0;
+}
+
+/* ---------------------------------------------------------------------
+   Heatmap del sector — vista alternativa de "Empresas" (mismo filtro/
+   búsqueda, mismo destino de click que la tabla). Tamaño por 3 niveles
+   fijos según posición en el ranking de cap. de mercado (no un treemap
+   continuo), CSS Grid con grid-auto-flow: dense. Color por intensidad de
+   la variación del día, reusando --rise/--fall vía color-mix() en vez de
+   variables nuevas — sigue siendo la misma paleta semántica de siempre,
+   solo con más pasos.
+   --------------------------------------------------------------------- */
+
+.heatmap-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-auto-rows: 62px;
+  grid-auto-flow: dense;
+  gap: 3px;
+}
+
+.heatmap-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 2px;
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: transform 0.08s ease, opacity 0.08s ease;
+}
+.heatmap-tile:hover { opacity: 0.88; }
+.heatmap-tile:active { transform: scale(0.97); }
+
+.heatmap-tile-lg { grid-column: span 3; grid-row: span 2; }
+.heatmap-tile-md { grid-column: span 2; grid-row: span 1; }
+.heatmap-tile-sm { grid-column: span 1; grid-row: span 1; }
+
+.heatmap-tile-lg .heatmap-tile-ticker { font-size: 1.1rem; }
+.heatmap-tile-ticker { font-family: var(--font-data); font-weight: 700; font-size: 0.82rem; }
+.heatmap-tile-change {
+  font-family: var(--font-data);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.heatmap-flat { background: var(--panel-raised); color: var(--text-dim); }
+.heatmap-up-1 { background: color-mix(in srgb, var(--rise) 20%, var(--panel)); color: var(--text); }
+.heatmap-up-2 { background: color-mix(in srgb, var(--rise) 45%, var(--panel)); color: var(--rise); }
+.heatmap-up-3 { background: var(--rise); color: var(--panel); }
+.heatmap-down-1 { background: color-mix(in srgb, var(--fall) 20%, var(--panel)); color: var(--text); }
+.heatmap-down-2 { background: color-mix(in srgb, var(--fall) 45%, var(--panel)); color: var(--fall); }
+.heatmap-down-3 { background: var(--fall); color: var(--panel); }
+
+@media (max-width: 640px) {
+  .heatmap-grid { grid-template-columns: repeat(4, 1fr); grid-auto-rows: 56px; }
+  .heatmap-tile-lg { grid-column: span 2; grid-row: span 2; }
 }
 
 /* ---------------------------------------------------------------------

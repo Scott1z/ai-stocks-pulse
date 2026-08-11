@@ -117,7 +117,13 @@
   </section>
 
   <section class="stocks" id="empresas" aria-labelledby="stocks-heading">
-    <h2 id="stocks-heading"><svg class="icon-glyph icon-teal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16M5 20V9.5L12 5l7 4.5V20M9 20v-6h6v6"/></svg>Empresas del sector</h2>
+    <div class="stocks-head-row">
+      <h2 id="stocks-heading"><svg class="icon-glyph icon-teal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16M5 20V9.5L12 5l7 4.5V20M9 20v-6h6v6"/></svg>Empresas del sector</h2>
+      <div class="stocks-view-toggle" id="stocksViewToggle" role="tablist" aria-label="Vista de empresas">
+        <button type="button" class="active" data-view="table" role="tab" aria-selected="true">Tabla</button>
+        <button type="button" data-view="heatmap" role="tab" aria-selected="false">Mapa de calor</button>
+      </div>
+    </div>
     <div class="ledger-head" id="ledgerHead">
       <button type="button" class="ledger-sort" data-sort="name">Empresa</button>
       <button type="button" class="ledger-sort" data-sort="price">Precio</button>
@@ -126,6 +132,7 @@
       <span>Señal</span>
     </div>
     <div class="stock-grid" id="stockGrid"></div>
+    <div class="heatmap-grid" id="heatmapGrid" hidden></div>
   </section>
 
   <section class="compare" id="comparar" aria-labelledby="compare-heading">

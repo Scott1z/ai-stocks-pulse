@@ -1236,6 +1236,101 @@ function renderStocks(filter = "all", query = "") {
     rowsHtml + (showToggle ? buildListToggle("stocks", sorted.length - STOCKS_COLLAPSE_LIMIT, stocksExpanded) : "");
 }
 
+// ---------------------------------------------------------------------------
+// Heatmap del sector — vista alternativa de la misma sección "Empresas",
+// no una sección nueva: mismos filtros/búsqueda, mismo destino al hacer
+// click. Tamaño de celda por rango de capitalización (3 niveles fijos por
+// posición en el ranking, no un treemap continuo — mucho más simple de
+// razonar y de no romper con 50+ tickers) vía CSS Grid con
+// grid-auto-flow: dense; color por intensidad de la variación del día,
+// reusando los mismos tonos rise/fall/mixed de siempre — cero colores
+// nuevos, solo más pasos de opacidad.
+// ---------------------------------------------------------------------------
+
+let stocksView = "table";
+let currentStocksFilter = "all";
+let currentStocksQuery = "";
+
+function heatmapIntensityClass(changePct) {
+  const abs = Math.abs(changePct);
+  if (abs <= 0.1) return "heatmap-flat";
+  const dir = changePct > 0 ? "up" : "down";
+  const level = abs >= 3 ? "3" : abs >= 1 ? "2" : "1";
+  return `heatmap-${dir}-${level}`;
+}
+
+function renderHeatmap(filter = "all", query = "") {
+  const grid = document.getElementById("heatmapGrid");
+  const q = query.trim().toLowerCase();
+
+  const filtered = STOCKS.filter((s) => {
+    const matchesFilter =
+      filter === "all" || (filter === "favorites" ? favorites.has(s.ticker) : s.sentiment === filter);
+    const matchesQuery = !q || s.ticker.toLowerCase().includes(q) || s.name.toLowerCase().includes(q);
+    return matchesFilter && matchesQuery && s.changePct != null;
+  });
+
+  if (!filtered.length) {
+    grid.innerHTML =
+      filter === "favorites"
+        ? `<p style="color:var(--text-faint)">Todavía no marcaste ninguna acción como favorita. Tocá la estrella junto al ticker para agregarla.</p>`
+        : `<p style="color:var(--text-faint)">No hay empresas que coincidan con tu búsqueda.</p>`;
+    return;
+  }
+
+  // Por capitalización de mercado cuando está disponible; si falta (poco
+  // frecuente, cobertura de Finnhub free varía por ticker), va al final,
+  // nunca se inventa un número para ordenarlo mejor.
+  const ranked = [...filtered].sort((a, b) => (b.fundamentals.marketCapM || 0) - (a.fundamentals.marketCapM || 0));
+
+  grid.innerHTML = ranked
+    .map((s, i) => {
+      const tierClass = i < 3 ? "heatmap-tile-lg" : i < 10 ? "heatmap-tile-md" : "heatmap-tile-sm";
+      const sign = s.changePct >= 0 ? "+" : "";
+      return `<button type="button" class="heatmap-tile ${tierClass} ${heatmapIntensityClass(s.changePct)}" data-ticker="${escapeHtml(s.ticker)}" title="${escapeHtml(s.name)}">
+        <span class="heatmap-tile-ticker">${escapeHtml(s.ticker)}</span>
+        <span class="heatmap-tile-change">${sign}${s.changePct.toFixed(1)}%</span>
+      </button>`;
+    })
+    .join("");
+}
+
+function renderStocksViews(filter = currentStocksFilter, query = currentStocksQuery) {
+  currentStocksFilter = filter;
+  currentStocksQuery = query;
+  renderStocks(filter, query);
+  renderHeatmap(filter, query);
+}
+
+function initStocksViewToggle() {
+  const toggle = document.getElementById("stocksViewToggle");
+  const ledgerHead = document.getElementById("ledgerHead");
+  const stockGrid = document.getElementById("stockGrid");
+  const heatmapGrid = document.getElementById("heatmapGrid");
+
+  toggle.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-view]");
+    if (!btn) return;
+    stocksView = btn.dataset.view;
+    toggle.querySelectorAll("[data-view]").forEach((b) => {
+      const active = b === btn;
+      b.classList.toggle("active", active);
+      b.setAttribute("aria-selected", String(active));
+    });
+    const isHeatmap = stocksView === "heatmap";
+    ledgerHead.hidden = isHeatmap;
+    stockGrid.hidden = isHeatmap;
+    heatmapGrid.hidden = !isHeatmap;
+  });
+
+  heatmapGrid.addEventListener("click", (e) => {
+    const tile = e.target.closest("[data-ticker]");
+    if (!tile) return;
+    const stock = STOCKS.find((s) => s.ticker === tile.dataset.ticker);
+    if (stock) openStockModal(stock);
+  });
+}
+
 function renderNews() {
   const list = document.getElementById("newsList");
   const indexed = NEWS.map((n, i) => ({ n, i }));
@@ -1619,7 +1714,7 @@ function initStockModal() {
       e.stopPropagation();
       toggleFavorite(starBtn.dataset.star);
       const activeChip = document.querySelector(".chip.active");
-      renderStocks(activeChip ? activeChip.dataset.filter : "all", document.getElementById("searchInput").value);
+      renderStocksViews(activeChip ? activeChip.dataset.filter : "all", document.getElementById("searchInput").value);
       return;
     }
     activate(e.target);
@@ -1720,12 +1815,12 @@ function initFilters() {
     btn.classList.add("active");
     activeFilter = btn.dataset.filter;
     stocksExpanded = false;
-    renderStocks(activeFilter, search.value);
+    renderStocksViews(activeFilter, search.value);
   });
 
   search.addEventListener("input", () => {
     stocksExpanded = false;
-    renderStocks(activeFilter, search.value);
+    renderStocksViews(activeFilter, search.value);
   });
 }
 
@@ -2065,7 +2160,7 @@ async function init() {
   renderSectorSummary();
   renderHeroMovers();
   renderHeroBreadth();
-  renderStocks();
+  renderStocksViews();
   renderCompareSection();
   renderNews();
   renderEarningsCalendar();
@@ -2076,6 +2171,7 @@ async function init() {
   setInterval(renderMarketStatus, 60000);
   initFilters();
   initLedgerSort();
+  initStocksViewToggle();
   initNewsModal();
   initStockModal();
   initPositionSection();

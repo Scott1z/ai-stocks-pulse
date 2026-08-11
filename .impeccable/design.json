@@ -111,6 +111,14 @@
       "css": ".ds-stock-star { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; padding: 0; border: none; background: none; color: var(--line-strong, #ccd3dc); cursor: pointer; } .ds-stock-star svg { width: 14px; height: 14px; } .ds-stock-star.active { color: var(--accent, #1c3a5e); }"
     },
     {
+      "name": "Heatmap del Sector",
+      "kind": "custom",
+      "refersTo": "heatmap-grid",
+      "description": "Alternate view of the same 'Empresas del sector' data (not a new section) — a 'Tabla / Mapa de calor' toggle switches between the Ledger Row table and this grid, sharing filters/search/click-through unchanged. Tiles are 3 fixed sizes by market-cap rank (top 3 large, next 7 medium, rest small) via CSS Grid grid-auto-flow: dense, not a computed squarified treemap. Color intensity steps use color-mix() against the existing --rise/--fall tokens and --panel, so it's theme-aware automatically with zero new hues. Any favorite/filter/search change re-renders both views even when only one is visible, so switching views never shows stale data.",
+      "html": "<div class=\"ds-heatmap\"><button class=\"ds-tile ds-tile-lg ds-up-2\">NVDA<span>+3.2%</span></button><button class=\"ds-tile ds-tile-md ds-down-1\">ORCL<span>-1.1%</span></button><button class=\"ds-tile ds-tile-sm ds-flat\">IBM<span>+0.0%</span></button></div>",
+      "css": ".ds-heatmap { display: grid; grid-template-columns: repeat(6, 1fr); grid-auto-rows: 62px; gap: 3px; } .ds-tile { display: flex; flex-direction: column; justify-content: center; gap: 2px; padding: 8px 12px; border: none; border-radius: 4px; font-family: ui-monospace, monospace; font-weight: 700; font-size: 0.8rem; cursor: pointer; text-align: left; } .ds-tile-lg { grid-column: span 3; grid-row: span 2; } .ds-tile-md { grid-column: span 2; } .ds-tile-sm { grid-column: span 1; } .ds-tile span { font-size: 0.7rem; font-weight: 600; } .ds-flat { background: var(--panel-raised, #eef1f5); color: var(--text-dim, #475467); } .ds-up-2 { background: color-mix(in srgb, var(--rise, #2e7d4f) 45%, var(--panel, #fff)); color: var(--rise, #2e7d4f); } .ds-down-1 { background: color-mix(in srgb, var(--fall, #9e3a2f) 20%, var(--panel, #fff)); color: var(--text, #101828); }"
+    },
+    {
       "name": "List Toggle",
       "kind": "custom",
       "refersTo": "list-toggle",

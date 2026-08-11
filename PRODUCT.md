@@ -45,6 +45,7 @@ Two things a copy-paste competitor would have to rebuild, not just restyle:
 - Dark mode: follows system preference by default (pure CSS, no flash on load), or an explicit toggle in the topbar that overrides it and persists to `localStorage`.
 - Comparador: overlay up to 3 tickers' % return on one chart, reusing the hero chart's curve/range logic. Only the original 23 tickers (of 50) have real OHLC coverage for the 30d/60d ranges; comparing a newer ticker on those ranges is handled honestly (excluded with a note, or an explicit "no coverage" message), never silently wrong.
 - Share-as-image: a button generates a 1200×630 PNG of the day's sector summary, hand-drawn on `<canvas>` (no CDN library — blocked by the CSP anyway) and theme-aware (reads live CSS colors, so it matches light/dark automatically). Downloads directly, or uses the Web Share API with a file on mobile.
+- Heatmap: a "Tabla / Mapa de calor" toggle on the Empresas section switches to a size-by-market-cap, color-by-change grid view of the same tickers — same filters/search/click-through as the table, just a different read of identical data.
 - Automatic graceful fallback: if `data.json` is missing or invalid, the page renders built-in demo data instead of breaking.
 
 ## Security
