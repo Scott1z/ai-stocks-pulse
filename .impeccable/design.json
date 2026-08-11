@@ -223,6 +223,14 @@
       "css": ".ds-compare-chips { display: flex; gap: 8px; margin-bottom: 10px; } .ds-chip { display: inline-flex; align-items: center; gap: 6px; font-family: ui-monospace, monospace; font-size: 0.72rem; font-weight: 700; padding: 6px 8px 6px 10px; border-radius: 999px; border: 1px solid var(--line-strong, #ccd3dc); background: var(--panel-raised, #eef1f5); } .ds-dot { width: 8px; height: 8px; border-radius: 50%; } .ds-compare-legend { display: flex; gap: 16px; } .ds-legend-item { display: inline-flex; align-items: center; gap: 6px; font-family: ui-monospace, monospace; font-size: 0.76rem; font-weight: 700; }"
     },
     {
+      "name": "Compartir Resumen (share-as-image)",
+      "kind": "custom",
+      "refersTo": "shareBtn",
+      "description": "Ghost pill button next to the 'Resumen del sector' heading, generates a 1200x630 shareable PNG hand-drawn on <canvas> (no html2canvas or similar — CDN scripts are blocked outright by script-src 'self'). Colors read live from getComputedStyle custom properties at draw time, so the generated card automatically matches whichever theme (light/dark) is active — verified both ways. navigator.share() with a File when available (mobile), otherwise a plain download link with a toast. Button shows 'Generando...' and disables while building; a cancelled share sheet is a no-op, not an error.",
+      "html": "<button class=\"ds-share-btn\"><svg width=\"13\" height=\"13\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\"><path d=\"M12 3v12M7 8l5-5 5 5M5 15v3.5A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V15\"/></svg>Compartir</button>",
+      "css": ".ds-share-btn { display: inline-flex; align-items: center; gap: 5px; font-family: ui-monospace, monospace; font-size: 0.66rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 5px 10px; border-radius: 999px; border: 1px solid var(--line-strong, #ccd3dc); background: transparent; color: var(--text-dim, #475467); cursor: pointer; }"
+    },
+    {
       "name": "Watchlist Position",
       "kind": "custom",
       "refersTo": "stock-position",

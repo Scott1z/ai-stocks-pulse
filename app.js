@@ -1784,6 +1784,169 @@ function showToast(message) {
   showToast._t = setTimeout(() => toast.classList.remove("show"), 3000);
 }
 
+// ---------------------------------------------------------------------------
+// Compartir el resumen del día como imagen — dibujado a mano en <canvas>,
+// sin librerías (html2canvas y similares no entrarían igual: los bloquea
+// script-src 'self' de la CSP salvo que se auto-hospedaran). Lee los
+// colores actuales vía custom properties al momento de dibujar, así la
+// imagen respeta el tema claro/oscuro activo sin duplicar la paleta acá.
+// ---------------------------------------------------------------------------
+
+function wrapCanvasText(ctx, text, maxWidth) {
+  const words = text.split(" ");
+  const lines = [];
+  let current = "";
+  for (const word of words) {
+    const test = current ? `${current} ${word}` : word;
+    if (ctx.measureText(test).width > maxWidth && current) {
+      lines.push(current);
+      current = word;
+    } else {
+      current = test;
+    }
+  }
+  if (current) lines.push(current);
+  return lines;
+}
+
+async function buildShareCanvas() {
+  if (document.fonts?.ready) await document.fonts.ready;
+  const css = getComputedStyle(document.documentElement);
+  const v = (name) => css.getPropertyValue(name).trim();
+  const paper = v("--paper");
+  const text = v("--text");
+  const textDim = v("--text-dim");
+  const textFaint = v("--text-faint");
+  const accent = v("--accent");
+  const line = v("--line");
+  const rise = v("--rise");
+  const fall = v("--fall");
+
+  const w = 1200;
+  const h = 630;
+  const canvas = document.createElement("canvas");
+  canvas.width = w;
+  canvas.height = h;
+  const ctx = canvas.getContext("2d");
+
+  ctx.fillStyle = paper;
+  ctx.fillRect(0, 0, w, h);
+  ctx.fillStyle = accent;
+  ctx.fillRect(0, 0, w, 6);
+
+  ctx.textBaseline = "alphabetic";
+  ctx.font = "700 34px Montserrat, sans-serif";
+  ctx.fillStyle = text;
+  ctx.fillText("AI Stocks ", 64, 92);
+  const brandLead = ctx.measureText("AI Stocks ").width;
+  ctx.fillStyle = accent;
+  ctx.fillText("Pulse", 64 + brandLead, 92);
+
+  const updated = (document.getElementById("lastUpdated")?.textContent || "").toUpperCase();
+  ctx.font = "600 18px 'Azeret Mono', monospace";
+  ctx.fillStyle = textFaint;
+  ctx.fillText(updated, 64, 128);
+  const updatedWidth = ctx.measureText(updated).width;
+
+  const sentimentText = (document.getElementById("sectorSentiment")?.textContent || "").toUpperCase();
+  const sentimentColor =
+    SECTOR_SUMMARY.sentiment === "bullish" ? rise : SECTOR_SUMMARY.sentiment === "bearish" ? fall : textDim;
+  ctx.font = "700 18px 'Azeret Mono', monospace";
+  ctx.fillStyle = sentimentColor;
+  ctx.fillText(sentimentText, 64 + updatedWidth + 20, 128);
+
+  ctx.strokeStyle = line;
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(64, 156);
+  ctx.lineTo(w - 64, 156);
+  ctx.stroke();
+
+  ctx.font = "400 30px Montserrat, sans-serif";
+  ctx.fillStyle = text;
+  const summary = SECTOR_SUMMARY.text || "Sin resumen disponible todavía.";
+  const lines = wrapCanvasText(ctx, summary, w - 128).slice(0, 6);
+  let y = 214;
+  for (const l of lines) {
+    ctx.fillText(l, 64, y);
+    y += 44;
+  }
+
+  const withChange = STOCKS.filter((s) => s.changePct != null);
+  if (withChange.length >= 2) {
+    const sorted = [...withChange].sort((a, b) => b.changePct - a.changePct);
+    const gainer = sorted[0];
+    const loser = sorted[sorted.length - 1];
+    const statY = h - 140;
+
+    const drawStat = (x, label, stock, color) => {
+      ctx.font = "600 15px 'Azeret Mono', monospace";
+      ctx.fillStyle = textFaint;
+      ctx.fillText(label.toUpperCase(), x, statY);
+      ctx.font = "700 26px 'Azeret Mono', monospace";
+      ctx.fillStyle = text;
+      ctx.fillText(stock.ticker, x, statY + 36);
+      const tickerWidth = ctx.measureText(`${stock.ticker}  `).width;
+      const sign = stock.changePct >= 0 ? "+" : "";
+      ctx.fillStyle = color;
+      ctx.fillText(`${sign}${stock.changePct.toFixed(1)}%`, x + tickerWidth, statY + 36);
+    };
+
+    drawStat(64, "Mayor suba", gainer, rise);
+    drawStat(64 + 340, "Mayor baja", loser, fall);
+  }
+
+  ctx.font = "600 15px 'Azeret Mono', monospace";
+  ctx.fillStyle = textFaint;
+  ctx.fillText("scott1z.github.io/ai-stocks-pulse", 64, h - 40);
+
+  return canvas;
+}
+
+async function shareSectorSummary() {
+  const btn = document.getElementById("shareBtn");
+  if (!btn || btn.disabled) return;
+  const originalHtml = btn.innerHTML;
+  btn.disabled = true;
+  btn.textContent = "Generando…";
+  try {
+    const canvas = await buildShareCanvas();
+    const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
+    if (!blob) throw new Error("No se pudo generar la imagen");
+    const file = new File([blob], "ai-stocks-pulse-resumen.png", { type: "image/png" });
+
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({
+        files: [file],
+        title: "AI Stocks Pulse",
+        text: "Resumen del sector de acciones de IA de hoy",
+      });
+    } else {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "ai-stocks-pulse-resumen.png";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      showToast("Imagen descargada");
+    }
+  } catch (err) {
+    if (err && err.name !== "AbortError") {
+      // AbortError = el usuario cerró la hoja de compartir sin elegir nada, no es un error real
+      showToast("No se pudo generar la imagen para compartir");
+    }
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = originalHtml;
+  }
+}
+
+function initShareButton() {
+  document.getElementById("shareBtn")?.addEventListener("click", shareSectorSummary);
+}
+
 // Modo oscuro — sin elección guardada, sigue prefers-color-scheme vía CSS
 // pura (ver @media en styles.css, cero JS involucrado, así que no hay flash
 // de tema equivocado en la primera pintura). Esta función solo entra en
@@ -1919,6 +2082,7 @@ async function init() {
   initHeroChartRange();
   initHeroChartInteraction();
   initCompareSection();
+  initShareButton();
   initEarningsCalendar();
   initSectionNav();
   initThemeManager();

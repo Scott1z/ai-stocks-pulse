@@ -622,6 +622,13 @@ header, main, footer { position: relative; z-index: 1; }
   flex-direction: column;
 }
 
+.hero-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 .hero-card h2 {
   display: flex;
   align-items: center;
@@ -634,6 +641,28 @@ header, main, footer { position: relative; z-index: 1; }
   color: var(--text-faint);
   font-weight: 600;
 }
+
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-data);
+  font-size: 0.66rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 5px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: border-color 0.12s ease, color 0.12s ease;
+}
+.share-btn:hover:not(:disabled) { color: var(--text); border-color: var(--accent); }
+.share-btn:disabled { opacity: 0.5; cursor: default; }
+.share-btn .icon-glyph { width: 13px; height: 13px; }
 
 /* Category icon set — see :root for the color tokens. Used sparingly:
    one per section header, one per hero stat, one per fundamental. */
