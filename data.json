@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-08-11T08:32:32.661987+00:00",
+  "updated_at": "2026-08-11T11:33:11.723701+00:00",
   "sector": {
     "sentiment": "mixed",
-    "text": "El sector de IA muestra un día dispar: los grandes de software y nube como Oracle, Adobe y Salesforce suben con fuerza, mientras chipmakers como Arm, Marvell y Nvidia retroceden, reflejando cautela sobre valuaciones de semiconductores pese al optimismo en la nube.",
+    "text": "El sector de IA muestra señales encontradas: Nvidia impulsa una nueva estrategia de financiamiento para sostener la construcción de infraestructura de IA, aunque su acción cae junto a AMD y ARM. Mientras tanto, software como Oracle y Adobe suben, y Apple retrocede tras una rebaja de calificación.",
     "stats": {
       "upCount": 13,
       "totalCount": 23,
       "avgChangePct": -0.15,
-      "newsCount": 1
+      "newsCount": 2
     }
   },
   "stocks": [
@@ -20,6 +20,7 @@
         218.52,
         218.42,
         219.11,
+        217.55,
         217.55,
         217.55,
         217.55,
@@ -469,6 +470,7 @@
         506.06,
         506.06,
         506.06,
+        506.06,
         506.06
       ],
       "fundamentals": {
@@ -912,6 +914,7 @@
         354.29,
         354.67,
         355.37,
+        357.52,
         357.52,
         357.52,
         357.52,
@@ -1361,6 +1364,7 @@
         594.92,
         594.92,
         594.92,
+        594.92,
         594.92
       ],
       "fundamentals": {
@@ -1804,6 +1808,7 @@
         276.74,
         276.45,
         277.14,
+        278.09,
         278.09,
         278.09,
         278.09,
@@ -2253,6 +2258,7 @@
         422.4,
         422.4,
         422.4,
+        422.4,
         422.4
       ],
       "fundamentals": {
@@ -2696,6 +2702,7 @@
         150.75,
         150.61,
         151.69,
+        151.05,
         151.05,
         151.05,
         151.05,
@@ -3145,6 +3152,7 @@
         175.23,
         175.23,
         175.23,
+        175.23,
         175.23
       ],
       "fundamentals": {
@@ -3591,6 +3599,7 @@
         469.56,
         469.56,
         469.56,
+        469.56,
         469.56
       ],
       "fundamentals": {
@@ -4031,6 +4040,7 @@
       "price": 418.47,
       "changePct": -0.3738,
       "spark": [
+        418.47,
         418.47,
         418.47,
         418.47
@@ -4475,6 +4485,7 @@
       "spark": [
         267.85,
         267.85,
+        267.85,
         267.85
       ],
       "fundamentals": {
@@ -4915,6 +4926,7 @@
       "price": 31.46,
       "changePct": 1.0601,
       "spark": [
+        31.46,
         31.46,
         31.46,
         31.46
@@ -5359,6 +5371,7 @@
       "spark": [
         208.56,
         208.56,
+        208.56,
         208.56
       ],
       "fundamentals": {
@@ -5799,6 +5812,7 @@
       "price": 162.17,
       "changePct": -3.3897,
       "spark": [
+        162.17,
         162.17,
         162.17,
         162.17
@@ -6242,6 +6256,7 @@
       "changePct": -1.8882,
       "spark": [
         861,
+        861,
         861
       ],
       "fundamentals": {
@@ -6683,6 +6698,7 @@
       "changePct": 2.1209,
       "spark": [
         1237.92,
+        1237.92,
         1237.92
       ],
       "fundamentals": {
@@ -7123,6 +7139,7 @@
       "price": 197.51,
       "changePct": 2.4748,
       "spark": [
+        197.51,
         197.51,
         197.51,
         197.51
@@ -7567,6 +7584,7 @@
       "spark": [
         127.44,
         127.44,
+        127.44,
         127.44
       ],
       "fundamentals": {
@@ -8009,12 +8027,13 @@
       "spark": [
         272.96,
         272.96,
+        272.96,
         272.96
       ],
       "fundamentals": {
-        "peTTM": 14.5831,
+        "peTTM": 15.0092,
         "epsTTM": 17.474200000000003,
-        "marketCapM": 105420.97,
+        "marketCapM": 108501.59,
         "week52High": 370.86,
         "week52Low": 190.12,
         "roeTTM": 62.39,
@@ -8449,6 +8468,7 @@
       "price": 334.7,
       "changePct": 1.2739,
       "spark": [
+        334.7,
         334.7,
         334.7,
         334.7
@@ -8893,6 +8913,7 @@
       "spark": [
         236.31,
         236.31,
+        236.31,
         236.31
       ],
       "fundamentals": {
@@ -9333,6 +9354,7 @@
       "price": 308.26,
       "changePct": -1.6181,
       "spark": [
+        308.26,
         308.26,
         308.26,
         308.26
@@ -9777,6 +9799,7 @@
       "spark": [
         330.88,
         330.88,
+        330.88,
         330.88
       ],
       "fundamentals": {
@@ -10214,8 +10237,19 @@
   ],
   "news": [
     {
-      "headline": "Apple es rebajada por Jefferies en medio de ventas mixtas del mercado",
-      "summary": "Jefferies bajó la calificación de Apple mientras Intel busca capital para financiar su plan de inversión tecnológica.",
+      "headline": "Wall Street respalda nueva estrategia financiera de Nvidia para IA",
+      "summary": "Nvidia impulsa un nuevo modelo de financiamiento para el auge de infraestructura de IA, tras años de deuda y emisión de acciones del sector tecnológico.",
+      "tickers": [
+        "NVDA"
+      ],
+      "sentiment": "neutral",
+      "source_url": "https://www.cnbc.com/2026/08/11/wall-street-endorsed-jensen-huangs-big-concept-for-ai-what-now.html",
+      "source": "CNBC",
+      "published_at": "2026-08-11T10:00:01+00:00"
+    },
+    {
+      "headline": "Apple rebajada por Jefferies, Intel emite acciones para invertir",
+      "summary": "Apple recibió una rebaja de calificación mientras Intel vende acciones para financiar su agenda de inversión, en un lunes clave para el mercado tech.",
       "tickers": [
         "AAPL"
       ],
