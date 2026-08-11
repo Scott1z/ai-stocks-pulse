@@ -15,6 +15,7 @@ const DEMO_STOCKS = [
     blurb: "La demanda de chips para centros de datos de IA sigue superando las expectativas de los analistas.",
     spark: [110, 112, 109, 115, 118, 116, 121, 119, 124, 122, 126, 128.45],
     fundamentals: { peTTM: 54.2, epsTTM: 2.37, marketCapM: 3150000, week52High: 153.13, week52Low: 86.62, roeTTM: 91.9, netMarginTTM: 55.7 },
+    lastEarnings: { period: "2026-05-28", actual: 0.96, estimate: 0.88, surprisePercent: 9.1 },
   },
   {
     ticker: "MSFT",
@@ -65,6 +66,7 @@ const DEMO_STOCKS = [
     blurb: "Analistas rebajan estimaciones ante la fuerte competencia de NVIDIA en GPUs de IA.",
     spark: [163, 161, 159, 160, 158, 156, 157, 155, 153, 156, 155, 154.75],
     fundamentals: { peTTM: 105.3, epsTTM: 1.47, marketCapM: 251000, week52High: 187.28, week52Low: 76.48, roeTTM: 5.1, netMarginTTM: 6.4 },
+    lastEarnings: { period: "2026-05-06", actual: 0.62, estimate: 0.68, surprisePercent: -8.8 },
   },
 ];
 
@@ -193,6 +195,35 @@ function toggleFavorite(ticker) {
   }
 }
 
+// Mi posición — precio de compra opcional por ticker favorito, para calcular
+// una ganancia/pérdida hipotética. Todo local (localStorage), nunca se manda
+// a ningún servidor — no hay backend que lo reciba.
+const COST_BASIS_KEY = "aisp_cost_basis";
+let costBasis = {};
+try {
+  costBasis = JSON.parse(localStorage.getItem(COST_BASIS_KEY) || "{}");
+} catch {
+  costBasis = {};
+}
+
+function setCostBasis(ticker, price) {
+  costBasis[ticker] = price;
+  try {
+    localStorage.setItem(COST_BASIS_KEY, JSON.stringify(costBasis));
+  } catch {
+    /* localStorage unavailable — no persiste, pero no rompe la sesión actual */
+  }
+}
+
+function clearCostBasis(ticker) {
+  delete costBasis[ticker];
+  try {
+    localStorage.setItem(COST_BASIS_KEY, JSON.stringify(costBasis));
+  } catch {
+    /* localStorage unavailable */
+  }
+}
+
 // ---------------------------------------------------------------------------
 // data.json loading + normalization
 // ---------------------------------------------------------------------------
@@ -266,6 +297,7 @@ function normalizeRealData(json) {
       spark: s.spark && s.spark.length >= 2 ? s.spark : [s.price, s.price],
       fundamentals: s.fundamentals || {},
       ohlc: Array.isArray(s.ohlc) ? s.ohlc : [],
+      lastEarnings: s.lastEarnings || null,
     }));
 
   const stats = json.sector?.stats || {};
@@ -418,15 +450,39 @@ function buildSparkline(values) {
 // Equal-weighted % return across every tracked stock — a real composite
 // "sector index" built from the same price history that feeds the
 // sparklines, not decoration. This is the hero's dominant visual.
-function buildCompositeChart(stocks) {
-  const length = Math.min(...stocks.map((s) => s.spark.length));
-  if (length < 2) return "";
+// Rango del índice compuesto del hero: "today" usa el spark corto (snapshots
+// de precio por corrida del pipeline, ~última media jornada); "30d"/"60d"
+// usan los cierres diarios reales (stock.ohlc), que llegan hasta 60 ruedas
+// (ver OHLC_DAYS_KEPT en el pipeline) — por eso no hay opción "90d" todavía,
+// sería prometer un historial que no tenemos.
+const HERO_CHART_RANGES = [
+  { key: "today", label: "Hoy" },
+  { key: "30d", label: "30 días" },
+  { key: "60d", label: "60 días" },
+];
+
+function buildCompositeSeries(stocks, range) {
+  if (range === "today") {
+    const length = Math.min(...stocks.map((s) => s.spark.length));
+    if (length < 2) return null;
+    return stocks.map((s) => s.spark.slice(-length));
+  }
+  const withOhlc = stocks.filter((s) => Array.isArray(s.ohlc) && s.ohlc.length >= 2);
+  if (withOhlc.length < 2) return null;
+  const days = range === "30d" ? 30 : 60;
+  const length = Math.min(days, ...withOhlc.map((s) => s.ohlc.length));
+  if (length < 2) return null;
+  return withOhlc.map((s) => s.ohlc.slice(-length).map((c) => c.close));
+}
+
+function buildCompositeChart(series) {
+  const length = Math.min(...series.map((s) => s.length));
+  if (length < 2) return null;
 
   const composite = [];
   for (let i = 0; i < length; i++) {
     const avgReturn =
-      stocks.reduce((sum, s) => sum + ((s.spark[i] - s.spark[0]) / s.spark[0]) * 100, 0) /
-      stocks.length;
+      series.reduce((sum, s) => sum + ((s[i] - s[0]) / s[0]) * 100, 0) / series.length;
     composite.push(avgReturn);
   }
 
@@ -549,20 +605,43 @@ function buildCandlestickChart(ohlc) {
   </svg>`;
 }
 
+let heroChartRange = "today";
+
 function renderHeroChart() {
   const el = document.getElementById("heroChart");
-  const result = buildCompositeChart(STOCKS);
+  const rangeToggle = `<div class="hero-chart-range" role="tablist" aria-label="Rango del índice compuesto">
+    ${HERO_CHART_RANGES.map(
+      (r) =>
+        `<button type="button" role="tab" aria-selected="${r.key === heroChartRange}" class="${
+          r.key === heroChartRange ? "active" : ""
+        }" data-range="${r.key}">${r.label}</button>`
+    ).join("")}
+  </div>`;
+
+  const series = buildCompositeSeries(STOCKS, heroChartRange);
+  const result = series && buildCompositeChart(series);
+
   if (!result) {
-    el.innerHTML = "";
+    el.innerHTML = `${rangeToggle}<p class="hero-chart-empty">Todavía no hay suficiente historial diario para este rango.</p>`;
     return;
   }
   const sign = result.finalReturn >= 0 ? "+" : "";
   el.innerHTML = `
+    ${rangeToggle}
     <div class="hero-chart-label">
       <span class="hero-chart-title">Índice compuesto del sector</span>
       <span class="hero-chart-value ${result.up ? "up" : "down"}">${sign}${result.finalReturn.toFixed(1)}%</span>
     </div>
     ${result.svg}`;
+}
+
+function initHeroChartRange() {
+  document.getElementById("heroChart").addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-range]");
+    if (!btn) return;
+    heroChartRange = btn.dataset.range;
+    renderHeroChart();
+  });
 }
 
 function renderSectorSummary() {
@@ -949,7 +1028,86 @@ function initNewsModal() {
   });
 }
 
+// Mi posición — solo se ofrece a acciones ya favoritas: la estrella es la
+// intención declarada de "esto me importa", cargar un precio de compra es
+// el paso siguiente natural, no algo que se le pida a cualquier fila.
+function renderPositionSection(stock) {
+  const el = document.getElementById("stockModalPosition");
+  if (!favorites.has(stock.ticker)) {
+    el.innerHTML = `<p class="position-nudge">Marcá esta acción como favorita (★) para trackear tu posición acá — el precio de compra queda solo en tu navegador, nunca se manda a ningún servidor.</p>`;
+    return;
+  }
+  const cost = costBasis[stock.ticker];
+  if (cost == null) {
+    el.innerHTML = `
+      <p class="position-label">Mi posición</p>
+      <form class="position-form" data-position-form>
+        <input type="number" inputmode="decimal" step="0.01" min="0" placeholder="Precio de compra, ej: ${stock.price.toFixed(2)}" aria-label="Precio de compra">
+        <button type="submit" class="btn-ghost">Guardar</button>
+      </form>`;
+    return;
+  }
+  const pnlPct = ((stock.price - cost) / cost) * 100;
+  const pnlAbs = stock.price - cost;
+  const cls = pnlPct >= 0 ? "up" : "down";
+  const sign = pnlPct >= 0 ? "+" : "";
+  el.innerHTML = `
+    <p class="position-label">Mi posición — compraste a $${cost.toFixed(2)}</p>
+    <div class="position-summary">
+      <span class="position-pnl ${cls}">${sign}$${pnlAbs.toFixed(2)} (${sign}${pnlPct.toFixed(1)}%)</span>
+      <button type="button" class="position-clear" data-position-clear>Borrar</button>
+    </div>`;
+}
+
+function initPositionSection() {
+  const el = document.getElementById("stockModalPosition");
+  el.addEventListener("submit", (e) => {
+    const form = e.target.closest("[data-position-form]");
+    if (!form || !currentModalStock) return;
+    e.preventDefault();
+    const input = form.querySelector("input");
+    const value = parseFloat(input.value);
+    if (!Number.isFinite(value) || value <= 0) return;
+    setCostBasis(currentModalStock.ticker, value);
+    renderPositionSection(currentModalStock);
+  });
+  el.addEventListener("click", (e) => {
+    if (!e.target.closest("[data-position-clear]") || !currentModalStock) return;
+    clearCostBasis(currentModalStock.ticker);
+    renderPositionSection(currentModalStock);
+  });
+}
+
+// Beat/miss del último resultado — dato real de Finnhub (actual vs.
+// estimado de consenso), no una inferencia nuestra. Se esconde entero si el
+// pipeline todavía no trajo esta información para el ticker.
+function renderLastEarnings(stock) {
+  const el = document.getElementById("stockModalLastEarnings");
+  const e = stock.lastEarnings;
+  if (!e || e.surprisePercent == null) {
+    el.innerHTML = "";
+    return;
+  }
+  const beat = e.surprisePercent > 0.5;
+  const miss = e.surprisePercent < -0.5;
+  const cls = beat ? "up" : miss ? "down" : "mixed";
+  const label = beat
+    ? `Superó la estimación en ${e.surprisePercent.toFixed(1)}%`
+    : miss
+    ? `Por debajo de la estimación en ${Math.abs(e.surprisePercent).toFixed(1)}%`
+    : "En línea con la estimación";
+  const periodLabel = e.period ? formatEarningsMonth(e.period) : "";
+  const actualLabel = e.actual != null ? `$${e.actual.toFixed(2)}` : "N/D";
+  const estimateLabel = e.estimate != null ? `$${e.estimate.toFixed(2)}` : "N/D";
+  el.innerHTML = `
+    <span class="earnings-surprise ${cls}">${label}</span>
+    <span class="earnings-surprise-meta">Último resultado${periodLabel ? " · " + periodLabel : ""} — EPS real ${actualLabel} vs. estimado ${estimateLabel}</span>`;
+}
+
+let currentModalStock = null;
+
 function openStockModal(stock) {
+  currentModalStock = stock;
   const changeSign = stock.changePct >= 0 ? "+" : "";
   const changeCls = stock.changePct >= 0 ? "up" : "down";
 
@@ -963,6 +1121,8 @@ function openStockModal(stock) {
   tagEl.textContent = sentimentLabel[stock.sentiment];
   tagEl.className = `stock-tag ${stock.sentiment}`;
 
+  renderPositionSection(stock);
+
   const hasOhlc = Array.isArray(stock.ohlc) && stock.ohlc.length > 1;
   document.getElementById("stockModalChart").innerHTML = hasOhlc
     ? buildCandlestickChart(stock.ohlc)
@@ -972,6 +1132,8 @@ function openStockModal(stock) {
     : stock.spark.length > 2
     ? `Últimas ${stock.spark.length} actualizaciones de precio (no es un histórico de velas)`
     : "Historial de precio todavía corto: se enriquece cada hora que corre el pipeline.";
+
+  renderLastEarnings(stock);
 
   document.getElementById("stockModalFundamentals").innerHTML = buildFundamentalsGrid(stock.fundamentals);
   document.getElementById("fundamentalsHelp").hidden = true;
@@ -1251,6 +1413,8 @@ async function init() {
   initLedgerSort();
   initNewsModal();
   initStockModal();
+  initPositionSection();
+  initHeroChartRange();
   initEarningsCalendar();
   initInstallPrompt();
   initServiceWorker();

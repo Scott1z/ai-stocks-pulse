@@ -17,6 +17,11 @@ datos de demostración — así que es seguro probar esto sin romper nada.
 4. Trae fundamentales básicos de **Finnhub** (`/stock/metric`, mismo API key) para los mismos
    23 tickers — 23 requests más: P/E (TTM), EPS (TTM), capitalización de mercado, rango de
    52 semanas, ROE (TTM) y margen neto (TTM). Todo dentro del plan free (60 calls/min).
+4b. Trae el último resultado YA reportado de **Finnhub** (`/stock/earnings`, mismo API key) —
+   23 requests más: EPS real vs. estimado de consenso ("beat/miss") del trimestre más reciente
+   que cada empresa ya presentó. A diferencia del calendario (punto 6), que mira para
+   adelante, esto mira para atrás — se usa para el badge "superó/no superó estimación" en el
+   modal de cada acción. Se descartan las entradas todavía sin reportar (`actual` viene `null`).
 5. Trae velas diarias reales (open/high/low/close) de **Alpha Vantage** `TIME_SERIES_DAILY`,
    pero **solo una vez por día**, no en cada corrida horaria — ver la sección de abajo, es la
    parte más particular de este pipeline. El resultado vive en `daily_ohlc.json`.
@@ -98,7 +103,7 @@ export $(grep -v '^#' .env | xargs)
 python3 fetch_and_curate.py
 ```
 
-Si todo sale bien vas a ver algo como `OK — 23 precios, 8 noticias y 6 resultados próximos escritos en .../data.json`.
+Si todo sale bien vas a ver algo como `OK — 23 precios, 8 noticias, 6 resultados próximos y 19 últimos resultados reportados escritos en .../data.json`.
 Abrí `../data.json` para revisar el resultado, y recargá la landing page — el indicador de
 arriba debería cambiar de "DATOS DE DEMOSTRACIÓN" a "DATOS EN VIVO".
 
@@ -119,9 +124,10 @@ Si el cron no dispara en macOS reciente, es casi siempre un tema de permisos: en
 
 ### Por qué cada hora
 
-Las noticias, precios y fundamentales van todos por Finnhub (60 calls/min, sin límite diario
-publicado), así que refrescarlos cada hora no es un problema: 47 requests por corrida (23
-quotes + 23 metrics + 1 de noticias), lejos del límite por minuto. Alpha Vantage solo entra en
+Las noticias, precios, fundamentales y los últimos resultados reportados van todos por Finnhub
+(60 calls/min, sin límite diario publicado), así que refrescarlos cada hora no es un problema:
+70 requests por corrida (23 quotes + 23 metrics + 23 earnings actuals + 1 de noticias), lejos
+del límite por minuto. Alpha Vantage solo entra en
 juego una vez por día, para las velas y el calendario de resultados — ver la sección de arriba.
 Correr más seguido que cada hora no rompería el presupuesto de Finnhub, pero tampoco aportaría
 mucho: los precios de Finnhub no cambian tan rápido como para justificarlo, y la corrida diaria

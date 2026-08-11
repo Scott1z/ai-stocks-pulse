@@ -197,6 +197,30 @@
       "description": "Real-data replacement for a rejected illustrated-asset attempt: the sector's top gainer and top loser, computed client-side from STOCKS, filling the hero-text column's remaining space below the badges. Reuses the existing stock-tag pill (ticker + trend glyph) rather than a new pill style. Each one is a real button that opens the Stock Detail Modal for that ticker, same as clicking its ledger row.",
       "html": "<div class=\"ds-hero-movers\"><button class=\"ds-hero-mover\"><span class=\"ds-hero-mover-label\">Mayor suba</span><span class=\"ds-hero-mover-row\"><span class=\"ds-badge ds-badge--bullish\">ADBE</span><span class=\"ds-hero-mover-change\" style=\"color:var(--rise,#2e7d4f)\">+2.9%</span></span></button></div>",
       "css": ".ds-hero-movers { display: flex; gap: 32px; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--line, #e2e6ec); } .ds-hero-mover { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; background: none; border: none; padding: 0; font: inherit; text-align: left; cursor: pointer; } .ds-hero-mover-label { font-size: 0.7rem; color: var(--text-faint, #98a2b3); } .ds-hero-mover-row { display: flex; align-items: center; gap: 8px; } .ds-hero-mover-change { font-family: ui-monospace, monospace; font-variant-numeric: tabular-nums; font-weight: 600; font-size: 0.95rem; }"
+    },
+    {
+      "name": "Composite Chart Range Toggle",
+      "kind": "custom",
+      "refersTo": "hero-chart-range",
+      "description": "Segmented control (Hoy / 30 días / 60 días) above the hero's composite sector chart. \"Hoy\" resamples the short hourly price-snapshot window; the two longer ranges resample real daily closes across every tracked ticker. Deliberately stops at 60 días — the pipeline only keeps 60 days of daily candles, so a 90-day option would promise history the product doesn't have. Reuses the Chip visual language at a smaller size rather than inventing a second toggle style.",
+      "html": "<div class=\"ds-range-toggle\" role=\"tablist\"><button class=\"ds-range-btn\">Hoy</button><button class=\"ds-range-btn is-active\">30 días</button><button class=\"ds-range-btn\">60 días</button></div>",
+      "css": ".ds-range-toggle { display: flex; gap: 4px; margin-bottom: 12px; } .ds-range-btn { font-family: ui-monospace, monospace; font-size: 0.66rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 5px 10px; border-radius: 999px; border: 1px solid var(--line-strong, #ccd3dc); background: transparent; color: var(--text-dim, #475467); cursor: pointer; } .ds-range-btn.is-active { background: var(--accent, #1c3a5e); border-color: var(--accent, #1c3a5e); color: var(--panel, #fff); }"
+    },
+    {
+      "name": "Watchlist Position",
+      "kind": "custom",
+      "refersTo": "stock-position",
+      "description": "\"Mi posición\" panel in the Stock Detail Modal, between the sentiment tag and the chart. Gated behind the ticker already being favorited (the star is the declared \"I care about this\" signal). Empty state is a single purchase-price input; filled state shows the hypothetical gain/loss in the same up/down color and tabular-nums voice used everywhere else, plus a plain-text clear control. Purchase price lives only in localStorage (aisp_cost_basis) — never sent to any server.",
+      "html": "<div class=\"ds-position\"><p class=\"ds-position-label\">Mi posición — compraste a $145.30</p><div class=\"ds-position-row\"><span class=\"ds-position-pnl\" style=\"color:var(--rise,#2e7d4f)\">+$34.20 (+23.5%)</span><button class=\"ds-position-clear\">Borrar</button></div></div>",
+      "css": ".ds-position { margin-top: 14px; padding: 12px 14px; border: 1px solid var(--line, #e2e6ec); border-radius: 4px; background: var(--panel-raised, #eef1f5); } .ds-position-label { font-family: ui-monospace, monospace; font-size: 0.66rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-faint, #98a2b3); margin: 0 0 8px; } .ds-position-row { display: flex; align-items: center; justify-content: space-between; } .ds-position-pnl { font-family: ui-monospace, monospace; font-variant-numeric: tabular-nums; font-weight: 700; font-size: 0.95rem; } .ds-position-clear { font-family: ui-monospace, monospace; font-size: 0.66rem; font-weight: 600; text-transform: uppercase; color: var(--text-faint, #98a2b3); background: none; border: none; cursor: pointer; }"
+    },
+    {
+      "name": "Last Earnings Badge",
+      "kind": "custom",
+      "refersTo": "stock-last-earnings",
+      "description": "Beat/miss badge in the Stock Detail Modal, right under the chart caption. Real reported EPS vs. consensus estimate from Finnhub /stock/earnings — looks backward at the last completed quarter, complementing the forward-looking Earnings Calendar. Reuses the Sentiment Badge recipe (tinted background, full-opacity text). Hidden entirely (:empty) for any ticker without a reported quarter yet — no placeholder, no fabricated data.",
+      "html": "<div class=\"ds-earnings-surprise\"><span class=\"ds-surprise-pill\" style=\"color:var(--rise,#2e7d4f);background:var(--rise-dim,rgba(46,125,79,.1))\">Superó la estimación en 9.1%</span><span class=\"ds-surprise-meta\">Último resultado · Mayo 2026 — EPS real $0.96 vs. estimado $0.88</span></div>",
+      "css": ".ds-earnings-surprise { margin-bottom: 24px; } .ds-surprise-pill { display: inline-block; font-family: ui-monospace, monospace; font-size: 0.72rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; margin-right: 8px; } .ds-surprise-meta { font-size: 0.72rem; color: var(--text-faint, #98a2b3); }"
     }
   ],
   "narrative": {

@@ -22,6 +22,9 @@ Flujo:
   3d. Trae el calendario de resultados de Alpha Vantage EARNINGS_CALENDAR (1 request más,
       misma corrida diaria que el OHLC) — antes usaba Finnhub /calendar/earnings, pero ese
       endpoint tiene un bug conocido de fechas de balance faltantes/incorrectas.
+  3e. Trae el último resultado YA reportado (EPS real vs. estimado, "beat/miss") de Finnhub
+      /stock/earnings, un request por ticker — a diferencia del calendario (que mira para
+      adelante), esto mira para atrás, al trimestre que la empresa ya presentó.
   4. Ordena los candidatos de noticias por cuántas empresas nuestras mencionan (gratis, sin
      gastar tokens de LLM) y recorta al top N.
   5. Manda solo los top N candidatos + los cambios de precio a Claude, en una sola llamada,
@@ -296,6 +299,46 @@ def fetch_fundamentals(tickers: list[str]) -> dict[str, dict]:
     return fundamentals
 
 
+def fetch_earnings_actuals(tickers: list[str]) -> dict[str, dict | None]:
+    """Último resultado YA reportado (EPS real vs. estimado de consenso) por
+    ticker, vía Finnhub /stock/earnings — mismo patrón que /stock/metric,
+    un request por ticker. Se usa para el badge de "superó/no superó
+    estimación" en el modal de cada acción; a diferencia del calendario de
+    resultados (que mira para adelante), esto mira para atrás."""
+    if not FINNHUB_API_KEY:
+        sys.exit("Falta FINNHUB_API_KEY en el entorno.")
+
+    actuals: dict[str, dict | None] = {}
+    for ticker in tickers:
+        params = {"symbol": ticker, "token": FINNHUB_API_KEY}
+        url = "https://finnhub.io/api/v1/stock/earnings?" + urlencode(params)
+        try:
+            with urlopen(url, timeout=10) as resp:
+                entries = json.loads(resp.read().decode())
+            # Finnhub ordena del más reciente al más viejo; el primer
+            # elemento a veces es el próximo trimestre todavía sin reportar
+            # (actual=null), así que nos quedamos con el primero que sí
+            # tiene un valor real.
+            reported = next(
+                (e for e in entries if isinstance(entries, list) and e.get("actual") is not None),
+                None,
+            )
+            actuals[ticker] = (
+                {
+                    "period": reported.get("period"),
+                    "actual": reported.get("actual"),
+                    "estimate": reported.get("estimate"),
+                    "surprisePercent": reported.get("surprisePercent"),
+                }
+                if reported
+                else None
+            )
+        except Exception as exc:  # red intermitente, ticker sin cobertura, etc.
+            print(f"Aviso: no se pudo obtener el último resultado de {ticker}: {exc}", file=sys.stderr)
+            actuals[ticker] = None
+    return actuals
+
+
 # --- Calendario de resultados (Alpha Vantage) --------------------------------
 
 # Antes usaba Finnhub /calendar/earnings. Se cambió porque ese endpoint tiene
@@ -452,6 +495,7 @@ def build_stocks(
     history: dict[str, list[float]],
     fundamentals: dict[str, dict],
     ohlc: dict[str, list[dict]],
+    earnings_actuals: dict[str, dict | None],
 ) -> list[dict]:
     stocks = []
     for ticker in AI_TICKERS:
@@ -468,6 +512,7 @@ def build_stocks(
             "spark": series,
             "fundamentals": fundamentals.get(ticker, {}),
             "ohlc": ohlc.get(ticker, []),
+            "lastEarnings": earnings_actuals.get(ticker),
         })
     return stocks
 
@@ -531,8 +576,9 @@ def main():
     prices = fetch_prices(AI_TICKERS)
     history = update_price_history(prices)
     fundamentals = fetch_fundamentals(AI_TICKERS)
+    earnings_actuals = fetch_earnings_actuals(AI_TICKERS)
     ohlc, earnings_calendar = fetch_daily_batch(AI_TICKERS)
-    stocks = build_stocks(prices, history, fundamentals, ohlc)
+    stocks = build_stocks(prices, history, fundamentals, ohlc, earnings_actuals)
 
     valid_changes = [s["changePct"] for s in stocks if s["changePct"] is not None]
     up_count = sum(1 for c in valid_changes if c > 0)
@@ -565,9 +611,11 @@ def main():
     }
 
     DATA_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+    reported_count = sum(1 for s in stocks if s["lastEarnings"] is not None)
     print(
-        f"OK — {len(stocks)} precios, {len(items)} noticias y "
-        f"{len(earnings_calendar)} resultados próximos escritos en {DATA_PATH}"
+        f"OK — {len(stocks)} precios, {len(items)} noticias, "
+        f"{len(earnings_calendar)} resultados próximos y {reported_count} últimos "
+        f"resultados reportados escritos en {DATA_PATH}"
     )
 
 

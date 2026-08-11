@@ -1,7 +1,8 @@
 name: Refresh sector data
 
-# Runs the pipeline hourly. News, quotes, and fundamentals come from Finnhub
-# (60 calls/min free tier). Alpha Vantage's free-tier budget (25 req/day) is
+# Runs the pipeline hourly. News, quotes, fundamentals, and each stock's
+# last-reported-earnings actuals (beat/miss) come from Finnhub (60 calls/min
+# free tier). Alpha Vantage's free-tier budget (25 req/day) is
 # reserved for real daily OHLC candles + the earnings calendar — fetched
 # once per day only (23 tickers + 1 calendar request, ~5 min with AV's
 # 5 req/min pacing), cached the other 23 runs. Writes data.json +

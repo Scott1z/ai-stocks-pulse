@@ -261,6 +261,23 @@ Borders are hairlines throughout (1px), never thick. The two deliberate exceptio
 - **Structure:** a small label ("Mayor suba" / "Mayor baja") over a `stock-tag` (reusing the existing ticker pill with its trend glyph, so no new visual language) plus the change percentage in the tabular-nums data voice. Separated from the badges above by a hairline, echoing the Stat Block's own top-hairline convention.
 - **Interaction:** each one is a real button; clicking either opens the Stock Detail Modal for that ticker, same as clicking its row in the ledger below — one more path to the same destination, not a dead-end decoration.
 
+### Composite Chart Range Toggle
+- **Purpose:** the hero's "Índice compuesto del sector" chart used to show one fixed window (the short hourly price-snapshot history). A visitor asking "how has the sector done this month" had no way to see that — this adds a small segmented control (Hoy / 30 días / 60 días) above the chart.
+- **Structure:** reuses the Chips visual language at a smaller size — pill buttons, active state filled `--accent` — rather than inventing a second toggle style. "Hoy" resamples the same short `spark` window as before; the two longer ranges resample real daily closes (`stock.ohlc`) across every tracked ticker into the same equal-weighted % composite.
+- **Honesty boundary:** there is deliberately no "90 días" option. The pipeline only keeps 60 days of daily candles (`OHLC_DAYS_KEPT` in `pipeline/fetch_and_curate.py`) — offering a range the product can't actually deliver would be the same kind of overpromise the Earnings Calendar's "no fabricated events" rule exists to avoid.
+- **Empty state:** if too few tickers have OHLC coverage yet for the selected range, the chart area shows a plain sentence ("Todavía no hay suficiente historial diario para este rango") instead of an empty or broken chart.
+
+### Watchlist Position ("Mi posición")
+- **Purpose:** turns the existing favorites/watchlist star from a bookmark into something with a number attached — record what you paid, see what it's worth now. Deliberately scoped to the Stock Detail Modal, not the ledger row: the row stays terse (that's the whole point of the Ledger Row / Stock Detail Modal split), and a purchase price is a "clicked in for the full picture" kind of detail.
+- **Gating:** only offered once a ticker is already favorited — the star is the declared "I care about this one" signal; asking for a purchase price on every row the user glances at would be noise. A non-favorited ticker shows a one-line nudge to favorite it first instead of a form.
+- **Data:** purchase price lives in `localStorage` only (`aisp_cost_basis`), keyed by ticker — never sent to the pipeline or any server. Same no-backend-needed pattern as the favorites star itself.
+- **Structure:** a small labeled panel (`--panel-raised` background, hairline border) between the sentiment tag and the chart — the first personal, not-shared-with-every-visitor thing in the modal. Empty state is a single input + "Guardar"; filled state is the gain/loss in the same up/down color and tabular-nums voice as everywhere else on the page, plus a plain-text "Borrar" to clear it.
+
+### Last Earnings Badge (beat/miss)
+- **Purpose:** the Earnings Calendar looks forward (when's the next report); this looks backward (how did the last one go) — real reported EPS vs. the consensus estimate, from Finnhub `/stock/earnings`, not a computed or inferred number.
+- **Structure:** a small pill (reusing the Sentiment Badge recipe — tinted background, full-opacity text) reading "Superó la estimación en X%" / "Por debajo de la estimación en X%" / "En línea con la estimación", plus a quieter meta line with the period and the actual-vs-estimate figures. Sits right under the chart caption in the Stock Detail Modal.
+- **Empty state:** hidden entirely (`:empty { display: none }`) for any ticker Finnhub hasn't reported a completed quarter for yet — no placeholder, no "coming soon."
+
 ### Inputs
 - **Style:** 4px radius (sharp, matches the panel language, not the pill language), `--line-strong` border, `--panel` background.
 - **Focus:** border shifts to `--accent`; no glow, no shadow — consistent with Flat-By-Default.
