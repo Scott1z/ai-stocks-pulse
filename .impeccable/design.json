@@ -207,6 +207,14 @@
       "css": ".ds-range-toggle { display: flex; gap: 4px; margin-bottom: 12px; } .ds-range-btn { font-family: ui-monospace, monospace; font-size: 0.66rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; padding: 5px 10px; border-radius: 999px; border: 1px solid var(--line-strong, #ccd3dc); background: transparent; color: var(--text-dim, #475467); cursor: pointer; } .ds-range-btn.is-active { background: var(--accent, #1c3a5e); border-color: var(--accent, #1c3a5e); color: var(--panel, #fff); }"
     },
     {
+      "name": "Composite Sector Chart",
+      "kind": "custom",
+      "refersTo": "hero-chart-svg",
+      "description": "The hero's equal-weighted % sector index chart, redesigned via the taste-skill's anti-slop review after the user called the original plain polyline+flat-fill version 'horrible'. Redesign-Preserve: reuses this project's own existing tokens rather than a foreign visual language. Smooth Catmull-Rom curve instead of straight segments; real vertical gradient fill (same semantic rise/fall hue, 30%-to-0% opacity) instead of flat opacity; endpoint dot reuses the project's existing 'live-status halo' ring recipe (--rise-dim/--fall-dim); small muted monospace date labels at both bottom corners for axis context; interactive crosshair + fixed-position tooltip on hover/touch showing the exact date and % return at any point on the curve (previously only the final value was readable). Motion is interaction-driven only, no ambient animation.",
+      "html": "<svg class=\"ds-hero-chart\" viewBox=\"0 0 520 180\"><defs><linearGradient id=\"ds-fill\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\"><stop offset=\"0%\" stop-color=\"var(--rise,#2e7d4f)\" stop-opacity=\"0.3\"/><stop offset=\"100%\" stop-color=\"var(--rise,#2e7d4f)\" stop-opacity=\"0\"/></linearGradient></defs><path d=\"M12,140 C120,90 180,60 260,70 C340,80 420,40 508,30\" fill=\"none\" stroke=\"var(--rise,#2e7d4f)\" stroke-width=\"2.5\" stroke-linecap=\"round\"/><path d=\"M12,140 C120,90 180,60 260,70 C340,80 420,40 508,30 L508,154 L12,154 Z\" fill=\"url(#ds-fill)\"/><circle cx=\"508\" cy=\"30\" r=\"7\" fill=\"var(--rise-dim,rgba(46,125,79,.1))\"/><circle cx=\"508\" cy=\"30\" r=\"3.5\" fill=\"var(--rise,#2e7d4f)\"/><text x=\"12\" y=\"174\" class=\"ds-axis-label\">13 jul</text><text x=\"508\" y=\"174\" class=\"ds-axis-label\" text-anchor=\"end\">11 ago</text></svg>",
+      "css": ".ds-hero-chart { width: 100%; height: 150px; cursor: crosshair; } .ds-axis-label { font-family: ui-monospace, monospace; font-size: 8px; fill: var(--text-faint, #98a2b3); }"
+    },
+    {
       "name": "Watchlist Position",
       "kind": "custom",
       "refersTo": "stock-position",

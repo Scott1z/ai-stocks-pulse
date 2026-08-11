@@ -496,17 +496,49 @@ function buildCompositeSeries(stocks, range) {
   if (range === "today") {
     const length = Math.min(...stocks.map((s) => s.spark.length));
     if (length < 2) return null;
-    return stocks.map((s) => s.spark.slice(-length));
+    return { series: stocks.map((s) => s.spark.slice(-length)), dates: null };
   }
   const withOhlc = stocks.filter((s) => Array.isArray(s.ohlc) && s.ohlc.length >= 2);
   if (withOhlc.length < 2) return null;
   const days = range === "30d" ? 30 : 60;
   const length = Math.min(days, ...withOhlc.map((s) => s.ohlc.length));
   if (length < 2) return null;
-  return withOhlc.map((s) => s.ohlc.slice(-length).map((c) => c.close));
+  // Las fechas se toman de un solo ticker (asumiendo ruedas alineadas entre
+  // tickers, la misma simplificación que ya usa el resto del cálculo del
+  // índice) — solo para las etiquetas de fecha, no afecta el promedio.
+  const dates = withOhlc[0].ohlc.slice(-length).map((c) => c.date);
+  return { series: withOhlc.map((s) => s.ohlc.slice(-length).map((c) => c.close)), dates };
 }
 
-function buildCompositeChart(series) {
+// Conversión Catmull-Rom → Bézier cúbico (tensión uniforme 1/6) para que la
+// línea pase suave por cada punto real en vez de quebrarse en segmentos
+// rectos — mismo dato, mejor lectura. Fórmula estándar, sin overshoot para
+// series financieras con este espaciado.
+function smoothPath(coords) {
+  if (coords.length < 3) {
+    return `M${coords.map((c) => `${c.x.toFixed(1)},${c.y.toFixed(1)}`).join(" L")}`;
+  }
+  let d = `M${coords[0].x.toFixed(1)},${coords[0].y.toFixed(1)}`;
+  for (let i = 0; i < coords.length - 1; i++) {
+    const p0 = coords[i === 0 ? 0 : i - 1];
+    const p1 = coords[i];
+    const p2 = coords[i + 1];
+    const p3 = coords[i + 2 < coords.length ? i + 2 : i + 1];
+    const c1x = p1.x + (p2.x - p0.x) / 6;
+    const c1y = p1.y + (p2.y - p0.y) / 6;
+    const c2x = p2.x - (p3.x - p1.x) / 6;
+    const c2y = p2.y - (p3.y - p1.y) / 6;
+    d += ` C${c1x.toFixed(1)},${c1y.toFixed(1)} ${c2x.toFixed(1)},${c2y.toFixed(1)} ${p2.x.toFixed(1)},${p2.y.toFixed(1)}`;
+  }
+  return d;
+}
+
+function formatShortDate(dateStr) {
+  const [, m, d] = dateStr.split("-").map(Number);
+  return `${d} ${MONTH_NAMES_ES[m - 1].slice(0, 3)}`;
+}
+
+function buildCompositeChart({ series, dates }) {
   const length = Math.min(...series.map((s) => s.length));
   if (length < 2) return null;
 
@@ -517,45 +549,59 @@ function buildCompositeChart(series) {
     composite.push(avgReturn);
   }
 
-  const w = 520, h = 168, pad = 10;
+  const w = 520, h = 180, padX = 12, padTop = 16, padBottom = 26;
+  const innerH = h - padTop - padBottom;
   const min = Math.min(...composite, 0);
   const max = Math.max(...composite, 0);
   const range = max - min || 1;
-  const stepX = (w - pad * 2) / (composite.length - 1);
+  const stepX = (w - padX * 2) / (composite.length - 1);
   const coords = composite.map((v, i) => ({
-    x: pad + i * stepX,
-    y: pad + (1 - (v - min) / range) * (h - pad * 2),
+    x: padX + i * stepX,
+    y: padTop + (1 - (v - min) / range) * innerH,
   }));
-  const zeroY = pad + (1 - (0 - min) / range) * (h - pad * 2);
-  const linePoints = coords.map((c) => `${c.x.toFixed(1)},${c.y.toFixed(1)}`).join(" ");
-  const last = coords[coords.length - 1];
-  const first = coords[0];
-  const areaPath = `M${first.x.toFixed(1)},${h - pad} L${linePoints
-    .split(" ")
-    .join(" L")} L${last.x.toFixed(1)},${h - pad} Z`;
+  const zeroY = padTop + (1 - (0 - min) / range) * innerH;
+  const baseline = h - padBottom;
 
   const finalReturn = composite[composite.length - 1];
   const up = finalReturn >= 0;
   const color = up ? "var(--rise)" : "var(--fall)";
+  const colorDim = up ? "var(--rise-dim)" : "var(--fall-dim)";
+
+  const linePath = smoothPath(coords);
+  const last = coords[coords.length - 1];
+  const first = coords[0];
+  const areaPath = `${linePath} L${last.x.toFixed(1)},${baseline.toFixed(1)} L${first.x.toFixed(1)},${baseline.toFixed(1)} Z`;
 
   const gridLines = [0.25, 0.5, 0.75]
     .map((f) => {
-      const y = (pad + f * (h - pad * 2)).toFixed(1);
-      return `<line x1="${pad}" y1="${y}" x2="${w - pad}" y2="${y}" stroke="var(--line)" stroke-width="1"/>`;
+      const y = (padTop + f * innerH).toFixed(1);
+      return `<line x1="${padX}" y1="${y}" x2="${w - padX}" y2="${y}" stroke="var(--line)" stroke-width="1"/>`;
     })
     .join("");
 
-  return {
-    finalReturn,
-    up,
-    svg: `<svg class="hero-chart-svg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true">
-      ${gridLines}
-      <line x1="${pad}" y1="${zeroY.toFixed(1)}" x2="${w - pad}" y2="${zeroY.toFixed(1)}" stroke="var(--line-strong)" stroke-width="1" stroke-dasharray="3,3"/>
-      <path d="${areaPath}" fill="${color}" opacity="0.14" stroke="none"/>
-      <polyline points="${linePoints}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="${last.x.toFixed(1)}" cy="${last.y.toFixed(1)}" r="3.5" fill="${color}"/>
-    </svg>`,
-  };
+  const startLabel = dates ? formatShortDate(dates[0]) : "Inicio";
+  const endLabel = dates ? formatShortDate(dates[dates.length - 1]) : "Ahora";
+
+  const svg = `<svg class="hero-chart-svg" id="heroChartSvg" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true">
+    <defs>
+      <linearGradient id="heroChartFill" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="${color}" stop-opacity="0.3"/>
+        <stop offset="100%" stop-color="${color}" stop-opacity="0"/>
+      </linearGradient>
+    </defs>
+    ${gridLines}
+    <line x1="${padX}" y1="${zeroY.toFixed(1)}" x2="${w - padX}" y2="${zeroY.toFixed(1)}" stroke="var(--line-strong)" stroke-width="1" stroke-dasharray="3,3"/>
+    <path d="${areaPath}" fill="url(#heroChartFill)" stroke="none"/>
+    <path d="${linePath}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="${last.x.toFixed(1)}" cy="${last.y.toFixed(1)}" r="7" fill="${colorDim}"/>
+    <circle cx="${last.x.toFixed(1)}" cy="${last.y.toFixed(1)}" r="3.5" fill="${color}"/>
+    <line class="hero-chart-crosshair" x1="0" y1="${padTop}" x2="0" y2="${baseline.toFixed(1)}" stroke="var(--line-strong)" stroke-width="1" opacity="0"/>
+    <circle class="hero-chart-hover-dot" cx="0" cy="0" r="4" fill="${color}" stroke="var(--panel)" stroke-width="1.5" opacity="0"/>
+    <text x="${padX}" y="${h - 6}" class="hero-chart-axis-label">${escapeHtml(startLabel)}</text>
+    <text x="${(w - padX).toFixed(1)}" y="${h - 6}" class="hero-chart-axis-label" text-anchor="end">${escapeHtml(endLabel)}</text>
+  </svg>`;
+
+  return { finalReturn, up, svg, coords, composite, dates, w, h };
 }
 
 // Enlarged single-stock chart for the stock detail modal — same visual
@@ -637,6 +683,7 @@ function buildCandlestickChart(ohlc) {
 }
 
 let heroChartRange = "today";
+let heroChartData = null; // último resultado de buildCompositeChart, para el hover/crosshair
 
 function renderHeroChart() {
   const el = document.getElementById("heroChart");
@@ -651,6 +698,7 @@ function renderHeroChart() {
 
   const series = buildCompositeSeries(STOCKS, heroChartRange);
   const result = series && buildCompositeChart(series);
+  heroChartData = result || null;
 
   if (!result) {
     el.innerHTML = `${rangeToggle}<p class="hero-chart-empty">Todavía no hay suficiente historial diario para este rango.</p>`;
@@ -664,6 +712,79 @@ function renderHeroChart() {
       <span class="hero-chart-value ${result.up ? "up" : "down"}">${sign}${result.finalReturn.toFixed(1)}%</span>
     </div>
     ${result.svg}`;
+}
+
+// Crosshair + tooltip al pasar el mouse (o el dedo) sobre la curva — antes
+// el gráfico solo mostraba el valor final, sin forma de leer un punto
+// intermedio. El tooltip vive en document.body (position: fixed) en vez de
+// adentro de #heroChart, porque renderHeroChart() reemplaza ese innerHTML
+// entero en cada render (cambio de rango) y se lo hubiera llevado puesto.
+function initHeroChartInteraction() {
+  const container = document.getElementById("heroChart");
+  const tooltip = document.createElement("div");
+  tooltip.className = "hero-chart-tooltip";
+  tooltip.hidden = true;
+  document.body.appendChild(tooltip);
+
+  const hide = () => {
+    tooltip.hidden = true;
+    const svg = document.getElementById("heroChartSvg");
+    svg?.querySelector(".hero-chart-hover-dot")?.setAttribute("opacity", "0");
+    svg?.querySelector(".hero-chart-crosshair")?.setAttribute("opacity", "0");
+  };
+
+  const handleMove = (clientX, clientY) => {
+    if (!heroChartData) return hide();
+    const svg = document.getElementById("heroChartSvg");
+    if (!svg) return hide();
+    const rect = svg.getBoundingClientRect();
+    if (clientX < rect.left || clientX > rect.right || clientY < rect.top || clientY > rect.bottom) {
+      return hide();
+    }
+    const relX = ((clientX - rect.left) / rect.width) * heroChartData.w;
+    let nearest = 0;
+    let nearestDist = Infinity;
+    heroChartData.coords.forEach((c, i) => {
+      const dist = Math.abs(c.x - relX);
+      if (dist < nearestDist) {
+        nearestDist = dist;
+        nearest = i;
+      }
+    });
+    const point = heroChartData.coords[nearest];
+    const value = heroChartData.composite[nearest];
+    const dateLabel = heroChartData.dates ? formatShortDate(heroChartData.dates[nearest]) : null;
+
+    svg.querySelector(".hero-chart-hover-dot")?.setAttribute("cx", point.x.toFixed(1));
+    svg.querySelector(".hero-chart-hover-dot")?.setAttribute("cy", point.y.toFixed(1));
+    svg.querySelector(".hero-chart-hover-dot")?.setAttribute("opacity", "1");
+    svg.querySelector(".hero-chart-crosshair")?.setAttribute("x1", point.x.toFixed(1));
+    svg.querySelector(".hero-chart-crosshair")?.setAttribute("x2", point.x.toFixed(1));
+    svg.querySelector(".hero-chart-crosshair")?.setAttribute("opacity", "1");
+
+    const sign = value >= 0 ? "+" : "";
+    tooltip.innerHTML = `${
+      dateLabel ? `<span class="hero-chart-tooltip-date">${dateLabel}</span>` : ""
+    }<span class="hero-chart-tooltip-value ${value >= 0 ? "up" : "down"}">${sign}${value.toFixed(1)}%</span>`;
+    tooltip.hidden = false;
+
+    const tw = tooltip.offsetWidth;
+    let left = clientX + 14;
+    if (left + tw > window.innerWidth - 8) left = clientX - tw - 14;
+    tooltip.style.left = `${left}px`;
+    tooltip.style.top = `${Math.max(8, clientY - 12)}px`;
+  };
+
+  container.addEventListener("mousemove", (e) => handleMove(e.clientX, e.clientY));
+  container.addEventListener("mouseleave", hide);
+  container.addEventListener(
+    "touchmove",
+    (e) => {
+      if (e.touches[0]) handleMove(e.touches[0].clientX, e.touches[0].clientY);
+    },
+    { passive: true }
+  );
+  container.addEventListener("touchend", hide);
 }
 
 function initHeroChartRange() {
@@ -1520,6 +1641,7 @@ async function init() {
   initStockModal();
   initPositionSection();
   initHeroChartRange();
+  initHeroChartInteraction();
   initEarningsCalendar();
   initSectionNav();
   initInstallPrompt();

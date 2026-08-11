@@ -615,7 +615,43 @@ header, main, footer { position: relative; z-index: 1; }
 .hero-chart-value.up { color: var(--rise); }
 .hero-chart-value.down { color: var(--fall); }
 
-.hero-chart-svg { width: 100%; height: 150px; display: block; }
+.hero-chart-svg { width: 100%; height: 150px; display: block; cursor: crosshair; }
+
+.hero-chart-axis-label {
+  font-family: var(--font-data);
+  font-size: 8px;
+  fill: var(--text-faint);
+}
+
+.hero-chart-hover-dot,
+.hero-chart-crosshair {
+  transition: opacity 0.1s ease;
+}
+
+/* Tooltip del crosshair — vive en document.body (position: fixed) porque
+   renderHeroChart() reemplaza el innerHTML de #heroChart en cada cambio de
+   rango; ver initHeroChartInteraction() en app.js. z-index 18: por encima
+   de la topbar sticky (15), por debajo de los modales (20). */
+.hero-chart-tooltip {
+  position: fixed;
+  z-index: 18;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--text);
+  box-shadow: 0 8px 20px -8px rgba(16, 24, 40, 0.4);
+  font-family: var(--font-data);
+  font-size: 0.72rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.hero-chart-tooltip-date { color: rgba(255, 255, 255, 0.6); }
+.hero-chart-tooltip-value { font-variant-numeric: tabular-nums; }
+.hero-chart-tooltip-value.up { color: var(--rise); }
+.hero-chart-tooltip-value.down { color: var(--fall); }
 
 #sectorSummaryText {
   font-size: 0.98rem;
