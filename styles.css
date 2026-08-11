@@ -69,6 +69,13 @@
   font-style: normal;
   font-display: swap;
 }
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("fonts/CormorantGaramond-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
 
 :root {
   --paper: #f7f8fa;
@@ -113,6 +120,10 @@
 
   --font-prose: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --font-data: "Azeret Mono", ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  /* Editorial serif, hero H1 only — see DESIGN.md "Hero Headline (serif)".
+     Not used anywhere else; the rest of the page stays on the two-voice
+     sans/mono system. */
+  --font-display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
 
   color-scheme: light;
 }
@@ -363,11 +374,11 @@ header, main, footer { position: relative; z-index: 1; }
 }
 
 .hero-text h1 {
-  font-family: var(--font-prose);
-  font-size: clamp(1.6rem, 3vw, 2.3rem);
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: -0.015em;
+  font-family: var(--font-display);
+  font-size: clamp(2.1rem, 4.4vw, 3.4rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.01em;
   text-wrap: balance;
   margin: 0 0 16px;
 }
