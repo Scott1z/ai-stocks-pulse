@@ -10,7 +10,7 @@
       "hairline-strong": { "role": "neutral", "displayName": "Hairline Strong", "canonical": "#ccd3dc", "tonalRamp": ["#1f252d", "#3a4655", "#536479", "#6e829b", "#92a1b4", "#b3becb", "#d5dae2", "#f0f2f5"] },
       "ink": { "role": "neutral", "displayName": "Ink", "canonical": "#101828", "tonalRamp": ["#162137", "#293d66", "#3a5792", "#5073b9", "#7c96cb", "#a4b6db", "#ccd6eb", "#edf0f8"] },
       "ink-dim": { "role": "neutral", "displayName": "Faded Ink", "canonical": "#475467", "tonalRamp": ["#1f252d", "#3a4555", "#536279", "#6e809b", "#92a0b4", "#b4bdcb", "#d5dae2", "#f0f2f5"] },
-      "ink-faint": { "role": "neutral", "displayName": "Pencil Grey", "canonical": "#98a2b3", "tonalRamp": ["#20252c", "#3d4552", "#576275", "#728097", "#95a0b1", "#b6bdc9", "#d6dae1", "#f0f2f4"] },
+      "ink-faint": { "role": "neutral", "displayName": "Pencil Grey", "canonical": "#666c79", "tonalRamp": ["#20252c", "#3d4552", "#576275", "#728097", "#95a0b1", "#b6bdc9", "#d6dae1", "#f0f2f4"] },
       "accent-navy": { "role": "primary", "displayName": "Ledger Navy", "canonical": "#1c3a5e", "tonalRamp": ["#12243b", "#21446e", "#2f619d", "#427fc7", "#729fd5", "#9dbce2", "#c8daef", "#ebf2f9"] },
       "rise-green": { "role": "secondary", "displayName": "Ledger Green", "canonical": "#2e7d4f", "tonalRamp": ["#153823", "#266842", "#37955e", "#4cbd7b", "#79ce9c", "#a2ddba", "#cbecd9", "#ecf8f1"] },
       "fall-red": { "role": "secondary", "displayName": "Ledger Red", "canonical": "#9e3a2f", "tonalRamp": ["#3b1612", "#6e2821", "#9d3a2f", "#c74f42", "#d57b71", "#e2a49d", "#efccc8", "#f9edeb"] },
@@ -19,8 +19,8 @@
       "icon-indigo": { "role": "tertiary", "displayName": "Icon Indigo", "canonical": "#4a5a8f", "tonalRamp": ["#1a2032", "#2b3554", "#3d4a76", "#4e5f97", "#7282b6", "#9aa5cb", "#c3c9e0", "#e4e7f1"] }
     },
     "typographyMeta": {
-      "display": { "displayName": "Display", "purpose": "Hero H1 only. Self-hosted General Sans (open-license SF Pro alternative), not the OS system font." },
-      "body": { "displayName": "Body", "purpose": "Reading copy: sector summary, hero subhead, news headlines, stock blurbs, the modal's article summary. Same self-hosted General Sans family as Display." },
+      "display": { "displayName": "Display", "purpose": "Hero H1 only. Self-hosted Montserrat (user-supplied, replaced General Sans), not the OS system font." },
+      "body": { "displayName": "Body", "purpose": "Reading copy: sector summary, hero subhead, news headlines, stock blurbs, the modal's article summary. Same self-hosted Montserrat family as Display." },
       "label": { "displayName": "Label / Data", "purpose": "Every number, ticker, timestamp, and uppercase short label. Self-hosted Azeret Mono (slashed zero), not the OS system monospace. Doubles as the tabular-nums numeric voice." }
     },
     "shadows": [
@@ -96,6 +96,22 @@
       "css": ".ds-ledger-row { display: grid; grid-template-columns: minmax(150px,1.6fr) 70px 60px 90px 80px; gap: 16px; align-items: center; padding: 18px 4px; border-bottom: 1px solid var(--line, #e2e6ec); cursor: pointer; transition: background 0.12s ease; } .ds-ledger-row:hover { background: var(--panel-raised, #eef1f5); } .ds-ledger-id { display: flex; flex-direction: column; } .ds-ledger-ticker { font-family: ui-monospace, monospace; font-weight: 700; font-size: 0.95rem; } .ds-ledger-name { font-size: 0.76rem; color: var(--text-faint, #98a2b3); } .ds-ledger-price { font-family: ui-monospace, monospace; font-variant-numeric: tabular-nums; font-weight: 600; text-align: right; } .ds-ledger-change { font-family: ui-monospace, monospace; font-variant-numeric: tabular-nums; font-weight: 600; text-align: right; } .ds-ledger-change--down { color: var(--fall, #9e3a2f); } .ds-ledger-spark { width: 100%; height: 36px; } .ds-badge { display: inline-flex; align-items: center; font-family: ui-monospace, monospace; font-size: 0.63rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; } .ds-badge--bearish { color: var(--fall, #9e3a2f); background: rgba(158,58,47,0.1); }"
     },
     {
+      "name": "Sortable Ledger Header",
+      "kind": "custom",
+      "refersTo": "ledger-sort",
+      "description": "Empresa/Precio/Var. column headers are real buttons that sort the ledger ascending/descending; Tendencia and Señal stay plain labels since a sparkline or sentiment pill isn't meaningfully sortable. Active column turns accent-navy with a small triangle glyph and gets aria-sort; numeric columns default to descending (biggest first), name defaults ascending (A-Z).",
+      "html": "<button class=\"ds-ledger-sort\" aria-sort=\"descending\">Var. <span class=\"ds-ledger-sort-arrow\">▼</span></button>",
+      "css": ".ds-ledger-sort { display: inline-flex; align-items: center; gap: 4px; font-family: ui-monospace, monospace; font-size: 0.66rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-faint, #98a2b3); background: none; border: none; padding: 0; cursor: pointer; } .ds-ledger-sort[aria-sort] { color: var(--accent, #1c3a5e); }"
+    },
+    {
+      "name": "Watchlist Star",
+      "kind": "custom",
+      "refersTo": "stock-star",
+      "description": "Small star button at the start of each ledger row, toggling a locally-persisted (localStorage, no account) favorite. Unfilled outline at rest, fills solid accent-navy once starred, matching the 'active state = accent' language already used for the active filter chip. Click is stopped from bubbling so it never opens the Stock Detail Modal. Powers a fifth filter chip, '★ Favoritas'.",
+      "html": "<button class=\"ds-stock-star active\" aria-pressed=\"true\" aria-label=\"Quitar de favoritas\"><svg viewBox=\"0 0 16 16\" fill=\"currentColor\"><path d=\"M8 1.6l1.87 3.98 4.33.5-3.23 3.02.9 4.4L8 11.35l-3.87 2.15.9-4.4-3.23-3.02 4.33-.5L8 1.6Z\"/></svg></button>",
+      "css": ".ds-stock-star { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; padding: 0; border: none; background: none; color: var(--line-strong, #ccd3dc); cursor: pointer; } .ds-stock-star svg { width: 14px; height: 14px; } .ds-stock-star.active { color: var(--accent, #1c3a5e); }"
+    },
+    {
       "name": "News Row",
       "kind": "custom",
       "refersTo": "news-item",
@@ -142,6 +158,14 @@
       "description": "Fixed full-viewport brand moment shown from the HTML before app.js paints anything, covering the empty-shell flash while init() fetches data.json. Removed once real content is ready (not on a fixed timer), with window 'load' as a safety net and a 250ms minimum display floor. Reuses the topbar's exact wordmark markup so the brand identity is continuous, not a separate asset.",
       "html": "<div id=\"preloader\"><img src=\"icons/icon.svg\" alt=\"\" class=\"ds-preloader-logo\"><span class=\"ds-preloader-name\">AI Stocks <strong>Pulse</strong></span></div>",
       "css": "#preloader { position: fixed; inset: 0; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; background: var(--paper, #f7f8fa); transition: opacity 0.4s ease; } #preloader.hidden { opacity: 0; pointer-events: none; } .ds-preloader-logo { width: 40px; height: 40px; animation: preloader-pulse 1.4s ease-in-out infinite; } .ds-preloader-name { font-size: 1rem; font-weight: 600; letter-spacing: -0.01em; color: var(--text-dim, #475467); } .ds-preloader-name strong { color: var(--accent, #1c3a5e); font-weight: 700; } @keyframes preloader-pulse { 0%, 100% { transform: scale(1); opacity: 0.7; } 50% { transform: scale(1.08); opacity: 1; } }"
+    },
+    {
+      "name": "Market Status Pill",
+      "kind": "custom",
+      "refersTo": "market-status",
+      "description": "Credibility detail in the topbar: 'Mercado abierto'/'Mercado cerrado' for NYSE/Nasdaq regular hours (9:30-16:00 America/New_York, weekdays), computed via Intl.DateTimeFormat (handles DST correctly) and refreshed every 60s client-side without a reload. Same visual recipe as the demo/live pill beside it (hairline border, leading dot, rise-green + halo when open) so both read as one status-indicator family. Known simplification: no market-holiday calendar. Hidden under 640px alongside the demo/live pill.",
+      "html": "<span class=\"ds-market-status open\">Mercado abierto</span>",
+      "css": ".ds-market-status { font-family: ui-monospace, monospace; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.08em; display: inline-flex; align-items: center; gap: 6px; padding: 6px 10px 6px 8px; border-radius: 999px; border: 1px solid var(--line-strong, #ccd3dc); color: var(--text-dim, #475467); } .ds-market-status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--text-faint, #98a2b3); } .ds-market-status.open { color: var(--rise, #2e7d4f); border-color: rgba(47,122,79,0.35); } .ds-market-status.open::before { background: var(--rise, #2e7d4f); box-shadow: 0 0 0 3px var(--rise-dim, rgba(46,125,79,0.1)); }"
     },
     {
       "name": "Category Icon",

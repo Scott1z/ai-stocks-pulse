@@ -9,7 +9,7 @@
 <!-- Open Graph / social preview -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://scott1z.github.io/ai-stocks-pulse/">
-<meta property="og:title" content="AI Stocks Pulse — Resumen del sector IA">
+<meta property="og:title" content="AI Stocks Pulse: Resumen del sector IA">
 <meta property="og:description" content="Precios, tendencia y noticias de las principales acciones de Inteligencia Artificial, resumido en 30 segundos. Se actualiza solo cada hora.">
 <meta property="og:image" content="https://scott1z.github.io/ai-stocks-pulse/images/og-image.png">
 <meta property="og:image:width" content="1200">
@@ -17,11 +17,14 @@
 <meta property="og:locale" content="es_AR">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="AI Stocks Pulse — Resumen del sector IA">
+<meta name="twitter:title" content="AI Stocks Pulse: Resumen del sector IA">
 <meta name="twitter:description" content="Precios, tendencia y noticias de las principales acciones de Inteligencia Artificial, resumido en 30 segundos.">
 <meta name="twitter:image" content="https://scott1z.github.io/ai-stocks-pulse/images/og-image.png">
 
 <meta name="theme-color" content="#f7f8fa">
+<link rel="preload" href="fonts/Montserrat-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/Montserrat-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/AzeretMono-SemiBold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icons/icon.svg">
@@ -43,6 +46,7 @@
     <span class="brand-name">AI Stocks <strong>Pulse</strong></span>
   </div>
   <div class="topbar-actions">
+    <span id="marketStatus" class="market-status" title="Horario de mercado NYSE/Nasdaq (hora de Nueva York)"></span>
     <span id="dataSourcePill" class="demo-pill" title="Se actualiza según la última corrida del pipeline">DATOS DE DEMOSTRACIÓN</span>
     <button id="installBtn" class="btn btn-ghost" hidden>Instalar app</button>
   </div>
@@ -78,6 +82,7 @@
       <button class="chip" data-filter="bullish">Alcistas</button>
       <button class="chip" data-filter="bearish">Bajistas</button>
       <button class="chip" data-filter="mixed">Mixtas</button>
+      <button class="chip chip-favorites" data-filter="favorites"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 1.6l1.87 3.98 4.33.5-3.23 3.02.9 4.4L8 11.35l-3.87 2.15.9-4.4-3.23-3.02 4.33-.5L8 1.6Z"/></svg>Favoritas</button>
     </div>
     <label class="search-box">
       <span class="sr-only">Buscar empresa o ticker</span>
@@ -87,10 +92,10 @@
 
   <section class="stocks" aria-labelledby="stocks-heading">
     <h2 id="stocks-heading"><svg class="icon-glyph icon-teal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16M5 20V9.5L12 5l7 4.5V20M9 20v-6h6v6"/></svg>Empresas del sector</h2>
-    <div class="ledger-head" aria-hidden="true">
-      <span>Empresa</span>
-      <span>Precio</span>
-      <span>Var.</span>
+    <div class="ledger-head" id="ledgerHead">
+      <button type="button" class="ledger-sort" data-sort="name">Empresa</button>
+      <button type="button" class="ledger-sort" data-sort="price">Precio</button>
+      <button type="button" class="ledger-sort" data-sort="changePct">Var.</button>
       <span>Tendencia</span>
       <span>Señal</span>
     </div>

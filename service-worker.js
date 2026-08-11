@@ -1,4 +1,4 @@
-const CACHE_NAME = "ai-stocks-pulse-v18";
+const CACHE_NAME = "ai-stocks-pulse-v19";
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -7,10 +7,10 @@ const CORE_ASSETS = [
   "./manifest.json",
   "./icons/icon.svg",
   "./icons/icon-maskable.svg",
-  "./fonts/GeneralSans-Regular.woff2",
-  "./fonts/GeneralSans-Medium.woff2",
-  "./fonts/GeneralSans-Semibold.woff2",
-  "./fonts/GeneralSans-Bold.woff2",
+  "./fonts/Montserrat-Regular.woff2",
+  "./fonts/Montserrat-Medium.woff2",
+  "./fonts/Montserrat-SemiBold.woff2",
+  "./fonts/Montserrat-Bold.woff2",
   "./fonts/AzeretMono-Regular.woff2",
   "./fonts/AzeretMono-SemiBold.woff2",
   "./fonts/AzeretMono-Bold.woff2",

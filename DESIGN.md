@@ -9,7 +9,7 @@ colors:
   hairline-strong: "#ccd3dc"
   ink: "#101828"
   ink-dim: "#475467"
-  ink-faint: "#98a2b3"
+  ink-faint: "#666c79"
   accent-navy: "#1c3a5e"
   accent-navy-dim: "rgba(28, 58, 94, 0.08)"
   rise-green: "#2e7d4f"
@@ -20,13 +20,13 @@ colors:
   mixed-slate-dim: "rgba(91, 107, 122, 0.1)"
 typography:
   display:
-    fontFamily: "'General Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+    fontFamily: "'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
     fontSize: "clamp(1.6rem, 3vw, 2.3rem)"
     fontWeight: 700
     lineHeight: 1.2
     letterSpacing: "-0.015em"
   body:
-    fontFamily: "'General Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
+    fontFamily: "'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
     fontSize: "0.98rem"
     fontWeight: 400
     lineHeight: 1.65
@@ -115,7 +115,7 @@ A cool, neutral palette with exactly one accent and a separate semantic triad �
 - **Hairline Strong** (`#ccd3dc`): a stronger hairline for structural borders (input/chip outlines, the ledger header rule).
 - **Ink** (`#101828`): primary text. Cool near-black, never a true `#000`.
 - **Faded Ink** (`#475467`): secondary text (sub-copy, blurbs, chip labels at rest).
-- **Pencil Grey** (`#98a2b3`): tertiary/faint text (captions, stat labels, placeholders).
+- **Pencil Grey** (`#666c79`): tertiary/faint text (captions, stat labels, placeholders, footer copy). Darkened from an earlier `#98a2b3` after an accessibility pass found the lighter value only hit 2.6:1 contrast on white (and less on the page's paper background): below WCAG AA's 4.5:1 floor for regular text. Same hue and saturation, just deeper, so the "faint" hierarchy step still reads distinctly lighter than Faded Ink while passing AA with margin on both `--panel` and `--paper`.
 
 ### Named Rules
 **The One Accent Rule.** Ledger Navy is the only brand accent on the page, full stop — not "the primary one among two." It never does semantic work — if a color means rise/fall/mixed, it is never navy. The category icon set (Icon Teal, Icon Indigo, plus reused Navy/Green) is a deliberate, narrowly-scoped exception: icon-only, never applied to text, badges, or surfaces, so the rule still holds everywhere it originally mattered.
@@ -124,12 +124,12 @@ A cool, neutral palette with exactly one accent and a separate semantic triad �
 
 ## Typography
 
-**Display Font:** General Sans (self-hosted, `fonts/GeneralSans-*.woff2`; falls back to the OS system sans if it fails to load)
-**Body Font:** same General Sans stack as Display
+**Display Font:** Montserrat (self-hosted, `fonts/Montserrat-*.woff2`; falls back to the OS system sans if it fails to load)
+**Body Font:** same Montserrat stack as Display
 
-General Sans was chosen specifically as an open-license alternative to SF Pro — actual SF Pro isn't redistributable on the open web, and the previous system-font stack fell back to Segoe UI on Windows and Roboto on Android, which read as generic and inconsistent with the "considered instrument" character the rest of the system commits to. Self-hosted (not a CDN link) so it works offline in the PWA and doesn't depend on a third party at runtime.
+Montserrat replaced the previous General Sans at the user's explicit request (they supplied the font files directly). It's a geometric grotesque with more visual presence and a wider stance than General Sans — the headline and body copy read a little bolder and more confident as a result. Self-hosted (not a CDN link) so it works offline in the PWA and doesn't depend on a third party at runtime; only the four weights the page actually uses (Regular, Medium, SemiBold, Bold) are shipped, not the full variable-font family.
 
-**Label/Mono Font:** Azeret Mono (self-hosted, `fonts/AzeretMono-*.woff2`), falling back to the OS system monospace stack (SF Mono / Cascadia Code / Roboto Mono / Menlo / Consolas) if it fails to load. Chosen for the same reason as General Sans: the previous plain `ui-monospace` stack rendered as a different, generic-feeling face per OS. Azeret Mono has a clearly slashed zero (distinct from capital O) and a technical, engineered character that suits a page whose whole data voice is built on tabular figures.
+**Label/Mono Font:** Azeret Mono (self-hosted, `fonts/AzeretMono-*.woff2`), falling back to the OS system monospace stack (SF Mono / Cascadia Code / Roboto Mono / Menlo / Consolas) if it fails to load. Left unchanged by the Montserrat swap — Montserrat has no monospace variant, and switching the numeric voice away from a tabular, slashed-zero mono face would break the Two-Voice Rule below, not extend it. Azeret Mono has a clearly slashed zero (distinct from capital O) and a technical, engineered character that suits a page whose whole data voice is built on tabular figures.
 
 **Character:** Two voices doing two different jobs, not one family styled two ways. The system sans reads like prose — the hero headline, the sector summary, news headlines, the modal's article summary. The monospace is the "data voice": every price, every percentage, every ticker, every timestamp, every uppercase label runs through it, in tracked-out capitals. The contrast between the two is the system's main typographic move.
 
@@ -193,6 +193,17 @@ Borders are hairlines throughout (1px), never thick. The two deliberate exceptio
 - **Internal layout:** fixed 5-column grid shared with the header row (see Layout); ticker + name + one-line blurb in column 1 (monospace ticker, sans name/blurb), tabular-nums price and change right-aligned, a compact SVG sparkline, and a pill sentiment tag.
 - **Interaction:** the entire row is clickable/focusable (`role="button"`, `tabindex="0"`) — opens the Stock Detail Modal. This is deliberate: a table of bare numbers reads as a spreadsheet, so every row is a door to a richer view instead of decoration bolted onto the layout.
 
+### Sortable Ledger Header
+- **Purpose:** "Empresa," "Precio," and "Var." in the ledger header are real buttons, not static labels — click to sort ascending/descending, click again to flip direction. "Tendencia" and "Señal" stay plain labels since a sparkline or a sentiment pill isn't a meaningfully sortable value.
+- **State:** the active sort column turns `--accent` and gets a small ▲/▼ glyph appended; every other header stays `--text-faint`. `aria-sort` is set on the active button (`ascending`/`descending`) so screen readers get the same signal.
+- **Defaults:** first click on a numeric column (Precio, Var.) sorts descending — "biggest first" is the more useful default for a finance table — while Empresa defaults to ascending (A–Z). A second click on the same column flips it.
+
+### Watchlist Star
+- **Purpose:** a small star button at the start of each ledger row lets a visitor mark tickers they personally care about, persisted in `localStorage` (no account, no backend). A fifth filter chip, "★ Favoritas," shows only starred tickers.
+- **Style:** unfilled outline in `--line-strong` at rest (quiet, doesn't compete with the ticker), fills solid `--accent` once starred — the same "active state = accent" language already used for the active filter chip.
+- **Interaction:** clicking the star toggles it without opening the Stock Detail Modal (the click is stopped from bubbling to the row); the row itself remains a separate, full-size click target for the modal.
+- **Empty state:** the "★ Favoritas" filter with nothing starred yet shows an honest instruction ("Tocá la estrella junto al ticker para agregarla") instead of just an empty list.
+
 ### News Row
 - **Style:** same hairline-row logic as the ledger, but 3-column (status dot / headline+meta / ticker tag). A 7×7px rounded-square dot carries semantic color; the ticker tag renders as bracketed monospace text (`[NVDA]`).
 - **Interaction:** the entire row is clickable/focusable (`role="button"`, `tabindex="0"`) — clicking or pressing Enter/Space opens the News Modal with that article's summary. It never navigates away on its own; leaving the page to read the original source is an explicit, separate choice made inside the modal.
@@ -242,6 +253,8 @@ Borders are hairlines throughout (1px), never thick. The two deliberate exceptio
 - **Purpose:** fills the hero-text column's remaining space below the badges with real, useful data instead of decoration — the sector's top gainer and top loser, computed client-side from `STOCKS` on every render. Replaced an illustrated-asset attempt the user rejected outright ("pésimo") after seeing it installed; the lesson taken was to reach for real data before reaching for imagery.
 - **Structure:** a small label ("Mayor suba" / "Mayor baja") over a `stock-tag` (reusing the existing ticker pill with its trend glyph, so no new visual language) plus the change percentage in the tabular-nums data voice. Separated from the badges above by a hairline, echoing the Stat Block's own top-hairline convention.
 - **Interaction:** each one is a real button; clicking either opens the Stock Detail Modal for that ticker, same as clicking its row in the ledger below — one more path to the same destination, not a dead-end decoration.
+
+### Inputs
 - **Style:** 4px radius (sharp, matches the panel language, not the pill language), `--line-strong` border, `--panel` background.
 - **Focus:** border shifts to `--accent`; no glow, no shadow — consistent with Flat-By-Default.
 
@@ -255,7 +268,12 @@ Borders are hairlines throughout (1px), never thick. The two deliberate exceptio
 - **Motion:** the pulse animation is skipped under `prefers-reduced-motion`.
 
 ### Navigation (topbar)
-- **Style:** single row, 68px tall (auto height under 640px), brand mark + wordmark left, status pill + install button right. No shadow, no border — separated from the ticker tape below it only by the tape's own top hairline.
+- **Style:** single row, 68px tall (auto height under 640px), brand mark + wordmark left, market status pill + demo/live status pill + install button right. No shadow, no border — separated from the ticker tape below it only by the tape's own top hairline.
+
+### Market Status Pill
+- **Purpose:** a small credibility detail — "Mercado abierto" / "Mercado cerrado" for NYSE/Nasdaq regular trading hours (9:30–16:00 America/New_York, weekdays), computed client-side from `Intl.DateTimeFormat` (so DST is handled correctly without manual offset math) and refreshed every 60 seconds without a page reload.
+- **Style:** identical recipe to the demo/live pill next to it (hairline border, leading dot, `--rise` + halo when "open," `--text-faint` when "closed") so the two read as one family of status indicators, not two different components.
+- **Known simplification, stated honestly:** doesn't account for market holidays (Thanksgiving, etc.) — weekday + hours only. Hidden on mobile (`< 640px`) along with the demo/live pill to keep the topbar uncluttered at that width.
 
 ## Do's and Don'ts
 
