@@ -257,6 +257,26 @@ function hostnameFromUrl(url) {
   }
 }
 
+// source_url viaja tal cual desde Finnhub hasta acá — antes de usarlo como
+// href de un link real, confirmamos que sea http(s). Sin esto, un
+// "javascript:" (u otro esquema ejecutable) en esos datos externos se
+// dispararía al hacer click en "Leer artículo original".
+function isSafeHttpUrl(url) {
+  try {
+    return ["http:", "https:"].includes(new URL(url).protocol);
+  } catch {
+    return false;
+  }
+}
+
+// Escapa texto que viene de afuera (noticias de Finnhub, resúmenes generados
+// por el LLM a partir de esas noticias) antes de insertarlo con innerHTML —
+// ninguno de esos textos es confiable, aunque pase por Claude en el medio.
+const HTML_ESCAPE_MAP = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
+function escapeHtml(str) {
+  return String(str ?? "").replace(/[&<>"']/g, (c) => HTML_ESCAPE_MAP[c]);
+}
+
 function relativeTime(iso) {
   if (!iso) return "";
   const diffMs = Date.now() - new Date(iso).getTime();
@@ -845,7 +865,7 @@ function renderStocks(filter = "all", query = "") {
             <span class="stock-ticker">${s.ticker}</span>
           </div>
           <span class="stock-name">${s.name}</span>
-          <p class="stock-blurb">${s.blurb}</p>
+          <p class="stock-blurb">${escapeHtml(s.blurb)}</p>
         </div>
         <div class="price-value">$${s.price.toFixed(2)}</div>
         <div class="price-change ${changeCls}">${changeSign}${s.changePct.toFixed(1)}%</div>
@@ -871,14 +891,14 @@ function renderNews() {
     <article class="news-item" data-index="${i}" tabindex="0" role="button" aria-haspopup="dialog">
       <span class="news-dot ${n.sentiment}" aria-hidden="true"></span>
       <div class="news-body">
-        <p class="news-headline">${n.headline}</p>
+        <p class="news-headline">${escapeHtml(n.headline)}</p>
         <div class="news-meta">
-          <span>${n.source}</span>
+          <span>${escapeHtml(n.source)}</span>
           <span>·</span>
           <span>${n.time}</span>
         </div>
       </div>
-      ${n.ticker ? `<span class="news-ticker-tag">[${n.ticker}]</span>` : `<span></span>`}
+      ${n.ticker ? `<span class="news-ticker-tag">[${escapeHtml(n.ticker)}]</span>` : `<span></span>`}
     </article>`
     )
     .join("");
@@ -975,7 +995,7 @@ function openNewsModal(item) {
     item.summary || "No hay un resumen disponible para esta noticia.";
 
   const linkEl = document.getElementById("modalSourceLink");
-  if (item.url) {
+  if (item.url && isSafeHttpUrl(item.url)) {
     linkEl.href = item.url;
     linkEl.hidden = false;
   } else {
@@ -1146,7 +1166,7 @@ function openStockModal(stock) {
         .map(
           (n) => `<button class="stock-modal-news-item" data-related-index="${NEWS.indexOf(n)}">
             <span class="news-dot ${n.sentiment}" aria-hidden="true"></span>
-            <span class="stock-modal-news-headline">${n.headline}</span>
+            <span class="stock-modal-news-headline">${escapeHtml(n.headline)}</span>
           </button>`
         )
         .join("")

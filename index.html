@@ -3,6 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- GitHub Pages no permite headers HTTP custom, así que la CSP va acá.
+     script-src 'self' sin unsafe-inline/unsafe-eval porque no hay scripts
+     inline ni onclick="" en todo el sitio — todos los listeners se agregan
+     vía addEventListener. style-src necesita unsafe-inline por los pocos
+     estilos inline que arma app.js (ancho de la barra de amplitud, color
+     de los estados vacíos). -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; manifest-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <title>AI Stocks Pulse: Resumen del sector IA</title>
 <meta name="description" content="Resumen diario del sector de acciones de Inteligencia Artificial: precios, tendencia y noticias en una sola vista.">
 
