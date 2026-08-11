@@ -25,7 +25,7 @@ typography:
     fontWeight: 400
     lineHeight: 1.65
   label:
-    fontFamily: "'Azeret Mono', ui-monospace, 'SF Mono', 'Cascadia Code', 'Roboto Mono', Menlo, Consolas, 'Liberation Mono', monospace"
+    fontFamily: "'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
     fontSize: "0.72rem"
     fontWeight: 600
     letterSpacing: "0.08em"
@@ -82,7 +82,7 @@ The system originally shipped single-theme (light only) — "committing to one w
 - Cool neutral white/light-grey background — the convention of banking and trading software, not an invented editorial palette
 - One accent only: navy blue, used identically everywhere (brand mark, active states, focus rings, the two structural top-border accents)
 - A separate, distinct semantic triad (green/red/slate) for rise/fall/mixed — never reuses the accent hue
-- Two deliberate type voices: a plain sans for reading, a tracked-out monospace for every number and label
+- One typeface everywhere (Montserrat) — numbers and labels are distinguished from prose by size/weight/tracking/case, not by switching to a second font
 - Flat surfaces, hairline dividers, real data visualizations (ticker tape, composite chart, sparklines) instead of decorative imagery
 - Reading an article's summary happens in place (a modal), never an automatic redirect off the page
 
@@ -118,7 +118,7 @@ A cool, neutral palette with exactly one accent and a separate semantic triad �
 
 ### Dark Mode
 - **Why it works with zero structural changes:** every color on the page already routed through the CSS custom properties above — audited before implementing (no hardcoded hex in `styles.css` outside the `:root` variable block, none in `app.js` at all). So dark mode is a second variable block, not a second design pass: charts, badges, hairlines, gradients all inherit it automatically.
-- **Palette:** the same cool-navy character as light mode, same No-Black Rule (no pure `#000`, base is `#0a1120`, a navy-tinted near-black). `--accent`, `--rise`, `--fall`, `--icon-teal`, `--icon-indigo` are all lightened versions of their light-mode hues (not new colors) so they clear WCAG AA against the dark backgrounds — same hue family, same One Accent Rule, just recalibrated for the opposite contrast direction.
+- **Palette, recalibrated to match finance.yahoo.com's dark mode (user's explicit request):** the original dark palette was a navy-tinted near-black (`#0a1120`); this one is a neutral charcoal base (`#14181c`) sampled directly from Yahoo Finance's live dark theme (page background, panel background, and body text colors read via `getComputedStyle` on the real site). `--rise`/`--fall` follow the same muted teal-green/red character Yahoo uses for price deltas, but brightened just enough to clear WCAG AA on small text (Yahoo's own `#007560` green measures ~3.2:1 against their background, below the 4.5:1 floor this project holds itself to elsewhere — e.g. the Pencil Grey contrast fix — so the hue was kept but the lightness wasn't copied literally). `--accent` follows Yahoo's light sky-blue link color rather than the previous lightened-navy — still the site's one accent, just re-sourced. Still the No-Black Rule (no pure `#000`, no pure `#fff`), still the same One Accent Rule.
 - **Activation, two paths:**
   1. **No saved preference:** pure CSS, `@media (prefers-color-scheme: dark)`, applies automatically at first paint. Zero JavaScript involved on this path specifically so there's no flash-of-wrong-theme — the alternative (setting `data-theme` via an inline `<script>` in `<head>`, the usual fix for this) isn't available here since the page has zero inline scripts by design (see PRODUCT.md's `script-src 'self'` CSP).
   2. **Explicit choice:** the topbar toggle (sun/moon icon, next to the demo/live pill) sets `data-theme="light"` or `"dark"` on `<html>` and persists it to `localStorage` (`aisp_theme`) — this always wins over system preference.
@@ -127,23 +127,18 @@ A cool, neutral palette with exactly one accent and a separate semantic triad �
 
 ## Typography
 
-**Body Font:** Montserrat (self-hosted, `fonts/Montserrat-*.woff2`; falls back to the OS system sans if it fails to load)
+**Font:** Montserrat (self-hosted, `fonts/Montserrat-*.woff2`; falls back to the OS system sans if it fails to load) — the **only** typeface on the page, everywhere, prose and data alike.
 
-Montserrat replaced the previous General Sans at the user's explicit request (they supplied the font files directly). It's a geometric grotesque with more visual presence and a wider stance than General Sans — the headline and body copy read a little bolder and more confident as a result. Self-hosted (not a CDN link) so it works offline in the PWA and doesn't depend on a third party at runtime; only the four weights the page actually uses (Regular, Medium, SemiBold, Bold) are shipped, not the full variable-font family.
+Montserrat replaced the previous General Sans at the user's explicit request (they supplied the font files directly). It's a geometric grotesque with more visual presence and a wider stance than General Sans. Self-hosted (not a CDN link) so it works offline in the PWA and doesn't depend on a third party at runtime; four weights are shipped (Regular, Medium, SemiBold, Bold), not the full variable-font family.
 
-**Label/Mono Font:** Azeret Mono (self-hosted, `fonts/AzeretMono-*.woff2`), falling back to the OS system monospace stack (SF Mono / Cascadia Code / Roboto Mono / Menlo / Consolas) if it fails to load. Left unchanged by the Montserrat swap — Montserrat has no monospace variant, and switching the numeric voice away from a tabular, slashed-zero mono face would break the Two-Voice Rule below, not extend it. Azeret Mono has a clearly slashed zero (distinct from capital O) and a technical, engineered character that suits a page whose whole data voice is built on tabular figures.
+**One-Font Rule (superseded the Two-Voice Rule).** The page used to run a second "data voice" typeface for every number, ticker, and label — first the OS monospace stack, then a self-hosted Azeret Mono. Both were retired at the user's explicit, repeated request (they supplied the Montserrat family files a second time after the first Montserrat swap only replaced the prose voice and left the mono data voice in place, which the user considered not done). There is now exactly one font-family on the entire page — `--font-prose` and `--font-data` both resolve to the same Montserrat stack (kept as two CSS variables only so every existing rule referencing either one didn't need to be touched, not because they differ). `font-variant-numeric: tabular-nums` is still applied wherever it was before, since Montserrat's numerals support it and columns of digits still benefit from aligning.
 
-A serif hero headline (Cormorant Garamond, inspired by cluely.com's EB Garamond) was tried and then reverted at the user's explicit request ("me parece horrible") — the page stays strictly two-voice, sans + mono, no exceptions.
-
-**Character:** Two voices doing two different jobs, not one family styled two ways. The system sans reads like prose — the hero headline, the sector summary, news headlines, stock blurbs, the modal's article summary. The monospace is the "data voice": every price, every percentage, every ticker, every timestamp, every uppercase label runs through it, in tracked-out capitals.
+A serif hero headline (Cormorant Garamond, inspired by cluely.com's EB Garamond) was tried and then reverted at the user's explicit request ("me parece horrible") — the page stays strictly one typeface, no exceptions, no serif, no second mono voice.
 
 ### Hierarchy
 - **Display/Section Heading** (Montserrat, 700, `clamp(1.6rem, 3vw, 2.3rem)` down to 1rem depending on level): the hero `<h1>` and every other heading on the page (section titles, modal headlines).
 - **Body** (Montserrat, 400, 0.95rem–1rem, 1.55–1.65 line-height): sector summary, hero subhead, news headlines, stock blurbs, the modal's article summary.
-- **Label** (Azeret Mono, 600, 0.63rem–0.78rem, uppercase, 0.02–0.12em tracking): eyebrows, filter chips, badges, stat labels, table headers, ticker items, the modal's ticker tag and meta line. This tier doubles as the numeric voice — every price and percentage uses `font-variant-numeric: tabular-nums` so columns of digits align.
-
-### Named Rules
-**The Two-Voice Rule.** If it's read, it's the sans. If it's a number, a ticker, or a short label, it's the tracked-out monospace. Never mix the two within a single value (a price is never set in the sans; a headline is never set in mono). No exceptions.
+- **Label** (Montserrat, 600, 0.63rem–0.78rem, uppercase, 0.02–0.12em tracking): eyebrows, filter chips, badges, stat labels, table headers, ticker items, the modal's ticker tag and meta line. Same font as everything else now — this tier is distinguished by size/weight/tracking/case, not by switching typeface. Every price and percentage still uses `font-variant-numeric: tabular-nums` so columns of digits align.
 
 ## Layout
 
@@ -186,7 +181,7 @@ Borders are hairlines throughout (1px), never thick. The two deliberate exceptio
 - **Hover / Focus:** border and text shift to `--accent`; `:active` scales to 0.96 for tactile press feedback; `:focus-visible` gets a 2px navy outline with 2px offset.
 
 ### Chips (filter pills)
-- **Style:** transparent, `--line-strong` border, `--text-dim` label, monospace uppercase tracked text.
+- **Style:** transparent, `--line-strong` border, `--text-dim` label, uppercase tracked text (label voice, same Montserrat as everything else).
 - **State:** `.active` fills solid navy with panel-white text — the only place a chip becomes a filled surface.
 - **Hover (inactive):** border and text shift to `--accent`, background stays transparent.
 
@@ -194,7 +189,7 @@ Borders are hairlines throughout (1px), never thick. The two deliberate exceptio
 - **Corner Style:** none — flat row, not a card.
 - **Background:** transparent at rest, `--panel-raised` on hover.
 - **Border:** single bottom hairline (`--line`); no top border, no side borders, no box.
-- **Internal layout:** fixed 5-column grid shared with the header row (see Layout); ticker + name + one-line blurb in column 1 (monospace ticker, sans name/blurb), tabular-nums price and change right-aligned, a compact SVG sparkline, and a pill sentiment tag.
+- **Internal layout:** fixed 5-column grid shared with the header row (see Layout); ticker + name + one-line blurb in column 1 (label-voice ticker, body-voice name/blurb), tabular-nums price and change right-aligned, a compact SVG sparkline, and a pill sentiment tag.
 - **Interaction:** the entire row is clickable/focusable (`role="button"`, `tabindex="0"`) — opens the Stock Detail Modal. This is deliberate: a table of bare numbers reads as a spreadsheet, so every row is a door to a richer view instead of decoration bolted onto the layout.
 
 ### Sortable Ledger Header
@@ -216,11 +211,11 @@ Borders are hairlines throughout (1px), never thick. The two deliberate exceptio
 
 ### List Toggle (collapse / "Ver más")
 - **Purpose:** both the ledger (up to 21 rows) and the news list (8 curated items) load collapsed to their first 3 entries, with a "Ver N más" button at the end. Landing on a wall of 21 rows read as overwhelming; three is enough to show the page is alive without demanding a scroll before a visitor has even decided the page is worth reading.
-- **Style:** a full-width text button, monospace label voice, centered, separated from the last visible row by a hairline — the same "quiet, functional" register as everything else in the list, not a prominent CTA.
+- **Style:** a full-width text button, label voice (uppercase, tracked), centered, separated from the last visible row by a hairline — the same "quiet, functional" register as everything else in the list, not a prominent CTA.
 - **State:** toggling switches the label to "Ver menos" and reveals every remaining item; clicking again collapses back to 3. Changing the active filter chip or typing in search resets the ledger back to collapsed (a new result set should be judged from the top, not mid-scroll), sorting does not.
 
 ### News Row
-- **Style:** same hairline-row logic as the ledger, but 3-column (status dot / headline+meta / ticker tag). A 7×7px rounded-square dot carries semantic color; the ticker tag renders as bracketed monospace text (`[NVDA]`).
+- **Style:** same hairline-row logic as the ledger, but 3-column (status dot / headline+meta / ticker tag). A 7×7px rounded-square dot carries semantic color; the ticker tag renders as bracketed label-voice text (`[NVDA]`).
 - **Interaction:** the entire row is clickable/focusable (`role="button"`, `tabindex="0"`) — clicking or pressing Enter/Space opens the News Modal with that article's summary. It never navigates away on its own; leaving the page to read the original source is an explicit, separate choice made inside the modal.
 - **Hover/Focus:** `--panel-raised` background tint, same as a ledger row.
 
@@ -240,7 +235,7 @@ Borders are hairlines throughout (1px), never thick. The two deliberate exceptio
 
 ### News Modal (signature component)
 - **Purpose:** read a curated ~25-word summary of an article without leaving the page — the site's whole premise is "the story in 30 seconds," so a redirect-by-default was working against that.
-- **Structure:** ticker tag (mono, hidden if the article isn't ticker-specific) → headline (display-weight, but smaller than the hero H1) → source/time meta (mono) → summary (body voice) → an explicit "Leer artículo original ↗" link, hidden when no source URL exists.
+- **Structure:** ticker tag (label voice, hidden if the article isn't ticker-specific) → headline (display-weight, but smaller than the hero H1) → source/time meta (label voice) → summary (body voice) → an explicit "Leer artículo original ↗" link, hidden when no source URL exists.
 - **Style:** `--panel` background, 2px navy top border (see Shapes), 4px radius, modal-float shadow, over a navy-tinted scrim.
 - **Dismissal:** close button (pill, top-right), click on the scrim, or Escape. Background scroll is locked while open.
 
@@ -253,13 +248,13 @@ Borders are hairlines throughout (1px), never thick. The two deliberate exceptio
 
 ### Stat Block (Fundamentals Grid, Hero Stats)
 - **Purpose:** the one reusable way to show 2-6 labeled numbers side by side — the sector hero's up-count/avg-change/news-count, and the Stock Detail Modal's P/E, market cap, 52-week range, EPS, ROE, and net margin.
-- **Structure:** `stat-value` (monospace, tabular-nums, bold) stacked over `stat-label` (small, `--text-faint`, sentence case), in a `repeat(3, 1fr)` grid with a hairline top border. The fundamentals grid additionally gets a hairline bottom border since it sits mid-modal, not at a section's end.
+- **Structure:** `stat-value` (label voice, tabular-nums, bold) stacked over `stat-label` (small, `--text-faint`, sentence case), in a `repeat(3, 1fr)` grid with a hairline top border. The fundamentals grid additionally gets a hairline bottom border since it sits mid-modal, not at a section's end.
 - **Missing data:** shown honestly as a muted "N/D" in place of the value — never a fabricated number, never the row silently disappearing. Finnhub's free-tier coverage varies by ticker, so this state is common, not an edge case.
 
 ### Fundamentals Glossary (collapsible)
 - **Purpose:** the Stat Block shows numbers, not meaning — P/E, ROE, and net margin are opaque to anyone outside finance. Rather than explaining them to everyone by default, a "¿Qué significan estos números?" text toggle sits right under the grid, collapsed by default, and expands into plain-language definitions in place.
 - **Why contextual, not a page-level panel:** the explanation only matters at the exact moment someone is looking at unfamiliar numbers. A permanent panel on the main page would be noise for the (majority of) visitors who already know what a P/E is, and would be disconnected from the numbers it explains.
-- **Style:** a `<dl>` of term/definition pairs — `dt` in the monospace label voice, `dd` in small prose — separated by hairlines, closing with an italic one-line disclaimer ("información educativa, no asesoría de inversión"). The toggle itself is a plain text button, no border or fill, with a chevron that rotates 180° on expand.
+- **Style:** a `<dl>` of term/definition pairs — `dt` in the label voice, `dd` in small prose — separated by hairlines, closing with an italic one-line disclaimer ("información educativa, no asesoría de inversión"). The toggle itself is a plain text button, no border or fill, with a chevron that rotates 180° on expand.
 
 ### Sentiment / Status Badges
 - **Style:** pill, tinted background at ~8–10% opacity of the semantic/accent color, full-opacity text in the same color. Same recipe for sector sentiment, per-stock tags, and the demo/live status pill.
@@ -288,7 +283,7 @@ Borders are hairlines throughout (1px), never thick. The two deliberate exceptio
 - **Curve:** the line is a Catmull-Rom-to-cubic-Bézier conversion (`smoothPath()` in `app.js`, uniform tension) through the real data points, not a decorative smoothing — same values as before, read more naturally as a trend instead of a jagged EKG line.
 - **Fill:** a real vertical `<linearGradient>` (same semantic rise/fall color, 30% opacity at the line fading to 0% at the baseline) replaces the old flat 14%-opacity area — adds depth without introducing a new hue, so it still passes the One Accent Rule and the taste-skill's Color Consistency Lock.
 - **Endpoint halo:** the current-value dot now carries the same "Live-status halo" recipe already used on the demo/live pill and market-status pill (`--rise-dim`/`--fall-dim` ring behind a solid dot) — reused, not invented, so the chart's "this is the live number" cue reads as the same visual sentence as the rest of the page's live-data indicators.
-- **Axis labels:** the start and end date (or "Inicio"/"Ahora" for the "Hoy" range, which has no real per-point dates) print in small muted monospace at the bottom corners — the chart previously had zero time-axis context at all.
+- **Axis labels:** the start and end date (or "Inicio"/"Ahora" for the "Hoy" range, which has no real per-point dates) print in small muted label voice at the bottom corners — the chart previously had zero time-axis context at all.
 - **Crosshair + tooltip:** hovering (or touching, on mobile) reveals a vertical guide line, a highlighted dot on the curve, and a fixed-position tooltip with the exact date and % return at that point (`initHeroChartInteraction()`). This is the chart's main functional upgrade, not just decoration — it was previously impossible to read any value except the final one. Motion is interaction-driven only (no ambient animation, no auto-playing reveal), consistent with the page's restrained motion language.
 - **Range toggle:** a segmented control (Hoy / 30 días / 60 días) above the chart, reusing the Chips visual language at a smaller size rather than inventing a second toggle style. "Hoy" resamples the short hourly `spark` window; the two longer ranges resample real daily closes (`stock.ohlc`) across every tracked ticker with OHLC coverage into the same equal-weighted % composite.
 - **Honesty boundary:** there is deliberately no "90 días" option. The pipeline only keeps 60 days of daily candles (`OHLC_DAYS_KEPT` in `pipeline/fetch_and_curate.py`), and only 23 of the 50 tracked tickers have OHLC coverage at all (see Earnings Calendar and PRODUCT.md) — offering a range or a ticker set the product can't actually deliver would be the same kind of overpromise the Earnings Calendar's "no fabricated events" rule exists to avoid.
@@ -325,7 +320,7 @@ Borders are hairlines throughout (1px), never thick. The two deliberate exceptio
 - **Focus:** border shifts to `--accent`; no glow, no shadow — consistent with Flat-By-Default.
 
 ### Ticker Tape (signature component)
-- **Style:** full-bleed strip, `--panel` background, top and bottom hairlines, continuously scrolling monospace items (ticker / price / change, tabular-nums) separated by hairline rules. Pauses on hover; falls back to a manually scrollable static strip under `prefers-reduced-motion`.
+- **Style:** full-bleed strip, `--panel` background, top and bottom hairlines, continuously scrolling label-voice items (ticker / price / change, tabular-nums) separated by hairline rules. Pauses on hover; falls back to a manually scrollable static strip under `prefers-reduced-motion`.
 
 ### Preloader
 - **Purpose:** covers the empty-shell flash while `init()` fetches `data.json` and renders — and doubles as a brand moment, the logo the visitor sees for a beat before the page proper appears.
@@ -348,7 +343,7 @@ Borders are hairlines throughout (1px), never thick. The two deliberate exceptio
 
 ### Do:
 - **Do** keep Ledger Navy as the only accent, used identically everywhere — one color, not "a primary and a rare secondary."
-- **Do** run every number, ticker, and short label through the monospace label voice with `tabular-nums`; keep sentences in the sans.
+- **Do** run every number, ticker, and short label through the label voice (uppercase, tracked, `tabular-nums`); keep sentences in the body voice — same font either way.
 - **Do** use hairlines and tonal shifts for hierarchy and depth; reach for a shadow only for the toast and the two modals — things genuinely floating above the page.
 - **Do** apply the pill radius to anything clickable or status-bearing, and the 4px radius to anything you read data or an article inside of — no other radius value.
 - **Do** let a visitor read an article summary in place (the modal) rather than redirecting them off the page by default; the external link stays available but explicit.

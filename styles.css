@@ -8,16 +8,12 @@
    mixed) stay green/red/slate and never borrow the accent hue. Single
    deliberate theme: this is a daily tool, not a themeable brand site.
 
-   Prose voice: Montserrat, self-hosted (see fonts/MONTSERRAT-LICENSE.txt)
-   — user-supplied, geometric grotesque with more visual presence than
-   the previous General Sans, so the page reads the same considered
-   character everywhere instead of falling back to Segoe UI / Roboto on
-   non-Apple devices.
-
-   Data voice: Azeret Mono, self-hosted (see fonts/AZERET-MONO-LICENSE.txt)
-   — replaces the generic system-monospace stack (Menlo/Consolas/etc, a
-   different font per OS) with one deliberate, technical face with a
-   clearly slashed zero, everywhere every number and ticker appears.
+   One typeface, everywhere: Montserrat, self-hosted (see
+   fonts/MONTSERRAT-LICENSE.txt) — user-supplied, geometric grotesque.
+   Every previous second "data voice" typeface (first Azeret Mono, before
+   that the OS monospace stack) has been retired at the user's explicit,
+   repeated request: the whole page — prose, headings, tickers, prices,
+   labels, everything — runs through this one family now. No exceptions.
    --------------------------------------------------------------------- */
 
 @font-face {
@@ -44,27 +40,6 @@
 @font-face {
   font-family: "Montserrat";
   src: url("fonts/Montserrat-Bold.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Azeret Mono";
-  src: url("fonts/AzeretMono-Regular.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Azeret Mono";
-  src: url("fonts/AzeretMono-SemiBold.woff2") format("woff2");
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Azeret Mono";
-  src: url("fonts/AzeretMono-Bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -110,40 +85,50 @@
   --radius-sm: 4px;
   --maxw: 1180px;
 
+  /* Un solo tipo de letra en todo el sitio, a pedido explícito y repetido
+     del usuario — --font-data ya no es un segundo "data voice" monospace,
+     es la misma pila que --font-prose. Se mantienen las dos variables
+     (en vez de eliminar --font-data) para no tener que tocar cada regla
+     que la usa; ambas apuntan a la misma fuente a propósito. */
   --font-prose: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --font-data: "Azeret Mono", ui-monospace, "SF Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  --font-data: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
   color-scheme: light;
 }
 
-/* Modo oscuro — mismo sistema de un solo acento, cool-biased (No-Black
-   Rule: ni #000 puro ni #fff puro tampoco acá). Como cada color del sitio
-   ya pasa por estas variables (auditado: cero hex hardcodeado fuera de
-   este bloque, ni en styles.css ni en app.js), redefinir el bloque alcanza
-   para que absolutamente todo — gráficos, badges, hairlines — herede el
-   tema nuevo sin tocar una sola regla más. */
+/* Modo oscuro — recalibrado a pedido del usuario para que se vea como el
+   dark mode de finance.yahoo.com: un charcoal neutro casi negro (no el
+   navy-tinted anterior), texto casi blanco, y el mismo carácter de
+   verde/rojo que usa Yahoo (muestreado en vivo de la página real),
+   ajustados apenas para pasar WCAG AA en texto chico — Yahoo corta esa
+   esquina en algunos números, este sitio no. Sigue siendo el mismo
+   sistema de un solo acento (No-Black Rule: ni #000 puro ni #fff puro).
+   Como cada color del sitio ya pasa por estas variables (auditado: cero
+   hex hardcodeado fuera de este bloque, ni en styles.css ni en app.js),
+   redefinir el bloque alcanza para que absolutamente todo — gráficos,
+   badges, hairlines — herede el tema nuevo sin tocar una sola regla más. */
 :root[data-theme="dark"] {
-  --paper: #0a1120;
-  --panel: #101a2e;
-  --panel-raised: #17233c;
-  --line: #223050;
-  --line-strong: #34486d;
-  --text: #eef1f6;
-  --text-dim: #a9b4c7;
-  --text-faint: #7986a0;
+  --paper: #14181c;
+  --panel: #1c2228;
+  --panel-raised: #262d34;
+  --line: #2c333b;
+  --line-strong: #3d4750;
+  --text: #e3e3e3;
+  --text-dim: #a8adb5;
+  --text-faint: #7c828a;
 
-  --accent: #6b9bd1;
-  --accent-dim: rgba(107, 155, 209, 0.16);
+  --accent: #8ec8f2;
+  --accent-dim: rgba(142, 200, 242, 0.16);
 
   --icon-teal: #4fc2b0;
   --icon-indigo: #9aa7e8;
 
-  --rise: #4ecb85;
-  --rise-dim: rgba(78, 203, 133, 0.16);
-  --fall: #e2695c;
-  --fall-dim: rgba(226, 105, 92, 0.16);
-  --mixed: #9fb0c9;
-  --mixed-dim: rgba(159, 176, 201, 0.16);
+  --rise: #00c896;
+  --rise-dim: rgba(0, 200, 150, 0.16);
+  --fall: #ff4143;
+  --fall-dim: rgba(255, 65, 67, 0.16);
+  --mixed: #a3aab3;
+  --mixed-dim: rgba(163, 170, 179, 0.16);
 
   color-scheme: dark;
 }
@@ -153,24 +138,24 @@
      mano todavía (initThemeManager() en app.js recién agrega
      data-theme="light" cuando hay una elección explícita guardada). */
   :root:not([data-theme="light"]):not([data-theme="dark"]) {
-    --paper: #0a1120;
-    --panel: #101a2e;
-    --panel-raised: #17233c;
-    --line: #223050;
-    --line-strong: #34486d;
-    --text: #eef1f6;
-    --text-dim: #a9b4c7;
-    --text-faint: #7986a0;
-    --accent: #6b9bd1;
-    --accent-dim: rgba(107, 155, 209, 0.16);
+    --paper: #14181c;
+    --panel: #1c2228;
+    --panel-raised: #262d34;
+    --line: #2c333b;
+    --line-strong: #3d4750;
+    --text: #e3e3e3;
+    --text-dim: #a8adb5;
+    --text-faint: #7c828a;
+    --accent: #8ec8f2;
+    --accent-dim: rgba(142, 200, 242, 0.16);
     --icon-teal: #4fc2b0;
     --icon-indigo: #9aa7e8;
-    --rise: #4ecb85;
-    --rise-dim: rgba(78, 203, 133, 0.16);
-    --fall: #e2695c;
-    --fall-dim: rgba(226, 105, 92, 0.16);
-    --mixed: #9fb0c9;
-    --mixed-dim: rgba(159, 176, 201, 0.16);
+    --rise: #00c896;
+    --rise-dim: rgba(0, 200, 150, 0.16);
+    --fall: #ff4143;
+    --fall-dim: rgba(255, 65, 67, 0.16);
+    --mixed: #a3aab3;
+    --mixed-dim: rgba(163, 170, 179, 0.16);
     color-scheme: dark;
   }
 }

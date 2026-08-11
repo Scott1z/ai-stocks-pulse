@@ -2036,7 +2036,7 @@ async function buildShareCanvas() {
   ctx.fillText("Pulse", 64 + brandLead, 92);
 
   const updated = (document.getElementById("lastUpdated")?.textContent || "").toUpperCase();
-  ctx.font = "600 18px 'Azeret Mono', monospace";
+  ctx.font = "600 18px 'Montserrat', sans-serif";
   ctx.fillStyle = textFaint;
   ctx.fillText(updated, 64, 128);
   const updatedWidth = ctx.measureText(updated).width;
@@ -2044,7 +2044,7 @@ async function buildShareCanvas() {
   const sentimentText = (document.getElementById("sectorSentiment")?.textContent || "").toUpperCase();
   const sentimentColor =
     SECTOR_SUMMARY.sentiment === "bullish" ? rise : SECTOR_SUMMARY.sentiment === "bearish" ? fall : textDim;
-  ctx.font = "700 18px 'Azeret Mono', monospace";
+  ctx.font = "700 18px 'Montserrat', sans-serif";
   ctx.fillStyle = sentimentColor;
   ctx.fillText(sentimentText, 64 + updatedWidth + 20, 128);
 
@@ -2073,10 +2073,10 @@ async function buildShareCanvas() {
     const statY = h - 140;
 
     const drawStat = (x, label, stock, color) => {
-      ctx.font = "600 15px 'Azeret Mono', monospace";
+      ctx.font = "600 15px 'Montserrat', sans-serif";
       ctx.fillStyle = textFaint;
       ctx.fillText(label.toUpperCase(), x, statY);
-      ctx.font = "700 26px 'Azeret Mono', monospace";
+      ctx.font = "700 26px 'Montserrat', sans-serif";
       ctx.fillStyle = text;
       ctx.fillText(stock.ticker, x, statY + 36);
       const tickerWidth = ctx.measureText(`${stock.ticker}  `).width;
@@ -2089,7 +2089,7 @@ async function buildShareCanvas() {
     drawStat(64 + 340, "Mayor baja", loser, fall);
   }
 
-  ctx.font = "600 15px 'Azeret Mono', monospace";
+  ctx.font = "600 15px 'Montserrat', sans-serif";
   ctx.fillStyle = textFaint;
   ctx.fillText("scott1z.github.io/ai-stocks-pulse", 64, h - 40);
 
