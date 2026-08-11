@@ -650,9 +650,25 @@ def curate_with_claude(candidates: list[dict], stocks: list[dict]) -> dict:
     raw_text = "".join(block.text for block in response.content if block.type == "text")
 
     try:
-        return json.loads(raw_text)
+        return json.loads(_strip_markdown_fence(raw_text))
     except json.JSONDecodeError:
-        sys.exit(f"El modelo no devolvió JSON válido:\n{raw_text}")
+        raise ValueError(f"El modelo no devolvió JSON válido:\n{raw_text}")
+
+
+def _strip_markdown_fence(text: str) -> str:
+    """A pesar de que el system prompt pide 'SOLO JSON, sin markdown', el
+    modelo a veces igual envuelve la respuesta en un bloque ```json ... ```
+    — pasó en producción y tiró abajo toda la corrida. Se lo sacamos antes
+    de parsear en vez de confiar en que nunca vuelva a pasar."""
+    text = text.strip()
+    if not text.startswith("```"):
+        return text
+    first_newline = text.find("\n")
+    if first_newline != -1:
+        text = text[first_newline + 1 :]
+    if text.endswith("```"):
+        text = text[:-3]
+    return text.strip()
 
 
 # --- Orquestación ------------------------------------------------------------
@@ -691,7 +707,13 @@ def main():
         print("No hay candidatos de noticias para curar. Se escribe igual con solo precios.", file=sys.stderr)
         curated = {"sector_summary": {"sentiment": "mixed", "text": ""}, "items": []}
     else:
-        curated = curate_with_claude(candidates, stocks)
+        try:
+            curated = curate_with_claude(candidates, stocks)
+        except Exception as exc:  # el modelo devolvió algo no parseable, etc. — no
+            # perder precios/fundamentales/OHLC (que ya costaron requests reales)
+            # por un fallo en la curación de noticias. Pasó en producción.
+            print(f"Aviso: curación con Claude falló, se escribe igual sin noticias curadas: {exc}", file=sys.stderr)
+            curated = {"sector_summary": {"sentiment": "mixed", "text": ""}, "items": []}
 
     items = attach_source_meta(curated.get("items", []), raw_articles)
     sector_summary = curated.get("sector_summary", {"sentiment": "mixed", "text": ""})
