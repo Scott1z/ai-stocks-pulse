@@ -19,12 +19,6 @@ colors:
   mixed-slate: "#5b6b7a"
   mixed-slate-dim: "rgba(91, 107, 122, 0.1)"
 typography:
-  display:
-    fontFamily: "'Cormorant Garamond', Georgia, 'Times New Roman', serif"
-    fontSize: "clamp(2.1rem, 4.4vw, 3.4rem)"
-    fontWeight: 600
-    lineHeight: 1.08
-    letterSpacing: "-0.01em"
   body:
     fontFamily: "'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif"
     fontSize: "0.98rem"
@@ -124,25 +118,23 @@ A cool, neutral palette with exactly one accent and a separate semantic triad �
 
 ## Typography
 
-**Display Font:** Cormorant Garamond (self-hosted, `fonts/CormorantGaramond-SemiBold.woff2`; falls back to Georgia/Times New Roman/serif if it fails to load) — the hero H1 only, nowhere else.
 **Body Font:** Montserrat (self-hosted, `fonts/Montserrat-*.woff2`; falls back to the OS system sans if it fails to load)
-
-The serif display was added after studying cluely.com at the user's request: its hero headline uses EB Garamond for editorial gravitas, a distinctive move for a SaaS site. Rather than adopt EB Garamond itself (which would read as a direct copy) or restyle the whole page in serif, the page borrows the *principle* — one large, warm, old-style serif moment at the very top — using Cormorant Garamond, a different cut in the same Garamond family: thinner, more delicate, a distinct silhouette from EB Garamond's classic warmth. Scoped to the H1 alone; every other heading, all body copy, and all UI chrome stay on Montserrat. This is a deliberately narrow, single-element exception, the same pattern as the Tertiary icon colors or the Category Icons — not a reopening of "what font is this page."
 
 Montserrat replaced the previous General Sans at the user's explicit request (they supplied the font files directly). It's a geometric grotesque with more visual presence and a wider stance than General Sans — the headline and body copy read a little bolder and more confident as a result. Self-hosted (not a CDN link) so it works offline in the PWA and doesn't depend on a third party at runtime; only the four weights the page actually uses (Regular, Medium, SemiBold, Bold) are shipped, not the full variable-font family.
 
-**Label/Mono Font:** Azeret Mono (self-hosted, `fonts/AzeretMono-*.woff2`), falling back to the OS system monospace stack (SF Mono / Cascadia Code / Roboto Mono / Menlo / Consolas) if it fails to load. Left unchanged by both the Montserrat swap and the serif H1 — Montserrat has no monospace variant, and switching the numeric voice away from a tabular, slashed-zero mono face would break the Two-Voice Rule below, not extend it. Azeret Mono has a clearly slashed zero (distinct from capital O) and a technical, engineered character that suits a page whose whole data voice is built on tabular figures.
+**Label/Mono Font:** Azeret Mono (self-hosted, `fonts/AzeretMono-*.woff2`), falling back to the OS system monospace stack (SF Mono / Cascadia Code / Roboto Mono / Menlo / Consolas) if it fails to load. Left unchanged by the Montserrat swap — Montserrat has no monospace variant, and switching the numeric voice away from a tabular, slashed-zero mono face would break the Two-Voice Rule below, not extend it. Azeret Mono has a clearly slashed zero (distinct from capital O) and a technical, engineered character that suits a page whose whole data voice is built on tabular figures.
 
-**Character:** Two voices doing two different jobs, not one family styled two ways, plus one narrowly-scoped serif accent. The system sans reads like prose — the sector summary, news headlines, stock blurbs, the modal's article summary. The monospace is the "data voice": every price, every percentage, every ticker, every timestamp, every uppercase label runs through it, in tracked-out capitals. The serif appears in exactly one place, the hero H1, as a single deliberate note of editorial warmth against an otherwise geometric, technical page.
+A serif hero headline (Cormorant Garamond, inspired by cluely.com's EB Garamond) was tried and then reverted at the user's explicit request ("me parece horrible") — the page stays strictly two-voice, sans + mono, no exceptions.
+
+**Character:** Two voices doing two different jobs, not one family styled two ways. The system sans reads like prose — the hero headline, the sector summary, news headlines, stock blurbs, the modal's article summary. The monospace is the "data voice": every price, every percentage, every ticker, every timestamp, every uppercase label runs through it, in tracked-out capitals.
 
 ### Hierarchy
-- **Hero Headline** (Cormorant Garamond, 600, `clamp(2.1rem, 4.4vw, 3.4rem)`, 1.08 line-height, -0.01em tracking): the `<h1>` only, nowhere else on the page. `text-wrap: balance` keeps it from ragging badly at any width.
-- **Display/Section Heading** (Montserrat, 700, `clamp(1.6rem, 3vw, 2.3rem)` down to 1rem depending on level): every other heading on the page (section titles, modal headlines).
+- **Display/Section Heading** (Montserrat, 700, `clamp(1.6rem, 3vw, 2.3rem)` down to 1rem depending on level): the hero `<h1>` and every other heading on the page (section titles, modal headlines).
 - **Body** (Montserrat, 400, 0.95rem–1rem, 1.55–1.65 line-height): sector summary, hero subhead, news headlines, stock blurbs, the modal's article summary.
 - **Label** (Azeret Mono, 600, 0.63rem–0.78rem, uppercase, 0.02–0.12em tracking): eyebrows, filter chips, badges, stat labels, table headers, ticker items, the modal's ticker tag and meta line. This tier doubles as the numeric voice — every price and percentage uses `font-variant-numeric: tabular-nums` so columns of digits align.
 
 ### Named Rules
-**The Two-Voice Rule.** If it's read, it's the sans. If it's a number, a ticker, or a short label, it's the tracked-out monospace. Never mix the two within a single value (a price is never set in the sans; a headline is never set in mono). The hero H1's serif is the one documented exception to "sans for reading" — see Character above for why it's scoped so narrowly.
+**The Two-Voice Rule.** If it's read, it's the sans. If it's a number, a ticker, or a short label, it's the tracked-out monospace. Never mix the two within a single value (a price is never set in the sans; a headline is never set in mono). No exceptions.
 
 ## Layout
 

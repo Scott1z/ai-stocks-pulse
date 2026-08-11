@@ -19,8 +19,7 @@
       "icon-indigo": { "role": "tertiary", "displayName": "Icon Indigo", "canonical": "#4a5a8f", "tonalRamp": ["#1a2032", "#2b3554", "#3d4a76", "#4e5f97", "#7282b6", "#9aa5cb", "#c3c9e0", "#e4e7f1"] }
     },
     "typographyMeta": {
-      "display": { "displayName": "Hero Headline", "purpose": "The <h1> only, nowhere else. Self-hosted Cormorant Garamond, a narrowly-scoped serif exception added after studying cluely.com's editorial-serif hero at the user's request — a different Garamond cut than Cluely's EB Garamond (thinner, more delicate) so it's inspired, not copied. One deliberate note of warmth against an otherwise geometric/technical page." },
-      "body": { "displayName": "Body", "purpose": "Reading copy and every other heading: sector summary, hero subhead, section titles, news headlines, stock blurbs, the modal's article summary. Self-hosted Montserrat (user-supplied, replaced General Sans)." },
+      "body": { "displayName": "Body", "purpose": "Reading copy and every heading, including the hero <h1>: sector summary, hero subhead, section titles, news headlines, stock blurbs, the modal's article summary. Self-hosted Montserrat (user-supplied, replaced General Sans). A Cormorant Garamond serif was tried for the hero H1 after studying cluely.com, then reverted at the user's explicit request — the page stays strictly two-voice, no serif exception." },
       "label": { "displayName": "Label / Data", "purpose": "Every number, ticker, timestamp, and uppercase short label. Self-hosted Azeret Mono (slashed zero), not the OS system monospace. Doubles as the tabular-nums numeric voice." }
     },
     "shadows": [
@@ -214,7 +213,7 @@
     "rules": [
       { "name": "The One Accent Rule", "body": "Ledger Navy is the only brand accent on text, badges, borders, and surfaces, full stop. It never does semantic work — if a color means rise/fall/mixed, it is never navy. The one narrow exception: the Category Icon set (Teal, Indigo, plus reused Navy/Green) colors small 16px icon glyphs only, never anything else.", "section": "colors" },
       { "name": "The No-Black Rule", "body": "No #000000 and no clinical, context-free #ffffff — panels and text both carry a deliberate cool bias rather than being pure values.", "section": "colors" },
-      { "name": "The Two-Voice Rule", "body": "If it's read, it's the sans. If it's a number, a ticker, or a short label, it's the tracked-out monospace. Never mix the two within a single value. The hero H1's Cormorant Garamond serif is the one documented, narrowly-scoped exception (see typographyMeta.display) - it never appears anywhere else.", "section": "typography" },
+      { "name": "The Two-Voice Rule", "body": "If it's read, it's the sans. If it's a number, a ticker, or a short label, it's the tracked-out monospace. Never mix the two within a single value. No exceptions - a Cormorant Garamond serif hero was tried and reverted at the user's request.", "section": "typography" },
       { "name": "The Flat-By-Default Rule", "body": "Elevation is earned only by things that are genuinely temporary or floating above the page (the toast, the two modals). A permanent, in-flow element never gets a drop shadow.", "section": "elevation" },
       { "name": "The Two-Radius Rule", "body": "If it's something you click or a status you read, it's a pill (999px). If it's something you read data or an article inside of, it's 4px. No third radius.", "section": "shapes" }
     ],
