@@ -195,9 +195,10 @@ function toggleFavorite(ticker) {
   }
 }
 
-// Mi posición — precio de compra opcional por ticker favorito, para calcular
-// una ganancia/pérdida hipotética. Todo local (localStorage), nunca se manda
-// a ningún servidor — no hay backend que lo reciba.
+// Mi posición — precio de compra + cantidad de acciones, opcional por
+// ticker favorito, para calcular una ganancia/pérdida hipotética total.
+// Todo local (localStorage), nunca se manda a ningún servidor — no hay
+// backend que lo reciba.
 const COST_BASIS_KEY = "aisp_cost_basis";
 let costBasis = {};
 try {
@@ -206,8 +207,18 @@ try {
   costBasis = {};
 }
 
-function setCostBasis(ticker, price) {
-  costBasis[ticker] = price;
+// getPosition() normaliza el formato viejo (solo precio, sin cantidad) al
+// abrirlo, así una posición cargada antes de sumar "cantidad de acciones"
+// no se rompe — simplemente se ve sin cantidad hasta que se re-guarde.
+function getPosition(ticker) {
+  const raw = costBasis[ticker];
+  if (raw == null) return null;
+  if (typeof raw === "number") return { price: raw, shares: null };
+  return raw;
+}
+
+function setPosition(ticker, price, shares) {
+  costBasis[ticker] = { price, shares };
   try {
     localStorage.setItem(COST_BASIS_KEY, JSON.stringify(costBasis));
   } catch {
@@ -215,7 +226,7 @@ function setCostBasis(ticker, price) {
   }
 }
 
-function clearCostBasis(ticker) {
+function clearPosition(ticker) {
   delete costBasis[ticker];
   try {
     localStorage.setItem(COST_BASIS_KEY, JSON.stringify(costBasis));
@@ -1080,27 +1091,45 @@ function initNewsModal() {
 function renderPositionSection(stock) {
   const el = document.getElementById("stockModalPosition");
   if (!favorites.has(stock.ticker)) {
-    el.innerHTML = `<p class="position-nudge">Marcá esta acción como favorita (★) para trackear tu posición acá — el precio de compra queda solo en tu navegador, nunca se manda a ningún servidor.</p>`;
+    el.innerHTML = `<p class="position-nudge">Marcá esta acción como favorita (★) para trackear tu posición acá — el precio de compra y la cantidad quedan solo en tu navegador, nunca se mandan a ningún servidor.</p>`;
     return;
   }
-  const cost = costBasis[stock.ticker];
-  if (cost == null) {
+  const pos = getPosition(stock.ticker);
+  if (!pos) {
     el.innerHTML = `
       <p class="position-label">Mi posición</p>
       <form class="position-form" data-position-form>
-        <input type="number" inputmode="decimal" step="0.01" min="0" placeholder="Precio de compra, ej: ${stock.price.toFixed(2)}" aria-label="Precio de compra">
+        <input type="number" inputmode="decimal" step="0.01" min="0" placeholder="Precio de compra, ej: ${stock.price.toFixed(2)}" aria-label="Precio de compra" data-field="price">
+        <input type="number" inputmode="decimal" step="any" min="0" placeholder="Cantidad de acciones" aria-label="Cantidad de acciones" data-field="shares">
         <button type="submit" class="btn-ghost">Guardar</button>
       </form>`;
     return;
   }
+  const { price: cost, shares } = pos;
   const pnlPct = ((stock.price - cost) / cost) * 100;
-  const pnlAbs = stock.price - cost;
   const cls = pnlPct >= 0 ? "up" : "down";
   const sign = pnlPct >= 0 ? "+" : "";
+
+  // La cantidad es opcional (compatibilidad con posiciones guardadas antes
+  // de sumar este campo) — sin ella se muestra el % pero no el $ total.
+  const hasShares = shares != null && shares > 0;
+  const totalLine = hasShares
+    ? `<span class="position-pnl ${cls}">${sign}$${(stock.price * shares - cost * shares).toFixed(2)} (${sign}${pnlPct.toFixed(1)}%)</span>`
+    : `<span class="position-pnl ${cls}">${sign}${pnlPct.toFixed(1)}%</span>`;
+  const label = hasShares
+    ? `Mi posición — ${shares} ${shares === 1 ? "acción" : "acciones"} a $${cost.toFixed(2)}`
+    : `Mi posición — compraste a $${cost.toFixed(2)}`;
+  const currentValueLine = hasShares
+    ? `<span class="position-current-value">Valor actual: $${(stock.price * shares).toFixed(2)}</span>`
+    : "";
+
   el.innerHTML = `
-    <p class="position-label">Mi posición — compraste a $${cost.toFixed(2)}</p>
+    <p class="position-label">${label}</p>
     <div class="position-summary">
-      <span class="position-pnl ${cls}">${sign}$${pnlAbs.toFixed(2)} (${sign}${pnlPct.toFixed(1)}%)</span>
+      <div class="position-summary-values">
+        ${totalLine}
+        ${currentValueLine}
+      </div>
       <button type="button" class="position-clear" data-position-clear>Borrar</button>
     </div>`;
 }
@@ -1111,15 +1140,17 @@ function initPositionSection() {
     const form = e.target.closest("[data-position-form]");
     if (!form || !currentModalStock) return;
     e.preventDefault();
-    const input = form.querySelector("input");
-    const value = parseFloat(input.value);
-    if (!Number.isFinite(value) || value <= 0) return;
-    setCostBasis(currentModalStock.ticker, value);
+    const price = parseFloat(form.querySelector('[data-field="price"]').value);
+    const sharesRaw = form.querySelector('[data-field="shares"]').value;
+    const shares = sharesRaw.trim() === "" ? null : parseFloat(sharesRaw);
+    if (!Number.isFinite(price) || price <= 0) return;
+    if (shares != null && (!Number.isFinite(shares) || shares <= 0)) return;
+    setPosition(currentModalStock.ticker, price, shares);
     renderPositionSection(currentModalStock);
   });
   el.addEventListener("click", (e) => {
     if (!e.target.closest("[data-position-clear]") || !currentModalStock) return;
-    clearCostBasis(currentModalStock.ticker);
+    clearPosition(currentModalStock.ticker);
     renderPositionSection(currentModalStock);
   });
 }

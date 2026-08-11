@@ -375,17 +375,28 @@ def fetch_earnings_calendar(tickers: list[str]) -> list[dict]:
 
     tickers_set = set(tickers)
     entries = []
-    for row in csv.DictReader(io.StringIO(raw)):
-        symbol = (row.get("symbol") or "").strip()
-        if symbol not in tickers_set:
-            continue
-        estimate = (row.get("estimate") or "").strip()
-        entries.append({
-            "ticker": symbol,
-            "name": TICKER_NAMES.get(symbol, symbol),
-            "date": (row.get("reportDate") or "").strip() or None,
-            "epsEstimate": float(estimate) if estimate else None,
-        })
+    try:
+        for row in csv.DictReader(io.StringIO(raw)):
+            symbol = (row.get("symbol") or "").strip()
+            if symbol not in tickers_set:
+                continue
+            estimate = (row.get("estimate") or "").strip()
+            try:
+                eps_estimate = float(estimate) if estimate else None
+            except ValueError:
+                eps_estimate = None
+            entries.append({
+                "ticker": symbol,
+                "name": TICKER_NAMES.get(symbol, symbol),
+                "date": (row.get("reportDate") or "").strip() or None,
+                "epsEstimate": eps_estimate,
+            })
+    except Exception as exc:  # CSV inesperado (p.ej. AV devuelve un error de
+        # rate limit en vez de CSV real cuando se pega justo con otra corrida)
+        # — nunca debe tirar abajo toda la corrida por esto.
+        print(f"Aviso: no se pudo parsear el calendario de resultados: {exc}", file=sys.stderr)
+        return entries  # lo que se haya podido parsear hasta el error, aunque sea vacío
+
     entries.sort(key=lambda e: (e["date"] or "", e["ticker"]))
     return entries
 
@@ -460,7 +471,13 @@ def fetch_daily_batch(tickers: list[str]) -> tuple[dict[str, list[dict]], list[d
             ohlc[ticker] = []
 
     time.sleep(13)  # AV free: 5 req/min máx — sigue pausando antes del último request
-    earnings_calendar = fetch_earnings_calendar(tickers)
+    try:
+        earnings_calendar = fetch_earnings_calendar(tickers)
+    except Exception as exc:  # nunca perder los ~5 minutos de velas ya
+        # obtenidas por un fallo en el calendario — se guardan igual, con
+        # el calendario vacío por esta corrida.
+        print(f"Aviso: calendario de resultados falló, se guardan igual las velas: {exc}", file=sys.stderr)
+        earnings_calendar = []
 
     to_save = dict(ohlc)
     to_save["_fetchedDate"] = today
@@ -576,8 +593,22 @@ def main():
     prices = fetch_prices(AI_TICKERS)
     history = update_price_history(prices)
     fundamentals = fetch_fundamentals(AI_TICKERS)
-    earnings_actuals = fetch_earnings_actuals(AI_TICKERS)
-    ohlc, earnings_calendar = fetch_daily_batch(AI_TICKERS)
+
+    # Estas dos son las más nuevas y las que más dependen de APIs externas
+    # con formatos menos predecibles (CSV de Alpha Vantage, historial de
+    # Finnhub) — un fallo inesperado acá no debe impedir que se escriba
+    # data.json con precios/noticias/fundamentales, que ya están listos.
+    try:
+        earnings_actuals = fetch_earnings_actuals(AI_TICKERS)
+    except Exception as exc:
+        print(f"Aviso: últimos resultados reportados falló, sigo sin eso: {exc}", file=sys.stderr)
+        earnings_actuals = {}
+    try:
+        ohlc, earnings_calendar = fetch_daily_batch(AI_TICKERS)
+    except Exception as exc:
+        print(f"Aviso: velas OHLC / calendario falló, sigo sin eso: {exc}", file=sys.stderr)
+        ohlc, earnings_calendar = {}, []
+
     stocks = build_stocks(prices, history, fundamentals, ohlc, earnings_actuals)
 
     valid_changes = [s["changePct"] for s in stocks if s["changePct"] is not None]
