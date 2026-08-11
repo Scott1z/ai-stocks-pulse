@@ -370,7 +370,12 @@ def fetch_earnings_actuals(tickers: list[str]) -> dict[str, dict | None]:
     estimación" en el modal de cada acción; a diferencia del calendario de
     resultados (que mira para adelante), esto mira para atrás."""
     if not FINNHUB_API_KEY:
-        sys.exit("Falta FINNHUB_API_KEY en el entorno.")
+        # raise, no sys.exit(): el call site en main() envuelve esta función
+        # en un try/except Exception con fallback ({}) — sys.exit() levanta
+        # SystemExit, que NO hereda de Exception, así que escaparía ese
+        # except y tiraría abajo toda la corrida igual que el bug real de
+        # producción que arregló curate_with_claude más abajo.
+        raise ValueError("Falta FINNHUB_API_KEY en el entorno.")
 
     actuals: dict[str, dict | None] = {}
     for i, ticker in enumerate(tickers):
@@ -428,7 +433,10 @@ def fetch_earnings_calendar(tickers: list[str]) -> list[dict]:
     import io
 
     if not AV_API_KEY:
-        sys.exit("Falta ALPHAVANTAGE_API_KEY en el entorno.")
+        # raise, no sys.exit() — ver el comentario en fetch_earnings_actuals()
+        # sobre por qué SystemExit escaparía el try/except que envuelve a
+        # esta función (acá, indirectamente vía fetch_daily_batch()).
+        raise ValueError("Falta ALPHAVANTAGE_API_KEY en el entorno.")
 
     params = {"function": "EARNINGS_CALENDAR", "horizon": "3month", "apikey": AV_API_KEY}
     url = "https://www.alphavantage.co/query?" + urlencode(params)
@@ -508,7 +516,10 @@ def fetch_daily_batch(
             return cached, earnings_cached
 
     if not AV_API_KEY:
-        sys.exit("Falta ALPHAVANTAGE_API_KEY en el entorno.")
+        # raise, no sys.exit() — el call site en main() envuelve
+        # fetch_daily_batch() en un try/except Exception con fallback
+        # ({}, []); ver el comentario en fetch_earnings_actuals().
+        raise ValueError("Falta ALPHAVANTAGE_API_KEY en el entorno.")
 
     ohlc: dict[str, list[dict]] = {}
     for i, ticker in enumerate(ohlc_tickers):
@@ -650,7 +661,10 @@ def build_stocks(
 
 def curate_with_claude(candidates: list[dict], stocks: list[dict]) -> dict:
     if not ANTHROPIC_API_KEY:
-        sys.exit("Falta ANTHROPIC_API_KEY en el entorno.")
+        # raise, no sys.exit() — el call site en main() envuelve esta función
+        # en un try/except Exception con fallback (sector_summary neutro,
+        # sin noticias curadas); ver el comentario en fetch_earnings_actuals().
+        raise ValueError("Falta ANTHROPIC_API_KEY en el entorno.")
 
     client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
 
