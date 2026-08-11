@@ -352,7 +352,7 @@ function buildFundamentalsGrid(fundamentals = {}) {
       icon: icon("calendarRange", "icon-navy"),
       value:
         fundamentals.week52Low != null && fundamentals.week52High != null
-          ? `$${fundamentals.week52Low.toFixed(2)} – $${fundamentals.week52High.toFixed(2)}`
+          ? `$${fundamentals.week52Low.toFixed(2)} - $${fundamentals.week52High.toFixed(2)}`
           : null,
     },
     { label: "EPS (TTM)", icon: icon("coin", "icon-green"), value: fundamentals.epsTTM != null ? `$${fundamentals.epsTTM.toFixed(2)}` : null },
@@ -597,7 +597,26 @@ function renderHeroMovers() {
     </button>`;
   };
 
-  container.innerHTML = moverCard(gainer, "Mayor suba") + moverCard(loser, "Mayor baja");
+  // Third mover: not another price-change extreme (the gainer/loser above
+  // already cover that), but a different lens on the same list — the
+  // largest company by market cap, from real fundamentals data already on
+  // each stock. Reuses the exact same button/tag markup, just swaps the
+  // metric shown.
+  const withCap = STOCKS.filter((s) => s.fundamentals && s.fundamentals.marketCapM != null);
+  let capCard = "";
+  if (withCap.length) {
+    const biggest = [...withCap].sort((a, b) => b.fundamentals.marketCapM - a.fundamentals.marketCapM)[0];
+    const cap = formatMarketCap(biggest.fundamentals.marketCapM);
+    capCard = `<button class="hero-mover" data-ticker="${biggest.ticker}" type="button">
+      <span class="hero-mover-label">Mayor capitalización</span>
+      <span class="hero-mover-row">
+        <span class="stock-tag mixed">${biggest.ticker}</span>
+        <span class="hero-mover-change">${cap}</span>
+      </span>
+    </button>`;
+  }
+
+  container.innerHTML = moverCard(gainer, "Mayor suba") + moverCard(loser, "Mayor baja") + capCard;
 
   container.querySelectorAll(".hero-mover").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -605,6 +624,43 @@ function renderHeroMovers() {
       if (stock) openStockModal(stock);
     });
   });
+}
+
+// Market breadth: how many tracked stocks are bullish/bearish/mixed right
+// now, computed client-side from the same STOCKS list the ledger and
+// movers already use. A thin proportional bar for the at-a-glance read,
+// plus the exact counts reusing the existing stock-tag pill (no new
+// component) — the same pattern Bloomberg/Yahoo Finance movers widgets
+// use, adapted to this page's flat/hairline language instead of a card.
+function renderHeroBreadth() {
+  const container = document.getElementById("heroBreadth");
+  const withSentiment = STOCKS.filter((s) => s.sentiment);
+  const total = withSentiment.length;
+  if (total < 2) {
+    container.innerHTML = "";
+    return;
+  }
+
+  const counts = { bullish: 0, bearish: 0, mixed: 0 };
+  withSentiment.forEach((s) => {
+    if (counts[s.sentiment] != null) counts[s.sentiment] += 1;
+  });
+
+  const segLabel = { bullish: "Alcistas", bearish: "Bajistas", mixed: "Mixtas" };
+  const segments = ["bullish", "bearish", "mixed"]
+    .filter((key) => counts[key] > 0)
+    .map((key) => `<span class="hero-breadth-seg ${key}" style="flex-basis:${((counts[key] / total) * 100).toFixed(2)}%"></span>`)
+    .join("");
+
+  const badges = ["bullish", "bearish", "mixed"]
+    .filter((key) => counts[key] > 0)
+    .map((key) => `<span class="stock-tag ${key}">${counts[key]} ${segLabel[key]}</span>`)
+    .join("");
+
+  container.innerHTML = `
+    <p class="hero-breadth-label">Amplitud del sector · ${total} empresas</p>
+    <div class="hero-breadth-bar">${segments}</div>
+    <div class="hero-breadth-counts">${badges}</div>`;
 }
 
 let sortState = { key: null, dir: "asc" };
@@ -641,6 +697,16 @@ function updateSortIndicators() {
   });
 }
 
+const STOCKS_COLLAPSE_LIMIT = 3;
+const NEWS_COLLAPSE_LIMIT = 3;
+let stocksExpanded = false;
+let newsExpanded = false;
+
+function buildListToggle(kind, remaining, expanded) {
+  const label = expanded ? "Ver menos" : `Ver ${remaining} más`;
+  return `<button type="button" class="list-toggle" data-toggle="${kind}">${label}</button>`;
+}
+
 function renderStocks(filter = "all", query = "") {
   const grid = document.getElementById("stockGrid");
   const q = query.trim().toLowerCase();
@@ -662,10 +728,12 @@ function renderStocks(filter = "all", query = "") {
   }
 
   const sorted = applySort(filtered);
+  const showToggle = sorted.length > STOCKS_COLLAPSE_LIMIT;
+  const visible = stocksExpanded ? sorted : sorted.slice(0, STOCKS_COLLAPSE_LIMIT);
   const STAR_ICON =
     '<svg viewBox="0 0 16 16" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M8 1.6l1.87 3.98 4.33.5-3.23 3.02.9 4.4L8 11.35l-3.87 2.15.9-4.4-3.23-3.02 4.33-.5L8 1.6Z"/></svg>';
 
-  grid.innerHTML = sorted
+  const rowsHtml = visible
     .map((s) => {
       const changeSign = s.changePct >= 0 ? "+" : "";
       const changeCls = s.changePct >= 0 ? "up" : "down";
@@ -687,11 +755,20 @@ function renderStocks(filter = "all", query = "") {
       </article>`;
     })
     .join("");
+
+  grid.innerHTML =
+    rowsHtml + (showToggle ? buildListToggle("stocks", sorted.length - STOCKS_COLLAPSE_LIMIT, stocksExpanded) : "");
 }
 
 function renderNews() {
   const list = document.getElementById("newsList");
-  list.innerHTML = NEWS.map((n, i) => `
+  const indexed = NEWS.map((n, i) => ({ n, i }));
+  const showToggle = indexed.length > NEWS_COLLAPSE_LIMIT;
+  const visible = newsExpanded ? indexed : indexed.slice(0, NEWS_COLLAPSE_LIMIT);
+
+  const itemsHtml = visible
+    .map(
+      ({ n, i }) => `
     <article class="news-item" data-index="${i}" tabindex="0" role="button" aria-haspopup="dialog">
       <span class="news-dot ${n.sentiment}" aria-hidden="true"></span>
       <div class="news-body">
@@ -704,7 +781,11 @@ function renderNews() {
       </div>
       ${n.ticker ? `<span class="news-ticker-tag">[${n.ticker}]</span>` : `<span></span>`}
     </article>`
-  ).join("");
+    )
+    .join("");
+
+  list.innerHTML =
+    itemsHtml + (showToggle ? buildListToggle("news", indexed.length - NEWS_COLLAPSE_LIMIT, newsExpanded) : "");
 }
 
 function openNewsModal(item) {
@@ -745,8 +826,16 @@ function initNewsModal() {
     if (news) openNewsModal(news);
   };
 
-  list.addEventListener("click", (e) => activate(e.target));
+  list.addEventListener("click", (e) => {
+    if (e.target.closest(".list-toggle")) {
+      newsExpanded = !newsExpanded;
+      renderNews();
+      return;
+    }
+    activate(e.target);
+  });
   list.addEventListener("keydown", (e) => {
+    if (e.target.closest(".list-toggle")) return;
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       activate(e.target);
@@ -833,6 +922,12 @@ function initStockModal() {
   };
 
   grid.addEventListener("click", (e) => {
+    if (e.target.closest(".list-toggle")) {
+      stocksExpanded = !stocksExpanded;
+      const activeChip = document.querySelector(".chip.active");
+      renderStocks(activeChip ? activeChip.dataset.filter : "all", document.getElementById("searchInput").value);
+      return;
+    }
     const starBtn = e.target.closest(".stock-star");
     if (starBtn) {
       e.stopPropagation();
@@ -844,7 +939,7 @@ function initStockModal() {
     activate(e.target);
   });
   grid.addEventListener("keydown", (e) => {
-    if (e.target.closest(".stock-star")) return;
+    if (e.target.closest(".stock-star") || e.target.closest(".list-toggle")) return;
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       activate(e.target);
@@ -938,10 +1033,12 @@ function initFilters() {
     group.querySelectorAll(".chip").forEach((c) => c.classList.remove("active"));
     btn.classList.add("active");
     activeFilter = btn.dataset.filter;
+    stocksExpanded = false;
     renderStocks(activeFilter, search.value);
   });
 
   search.addEventListener("input", () => {
+    stocksExpanded = false;
     renderStocks(activeFilter, search.value);
   });
 }
@@ -1042,6 +1139,7 @@ async function init() {
   renderHeroChart();
   renderSectorSummary();
   renderHeroMovers();
+  renderHeroBreadth();
   renderStocks();
   renderNews();
   renderLastUpdated();

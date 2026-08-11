@@ -204,6 +204,11 @@ Borders are hairlines throughout (1px), never thick. The two deliberate exceptio
 - **Interaction:** clicking the star toggles it without opening the Stock Detail Modal (the click is stopped from bubbling to the row); the row itself remains a separate, full-size click target for the modal.
 - **Empty state:** the "★ Favoritas" filter with nothing starred yet shows an honest instruction ("Tocá la estrella junto al ticker para agregarla") instead of just an empty list.
 
+### List Toggle (collapse / "Ver más")
+- **Purpose:** both the ledger (up to 21 rows) and the news list (8 curated items) load collapsed to their first 3 entries, with a "Ver N más" button at the end. Landing on a wall of 21 rows read as overwhelming; three is enough to show the page is alive without demanding a scroll before a visitor has even decided the page is worth reading.
+- **Style:** a full-width text button, monospace label voice, centered, separated from the last visible row by a hairline — the same "quiet, functional" register as everything else in the list, not a prominent CTA.
+- **State:** toggling switches the label to "Ver menos" and reveals every remaining item; clicking again collapses back to 3. Changing the active filter chip or typing in search resets the ledger back to collapsed (a new result set should be judged from the top, not mid-scroll), sorting does not.
+
 ### News Row
 - **Style:** same hairline-row logic as the ledger, but 3-column (status dot / headline+meta / ticker tag). A 7×7px rounded-square dot carries semantic color; the ticker tag renders as bracketed monospace text (`[NVDA]`).
 - **Interaction:** the entire row is clickable/focusable (`role="button"`, `tabindex="0"`) — clicking or pressing Enter/Space opens the News Modal with that article's summary. It never navigates away on its own; leaving the page to read the original source is an explicit, separate choice made inside the modal.

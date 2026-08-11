@@ -388,7 +388,8 @@ header, main, footer { position: relative; z-index: 1; }
    glyph) rather than inventing a new pill style. */
 .hero-movers {
   display: flex;
-  gap: 32px;
+  flex-wrap: wrap;
+  gap: 24px 32px;
   margin-top: 28px;
   padding-top: 20px;
   border-top: 1px solid var(--line);
@@ -421,6 +422,42 @@ header, main, footer { position: relative; z-index: 1; }
 }
 .hero-mover-change.up { color: var(--rise); }
 .hero-mover-change.down { color: var(--fall); }
+
+/* Market breadth — proportion of bullish/bearish/mixed among tracked
+   stocks, computed client-side same as the movers above. The bar is the
+   one new visual element; the counts reuse the existing stock-tag pill
+   (see .stock-tag) instead of inventing a second badge style. */
+.hero-breadth {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.hero-breadth-label {
+  font-family: var(--font-data);
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
+  color: var(--text-faint);
+  margin: 0 0 10px;
+}
+.hero-breadth-bar {
+  display: flex;
+  width: 100%;
+  height: 6px;
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  background: var(--line);
+  margin-bottom: 12px;
+}
+.hero-breadth-seg { height: 100%; flex-grow: 0; flex-shrink: 0; }
+.hero-breadth-seg.bullish { background: var(--rise); }
+.hero-breadth-seg.bearish { background: var(--fall); }
+.hero-breadth-seg.mixed { background: var(--mixed); }
+
+.hero-breadth-counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
 
 .updated-badge, .sentiment-badge {
   font-family: var(--font-data);
@@ -677,6 +714,30 @@ header, main, footer { position: relative; z-index: 1; }
   display: flex;
   flex-direction: column;
 }
+
+/* Shared by the ledger and the news list — collapses either to
+   STOCKS_COLLAPSE_LIMIT/NEWS_COLLAPSE_LIMIT rows so the page doesn't dump
+   all 21 stocks or every curated headline on load. */
+.list-toggle {
+  display: block;
+  width: 100%;
+  margin: 4px 0 0;
+  padding: 14px 4px;
+  border: none;
+  border-top: 1px solid var(--line);
+  background: transparent;
+  font-family: var(--font-data);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+  text-align: center;
+  cursor: pointer;
+  transition: color 0.12s ease, background 0.12s ease;
+}
+.list-toggle:hover,
+.list-toggle:focus-visible { color: var(--accent); background: var(--panel-raised); }
 
 .stock-row {
   display: grid;

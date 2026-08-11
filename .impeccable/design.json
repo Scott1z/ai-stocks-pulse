@@ -112,6 +112,14 @@
       "css": ".ds-stock-star { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; padding: 0; border: none; background: none; color: var(--line-strong, #ccd3dc); cursor: pointer; } .ds-stock-star svg { width: 14px; height: 14px; } .ds-stock-star.active { color: var(--accent, #1c3a5e); }"
     },
     {
+      "name": "List Toggle",
+      "kind": "custom",
+      "refersTo": "list-toggle",
+      "description": "Shared 'Ver más'/'Ver menos' collapse control for the ledger (21 stocks) and the news list (8 items) — both load showing only the first 3 entries so the page doesn't dump everything on load. Full-width monospace text button, hairline-separated from the last row. Switching the active filter chip or typing in search resets the ledger back to collapsed; sorting does not.",
+      "html": "<button type=\"button\" class=\"ds-list-toggle\">Ver 18 más</button>",
+      "css": ".ds-list-toggle { display: block; width: 100%; margin: 4px 0 0; padding: 14px 4px; border: none; border-top: 1px solid var(--line, #e2e6ec); background: transparent; font-family: ui-monospace, monospace; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-dim, #475467); text-align: center; cursor: pointer; } .ds-list-toggle:hover { color: var(--accent, #1c3a5e); background: var(--panel-raised, #eef1f5); }"
+    },
+    {
       "name": "News Row",
       "kind": "custom",
       "refersTo": "news-item",
