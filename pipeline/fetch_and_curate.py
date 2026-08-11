@@ -9,22 +9,25 @@ Flujo:
      localmente con las que mencionan alguna de nuestras empresas de IA (por nombre o
      ticker) — Finnhub no tiene una categoría "technology", así que filtramos igual que
      antes, un paso más temprano en la cadena.
-  2. Trae precios actuales de Finnhub para los mismos tickers.
+  2. Trae precios actuales de Finnhub para los 50 tickers de AI_TICKERS (con pausa entre
+     requests — ver FINNHUB_PACING_SECONDS — para no pasarse del límite de 60 calls/min).
   3. Actualiza price_history.json (ventana local de los últimos puntos) para poder dibujar
      sparklines reales en el frontend sin depender de un endpoint histórico de pago.
   3b. Trae fundamentales básicos (P/E, EPS, cap. de mercado, rango 52 semanas, ROE, margen
       neto) de Finnhub /stock/metric, mismo API key que las cotizaciones.
   3c. Trae precios diarios reales (OHLC) de Alpha Vantage TIME_SERIES_DAILY, UNA vez por día
-      (no en cada corrida horaria) — mover las noticias a Finnhub deja libre todo el cupo
-      free de Alpha Vantage (25 req/día) para esto: 23 tickers = 23 requests, una sola vez
-      al día. Esto es lo que permite un gráfico de velas real en vez de un sparkline armado
-      con snapshots de precio.
+      (no en cada corrida horaria), y SOLO para OHLC_TICKERS (los 23 tickers originales, no
+      los 50) — Alpha Vantage free da 25 req/día en total y ya usa 24 de esos (23 velas + 1
+      calendario), así que no hay margen para más sin plan pago. Los 27 tickers agregados
+      después usan el sparkline de respaldo en vez de velas reales.
   3d. Trae el calendario de resultados de Alpha Vantage EARNINGS_CALENDAR (1 request más,
-      misma corrida diaria que el OHLC) — antes usaba Finnhub /calendar/earnings, pero ese
-      endpoint tiene un bug conocido de fechas de balance faltantes/incorrectas.
+      misma corrida diaria que el OHLC, pero filtrado contra los 50 tickers — es 1 solo
+      request sin importar cuántos tickers se filtren después) — antes usaba Finnhub
+      /calendar/earnings, pero ese endpoint tiene un bug conocido de fechas de balance
+      faltantes/incorrectas.
   3e. Trae el último resultado YA reportado (EPS real vs. estimado, "beat/miss") de Finnhub
-      /stock/earnings, un request por ticker — a diferencia del calendario (que mira para
-      adelante), esto mira para atrás, al trimestre que la empresa ya presentó.
+      /stock/earnings, un request por ticker de los 50 — a diferencia del calendario (que
+      mira para adelante), esto mira para atrás, al trimestre que la empresa ya presentó.
   4. Ordena los candidatos de noticias por cuántas empresas nuestras mencionan (gratis, sin
      gastar tokens de LLM) y recorta al top N.
   5. Manda solo los top N candidatos + los cambios de precio a Claude, en una sola llamada,
@@ -64,6 +67,13 @@ FINNHUB_API_KEY = os.environ.get("FINNHUB_API_KEY")
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY")
 
 # Tickers de referencia del sector IA — ajustá esta lista a lo que te interese.
+# Los primeros 23 son el catálogo original: son los únicos que tienen velas
+# OHLC reales (ver OHLC_TICKERS más abajo) — Alpha Vantage free da 25
+# requests/día en total y ya usamos 24 de esos (23 velas + 1 calendario),
+# así que no hay margen para sumar más tickers a las velas reales sin pasar
+# a un plan pago. Los 27 agregados después (2026-08-11) solo tienen
+# precio/fundamentales/noticias vía Finnhub (sin ese límite) y usan el
+# gráfico de línea de respaldo en vez de candlestick.
 AI_TICKERS = [
     "NVDA", "MSFT", "GOOGL", "META", "AMZN", "AVGO", "ORCL", "PLTR", "AMD",
     # Semis / infraestructura IA
@@ -72,7 +82,20 @@ AI_TICKERS = [
     "CRM", "NOW", "ADBE", "SNOW", "IBM",
     # Otros mega-cap con exposición a IA
     "AAPL", "TSLA",
+    # --- Ampliación 2026-08-11 (sin velas OHLC, ver comentario arriba) ---
+    # Semis / hardware
+    "INTC", "TXN", "ASML", "LRCX", "AMAT", "KLAC", "ANET", "DELL", "HPE", "CDNS", "SNPS",
+    # Software / nube / datos IA
+    "DDOG", "PANW", "CRWD", "MDB", "WDAY", "INTU", "SAP", "TEAM",
+    # Storage
+    "STX", "WDC",
+    # Puras de IA / temáticas
+    "AI", "SOUN", "IONQ", "CSCO",
+    # Otros mega-cap con exposición a IA
+    "NFLX", "UBER",
 ]
+OHLC_TICKERS = AI_TICKERS[:23]
+
 TICKER_NAMES = {
     "NVDA": "NVIDIA",
     "MSFT": "Microsoft",
@@ -97,6 +120,33 @@ TICKER_NAMES = {
     "IBM": "IBM",
     "AAPL": "Apple",
     "TSLA": "Tesla",
+    "INTC": "Intel",
+    "TXN": "Texas Instruments",
+    "ASML": "ASML Holding",
+    "LRCX": "Lam Research",
+    "AMAT": "Applied Materials",
+    "KLAC": "KLA Corporation",
+    "ANET": "Arista Networks",
+    "DELL": "Dell Technologies",
+    "HPE": "Hewlett Packard Enterprise",
+    "CDNS": "Cadence Design Systems",
+    "SNPS": "Synopsys",
+    "DDOG": "Datadog",
+    "PANW": "Palo Alto Networks",
+    "CRWD": "CrowdStrike",
+    "MDB": "MongoDB",
+    "WDAY": "Workday",
+    "INTU": "Intuit",
+    "SAP": "SAP",
+    "TEAM": "Atlassian",
+    "STX": "Seagate Technology",
+    "WDC": "Western Digital",
+    "AI": "C3.ai",
+    "SOUN": "SoundHound AI",
+    "IONQ": "IonQ",
+    "CSCO": "Cisco Systems",
+    "NFLX": "Netflix",
+    "UBER": "Uber Technologies",
 }
 
 MAX_CANDIDATES = 15  # cuántos artículos pre-filtrados se mandan al LLM
@@ -153,10 +203,11 @@ No incluyas campos extra. Si hay menos de 8 artículos relevantes, devolvé los 
 # --- Noticias (Finnhub) -----------------------------------------------------
 
 # Tickers cuyo símbolo colisiona con palabras comunes del inglés (ARM, NOW,
-# SNOW, META como adjetivo) — para esos, matcheamos solo por nombre de
-# empresa. Para el resto, el símbolo en mayúsculas como palabra completa es
-# una señal confiable (así es como la prensa financiera lo escribe).
-AMBIGUOUS_TICKERS = {"ARM", "NOW", "SNOW", "META"}
+# SNOW, META como adjetivo, AI el término genérico, TEAM) — para esos,
+# matcheamos solo por nombre de empresa. Para el resto, el símbolo en
+# mayúsculas como palabra completa es una señal confiable (así es como la
+# prensa financiera lo escribe).
+AMBIGUOUS_TICKERS = {"ARM", "NOW", "SNOW", "META", "AI", "TEAM"}
 
 
 def _mentions(text: str, ticker: str, name: str) -> bool:
@@ -238,12 +289,21 @@ def attach_source_meta(items: list[dict], raw_articles: list[dict]) -> list[dict
 # --- Precios (Finnhub) ------------------------------------------------------
 
 
+# Finnhub free tier: 60 calls/min. Con 50 tickers, precios + fundamentales +
+# últimos resultados suman 150 requests por corrida — sin pausar, esos tres
+# loops corriendo uno atrás del otro pueden pegarle fácil al límite por
+# minuto. 1.1s entre requests mantiene el total en ~55/min con margen.
+FINNHUB_PACING_SECONDS = 1.1
+
+
 def fetch_prices(tickers: list[str]) -> dict[str, dict]:
     if not FINNHUB_API_KEY:
         sys.exit("Falta FINNHUB_API_KEY en el entorno.")
 
     prices = {}
-    for ticker in tickers:
+    for i, ticker in enumerate(tickers):
+        if i > 0:
+            time.sleep(FINNHUB_PACING_SECONDS)
         params = {"symbol": ticker, "token": FINNHUB_API_KEY}
         url = "https://finnhub.io/api/v1/quote?" + urlencode(params)
         try:
@@ -278,7 +338,9 @@ def fetch_fundamentals(tickers: list[str]) -> dict[str, dict]:
         sys.exit("Falta FINNHUB_API_KEY en el entorno.")
 
     fundamentals = {}
-    for ticker in tickers:
+    for i, ticker in enumerate(tickers):
+        if i > 0:
+            time.sleep(FINNHUB_PACING_SECONDS)
         params = {"symbol": ticker, "metric": "all", "token": FINNHUB_API_KEY}
         url = "https://finnhub.io/api/v1/stock/metric?" + urlencode(params)
         try:
@@ -309,7 +371,9 @@ def fetch_earnings_actuals(tickers: list[str]) -> dict[str, dict | None]:
         sys.exit("Falta FINNHUB_API_KEY en el entorno.")
 
     actuals: dict[str, dict | None] = {}
-    for ticker in tickers:
+    for i, ticker in enumerate(tickers):
+        if i > 0:
+            time.sleep(FINNHUB_PACING_SECONDS)
         params = {"symbol": ticker, "token": FINNHUB_API_KEY}
         url = "https://finnhub.io/api/v1/stock/earnings?" + urlencode(params)
         try:
@@ -404,13 +468,21 @@ def fetch_earnings_calendar(tickers: list[str]) -> list[dict]:
 # --- Precios diarios / OHLC + calendario de resultados (Alpha Vantage, una vez por día) ---
 
 
-def fetch_daily_batch(tickers: list[str]) -> tuple[dict[str, list[dict]], list[dict]]:
+def fetch_daily_batch(
+    ohlc_tickers: list[str], calendar_tickers: list[str]
+) -> tuple[dict[str, list[dict]], list[dict]]:
     """Trae velas diarias reales (open/high/low/close) de Alpha Vantage
     TIME_SERIES_DAILY, más el calendario de resultados (EARNINGS_CALENDAR,
     1 solo request). Sacar las noticias de Alpha Vantage (ver
     fetch_finnhub_news) deja libre todo el cupo free de 25 req/día para esto,
     pero solo alcanza para UNA corrida diaria (23 tickers + 1 calendario =
     24 requests), no una por hora.
+
+    `ohlc_tickers` (23, el catálogo original) y `calendar_tickers` (los 50)
+    son distintos a propósito: el calendario es 1 solo request sin importar
+    cuántos tickers se filtren después, así que no hay motivo para no
+    ofrecérselo a todo el catálogo — pero las velas sí cuestan 1 request por
+    ticker, y ahí el límite diario de Alpha Vantage no da para más de 23-24.
 
     Por eso esta función es un caché con fecha: si ya se corrió hoy, devuelve
     lo que ya está guardado en disco sin gastar requests. El pipeline sigue
@@ -437,7 +509,7 @@ def fetch_daily_batch(tickers: list[str]) -> tuple[dict[str, list[dict]], list[d
         sys.exit("Falta ALPHAVANTAGE_API_KEY en el entorno.")
 
     ohlc: dict[str, list[dict]] = {}
-    for i, ticker in enumerate(tickers):
+    for i, ticker in enumerate(ohlc_tickers):
         if i > 0:
             time.sleep(13)  # AV free: 5 req/min máx
         params = {
@@ -472,7 +544,7 @@ def fetch_daily_batch(tickers: list[str]) -> tuple[dict[str, list[dict]], list[d
 
     time.sleep(13)  # AV free: 5 req/min máx — sigue pausando antes del último request
     try:
-        earnings_calendar = fetch_earnings_calendar(tickers)
+        earnings_calendar = fetch_earnings_calendar(calendar_tickers)
     except Exception as exc:  # nunca perder los ~5 minutos de velas ya
         # obtenidas por un fallo en el calendario — se guardan igual, con
         # el calendario vacío por esta corrida.
@@ -604,7 +676,7 @@ def main():
         print(f"Aviso: últimos resultados reportados falló, sigo sin eso: {exc}", file=sys.stderr)
         earnings_actuals = {}
     try:
-        ohlc, earnings_calendar = fetch_daily_batch(AI_TICKERS)
+        ohlc, earnings_calendar = fetch_daily_batch(OHLC_TICKERS, AI_TICKERS)
     except Exception as exc:
         print(f"Aviso: velas OHLC / calendario falló, sigo sin eso: {exc}", file=sys.stderr)
         ohlc, earnings_calendar = {}, []

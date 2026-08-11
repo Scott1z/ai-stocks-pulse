@@ -10,27 +10,33 @@ datos de demostración — así que es seguro probar esto sin romper nada.
 1. Trae noticias generales de mercado de **Finnhub** (`/news?category=general`) — 1 request.
    Finnhub no tiene una categoría "technology" (solo general/forex/crypto/merger), así que se
    filtra localmente igual que antes: se queda con los artículos que mencionan a alguna de
-   nuestras 23 empresas (por nombre o ticker) y descarta el resto antes de gastar tokens de LLM.
-2. Trae precios actuales de **Finnhub** (`/quote`) para 23 tickers — 23 requests.
+   nuestras 50 empresas (por nombre o ticker) y descarta el resto antes de gastar tokens de LLM.
+2. Trae precios actuales de **Finnhub** (`/quote`) para 50 tickers — 50 requests, pausados
+   ~1.1s entre sí (`FINNHUB_PACING_SECONDS`) para no pasarse del límite de 60 calls/min una vez
+   que se suman los tres loops de Finnhub de la misma corrida (ver más abajo).
 3. Guarda cada precio en `price_history.json` (ventana local de 12 puntos) para poder dibujar
    un sparkline de respaldo si todavía no hay velas diarias reales para un ticker.
 4. Trae fundamentales básicos de **Finnhub** (`/stock/metric`, mismo API key) para los mismos
-   23 tickers — 23 requests más: P/E (TTM), EPS (TTM), capitalización de mercado, rango de
-   52 semanas, ROE (TTM) y margen neto (TTM). Todo dentro del plan free (60 calls/min).
+   50 tickers — 50 requests más, mismo pacing: P/E (TTM), EPS (TTM), capitalización de mercado,
+   rango de 52 semanas, ROE (TTM) y margen neto (TTM). Todo dentro del plan free (60 calls/min).
 4b. Trae el último resultado YA reportado de **Finnhub** (`/stock/earnings`, mismo API key) —
-   23 requests más: EPS real vs. estimado de consenso ("beat/miss") del trimestre más reciente
-   que cada empresa ya presentó. A diferencia del calendario (punto 6), que mira para
+   50 requests más, mismo pacing: EPS real vs. estimado de consenso ("beat/miss") del trimestre
+   más reciente que cada empresa ya presentó. A diferencia del calendario (punto 6), que mira para
    adelante, esto mira para atrás — se usa para el badge "superó/no superó estimación" en el
    modal de cada acción. Se descartan las entradas todavía sin reportar (`actual` viene `null`).
 5. Trae velas diarias reales (open/high/low/close) de **Alpha Vantage** `TIME_SERIES_DAILY`,
-   pero **solo una vez por día**, no en cada corrida horaria — ver la sección de abajo, es la
-   parte más particular de este pipeline. El resultado vive en `daily_ohlc.json`.
+   pero **solo una vez por día**, no en cada corrida horaria, y **solo para `OHLC_TICKERS`**
+   (los 23 tickers originales, no los 50) — ver la sección de abajo, es la parte más particular
+   de este pipeline. Los 27 tickers agregados después no tienen velas reales: Alpha Vantage
+   free da 25 requests/día en total y ya usa 24 (23 velas + 1 calendario), así que no hay margen
+   para más sin pasar a un plan pago. El resultado vive en `daily_ohlc.json`.
 6. Trae el calendario de resultados de **Alpha Vantage** `EARNINGS_CALENDAR` (horizonte de
    3 meses) — 1 request más, en la misma corrida diaria que el punto 5 (mismo cupo, mismo
    caché con fecha). Trae TODAS las empresas que reportan en la ventana, no solo las
-   nuestras, así que se filtra localmente a nuestros 23 tickers (mismo patrón que las
-   noticias). Son fechas reales de balance trimestral, no "eventos importantes" del sector —
-   eso no tiene una fuente confiable, así que no se inventa.
+   nuestras, así que se filtra localmente contra los **50** tickers de `AI_TICKERS` (no contra
+   `OHLC_TICKERS` — es 1 solo request sin importar cuántos tickers queden después del filtro,
+   así que no hay motivo para restringirlo a los 23). Son fechas reales de balance trimestral,
+   no "eventos importantes" del sector — eso no tiene una fuente confiable, así que no se inventa.
    Antes esto venía de Finnhub `/calendar/earnings`, pero ese endpoint tiene un bug
    conocido y no corregido: fechas de balance cercanas que directamente no aparecen o
    vienen mal (ver [finnhubio/Finnhub-API#528](https://github.com/finnhubio/Finnhub-API/issues/528)
@@ -53,8 +59,10 @@ datos de demostración — así que es seguro probar esto sin romper nada.
 
 Alpha Vantage free tier da **25 requests/día en total**, compartidos entre TODO lo que le
 pidas. `TIME_SERIES_DAILY` trae el historial completo de un ticker en un solo request, así que
-23 tickers = 23 requests, más 1 request para `EARNINGS_CALENDAR` = 24 — eso ya casi agota el
-cupo diario. Pedirlo en cada corrida horaria (24 veces/día) sería imposible.
+`OHLC_TICKERS` (los 23 tickers originales, no los 50 de `AI_TICKERS`) = 23 requests, más
+1 request para `EARNINGS_CALENDAR` = 24 — eso ya casi agota el cupo diario, y es exactamente
+por qué los 27 tickers agregados después se quedan sin velas reales: no hay margen para más
+sin pasar a un plan pago. Pedirlo en cada corrida horaria (24 veces/día) sería imposible.
 
 La solución: `fetch_daily_batch()` guarda la fecha de la última corrida exitosa adentro de
 `daily_ohlc.json` (`_fetchedDate`), junto con el calendario de resultados ya resuelto
@@ -103,7 +111,7 @@ export $(grep -v '^#' .env | xargs)
 python3 fetch_and_curate.py
 ```
 
-Si todo sale bien vas a ver algo como `OK — 23 precios, 8 noticias, 6 resultados próximos y 19 últimos resultados reportados escritos en .../data.json`.
+Si todo sale bien vas a ver algo como `OK — 50 precios, 8 noticias, 6 resultados próximos y 41 últimos resultados reportados escritos en .../data.json`.
 Abrí `../data.json` para revisar el resultado, y recargá la landing page — el indicador de
 arriba debería cambiar de "DATOS DE DEMOSTRACIÓN" a "DATOS EN VIVO".
 
@@ -126,8 +134,9 @@ Si el cron no dispara en macOS reciente, es casi siempre un tema de permisos: en
 
 Las noticias, precios, fundamentales y los últimos resultados reportados van todos por Finnhub
 (60 calls/min, sin límite diario publicado), así que refrescarlos cada hora no es un problema:
-70 requests por corrida (23 quotes + 23 metrics + 23 earnings actuals + 1 de noticias), lejos
-del límite por minuto. Alpha Vantage solo entra en
+151 requests por corrida (50 quotes + 50 metrics + 50 earnings actuals + 1 de noticias),
+pausados ~1.1s entre sí (`FINNHUB_PACING_SECONDS`) para quedarse cómodo por debajo del límite
+por minuto. Alpha Vantage solo entra en
 juego una vez por día, para las velas y el calendario de resultados — ver la sección de arriba.
 Correr más seguido que cada hora no rompería el presupuesto de Finnhub, pero tampoco aportaría
 mucho: los precios de Finnhub no cambian tan rápido como para justificarlo, y la corrida diaria
@@ -135,9 +144,23 @@ de Alpha Vantage de todos modos solo se dispara una vez.
 
 ## Ajustar qué empresas sigue
 
-Editá la lista `AI_TICKERS` (y el diccionario `TICKER_NAMES`) al principio de
-`fetch_and_curate.py`. Si agregás muchos tickers más (decenas), revisá dos cosas: que
-3 requests/ticker (quote + metric + la porción de velas diarias) siga entrando cómodo en el
-límite de 60 calls/min de Finnhub, y que el total de tickers no supere ~25 para que la corrida
-diaria de velas (1 request/ticker en Alpha Vantage, con pausa de 13s entre cada uno) siga
-entrando en el cupo de 25 requests/día.
+Hay dos listas, a propósito separadas:
+
+- **`AI_TICKERS`** (50 tickers): el catálogo completo. Recibe precio, fundamentales, noticias,
+  último resultado reportado y calendario de resultados — todo lo que sale de Finnhub (sin
+  límite diario, solo 60 calls/min) más el calendario de Alpha Vantage (que es 1 solo request
+  sin importar cuántos tickers tenga esta lista).
+- **`OHLC_TICKERS`** (los primeros 23 de `AI_TICKERS`): los únicos que reciben velas diarias
+  reales de Alpha Vantage `TIME_SERIES_DAILY` — 1 request/ticker, y el free tier de Alpha
+  Vantage da 25 requests/día en total. 23 velas + 1 calendario = 24, ya casi sin margen.
+
+Para agregar un ticker nuevo: sumalo a `AI_TICKERS` y a `TICKER_NAMES`. Va a tener precio,
+noticias, fundamentales y calendario automáticamente, pero **no** va a tener velas reales a
+menos que también lo agregues antes de la posición 23 en `AI_TICKERS` (o subas
+`OHLC_DAYS_KEPT`/repienses `OHLC_TICKERS` — cualquier cambio ahí implica sacar algún otro
+ticker del cupo de 23, porque el límite de Alpha Vantage es duro).
+
+Si agregás muchos tickers más a `AI_TICKERS` (decenas), revisá que el pacing de Finnhub
+(`FINNHUB_PACING_SECONDS`, 1.1s entre requests) siga alcanzando para quedarse por debajo de
+60 calls/min — con 3 requests/ticker (quote + metric + earnings actuals), a partir de ~180
+tickers habría que revisar el pacing de nuevo.
