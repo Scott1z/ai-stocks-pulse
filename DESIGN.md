@@ -217,8 +217,8 @@ Borders are hairlines throughout (1px), never thick. The two deliberate exceptio
 
 ### Stock Detail Modal (signature component)
 - **Purpose:** a ledger row is necessarily terse (one line, truncated blurb); clicking it opens the full picture — large price/change, an enlarged chart, and every related headline — without leaving the page. This is the main answer to "the table reads like a spreadsheet": real content on demand, not decoration.
-- **Structure:** ticker + company name + large price/change (mirrors the ledger row's data, just bigger) → sentiment tag → enlarged chart → an honest caption stating how many price snapshots it's built from → "Noticias relacionadas" list filtered to that ticker.
-- **The chart is not candles.** It's the same accumulated `price_history.json` snapshots as the row's sparkline, just bigger and with a grid — deliberately not oversold as TradingView-grade OHLC data, which this project doesn't have a budget-safe source for. The caption says so explicitly.
+- **Structure:** ticker + company name + large price/change (mirrors the ledger row's data, just bigger) → sentiment tag → enlarged chart → an honest caption stating what the chart is built from → "Noticias relacionadas" list filtered to that ticker.
+- **The chart is real candles when the pipeline has them.** Once `daily_ohlc.json` has data for a ticker (Alpha Vantage `TIME_SERIES_DAILY`, fetched once a day — see `pipeline/README.md`), the modal renders genuine open/high/low/close candlesticks: a wick from high to low, a body from open to close, colored by direction. Before that first daily fetch lands (or for a ticker Alpha Vantage has no data for), it falls back to the same accumulated `price_history.json` line chart as before, and the caption changes to match which one is showing — never claims candle precision it doesn't have.
 - **Related news are clickable too:** each item swaps this modal for the News Modal with that article — a chain, not a dead end. An empty state ("Sin noticias recientes para este ticker") is shown honestly rather than hidden.
 - **Style:** same recipe as the News Modal (navy top border, `--panel` background, modal-float shadow) but wider (`600px` vs `520px`) to fit the chart.
 
@@ -284,7 +284,7 @@ Borders are hairlines throughout (1px), never thick. The two deliberate exceptio
 - **Do** apply the pill radius to anything clickable or status-bearing, and the 4px radius to anything you read data or an article inside of — no other radius value.
 - **Do** let a visitor read an article summary in place (the modal) rather than redirecting them off the page by default; the external link stays available but explicit.
 - **Do** make every ledger row a door to a richer detail view (chart + related news) rather than adding decorative imagery to fill space — a data table's answer to "feels empty" is more real content, not illustration.
-- **Do** be explicit when a chart isn't full OHLC data — the caption on the Stock Detail Modal says so rather than implying more precision than the pipeline actually tracks.
+- **Do** be explicit about which chart a visitor is looking at — the Stock Detail Modal's caption always says whether it's real daily OHLC candles or the line-chart fallback, never implying more precision than the pipeline actually has for that ticker right now.
 - **Do** treat real data (sparklines, the composite chart, the ticker tape) as the page's visual anchor instead of decorative imagery.
 
 ### Don't:

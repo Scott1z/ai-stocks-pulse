@@ -9,10 +9,12 @@ pipeline/*.pyc
 # Pipeline runtime log (local cron only — GitHub Actions logs its own output)
 pipeline/pipeline.log
 
-# NOTE: pipeline/price_history.json is intentionally NOT ignored.
-# GitHub Actions runners are ephemeral — that file must be committed and
-# pushed each run so the next run's checkout still has the accumulated
-# price history for sparklines.
+# NOTE: pipeline/price_history.json and pipeline/daily_ohlc.json are
+# intentionally NOT ignored. GitHub Actions runners are ephemeral — both
+# files must be committed and pushed each run so the next run's checkout
+# still has the accumulated price history (for sparklines) and the
+# _fetchedDate marker (so the once-a-day OHLC fetch actually skips on the
+# other 23 hourly runs instead of refetching every time).
 
 # OS
 .DS_Store

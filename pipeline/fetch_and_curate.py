@@ -5,16 +5,22 @@ fetch_and_curate.py
 Corre en background (cron), NO en cada visita a la landing page.
 
 Flujo:
-  1. Trae noticias generales de tecnología de Alpha Vantage News & Sentiment (pasar múltiples
-     tickers a la API los combina con AND, no OR, así que se filtran localmente en el paso 4).
-  2. Trae precios actuales de Finnhub para los mismos tickers (Alpha Vantage News no incluye
-     cotizaciones, y su límite free de 25 req/día no alcanza para 21 quotes por corrida).
+  1. Trae noticias generales de mercado de Finnhub (/news?category=general) y se queda
+     localmente con las que mencionan alguna de nuestras empresas de IA (por nombre o
+     ticker) — Finnhub no tiene una categoría "technology", así que filtramos igual que
+     antes, un paso más temprano en la cadena.
+  2. Trae precios actuales de Finnhub para los mismos tickers.
   3. Actualiza price_history.json (ventana local de los últimos puntos) para poder dibujar
      sparklines reales en el frontend sin depender de un endpoint histórico de pago.
   3b. Trae fundamentales básicos (P/E, EPS, cap. de mercado, rango 52 semanas, ROE, margen
       neto) de Finnhub /stock/metric, mismo API key que las cotizaciones.
-  4. Se queda solo con los artículos que mencionan alguno de nuestros tickers de IA y los
-     ordena por relevance_score (gratis, sin gastar tokens de LLM).
+  3c. Trae precios diarios reales (OHLC) de Alpha Vantage TIME_SERIES_DAILY, UNA vez por día
+      (no en cada corrida horaria) — mover las noticias a Finnhub deja libre todo el cupo
+      free de Alpha Vantage (25 req/día) para esto: 21 tickers = 21 requests, una sola vez
+      al día. Esto es lo que permite un gráfico de velas real en vez de un sparkline armado
+      con snapshots de precio.
+  4. Ordena los candidatos de noticias por cuántas empresas nuestras mencionan (gratis, sin
+     gastar tokens de LLM) y recorta al top N.
   5. Manda solo los top N candidatos + los cambios de precio a Claude, en una sola llamada,
      con el system prompt cacheado. El modelo devuelve la curación de noticias Y el resumen
      narrativo del sector en la misma respuesta.
@@ -31,9 +37,13 @@ Uso:
   python fetch_and_curate.py
 """
 
+from __future__ import annotations
+
 import json
 import os
+import re
 import sys
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.request import urlopen
@@ -87,13 +97,16 @@ MODEL = "claude-sonnet-5"
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 HISTORY_PATH = Path(__file__).parent / "price_history.json"
+OHLC_PATH = Path(__file__).parent / "daily_ohlc.json"
 DATA_PATH = PROJECT_ROOT / "data.json"
+OHLC_DAYS_KEPT = 60  # ~3 meses hábiles, suficiente para un candlestick legible
 
 SYSTEM_PROMPT = """Sos un editor financiero especializado en inteligencia artificial y mercados bursátiles.
 
 Recibís un JSON con dos listas:
-- "articles": candidatos de noticias, cada uno con title, summary, tickers, relevance_score, sentiment_score.
-  Estos artículos están en inglés (fuente: Alpha Vantage).
+- "articles": candidatos de noticias, cada uno con title, summary, tickers, match_count.
+  match_count es cuántas de nuestras empresas de IA se mencionan en el artículo (más alto,
+  más relevante). Estos artículos están en inglés (fuente: Finnhub).
 - "stocks": precios del día por ticker, cada uno con ticker y changePct.
 
 IMPORTANTE: todo el texto que escribas (headline, summary, sector_summary.text) va en ESPAÑOL,
@@ -101,7 +114,7 @@ sin importar el idioma original de los artículos. Traducí y reescribí, no cop
 
 Tareas (una sola respuesta, sin explicar tu razonamiento):
 1. De "articles", elegí los 8 más relevantes para un inversor que quiere entender cómo el sector de IA
-   está moviendo la bolsa hoy. Priorizá relevance_score alto y contenido sobre precio, earnings, guidance,
+   está moviendo la bolsa hoy. Priorizá match_count alto y contenido sobre precio, earnings, guidance,
    anuncios de producto con impacto en cotización o decisiones regulatorias. Si dos artículos cubren la
    misma noticia, quedate con uno solo. Excluí contenido promocional o sin relación directa con IA + mercado.
 2. Escribí un resumen del sector en máximo 60 palabras que combine lo que dicen los artículos elegidos con
@@ -129,79 +142,78 @@ Formato de salida — SOLO JSON, sin texto antes ni después, sin markdown dentr
 No incluyas campos extra. Si hay menos de 8 artículos relevantes, devolvé los que haya."""
 
 
-# --- Noticias (Alpha Vantage) ----------------------------------------------
+# --- Noticias (Finnhub) -----------------------------------------------------
+
+# Tickers cuyo símbolo colisiona con palabras comunes del inglés (ARM, NOW,
+# SNOW, META como adjetivo) — para esos, matcheamos solo por nombre de
+# empresa. Para el resto, el símbolo en mayúsculas como palabra completa es
+# una señal confiable (así es como la prensa financiera lo escribe).
+AMBIGUOUS_TICKERS = {"ARM", "NOW", "SNOW", "META"}
 
 
-def fetch_alphavantage_news() -> list[dict]:
-    if not AV_API_KEY:
-        sys.exit("Falta ALPHAVANTAGE_API_KEY en el entorno.")
+def _mentions(text: str, ticker: str, name: str) -> bool:
+    if name.lower() in text.lower():
+        return True
+    if ticker not in AMBIGUOUS_TICKERS and re.search(rf"\b{re.escape(ticker)}\b", text):
+        return True
+    return False
 
-    params = {
-        "function": "NEWS_SENTIMENT",
-        # No "tickers" filter here: passing multiple tickers ANDs them (an
-        # article must mention every single one), which reliably returns
-        # zero results for a 9-ticker list. Instead we pull general tech
-        # news and match tickers ourselves in pre_filter() — the same
-        # "filter locally before spending on the LLM" pattern, just applied
-        # one step earlier.
-        "topics": "technology",
-        "apikey": AV_API_KEY,
-        "sort": "RELEVANCE",
-        "limit": "200",
-    }
-    url = "https://www.alphavantage.co/query?" + urlencode(params)
+
+def fetch_finnhub_news() -> list[dict]:
+    if not FINNHUB_API_KEY:
+        sys.exit("Falta FINNHUB_API_KEY en el entorno.")
+
+    params = {"category": "general", "token": FINNHUB_API_KEY}
+    url = "https://finnhub.io/api/v1/news?" + urlencode(params)
     with urlopen(url, timeout=20) as resp:
-        data = json.loads(resp.read().decode())
+        feed = json.loads(resp.read().decode())
 
-    feed = data.get("feed", [])
-    if not feed:
-        print(f"Aviso: la API no devolvió artículos. Respuesta cruda: {data}", file=sys.stderr)
+    if not isinstance(feed, list) or not feed:
+        print(f"Aviso: Finnhub no devolvió artículos. Respuesta cruda: {feed}", file=sys.stderr)
+        return []
     return feed
 
 
 def pre_filter(articles: list[dict]) -> list[dict]:
-    """Se queda solo con artículos que mencionan alguno de nuestros tickers de
-    IA, ordenados por la relevancia de ESE ticker (no la más alta del artículo,
-    que podría ser de una empresa no relacionada), y recorta al top N.
-    Esto es lo que evita mandarle al LLM artículos irrelevantes."""
+    """Se queda solo con artículos que mencionan alguna de nuestras empresas
+    de IA (por nombre o ticker), ordenados por cuántas mencionan (match_count),
+    y recorta al top N. Esto es lo que evita mandarle al LLM artículos
+    irrelevantes — Finnhub no manda un relevance_score como Alpha Vantage,
+    así que lo calculamos nosotros."""
 
-    def our_relevance(article: dict) -> float:
-        scores = [
-            float(t.get("relevance_score", 0))
-            for t in article.get("ticker_sentiment", [])
-            if t.get("ticker") in AI_TICKERS
-        ]
-        return max(scores, default=0.0)
+    def matched_tickers(article: dict) -> list[str]:
+        text = f"{article.get('headline') or ''} {article.get('summary') or ''}"
+        return [t for t in AI_TICKERS if _mentions(text, t, TICKER_NAMES[t])]
 
-    relevant = [a for a in articles if our_relevance(a) > 0]
-    ranked = sorted(relevant, key=our_relevance, reverse=True)
+    scored = []
+    for a in articles:
+        matches = matched_tickers(a)
+        if matches:
+            scored.append((a, matches))
+
+    ranked = sorted(scored, key=lambda pair: len(pair[1]), reverse=True)
     top = ranked[:MAX_CANDIDATES]
 
     # Reducimos cada artículo a lo mínimo indispensable antes de mandarlo al LLM.
     compact = []
-    for a in top:
+    for a, matches in top:
         compact.append({
-            "title": a.get("title"),
+            "title": a.get("headline"),
             "summary": (a.get("summary") or "")[:280],  # cortamos, no mandamos el cuerpo entero
-            "tickers": [
-                t.get("ticker") for t in a.get("ticker_sentiment", [])
-                if t.get("ticker") in AI_TICKERS
-            ],
-            "relevance_score": round(our_relevance(a), 3),
-            "sentiment_score": a.get("overall_sentiment_score"),
+            "tickers": matches,
+            "match_count": len(matches),
             "url": a.get("url"),
         })
     return compact
 
 
-def av_time_to_iso(raw: str | None) -> str | None:
-    """Alpha Vantage manda 'time_published' como YYYYMMDDTHHMMSS en UTC."""
+def finnhub_time_to_iso(raw) -> str | None:
+    """Finnhub manda 'datetime' como epoch Unix en segundos (UTC)."""
     if not raw:
         return None
     try:
-        dt = datetime.strptime(raw, "%Y%m%dT%H%M%S").replace(tzinfo=timezone.utc)
-        return dt.isoformat()
-    except ValueError:
+        return datetime.fromtimestamp(int(raw), tz=timezone.utc).isoformat()
+    except (ValueError, OSError, OverflowError):
         return None
 
 
@@ -211,7 +223,7 @@ def attach_source_meta(items: list[dict], raw_articles: list[dict]) -> list[dict
     for item in items:
         raw = lookup.get(item.get("source_url"))
         item["source"] = raw.get("source") if raw else None
-        item["published_at"] = av_time_to_iso(raw.get("time_published")) if raw else None
+        item["published_at"] = finnhub_time_to_iso(raw.get("datetime")) if raw else None
     return items
 
 
@@ -279,6 +291,78 @@ def fetch_fundamentals(tickers: list[str]) -> dict[str, dict]:
     return fundamentals
 
 
+# --- Precios diarios / OHLC (Alpha Vantage, una vez por día) ---------------
+
+
+def fetch_daily_ohlc(tickers: list[str]) -> dict[str, list[dict]]:
+    """Trae velas diarias reales (open/high/low/close) de Alpha Vantage
+    TIME_SERIES_DAILY. Sacar las noticias de Alpha Vantage (ver
+    fetch_finnhub_news) deja libre todo el cupo free de 25 req/día para esto,
+    pero solo alcanza para UNA corrida diaria (21 tickers), no una por hora.
+
+    Por eso esta función es un caché con fecha: si ya se corrió hoy, devuelve
+    lo que ya está guardado en disco sin gastar requests. El pipeline sigue
+    corriendo cada hora igual (precios/noticias/fundamentales), esto solo se
+    salta 23 de cada 24 corridas.
+
+    Alpha Vantage free también limita a 5 requests/minuto, así que cuando SÍ
+    corre, hace una pausa entre tickers — la corrida diaria tarda unos
+    4-5 minutos en vez de segundos. Solo pasa una vez al día."""
+
+    today = datetime.now(timezone.utc).date().isoformat()
+
+    if OHLC_PATH.exists():
+        try:
+            cached = json.loads(OHLC_PATH.read_text())
+        except json.JSONDecodeError:
+            cached = {}
+        if cached.get("_fetchedDate") == today:
+            cached.pop("_fetchedDate", None)
+            return cached
+
+    if not AV_API_KEY:
+        sys.exit("Falta ALPHAVANTAGE_API_KEY en el entorno.")
+
+    ohlc: dict[str, list[dict]] = {}
+    for i, ticker in enumerate(tickers):
+        if i > 0:
+            time.sleep(13)  # AV free: 5 req/min máx
+        params = {
+            "function": "TIME_SERIES_DAILY",
+            "symbol": ticker,
+            "outputsize": "compact",  # últimos ~100 días hábiles
+            "apikey": AV_API_KEY,
+        }
+        url = "https://www.alphavantage.co/query?" + urlencode(params)
+        try:
+            with urlopen(url, timeout=20) as resp:
+                payload = json.loads(resp.read().decode())
+            series = payload.get("Time Series (Daily)", {})
+            if not series:
+                print(f"Aviso: sin velas diarias para {ticker}. Respuesta: {payload}", file=sys.stderr)
+                ohlc[ticker] = []
+                continue
+            rows = sorted(series.items())[-OHLC_DAYS_KEPT:]
+            ohlc[ticker] = [
+                {
+                    "date": date,
+                    "open": float(day["1. open"]),
+                    "high": float(day["2. high"]),
+                    "low": float(day["3. low"]),
+                    "close": float(day["4. close"]),
+                }
+                for date, day in rows
+            ]
+        except Exception as exc:  # red intermitente, símbolo inválido, etc.
+            print(f"Aviso: no se pudieron obtener velas diarias de {ticker}: {exc}", file=sys.stderr)
+            ohlc[ticker] = []
+
+    to_save = dict(ohlc)
+    to_save["_fetchedDate"] = today
+    OHLC_PATH.write_text(json.dumps(to_save, ensure_ascii=False), encoding="utf-8")
+    return ohlc
+
+
 def update_price_history(prices: dict[str, dict]) -> dict[str, list[float]]:
     """Mantiene una ventana local de precios por ticker para poder graficar un
     sparkline real sin pagar por un endpoint histórico."""
@@ -304,6 +388,7 @@ def build_stocks(
     prices: dict[str, dict],
     history: dict[str, list[float]],
     fundamentals: dict[str, dict],
+    ohlc: dict[str, list[dict]],
 ) -> list[dict]:
     stocks = []
     for ticker in AI_TICKERS:
@@ -319,6 +404,7 @@ def build_stocks(
             "changePct": info.get("changePct"),
             "spark": series,
             "fundamentals": fundamentals.get(ticker, {}),
+            "ohlc": ohlc.get(ticker, []),
         })
     return stocks
 
@@ -376,13 +462,14 @@ def curate_with_claude(candidates: list[dict], stocks: list[dict]) -> dict:
 
 
 def main():
-    raw_articles = fetch_alphavantage_news()
+    raw_articles = fetch_finnhub_news()
     candidates = pre_filter(raw_articles)
 
     prices = fetch_prices(AI_TICKERS)
     history = update_price_history(prices)
     fundamentals = fetch_fundamentals(AI_TICKERS)
-    stocks = build_stocks(prices, history, fundamentals)
+    ohlc = fetch_daily_ohlc(AI_TICKERS)
+    stocks = build_stocks(prices, history, fundamentals, ohlc)
 
     valid_changes = [s["changePct"] for s in stocks if s["changePct"] is not None]
     up_count = sum(1 for c in valid_changes if c > 0)

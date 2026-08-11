@@ -1,8 +1,11 @@
 name: Refresh sector data
 
-# Runs the pipeline hourly (24 Alpha Vantage requests/day, under its 25/day
-# free-tier cap), writes data.json + pipeline/price_history.json, and
-# commits them back so GitHub Pages serves the latest snapshot.
+# Runs the pipeline hourly. News now comes from Finnhub (not Alpha Vantage),
+# which frees the full Alpha Vantage free-tier budget (25 req/day) for real
+# daily OHLC candles — fetched once per day only (21 tickers, ~4-5 min with
+# AV's 5 req/min pacing), cached the other 23 runs. Writes data.json +
+# pipeline/price_history.json + pipeline/daily_ohlc.json, and commits them
+# back so GitHub Pages serves the latest snapshot.
 # Also runnable by hand from the Actions tab (workflow_dispatch).
 on:
   schedule:
@@ -42,6 +45,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data.json pipeline/price_history.json
+          git add data.json pipeline/price_history.json pipeline/daily_ohlc.json
           git diff --cached --quiet || git commit -m "Refresh sector data"
           git push

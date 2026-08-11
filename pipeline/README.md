@@ -7,25 +7,47 @@ datos de demostración — así que es seguro probar esto sin romper nada.
 
 ## Qué hace cada corrida
 
-1. Trae noticias generales de **Alpha Vantage** (`NEWS_SENTIMENT`, `topics=technology`) — 1 request.
-   No se le pasan los 21 tickers en el pedido: Alpha Vantage combina múltiples tickers con AND
-   (el artículo tendría que mencionar a las 21 empresas a la vez), lo que da 0 resultados siempre.
+1. Trae noticias generales de mercado de **Finnhub** (`/news?category=general`) — 1 request.
+   Finnhub no tiene una categoría "technology" (solo general/forex/crypto/merger), así que se
+   filtra localmente igual que antes: se queda con los artículos que mencionan a alguna de
+   nuestras 21 empresas (por nombre o ticker) y descarta el resto antes de gastar tokens de LLM.
 2. Trae precios actuales de **Finnhub** (`/quote`) para 21 tickers — 21 requests.
 3. Guarda cada precio en `price_history.json` (ventana local de 12 puntos) para poder dibujar
-   un sparkline real sin pagar por un endpoint histórico.
+   un sparkline de respaldo si todavía no hay velas diarias reales para un ticker.
 4. Trae fundamentales básicos de **Finnhub** (`/stock/metric`, mismo API key) para los mismos
    21 tickers — 21 requests más: P/E (TTM), EPS (TTM), capitalización de mercado, rango de
    52 semanas, ROE (TTM) y margen neto (TTM). Todo dentro del plan free (60 calls/min).
-5. Se queda solo con los artículos que mencionan alguno de nuestros 21 tickers (filtrado local,
-   gratis) y los ordena por `relevance_score` de ESE ticker, quedándose con los 15 mejores —
-   esto es lo que evita mandarle al LLM artículos irrelevantes.
-6. Una sola llamada a Claude (con **prompt caching** en el system prompt) que devuelve:
+5. Trae velas diarias reales (open/high/low/close) de **Alpha Vantage** `TIME_SERIES_DAILY`,
+   pero **solo una vez por día**, no en cada corrida horaria — ver la sección de abajo, es la
+   parte más particular de este pipeline. El resultado vive en `daily_ohlc.json`.
+6. Ordena los artículos filtrados por cuántas de nuestras empresas mencionan (`match_count`,
+   calculado localmente — Finnhub no manda un puntaje de relevancia como Alpha Vantage lo
+   hacía), quedándose con los 15 mejores.
+7. Una sola llamada a Claude (con **prompt caching** en el system prompt) que devuelve:
    - las 8 noticias curadas, y
    - un resumen narrativo del sector + su sentimiento general,
    en la misma respuesta. Nunca se llama al LLM por artículo ni dos veces por corrida.
-7. Reasocia localmente la fuente y fecha de cada noticia (por URL) en vez de pedírselo al modelo,
+8. Reasocia localmente la fuente y fecha de cada noticia (por URL) en vez de pedírselo al modelo,
    así el JSON de salida del LLM se mantiene chico.
-8. Escribe `data.json` en la raíz del proyecto.
+9. Escribe `data.json` en la raíz del proyecto.
+
+## Por qué las velas diarias corren aparte, una vez por día
+
+Alpha Vantage free tier da **25 requests/día en total**, compartidos entre TODO lo que le
+pidas. `TIME_SERIES_DAILY` trae el historial completo de un ticker en un solo request, así que
+21 tickers = 21 requests — pero eso ya casi agota el cupo diario. Pedirlo en cada corrida
+horaria (24 veces/día) sería imposible.
+
+La solución: `fetch_daily_ohlc()` guarda la fecha de la última corrida exitosa adentro de
+`daily_ohlc.json` (`_fetchedDate`). Si ya corrió hoy, devuelve el archivo tal cual sin gastar
+ningún request — así 23 de las 24 corridas horarias no tocan Alpha Vantage para nada. Cuando sí
+corre (una vez por día), respeta el límite de **5 requests/minuto** de Alpha Vantage con una
+pausa de 13 segundos entre tickers, así que esa corrida puntual tarda unos 4-5 minutos en vez
+de segundos — completamente normal, no es que el pipeline esté colgado.
+
+Esto es lo que permite mostrar un gráfico de velas real en el detalle de cada acción en vez de
+una línea armada con snapshots de precio: los datos vienen de un histórico diario de verdad,
+no de lo que el pipeline fue viendo hora a hora.
 
 ## Setup (una sola vez)
 
@@ -83,16 +105,19 @@ Si el cron no dispara en macOS reciente, es casi siempre un tema de permisos: en
 
 ### Por qué cada hora
 
-Alpha Vantage free tier permite **25 requests/día en total**. Esta pipeline gasta 1 request
-de Alpha Vantage por corrida (las cotizaciones y fundamentales van por Finnhub, que tiene un
-límite mucho más generoso — 60 calls/min). Con 21 tickers, cada corrida gasta 42 requests de
-Finnhub (quote + metric por ticker), lejos del límite por minuto. Corriendo una vez por hora
-usás 24 de los 25 requests/día de Alpha Vantage, con margen. Si más adelante querés refrescar
-más seguido, hay que separar el fetch de precios (Finnhub, barato) del de noticias (Alpha
-Vantage, limitado) en corridas independientes.
+Las noticias, precios y fundamentales van todos por Finnhub (60 calls/min, sin límite diario
+publicado), así que refrescarlos cada hora no es un problema: 43 requests por corrida (21
+quotes + 21 metrics + 1 de noticias), lejos del límite por minuto. Alpha Vantage solo entra en
+juego una vez por día para las velas — ver la sección de arriba. Correr más seguido que cada
+hora no rompería el presupuesto de Finnhub, pero tampoco aportaría mucho: los precios de
+Finnhub no cambian tan rápido como para justificarlo, y la corrida diaria de velas de todos
+modos solo se dispara una vez.
 
 ## Ajustar qué empresas sigue
 
 Editá la lista `AI_TICKERS` (y el diccionario `TICKER_NAMES`) al principio de
-`fetch_and_curate.py`. Si agregás muchos tickers más (decenas), revisá que 2 requests/ticker
-siga entrando cómodo en el límite de 60 calls/min de Finnhub.
+`fetch_and_curate.py`. Si agregás muchos tickers más (decenas), revisá dos cosas: que
+3 requests/ticker (quote + metric + la porción de velas diarias) siga entrando cómodo en el
+límite de 60 calls/min de Finnhub, y que el total de tickers no supere ~25 para que la corrida
+diaria de velas (1 request/ticker en Alpha Vantage, con pausa de 13s entre cada uno) siga
+entrando en el cupo de 25 requests/día.

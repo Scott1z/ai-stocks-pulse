@@ -195,7 +195,8 @@ function toggleFavorite(ticker) {
 //     "text": "<summary>",
 //     "stats": { "upCount": n, "totalCount": n, "avgChangePct": n, "newsCount": n }
 //   },
-//   "stocks": [{ ticker, name, price, changePct, spark: number[] }],
+//   "stocks": [{ ticker, name, price, changePct, spark: number[], fundamentals: {...},
+//                ohlc: [{ date, open, high, low, close }] (real daily candles, once/day) }],
 //   "news": [{ headline, summary, tickers: string[], sentiment: "positive"|"negative"|"neutral",
 //              source_url, source, published_at: "<ISO 8601>"|null }]
 // }
@@ -255,6 +256,7 @@ function normalizeRealData(json) {
       blurb: findBlurbForTicker(json.news || [], s.ticker),
       spark: s.spark && s.spark.length >= 2 ? s.spark : [s.price, s.price],
       fundamentals: s.fundamentals || {},
+      ohlc: Array.isArray(s.ohlc) ? s.ohlc : [],
     }));
 
   const stats = json.sector?.stats || {};
@@ -489,6 +491,43 @@ function buildStockDetailChart(spark) {
     <path d="${areaPath}" fill="${color}" opacity="0.14" stroke="none"/>
     <polyline points="${linePoints}" fill="none" stroke="${color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
     <circle cx="${last.x.toFixed(1)}" cy="${last.y.toFixed(1)}" r="4" fill="${color}"/>
+  </svg>`;
+}
+
+function buildCandlestickChart(ohlc) {
+  const w = 560, h = 200, pad = 14;
+  const min = Math.min(...ohlc.map((d) => d.low));
+  const max = Math.max(...ohlc.map((d) => d.high));
+  const range = max - min || 1;
+  const innerW = w - pad * 2;
+  const innerH = h - pad * 2;
+  const stepX = innerW / ohlc.length;
+  const bodyWidth = Math.max(2, Math.min(stepX * 0.6, 10));
+  const y = (v) => pad + (1 - (v - min) / range) * innerH;
+
+  const gridLines = [0.25, 0.5, 0.75]
+    .map((f) => {
+      const gy = (pad + f * innerH).toFixed(1);
+      return `<line x1="${pad}" y1="${gy}" x2="${w - pad}" y2="${gy}" stroke="var(--line)" stroke-width="1"/>`;
+    })
+    .join("");
+
+  const candles = ohlc
+    .map((d, i) => {
+      const cx = pad + stepX * i + stepX / 2;
+      const up = d.close >= d.open;
+      const color = up ? "var(--rise)" : "var(--fall)";
+      const yOpen = y(d.open);
+      const yClose = y(d.close);
+      const bodyTop = Math.min(yOpen, yClose).toFixed(1);
+      const bodyHeight = Math.max(1, Math.abs(yOpen - yClose)).toFixed(1);
+      return `<line x1="${cx.toFixed(1)}" y1="${y(d.high).toFixed(1)}" x2="${cx.toFixed(1)}" y2="${y(d.low).toFixed(1)}" stroke="${color}" stroke-width="1"/><rect x="${(cx - bodyWidth / 2).toFixed(1)}" y="${bodyTop}" width="${bodyWidth.toFixed(1)}" height="${bodyHeight}" fill="${color}"/>`;
+    })
+    .join("");
+
+  return `<svg class="stock-detail-chart" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true">
+    ${gridLines}
+    ${candles}
   </svg>`;
 }
 
@@ -736,11 +775,15 @@ function openStockModal(stock) {
   tagEl.textContent = sentimentLabel[stock.sentiment];
   tagEl.className = `stock-tag ${stock.sentiment}`;
 
-  document.getElementById("stockModalChart").innerHTML = buildStockDetailChart(stock.spark);
-  document.getElementById("stockModalChartCaption").textContent =
-    stock.spark.length > 2
-      ? `Últimas ${stock.spark.length} actualizaciones de precio (no es un histórico de velas)`
-      : "Historial de precio todavía corto: se enriquece cada hora que corre el pipeline.";
+  const hasOhlc = Array.isArray(stock.ohlc) && stock.ohlc.length > 1;
+  document.getElementById("stockModalChart").innerHTML = hasOhlc
+    ? buildCandlestickChart(stock.ohlc)
+    : buildStockDetailChart(stock.spark);
+  document.getElementById("stockModalChartCaption").textContent = hasOhlc
+    ? `Histórico diario real (apertura/máximo/mínimo/cierre), últimas ${stock.ohlc.length} ruedas`
+    : stock.spark.length > 2
+    ? `Últimas ${stock.spark.length} actualizaciones de precio (no es un histórico de velas)`
+    : "Historial de precio todavía corto: se enriquece cada hora que corre el pipeline.";
 
   document.getElementById("stockModalFundamentals").innerHTML = buildFundamentalsGrid(stock.fundamentals);
   document.getElementById("fundamentalsHelp").hidden = true;

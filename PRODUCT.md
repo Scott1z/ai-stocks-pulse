@@ -23,16 +23,17 @@ Two things a copy-paste competitor would have to rebuild, not just restyle:
 ## Operating Context
 
 - Public static page (HTML/CSS/JS, no backend/database) that reads a periodically-regenerated `data.json`.
-- A separate Python pipeline (`pipeline/fetch_and_curate.py`) runs on a schedule (cron, recommended hourly) outside of any page view: fetches news (Alpha Vantage) and quotes (Finnhub), curates with Claude, writes `data.json`.
+- A separate Python pipeline (`pipeline/fetch_and_curate.py`) runs on a schedule (cron, recommended hourly) outside of any page view: fetches news, quotes, and fundamentals (Finnhub), curates with Claude, writes `data.json`. Real daily OHLC candles come from Alpha Vantage, fetched once a day (see below), not on every hourly run.
 - Requires three API keys the user has not yet provisioned: `ALPHAVANTAGE_API_KEY`, `FINNHUB_API_KEY`, `ANTHROPIC_API_KEY`.
 - Until the pipeline has run with real keys, the page runs entirely on built-in demo data.
 
 ## Capabilities and Constraints
 
 - Tracked tickers are fixed for now, not user-configurable: NVDA, MSFT, GOOGL, META, AMZN, AVGO, ORCL, PLTR, AMD, TSM, ARM, SMCI, MRVL, QCOM, CRM, NOW, ADBE, SNOW, IBM, AAPL, TSLA (21 total).
-- Alpha Vantage's free tier caps at 25 requests/day, which is the hard constraint on pipeline refresh cadence (hourly uses 24 of 25) — unaffected by ticker count, since news is fetched as one general-topic request and filtered locally.
-- Finnhub free tier (60 calls/min) covers per-ticker price quotes and fundamentals (2 requests/ticker/run — 42 total), well within budget.
+- News, quotes, and fundamentals all come from Finnhub's free tier (60 calls/min, no published daily cap) — 43 requests/run (21 quotes + 21 metrics + 1 general-news request, filtered locally by company/ticker mention), refreshed every hour with plenty of headroom.
+- Alpha Vantage's free tier (25 requests/day) is reserved entirely for real daily OHLC candles (`TIME_SERIES_DAILY`), fetched once per day only — 21 requests, paced at Alpha Vantage's 5-requests/minute limit (so that one daily run takes ~4-5 minutes). The other 23 hourly runs read the cached result instead of calling the API again.
 - Each stock also carries basic fundamentals from Finnhub (`/stock/metric`): P/E (TTM), EPS (TTM), market cap, 52-week range, ROE (TTM), net margin (TTM), shown in the Stock Detail Modal. Coverage varies by ticker on the free tier; missing fields render as an honest "N/D", never a fabricated number.
+- The Stock Detail Modal's chart is a real OHLC candlestick once a ticker has daily data cached; until then (or if Alpha Vantage has no coverage for that symbol) it falls back to a line chart built from hourly price snapshots, with the caption stating which one is showing.
 - Frontend makes zero LLM calls at view time — all curation happens offline in the pipeline; page load cost is flat regardless of visitor traffic.
 - Per-stock sentiment tags (bullish/bearish/mixed) are derived locally from price-change sign, not from the LLM.
 - No user accounts, no login, no personalization.
