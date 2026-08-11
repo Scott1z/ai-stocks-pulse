@@ -20,11 +20,19 @@ datos de demostración — así que es seguro probar esto sin romper nada.
 5. Trae velas diarias reales (open/high/low/close) de **Alpha Vantage** `TIME_SERIES_DAILY`,
    pero **solo una vez por día**, no en cada corrida horaria — ver la sección de abajo, es la
    parte más particular de este pipeline. El resultado vive en `daily_ohlc.json`.
-6. Trae el calendario de resultados de **Finnhub** (`/calendar/earnings`, ~100 días hacia
-   adelante) — 1 request. Trae TODAS las empresas que reportan en la ventana, no solo las
+6. Trae el calendario de resultados de **Alpha Vantage** `EARNINGS_CALENDAR` (horizonte de
+   3 meses) — 1 request más, en la misma corrida diaria que el punto 5 (mismo cupo, mismo
+   caché con fecha). Trae TODAS las empresas que reportan en la ventana, no solo las
    nuestras, así que se filtra localmente a nuestros 23 tickers (mismo patrón que las
    noticias). Son fechas reales de balance trimestral, no "eventos importantes" del sector —
    eso no tiene una fuente confiable, así que no se inventa.
+   Antes esto venía de Finnhub `/calendar/earnings`, pero ese endpoint tiene un bug
+   conocido y no corregido: fechas de balance cercanas que directamente no aparecen o
+   vienen mal (ver [finnhubio/Finnhub-API#528](https://github.com/finnhubio/Finnhub-API/issues/528)
+   — se detectó en producción cuando el próximo balance real de NVDA no salía en la lista).
+   Alpha Vantage no informa si el reporte es antes de apertura o después del cierre
+   (Finnhub sí lo tenía), así que ese dato ya no se muestra — se prioriza que la fecha sea
+   correcta.
 7. Ordena los artículos filtrados por cuántas de nuestras empresas mencionan (`match_count`,
    calculado localmente — Finnhub no manda un puntaje de relevancia como Alpha Vantage lo
    hacía), quedándose con los 15 mejores.
@@ -36,19 +44,20 @@ datos de demostración — así que es seguro probar esto sin romper nada.
    así el JSON de salida del LLM se mantiene chico.
 10. Escribe `data.json` en la raíz del proyecto.
 
-## Por qué las velas diarias corren aparte, una vez por día
+## Por qué las velas diarias y el calendario de resultados corren aparte, una vez por día
 
 Alpha Vantage free tier da **25 requests/día en total**, compartidos entre TODO lo que le
 pidas. `TIME_SERIES_DAILY` trae el historial completo de un ticker en un solo request, así que
-23 tickers = 23 requests — pero eso ya casi agota el cupo diario. Pedirlo en cada corrida
-horaria (24 veces/día) sería imposible.
+23 tickers = 23 requests, más 1 request para `EARNINGS_CALENDAR` = 24 — eso ya casi agota el
+cupo diario. Pedirlo en cada corrida horaria (24 veces/día) sería imposible.
 
-La solución: `fetch_daily_ohlc()` guarda la fecha de la última corrida exitosa adentro de
-`daily_ohlc.json` (`_fetchedDate`). Si ya corrió hoy, devuelve el archivo tal cual sin gastar
-ningún request — así 23 de las 24 corridas horarias no tocan Alpha Vantage para nada. Cuando sí
-corre (una vez por día), respeta el límite de **5 requests/minuto** de Alpha Vantage con una
-pausa de 13 segundos entre tickers, así que esa corrida puntual tarda unos 4-5 minutos en vez
-de segundos — completamente normal, no es que el pipeline esté colgado.
+La solución: `fetch_daily_batch()` guarda la fecha de la última corrida exitosa adentro de
+`daily_ohlc.json` (`_fetchedDate`), junto con el calendario de resultados ya resuelto
+(`_earningsCalendar`). Si ya corrió hoy, devuelve el archivo tal cual sin gastar ningún
+request — así 23 de las 24 corridas horarias no tocan Alpha Vantage para nada. Cuando sí corre
+(una vez por día), respeta el límite de **5 requests/minuto** de Alpha Vantage con una pausa de
+13 segundos entre requests, así que esa corrida puntual tarda unos 5 minutos en vez de
+segundos — completamente normal, no es que el pipeline esté colgado.
 
 Esto es lo que permite mostrar un gráfico de velas real en el detalle de cada acción en vez de
 una línea armada con snapshots de precio: los datos vienen de un histórico diario de verdad,
@@ -111,13 +120,12 @@ Si el cron no dispara en macOS reciente, es casi siempre un tema de permisos: en
 ### Por qué cada hora
 
 Las noticias, precios y fundamentales van todos por Finnhub (60 calls/min, sin límite diario
-publicado), así que refrescarlos cada hora no es un problema: 48 requests por corrida (23
-quotes + 23 metrics + 1 de noticias + 1 de calendario de resultados), lejos del límite por
-minuto. Alpha Vantage solo entra en
-juego una vez por día para las velas — ver la sección de arriba. Correr más seguido que cada
-hora no rompería el presupuesto de Finnhub, pero tampoco aportaría mucho: los precios de
-Finnhub no cambian tan rápido como para justificarlo, y la corrida diaria de velas de todos
-modos solo se dispara una vez.
+publicado), así que refrescarlos cada hora no es un problema: 47 requests por corrida (23
+quotes + 23 metrics + 1 de noticias), lejos del límite por minuto. Alpha Vantage solo entra en
+juego una vez por día, para las velas y el calendario de resultados — ver la sección de arriba.
+Correr más seguido que cada hora no rompería el presupuesto de Finnhub, pero tampoco aportaría
+mucho: los precios de Finnhub no cambian tan rápido como para justificarlo, y la corrida diaria
+de Alpha Vantage de todos modos solo se dispara una vez.
 
 ## Ajustar qué empresas sigue
 

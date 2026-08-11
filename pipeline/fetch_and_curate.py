@@ -19,6 +19,9 @@ Flujo:
       free de Alpha Vantage (25 req/día) para esto: 23 tickers = 23 requests, una sola vez
       al día. Esto es lo que permite un gráfico de velas real en vez de un sparkline armado
       con snapshots de precio.
+  3d. Trae el calendario de resultados de Alpha Vantage EARNINGS_CALENDAR (1 request más,
+      misma corrida diaria que el OHLC) — antes usaba Finnhub /calendar/earnings, pero ese
+      endpoint tiene un bug conocido de fechas de balance faltantes/incorrectas.
   4. Ordena los candidatos de noticias por cuántas empresas nuestras mencionan (gratis, sin
      gastar tokens de LLM) y recorta al top N.
   5. Manda solo los top N candidatos + los cambios de precio a Claude, en una sola llamada,
@@ -293,60 +296,67 @@ def fetch_fundamentals(tickers: list[str]) -> dict[str, dict]:
     return fundamentals
 
 
-# --- Calendario de resultados (Finnhub) -------------------------------------
+# --- Calendario de resultados (Alpha Vantage) --------------------------------
 
-EARNINGS_WINDOW_DAYS = 100  # cubre un poco más de un trimestre hacia adelante
+# Antes usaba Finnhub /calendar/earnings. Se cambió porque ese endpoint tiene
+# un bug conocido y no corregido de fechas de balance faltantes/incorrectas
+# (finnhubio/Finnhub-API#528 en GitHub) — en producción esto se notó como un
+# balance real e inminente (NVDA, ~fin de agosto) que directamente no
+# aparecía, mientras solo se mostraba una fecha muy posterior. Alpha Vantage
+# EARNINGS_CALENDAR es CSV, 1 solo request para TODAS las empresas que
+# reportan en el horizonte pedido, así que se suma al mismo cupo diario que
+# ya usa el fetch de velas OHLC (ver fetch_daily_batch) en vez de gastar
+# cuota de Finnhub. Como contrapartida no trae si el reporte es antes de
+# apertura o después del cierre (Finnhub sí lo tenía) — se prioriza que la
+# fecha sea correcta por sobre ese dato adicional.
 
 
 def fetch_earnings_calendar(tickers: list[str]) -> list[dict]:
-    """Trae fechas de presentación de resultados (balances trimestrales) de
-    Finnhub /calendar/earnings — 1 solo request para TODAS las empresas que
-    reportan en la ventana, filtrado localmente a nuestros tickers (mismo
-    patrón que las noticias: un endpoint genérico, filtro propio después)."""
-    if not FINNHUB_API_KEY:
-        sys.exit("Falta FINNHUB_API_KEY en el entorno.")
+    """1 solo request cubre TODAS las empresas que reportan en los próximos
+    ~3 meses; filtramos localmente a nuestros tickers (mismo patrón que las
+    noticias: un endpoint genérico, filtro propio después)."""
+    import csv
+    import io
 
-    today = datetime.now(timezone.utc).date()
-    end = today + timedelta(days=EARNINGS_WINDOW_DAYS)
-    params = {
-        "from": today.isoformat(),
-        "to": end.isoformat(),
-        "token": FINNHUB_API_KEY,
-    }
-    url = "https://finnhub.io/api/v1/calendar/earnings?" + urlencode(params)
+    if not AV_API_KEY:
+        sys.exit("Falta ALPHAVANTAGE_API_KEY en el entorno.")
+
+    params = {"function": "EARNINGS_CALENDAR", "horizon": "3month", "apikey": AV_API_KEY}
+    url = "https://www.alphavantage.co/query?" + urlencode(params)
     try:
         with urlopen(url, timeout=20) as resp:
-            payload = json.loads(resp.read().decode())
+            raw = resp.read().decode()
     except Exception as exc:  # red intermitente, etc. — no es crítico, seguimos sin calendario
         print(f"Aviso: no se pudo obtener el calendario de resultados: {exc}", file=sys.stderr)
         return []
 
     tickers_set = set(tickers)
-    entries = [e for e in payload.get("earningsCalendar", []) if e.get("symbol") in tickers_set]
-    entries.sort(key=lambda e: (e.get("date") or "", e.get("symbol") or ""))
-
-    return [
-        {
-            "ticker": e["symbol"],
-            "name": TICKER_NAMES.get(e["symbol"], e["symbol"]),
-            "date": e.get("date"),
-            "hour": e.get("hour"),  # "bmo" | "amc" | "dmh" | ""
-            "epsEstimate": e.get("epsEstimate"),
-            "quarter": e.get("quarter"),
-            "year": e.get("year"),
-        }
-        for e in entries
-    ]
-
-
-# --- Precios diarios / OHLC (Alpha Vantage, una vez por día) ---------------
+    entries = []
+    for row in csv.DictReader(io.StringIO(raw)):
+        symbol = (row.get("symbol") or "").strip()
+        if symbol not in tickers_set:
+            continue
+        estimate = (row.get("estimate") or "").strip()
+        entries.append({
+            "ticker": symbol,
+            "name": TICKER_NAMES.get(symbol, symbol),
+            "date": (row.get("reportDate") or "").strip() or None,
+            "epsEstimate": float(estimate) if estimate else None,
+        })
+    entries.sort(key=lambda e: (e["date"] or "", e["ticker"]))
+    return entries
 
 
-def fetch_daily_ohlc(tickers: list[str]) -> dict[str, list[dict]]:
+# --- Precios diarios / OHLC + calendario de resultados (Alpha Vantage, una vez por día) ---
+
+
+def fetch_daily_batch(tickers: list[str]) -> tuple[dict[str, list[dict]], list[dict]]:
     """Trae velas diarias reales (open/high/low/close) de Alpha Vantage
-    TIME_SERIES_DAILY. Sacar las noticias de Alpha Vantage (ver
+    TIME_SERIES_DAILY, más el calendario de resultados (EARNINGS_CALENDAR,
+    1 solo request). Sacar las noticias de Alpha Vantage (ver
     fetch_finnhub_news) deja libre todo el cupo free de 25 req/día para esto,
-    pero solo alcanza para UNA corrida diaria (23 tickers), no una por hora.
+    pero solo alcanza para UNA corrida diaria (23 tickers + 1 calendario =
+    24 requests), no una por hora.
 
     Por eso esta función es un caché con fecha: si ya se corrió hoy, devuelve
     lo que ya está guardado en disco sin gastar requests. El pipeline sigue
@@ -354,7 +364,7 @@ def fetch_daily_ohlc(tickers: list[str]) -> dict[str, list[dict]]:
     salta 23 de cada 24 corridas.
 
     Alpha Vantage free también limita a 5 requests/minuto, así que cuando SÍ
-    corre, hace una pausa entre tickers — la corrida diaria tarda unos
+    corre, hace una pausa entre requests — la corrida diaria tarda unos
     4-5 minutos en vez de segundos. Solo pasa una vez al día."""
 
     today = datetime.now(timezone.utc).date().isoformat()
@@ -365,8 +375,9 @@ def fetch_daily_ohlc(tickers: list[str]) -> dict[str, list[dict]]:
         except json.JSONDecodeError:
             cached = {}
         if cached.get("_fetchedDate") == today:
+            earnings_cached = cached.pop("_earningsCalendar", [])
             cached.pop("_fetchedDate", None)
-            return cached
+            return cached, earnings_cached
 
     if not AV_API_KEY:
         sys.exit("Falta ALPHAVANTAGE_API_KEY en el entorno.")
@@ -405,10 +416,14 @@ def fetch_daily_ohlc(tickers: list[str]) -> dict[str, list[dict]]:
             print(f"Aviso: no se pudieron obtener velas diarias de {ticker}: {exc}", file=sys.stderr)
             ohlc[ticker] = []
 
+    time.sleep(13)  # AV free: 5 req/min máx — sigue pausando antes del último request
+    earnings_calendar = fetch_earnings_calendar(tickers)
+
     to_save = dict(ohlc)
     to_save["_fetchedDate"] = today
+    to_save["_earningsCalendar"] = earnings_calendar
     OHLC_PATH.write_text(json.dumps(to_save, ensure_ascii=False), encoding="utf-8")
-    return ohlc
+    return ohlc, earnings_calendar
 
 
 def update_price_history(prices: dict[str, dict]) -> dict[str, list[float]]:
@@ -516,8 +531,7 @@ def main():
     prices = fetch_prices(AI_TICKERS)
     history = update_price_history(prices)
     fundamentals = fetch_fundamentals(AI_TICKERS)
-    ohlc = fetch_daily_ohlc(AI_TICKERS)
-    earnings_calendar = fetch_earnings_calendar(AI_TICKERS)
+    ohlc, earnings_calendar = fetch_daily_batch(AI_TICKERS)
     stocks = build_stocks(prices, history, fundamentals, ohlc)
 
     valid_changes = [s["changePct"] for s in stocks if s["changePct"] is not None]
