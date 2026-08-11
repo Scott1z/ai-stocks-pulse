@@ -118,6 +118,14 @@
 
 * { box-sizing: border-box; }
 
+html {
+  /* Nav de la topbar salta a #inicio/#empresas/#noticias/#calendario —
+     scroll-padding-top compensa la altura de la topbar, ahora sticky, para
+     que no tape el borde superior de la sección al llegar. */
+  scroll-behavior: smooth;
+  scroll-padding-top: 84px;
+}
+
 html, body {
   margin: 0;
   padding: 0;
@@ -144,6 +152,7 @@ a { color: inherit; }
 
 @media (prefers-reduced-motion: reduce) {
   * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  html { scroll-behavior: auto; }
 }
 
 header, main, footer { position: relative; z-index: 1; }
@@ -196,18 +205,42 @@ header, main, footer { position: relative; z-index: 1; }
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
   max-width: var(--maxw);
   margin: 0 auto;
   padding: 22px 24px;
   height: 68px;
+  /* Sticky para que la nav de secciones (abajo) siga alcanzable mientras
+     se scrollea, no solo al tope de la página. */
+  position: sticky;
+  top: 0;
+  z-index: 15;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
 }
 
-.brand { display: flex; align-items: center; gap: 10px; }
+.brand { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 .brand-mark { width: 24px; height: 24px; }
 .brand-name { font-size: 1rem; font-weight: 600; letter-spacing: -0.01em; }
 .brand-name strong { color: var(--accent); font-weight: 700; }
 
-.topbar-actions { display: flex; align-items: center; gap: 12px; }
+.topbar-nav { display: flex; gap: 4px; }
+.topbar-nav a {
+  font-family: var(--font-data);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 8px 12px;
+  border-radius: var(--radius-pill);
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+.topbar-nav a:hover { color: var(--text); background: var(--panel-raised); }
+.topbar-nav a.active { color: var(--accent); background: var(--accent-dim); }
+
+.topbar-actions { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 
 .demo-pill {
   font-family: var(--font-data);
@@ -943,65 +976,105 @@ header, main, footer { position: relative; z-index: 1; }
 }
 
 /* ---------------------------------------------------------------------
-   Earnings calendar — same hairline-row logic as News, with an inline
-   month divider label whenever the group changes. Rows are clickable,
-   same as the ledger: opens the Stock Detail Modal for that ticker.
+   Earnings calendar — a real month grid instead of a flat list, at the
+   user's explicit request for more visual dynamism than a list gave it.
+   One month at a time, prev/next navigation; can't navigate before the
+   current month since this is forward-looking only (no history behind
+   it). A day with a report gets a small clickable ticker pill — clicking
+   it opens the Stock Detail Modal, same destination as a ledger row.
    --------------------------------------------------------------------- */
 
-.earnings-list { border-top: 1px solid var(--line); }
+.earnings-list { border-top: 1px solid var(--line); padding-top: 18px; }
 
-.earnings-month-label {
-  font-family: var(--font-data);
-  font-size: 0.66rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--text-faint);
-  padding: 18px 4px 8px;
-}
-.earnings-month-label:first-child { padding-top: 4px; }
-
-.earnings-row {
-  display: grid;
-  grid-template-columns: 40px 1fr auto;
+.cal-header {
+  display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 14px 4px;
-  border-bottom: 1px solid var(--line);
-  cursor: pointer;
-  transition: background 0.12s ease;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 14px;
 }
-.earnings-row:hover,
-.earnings-row:focus-visible { background: var(--panel-raised); }
-.earnings-row:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-
-.earnings-date {
+.cal-month-label {
   font-family: var(--font-data);
-  font-variant-numeric: tabular-nums;
+  font-size: 0.85rem;
   font-weight: 700;
-  font-size: 1.1rem;
-  color: var(--accent);
+  min-width: 12ch;
   text-align: center;
 }
-.earnings-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.earnings-ticker { font-family: var(--font-data); font-weight: 700; font-size: 0.85rem; }
-.earnings-name {
-  font-size: 0.78rem;
-  color: var(--text-faint);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.cal-nav {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: border-color 0.12s ease, color 0.12s ease;
 }
-.earnings-hour {
+.cal-nav:hover:not(:disabled) { color: var(--text); border-color: var(--accent); }
+.cal-nav:disabled { opacity: 0.3; cursor: default; }
+
+.cal-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 4px;
+}
+.cal-weekdays span {
   font-family: var(--font-data);
-  font-size: 0.64rem;
+  font-size: 0.62rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--text-dim);
-  white-space: nowrap;
-  text-align: right;
+  color: var(--text-faint);
+  text-align: center;
+  padding-bottom: 6px;
 }
+
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+.cal-cell {
+  min-height: 54px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  padding: 5px 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  overflow: hidden;
+}
+.cal-cell-pad { border-color: transparent; }
+.cal-day-num {
+  font-family: var(--font-data);
+  font-size: 0.66rem;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+}
+.cal-cell.is-today .cal-day-num { color: var(--accent); font-weight: 700; }
+.cal-cell.has-entry { background: var(--accent-dim); border-color: var(--accent); }
+
+.cal-entry {
+  font-family: var(--font-data);
+  font-size: 0.6rem;
+  font-weight: 700;
+  padding: 2px 5px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: var(--accent);
+  color: var(--panel);
+  cursor: pointer;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: opacity 0.12s ease;
+}
+.cal-entry:hover { opacity: 0.82; }
 
 /* ---------------------------------------------------------------------
    Footer
@@ -1365,10 +1438,17 @@ header, main, footer { position: relative; z-index: 1; }
 }
 
 @media (max-width: 640px) {
+  html { scroll-padding-top: 68px; }
   .topbar { padding: 16px; height: auto; }
   .hero, .filters, .stocks, .news, .earnings { padding-left: 16px; padding-right: 16px; }
+  .topbar-nav { display: none; }
   .demo-pill { display: none; }
   .market-status { display: none; }
+
+  .cal-cell { min-height: 40px; padding: 3px; }
+  .cal-day-num { font-size: 0.6rem; }
+  .cal-entry { font-size: 0.52rem; padding: 1px 3px; }
+  .cal-weekdays span { font-size: 0.56rem; }
 
   .ledger-head { display: none; }
   .stock-row {

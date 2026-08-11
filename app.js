@@ -816,10 +816,8 @@ function updateSortIndicators() {
 
 const STOCKS_COLLAPSE_LIMIT = 3;
 const NEWS_COLLAPSE_LIMIT = 3;
-const EARNINGS_COLLAPSE_LIMIT = 3;
 let stocksExpanded = false;
 let newsExpanded = false;
-let earningsExpanded = false;
 
 function buildListToggle(kind, remaining, expanded) {
   const label = expanded ? "Ver menos" : `Ver ${remaining} más`;
@@ -921,9 +919,29 @@ function formatEarningsMonth(dateStr) {
   const name = MONTH_NAMES_ES[m - 1];
   return `${name.charAt(0).toUpperCase()}${name.slice(1)} ${y}`;
 }
-function earningsDay(dateStr) {
-  return dateStr.split("-")[2];
+
+const WEEKDAY_LABELS_ES = ["L", "M", "M", "J", "V", "S", "D"];
+
+function daysInMonth(year, month) {
+  return new Date(year, month + 1, 0).getDate();
 }
+// 0=lunes..6=domingo (Date.getDay() da 0=domingo, se rota para que la
+// semana arranque el lunes, como en el resto de LatAm/Argentina).
+function firstWeekdayMonFirst(year, month) {
+  return (new Date(year, month, 1).getDay() + 6) % 7;
+}
+
+function groupEarningsByDate(entries) {
+  const byDate = {};
+  for (const e of entries) {
+    if (!e.date) continue;
+    (byDate[e.date] ||= []).push(e);
+  }
+  return byDate;
+}
+
+const today = new Date();
+let calendarView = { year: today.getFullYear(), month: today.getMonth() };
 
 function renderEarningsCalendar() {
   const section = document.querySelector(".earnings");
@@ -934,54 +952,62 @@ function renderEarningsCalendar() {
   }
   if (section) section.hidden = false;
 
-  const showToggle = EARNINGS.length > EARNINGS_COLLAPSE_LIMIT;
-  const visible = earningsExpanded ? EARNINGS : EARNINGS.slice(0, EARNINGS_COLLAPSE_LIMIT);
+  const byDate = groupEarningsByDate(EARNINGS);
+  const { year, month } = calendarView;
+  const totalDays = daysInMonth(year, month);
+  const leadingBlanks = firstWeekdayMonFirst(year, month);
+  const todayStr = today.toISOString().slice(0, 10);
 
-  let lastMonth = null;
-  const rowsHtml = visible
-    .map((e) => {
-      const monthLabel = formatEarningsMonth(e.date);
-      const monthHtml = monthLabel !== lastMonth ? `<div class="earnings-month-label">${monthLabel}</div>` : "";
-      lastMonth = monthLabel;
-      return `${monthHtml}
-      <article class="earnings-row" data-ticker="${e.ticker}" tabindex="0" role="button" aria-haspopup="dialog">
-        <span class="earnings-date">${earningsDay(e.date)}</span>
-        <div class="earnings-body">
-          <span class="earnings-ticker">${e.ticker}</span>
-          <span class="earnings-name">${e.name}</span>
-        </div>
-        <span class="earnings-hour">${EARNINGS_HOUR_LABEL[e.hour] || ""}</span>
-      </article>`;
-    })
-    .join("");
+  const cells = [];
+  for (let i = 0; i < leadingBlanks; i++) cells.push(`<div class="cal-cell cal-cell-pad"></div>`);
+  for (let d = 1; d <= totalDays; d++) {
+    const dateStr = `${year}-${String(month + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+    const entries = byDate[dateStr] || [];
+    const cls = ["cal-cell"];
+    if (entries.length) cls.push("has-entry");
+    if (dateStr === todayStr) cls.push("is-today");
+    const entryButtons = entries
+      .map((e) => {
+        const hourLabel = EARNINGS_HOUR_LABEL[e.hour];
+        const title = hourLabel ? ` title="${escapeHtml(e.name)} · ${hourLabel}"` : ` title="${escapeHtml(e.name)}"`;
+        return `<button type="button" class="cal-entry" data-ticker="${escapeHtml(e.ticker)}"${title}>${escapeHtml(e.ticker)}</button>`;
+      })
+      .join("");
+    cells.push(`<div class="${cls.join(" ")}"><span class="cal-day-num">${d}</span>${entryButtons}</div>`);
+  }
 
-  list.innerHTML =
-    rowsHtml +
-    (showToggle ? buildListToggle("earnings", EARNINGS.length - EARNINGS_COLLAPSE_LIMIT, earningsExpanded) : "");
+  const monthName = MONTH_NAMES_ES[month];
+  const monthLabel = `${monthName.charAt(0).toUpperCase()}${monthName.slice(1)} ${year}`;
+  const canGoPrev = year > today.getFullYear() || (year === today.getFullYear() && month > today.getMonth());
+
+  list.innerHTML = `
+    <div class="cal-header">
+      <button type="button" class="cal-nav" data-cal-nav="-1" ${canGoPrev ? "" : "disabled"} aria-label="Mes anterior">‹</button>
+      <span class="cal-month-label">${monthLabel}</span>
+      <button type="button" class="cal-nav" data-cal-nav="1" aria-label="Mes siguiente">›</button>
+    </div>
+    <div class="cal-weekdays">${WEEKDAY_LABELS_ES.map((w) => `<span>${w}</span>`).join("")}</div>
+    <div class="cal-grid">${cells.join("")}</div>`;
 }
 
 function initEarningsCalendar() {
   const list = document.getElementById("earningsList");
 
   list.addEventListener("click", (e) => {
-    if (e.target.closest(".list-toggle")) {
-      earningsExpanded = !earningsExpanded;
+    const navBtn = e.target.closest("[data-cal-nav]");
+    if (navBtn) {
+      if (navBtn.disabled) return;
+      let { year, month } = calendarView;
+      month += Number(navBtn.dataset.calNav);
+      if (month < 0) { month = 11; year -= 1; }
+      if (month > 11) { month = 0; year += 1; }
+      calendarView = { year, month };
       renderEarningsCalendar();
       return;
     }
-    const row = e.target.closest(".earnings-row");
-    if (!row) return;
-    const stock = STOCKS.find((s) => s.ticker === row.dataset.ticker);
-    if (stock) openStockModal(stock);
-  });
-
-  list.addEventListener("keydown", (e) => {
-    if (e.target.closest(".list-toggle")) return;
-    if (e.key !== "Enter" && e.key !== " ") return;
-    const row = e.target.closest(".earnings-row");
-    if (!row) return;
-    e.preventDefault();
-    const stock = STOCKS.find((s) => s.ticker === row.dataset.ticker);
+    const entryBtn = e.target.closest(".cal-entry");
+    if (!entryBtn) return;
+    const stock = STOCKS.find((s) => s.ticker === entryBtn.dataset.ticker);
     if (stock) openStockModal(stock);
   });
 }
@@ -1343,6 +1369,34 @@ function initLedgerSort() {
   });
 }
 
+// Resalta en la topbar-nav qué sección está a la vista mientras se scrollea,
+// no solo al hacer click — sin esto la nav es una lista de links sin
+// feedback de "dónde estoy". rootMargin recorta el área de detección a una
+// franja angosta cerca del centro del viewport, así la sección activa
+// cambia cuando realmente cruza el medio de la pantalla, no apenas asoma.
+function initSectionNav() {
+  const links = [...document.querySelectorAll(".topbar-nav a")];
+  if (!links.length || !("IntersectionObserver" in window)) return;
+
+  const sections = links
+    .map((a) => document.querySelector(a.getAttribute("href")))
+    .filter(Boolean);
+  if (!sections.length) return;
+
+  const setActive = (id) => {
+    links.forEach((a) => a.classList.toggle("active", a.getAttribute("href") === `#${id}`));
+  };
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const visible = entries.find((e) => e.isIntersecting);
+      if (visible) setActive(visible.target.id);
+    },
+    { rootMargin: "-45% 0px -50% 0px" }
+  );
+  sections.forEach((s) => observer.observe(s));
+}
+
 function showToast(message) {
   const toast = document.getElementById("toast");
   toast.textContent = message;
@@ -1436,6 +1490,7 @@ async function init() {
   initPositionSection();
   initHeroChartRange();
   initEarningsCalendar();
+  initSectionNav();
   initInstallPrompt();
   initServiceWorker();
   hidePreloader();

@@ -53,6 +53,12 @@
     <img src="icons/icon.svg" alt="" class="brand-mark">
     <span class="brand-name">AI Stocks <strong>Pulse</strong></span>
   </div>
+  <nav class="topbar-nav" aria-label="Secciones de la página">
+    <a href="#inicio">Resumen</a>
+    <a href="#empresas">Empresas</a>
+    <a href="#noticias">Noticias</a>
+    <a href="#calendario">Calendario</a>
+  </nav>
   <div class="topbar-actions">
     <span id="marketStatus" class="market-status" title="Horario de mercado NYSE/Nasdaq (hora de Nueva York)"></span>
     <span id="dataSourcePill" class="demo-pill" title="Se actualiza según la última corrida del pipeline">DATOS DE DEMOSTRACIÓN</span>
@@ -65,7 +71,7 @@
 </div>
 
 <main>
-  <section class="hero" aria-labelledby="hero-heading">
+  <section class="hero" id="inicio" aria-labelledby="hero-heading">
     <div class="hero-text">
       <p class="eyebrow">Sector IA · Resumen automático</p>
       <h1 id="hero-heading">Todo lo que mueve a las acciones de Inteligencia Artificial, en una sola pantalla.</h1>
@@ -99,7 +105,7 @@
     </label>
   </section>
 
-  <section class="stocks" aria-labelledby="stocks-heading">
+  <section class="stocks" id="empresas" aria-labelledby="stocks-heading">
     <h2 id="stocks-heading"><svg class="icon-glyph icon-teal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16M5 20V9.5L12 5l7 4.5V20M9 20v-6h6v6"/></svg>Empresas del sector</h2>
     <div class="ledger-head" id="ledgerHead">
       <button type="button" class="ledger-sort" data-sort="name">Empresa</button>
@@ -111,12 +117,12 @@
     <div class="stock-grid" id="stockGrid"></div>
   </section>
 
-  <section class="news" aria-labelledby="news-heading">
+  <section class="news" id="noticias" aria-labelledby="news-heading">
     <h2 id="news-heading"><svg class="icon-glyph icon-indigo" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4.5h11.5A1.5 1.5 0 0 1 18 6v13a1 1 0 0 1-1 1H6.5A2.5 2.5 0 0 1 4 17.5V6a1.5 1.5 0 0 1 1-1.4Z"/><path d="M8 9h6M8 12.5h6M8 16h3.5"/></svg>Últimas noticias</h2>
     <div class="news-list" id="newsList"></div>
   </section>
 
-  <section class="earnings" aria-labelledby="earnings-heading">
+  <section class="earnings" id="calendario" aria-labelledby="earnings-heading">
     <h2 id="earnings-heading"><svg class="icon-glyph icon-navy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14" rx="2"/><path d="M4 10h16M8 3v4M16 3v4M9 14.5h6"/></svg>Calendario de resultados</h2>
     <p class="earnings-sub">Próximas presentaciones de balances trimestrales de las empresas que seguimos.</p>
     <div class="earnings-list" id="earningsList"></div>
