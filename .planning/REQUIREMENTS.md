@@ -68,27 +68,27 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| BACK-01 | TBD | Pending |
-| BACK-02 | TBD | Pending |
-| BACK-03 | TBD | Pending |
-| BACK-04 | TBD | Pending |
-| OPTIN-01 | TBD | Pending |
-| OPTIN-02 | TBD | Pending |
-| OPTIN-03 | TBD | Pending |
-| OPTIN-04 | TBD | Pending |
-| OPTIN-05 | TBD | Pending |
-| OPTIN-06 | TBD | Pending |
-| SEND-01 | TBD | Pending |
-| SEND-02 | TBD | Pending |
-| SEND-03 | TBD | Pending |
-| TRIG-01 | TBD | Pending |
-| TRIG-02 | TBD | Pending |
+| BACK-01 | Phase 1 | Pending |
+| BACK-02 | Phase 1 | Pending |
+| BACK-03 | Phase 1 | Pending |
+| BACK-04 | Phase 1 | Pending |
+| OPTIN-01 | Phase 2 | Pending |
+| OPTIN-02 | Phase 2 | Pending |
+| OPTIN-03 | Phase 2 | Pending |
+| OPTIN-04 | Phase 2 | Pending |
+| OPTIN-05 | Phase 2 | Pending |
+| OPTIN-06 | Phase 2 | Pending |
+| SEND-01 | Phase 3 | Pending |
+| SEND-02 | Phase 3 | Pending |
+| SEND-03 | Phase 3 | Pending |
+| TRIG-01 | Phase 4 | Pending |
+| TRIG-02 | Phase 4 | Pending |
 
 **Coverage:**
 - v1 requirements: 15 total
-- Mapped to phases: 0 (pending roadmap creation)
-- Unmapped: 15 ⚠️ (expected — roadmap not yet created)
+- Mapped to phases: 15 (all v1 requirements mapped)
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-08-12*
-*Last updated: 2026-08-12 after initial definition*
+*Last updated: 2026-08-12 after roadmap creation (4 phases, 15/15 v1 requirements mapped)*
