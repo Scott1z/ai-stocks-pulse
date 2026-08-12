@@ -1,5 +1,5 @@
 // ---------------------------------------------------------------------------
-// AI Stocks Pulse — data layer.
+// AI QuickCap — data layer.
 // On load, tries to fetch ./data.json (written by pipeline/fetch_and_curate.py).
 // If it's missing or malformed (e.g. the pipeline hasn't run yet), falls back
 // to the DEMO_* constants below so the page always renders something.
@@ -2360,19 +2360,19 @@ async function shareSectorSummary() {
     const canvas = await buildShareCanvas();
     const blob = await new Promise((resolve) => canvas.toBlob(resolve, "image/png"));
     if (!blob) throw new Error("No se pudo generar la imagen");
-    const file = new File([blob], "ai-stocks-pulse-resumen.png", { type: "image/png" });
+    const file = new File([blob], "ai-quickcap-resumen.png", { type: "image/png" });
 
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
       await navigator.share({
         files: [file],
-        title: "AI Stocks Pulse",
+        title: "AI QuickCap",
         text: "Resumen del sector de acciones de IA de hoy",
       });
     } else {
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = "ai-stocks-pulse-resumen.png";
+      a.download = "ai-quickcap-resumen.png";
       document.body.appendChild(a);
       a.click();
       a.remove();

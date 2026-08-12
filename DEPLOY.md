@@ -1,4 +1,4 @@
-# Cómo publicar AI Stocks Pulse — guía paso a paso
+# Cómo publicar AI QuickCap — guía paso a paso
 
 Todo lo técnico ya está preparado (el workflow de GitHub Actions, el `.gitignore`,
 el repo local). Lo que sigue son pasos que tenés que hacer vos, en tu navegador,

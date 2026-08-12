@@ -1,6 +1,6 @@
 {
-  "name": "AI Stocks Pulse",
-  "short_name": "AI Pulse",
+  "name": "AI QuickCap",
+  "short_name": "QuickCap",
   "description": "Resumen diario del sector de acciones de Inteligencia Artificial: precios, tendencia y noticias en una sola vista.",
   "start_url": "./index.html",
   "scope": "./",

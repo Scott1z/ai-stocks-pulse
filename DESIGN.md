@@ -1,5 +1,5 @@
 ---
-name: AI Stocks Pulse
+name: AI QuickCap
 description: A daily one-page reader for the AI stocks sector — price ledger, composite chart, and curated news.
 colors:
   paper: "#f7f8fa"
@@ -68,7 +68,7 @@ components:
     padding: "32px 28px 28px"
 ---
 
-# Design System: AI Stocks Pulse
+# Design System: AI QuickCap
 
 ## Overview
 

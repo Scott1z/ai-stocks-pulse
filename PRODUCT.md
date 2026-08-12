@@ -64,7 +64,7 @@ Two things a copy-paste competitor would have to rebuild, not just restyle:
 
 ## Brand Commitments
 
-Name: "AI Stocks Pulse" (short name "AI Pulse").
+Name: "AI QuickCap" (short name "QuickCap").
 
 ## Evidence on Hand
 

@@ -5,7 +5,7 @@
 
 ## System Overview
 
-There is no backend, no server-side rendering, and no database. "AI Stocks Pulse" is two independent halves that only communicate through one file, `data.json`, committed to the repo:
+There is no backend, no server-side rendering, and no database. "AI QuickCap" is two independent halves that only communicate through one file, `data.json`, committed to the repo:
 
 ```text
 ┌───────────────────────────────────────────────────────────────────────┐

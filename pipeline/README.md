@@ -1,4 +1,4 @@
-# Pipeline de datos — AI Stocks Pulse
+# Pipeline de datos — AI QuickCap
 
 Este script corre por **cron**, nunca en cada visita a la landing. Escribe
 `../data.json`, que es el único archivo que lee el frontend (`app.js`). Si

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "generatedAt": "2026-08-10T20:20:00Z",
-  "title": "Design System: AI Stocks Pulse",
+  "title": "Design System: AI QuickCap",
   "extensions": {
     "colorMeta": {
       "paper": { "role": "neutral", "displayName": "Cool White", "canonical": "#f7f8fa", "tonalRamp": ["#1d232f", "#374258", "#4e5e7e", "#687ba1", "#8e9cb8", "#b1bace", "#d3d9e4", "#eff1f5"] },
