@@ -22,14 +22,13 @@ No se las pases a nadie ni las pegues en un chat.
 ## Parte 2 — Crear tu cuenta de GitHub
 
 1. Andá a https://github.com/signup y creá una cuenta (gratis).
-2. Elegí un nombre de usuario — va a aparecer en la URL de tu sitio
-   (`https://TU-USUARIO.github.io/ai-stocks-pulse/`).
+2. Elegí un nombre de usuario para tu repo.
 
 ## Parte 3 — Crear el repositorio
 
 1. En GitHub, clic en el botón verde **"New"** (o andá a https://github.com/new).
 2. Nombre del repositorio: `ai-stocks-pulse`
-3. Dejalo **Public** (tiene que ser público para usar GitHub Pages gratis).
+3. Público o privado, como prefieras — Vercel no lo requiere público.
 4. **No** marques ninguna casilla de "Initialize with README" — ya tenemos el código.
 5. Clic en **"Create repository"**.
 6. GitHub te va a mostrar una URL como `https://github.com/TU-USUARIO/ai-stocks-pulse.git` — copiala.
@@ -50,13 +49,24 @@ solo el workflow puede leerlas.
    - Name: `FINNHUB_API_KEY` → Value: tu key
    - Name: `ANTHROPIC_API_KEY` → Value: tu key
 
-## Parte 6 — Activar GitHub Pages
+## Parte 6 — Conectar Vercel (hosting)
 
-1. **Settings → Pages**.
-2. En "Source", elegí **"Deploy from a branch"**.
-3. Branch: `main`, carpeta: `/ (root)`.
-4. Guardar. En 1-2 minutos tu sitio va a estar en:
-   `https://TU-USUARIO.github.io/ai-stocks-pulse/`
+El sitio se despliega en Vercel, conectado directamente a este repo de GitHub —
+cada `git push` a `main` dispara un deploy automático, sin workflow propio.
+
+1. Instalá el CLI (sin instalación global, evita problemas de permisos):
+   ```bash
+   npx vercel login
+   ```
+   Te pide email o "Continue with GitHub" — completá el login en tu navegador.
+2. Desde la carpeta del repo: `npx vercel link` — crea el proyecto en tu cuenta
+   y lo conecta a este repo de GitHub.
+3. `npx vercel deploy` — el primer deploy queda asignado a producción
+   automáticamente. Tu sitio va a estar en `https://TU-PROYECTO.vercel.app`.
+4. (Opcional) Dominio propio: **Vercel dashboard → tu proyecto → Settings → Domains**.
+
+A partir de acá, cada vez que el pipeline (Parte 7) commitea `data.json`, Vercel
+redeploya solo — no hace falta ningún paso extra.
 
 ## Parte 7 — Probar el pipeline
 
@@ -71,7 +81,8 @@ A partir de ahí, corre solo cada hora, para siempre, sin que tengas que hacer n
 
 ## Costos
 
-- GitHub, GitHub Actions y GitHub Pages: gratis para repos públicos.
+- GitHub y GitHub Actions: gratis para repos públicos.
+- Vercel: gratis en el plan Hobby para este tipo de sitio (estático, sin funciones serverless todavía).
 - Alpha Vantage y Finnhub: gratis en el tier que usamos.
 - Anthropic: se cobra por uso, pero con el pipeline optimizado (una sola
   llamada cacheada por hora) el costo mensual debería ser mínimo — unos
