@@ -11,8 +11,8 @@ Requirements for this milestone. Each maps to a roadmap phase.
 
 - [ ] **BACK-01**: A VAPID key pair exists — public key embedded client-side, private key stored as a Vercel environment variable
 - [ ] **BACK-02**: Push subscriptions are stored in Redis via the Upstash for Redis integration (Vercel Marketplace)
-- [ ] **BACK-03**: The existing service worker handles `push` events and displays a notification with title, body (the day's sector narrative), and the app's brand icon
-- [ ] **BACK-04**: The existing service worker handles `notificationclick` by focusing an already-open tab if one exists, otherwise opening the homepage
+- [x] **BACK-03**: The existing service worker handles `push` events and displays a notification with title, body (the day's sector narrative), and the app's brand icon
+- [x] **BACK-04**: The existing service worker handles `notificationclick` by focusing an already-open tab if one exists, otherwise opening the homepage
 
 ### Opt-in / Opt-out UX (OPTIN)
 
@@ -70,8 +70,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | BACK-01 | Phase 1 | Pending |
 | BACK-02 | Phase 1 | Pending |
-| BACK-03 | Phase 1 | Pending |
-| BACK-04 | Phase 1 | Pending |
+| BACK-03 | Phase 1 | Complete |
+| BACK-04 | Phase 1 | Complete |
 | OPTIN-01 | Phase 2 | Pending |
 | OPTIN-02 | Phase 2 | Pending |
 | OPTIN-03 | Phase 2 | Pending |
@@ -85,6 +85,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | TRIG-02 | Phase 4 | Pending |
 
 **Coverage:**
+
 - v1 requirements: 15 total
 - Mapped to phases: 15 (all v1 requirements mapped)
 - Unmapped: 0
