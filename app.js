@@ -218,6 +218,54 @@ function toggleFavorite(ticker) {
   }
 }
 
+// Alerta de movimiento — compara el precio actual de cada favorita contra
+// el último precio visto (guardado localmente, nunca en un servidor), no
+// contra el cambio del día. Se corre una sola vez al cargar la página (no
+// en cada auto-refresh de 5 minutos — el punto es "cuánto se movió desde tu
+// última VISITA", no reventar de toasts durante la misma sesión) y
+// reescribe el snapshot con los precios actuales al final, así la próxima
+// visita compara contra este momento. Sin backend, sin cuenta: el umbral
+// es fijo (no hay UI para configurarlo todavía) porque agregar esa
+// configuración no se pidió y hoy no cambiaría el comportamiento por
+// defecto para nadie.
+const FAVORITE_ALERTS_KEY = "aisp_favorite_last_prices";
+const FAVORITE_ALERT_THRESHOLD_PCT = 5;
+
+function checkFavoritePriceAlerts() {
+  if (favorites.size === 0) return;
+
+  let stored = {};
+  try {
+    stored = JSON.parse(localStorage.getItem(FAVORITE_ALERTS_KEY) || "{}");
+  } catch {
+    stored = {};
+  }
+
+  const movers = [];
+  const nextStored = {};
+  favorites.forEach((ticker) => {
+    const stock = STOCKS.find((s) => s.ticker === ticker);
+    if (!stock || stock.price == null) return;
+    nextStored[ticker] = stock.price;
+    const prevPrice = stored[ticker];
+    if (prevPrice == null || prevPrice <= 0) return;
+    const pct = ((stock.price - prevPrice) / prevPrice) * 100;
+    if (Math.abs(pct) >= FAVORITE_ALERT_THRESHOLD_PCT) movers.push({ ticker, pct });
+  });
+
+  try {
+    localStorage.setItem(FAVORITE_ALERTS_KEY, JSON.stringify(nextStored));
+  } catch {
+    /* localStorage unavailable — la alerta simplemente no persiste entre visitas */
+  }
+
+  if (!movers.length) return;
+  movers.sort((a, b) => Math.abs(b.pct) - Math.abs(a.pct));
+  const parts = movers.slice(0, 3).map((m) => `${m.ticker} ${m.pct >= 0 ? "+" : ""}${m.pct.toFixed(1)}%`);
+  const extra = movers.length > 3 ? ` y ${movers.length - 3} más` : "";
+  showToast(`Desde tu última visita: ${parts.join(", ")}${extra}`);
+}
+
 // Mi posición — precio de compra + cantidad de acciones, opcional por
 // ticker favorito, para calcular una ganancia/pérdida hipotética total.
 // Todo local (localStorage), nunca se manda a ningún servidor — no hay
@@ -2579,6 +2627,10 @@ async function init() {
   initAutoRefresh();
   setInterval(tickRelativeTimes, 60000);
   hidePreloader();
+  // Con un pequeño delay para que el toast no aparezca tapado por el
+  // preloader saliendo — una sola vez por carga de página, no en cada
+  // auto-refresh (ver checkFavoritePriceAlerts()).
+  setTimeout(checkFavoritePriceAlerts, 800);
 }
 
 init();
