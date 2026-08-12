@@ -230,6 +230,7 @@ The page shipped almost entirely static for most of its life — hover/focus col
 - **Style:** same hairline-row logic as the ledger, but 3-column (status dot / headline+meta / ticker tag). A 7×7px rounded-square dot carries semantic color; the ticker tag renders as bracketed label-voice text (`[NVDA]`).
 - **Interaction:** the entire row is clickable/focusable (`role="button"`, `tabindex="0"`) — clicking or pressing Enter/Space opens the News Modal with that article's summary. It never navigates away on its own; leaving the page to read the original source is an explicit, separate choice made inside the modal.
 - **Hover/Focus:** `--panel-raised` background tint, same as a ledger row.
+- **Thumbnail (when the source article has one):** a 56px square, `object-fit: cover`, radius-sm-cornered image slots in before the status dot, and the row's grid gains a fourth track (`.has-thumb`) rather than every row reserving empty space for one. This was added specifically to break up the page's mostly-typographic feel — real editorial photos read as "live news," not decoration. Never fabricated or swapped for a stock photo: an article Finnhub didn't supply an image for just keeps the 3-column layout, and one whose image URL fails to load client-side (404, hotlink block, link rot) is detected and removed at runtime, falling back to the same no-thumbnail row rather than a broken-image icon.
 
 ### Earnings Calendar
 - **Purpose:** a forward-looking view — the next ~3 months of quarterly earnings reports for every ticker we track (Alpha Vantage `EARNINGS_CALENDAR`, filtered locally to our list), so a visitor knows what's coming, not just what already happened. Deliberately scoped to real earnings dates only; there is no reliable API for "important product events" (keynotes, launches), so the page doesn't fabricate that list.
@@ -247,7 +248,8 @@ The page shipped almost entirely static for most of its life — hover/focus col
 
 ### News Modal (signature component)
 - **Purpose:** read a curated ~25-word summary of an article without leaving the page — the site's whole premise is "the story in 30 seconds," so a redirect-by-default was working against that.
-- **Structure:** ticker tag (label voice, hidden if the article isn't ticker-specific) → headline (display-weight, but smaller than the hero H1) → source/time meta (label voice) → summary (body voice) → an explicit "Leer artículo original ↗" link, hidden when no source URL exists.
+- **Structure:** an edge-to-edge cover image at the top when the article has one (same honest-degradation rule as the News Row thumbnail — absent or broken just means no image, never a placeholder) → ticker tag (label voice, hidden if the article isn't ticker-specific) → headline (display-weight, but smaller than the hero H1) → source/time meta (label voice) → summary (body voice) → an explicit "Leer artículo original ↗" link, hidden when no source URL exists.
+- **Cover image:** negative-margined to cancel the panel's own padding so it bleeds to both edges and nests under the 2px accent top border, capped at 220px tall with `object-fit: cover` so wildly different source aspect ratios don't distort or blow out the modal's height.
 - **Style:** `--panel` background, 2px navy top border (see Shapes), 4px radius, modal-float shadow, over a navy-tinted scrim.
 - **Dismissal:** close button (pill, top-right), click on the scrim, or Escape. Background scroll is locked while open.
 

@@ -1436,6 +1436,19 @@ header, main, footer { position: relative; z-index: 1; }
 }
 .news-item:active { transform: scale(0.994); }
 
+/* Portada del artículo — solo presente cuando Finnhub trae una imagen real
+   para esa noticia (ver pipeline/fetch_and_curate.py attach_source_meta());
+   por eso el grid template cambia con .has-thumb en vez de reservar un
+   espacio vacío para las noticias sin portada. */
+.news-item.has-thumb { grid-template-columns: 56px auto 1fr auto; }
+.news-thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
 .news-dot {
   width: 10px; height: 10px;
   flex-shrink: 0;
@@ -1635,6 +1648,21 @@ header, main, footer { position: relative; z-index: 1; }
   cursor: pointer;
 }
 .modal-close:hover { border-color: var(--accent); color: var(--accent); }
+
+/* Portada del artículo, a sangre en el borde superior del modal — solo
+   presente cuando la noticia trae imagen real (ver .news-thumb más abajo,
+   mismo dato). El negative-margin cancela el padding del panel para que
+   llegue de punta a punta; el radio queda un pixel más chico que el del
+   panel para anidar bien adentro del borde superior de acento. */
+.modal-hero-image {
+  display: block;
+  width: calc(100% + 56px);
+  max-height: 220px;
+  object-fit: cover;
+  margin: -32px -28px 20px;
+  border-radius: calc(var(--radius-sm) - 1px) calc(var(--radius-sm) - 1px) 0 0;
+}
+.modal-hero-image[hidden] { display: none; }
 
 #modalTicker {
   display: inline-block;
@@ -2008,5 +2036,8 @@ header, main, footer { position: relative; z-index: 1; }
   .stock-row .price-change::before { content: "Var."; }
 
   .news-item { grid-template-columns: auto 1fr; }
+  .news-item.has-thumb { grid-template-columns: 44px auto 1fr; }
+  .news-thumb { width: 44px; height: 44px; }
   .news-ticker-tag { grid-column: 2; justify-self: start; }
+  .news-item.has-thumb .news-ticker-tag { grid-column: 3; }
 }

@@ -379,6 +379,7 @@ function normalizeRealData(json) {
     ticker: (n.tickers && n.tickers[0]) || null,
     sentiment: NEWS_SENTIMENT_MAP[n.sentiment] || "mixed",
     url: n.source_url || null,
+    image: n.image || null,
   }));
 
   const stocks = (json.stocks || [])
@@ -1521,9 +1522,11 @@ function renderNews() {
   const visible = newsExpanded ? indexed : indexed.slice(0, NEWS_COLLAPSE_LIMIT);
 
   const itemsHtml = visible
-    .map(
-      ({ n, i }, visibleIndex) => `
-    <article class="news-item stagger-item" style="animation-delay:${staggerDelay(visibleIndex)}ms" data-index="${i}" tabindex="0" role="button" aria-haspopup="dialog">
+    .map(({ n, i }, visibleIndex) => {
+      const hasThumb = n.image && isSafeHttpUrl(n.image);
+      return `
+    <article class="news-item stagger-item${hasThumb ? " has-thumb" : ""}" style="animation-delay:${staggerDelay(visibleIndex)}ms" data-index="${i}" tabindex="0" role="button" aria-haspopup="dialog">
+      ${hasThumb ? `<img class="news-thumb" src="${escapeHtml(n.image)}" alt="" loading="lazy" referrerpolicy="no-referrer">` : ""}
       <span class="news-dot ${n.sentiment}" aria-hidden="true"></span>
       <div class="news-body">
         <p class="news-headline">${escapeHtml(n.headline)}</p>
@@ -1534,8 +1537,8 @@ function renderNews() {
         </div>
       </div>
       ${n.ticker ? `<span class="news-ticker-tag">[${escapeHtml(n.ticker)}]</span>` : `<span></span>`}
-    </article>`
-    )
+    </article>`;
+    })
     .join("");
 
   list.innerHTML =
@@ -1718,6 +1721,15 @@ function initEarningsCalendar() {
 }
 
 function openNewsModal(item) {
+  const imageEl = document.getElementById("modalImage");
+  if (item.image && isSafeHttpUrl(item.image)) {
+    imageEl.src = item.image;
+    imageEl.hidden = false;
+  } else {
+    imageEl.removeAttribute("src");
+    imageEl.hidden = true;
+  }
+
   document.getElementById("modalTicker").textContent = item.ticker ? `[${item.ticker}]` : "";
   document.getElementById("modalTicker").hidden = !item.ticker;
   document.getElementById("modalHeadline").textContent = item.headline;
@@ -1742,6 +1754,31 @@ function openNewsModal(item) {
 function closeNewsModal() {
   document.getElementById("newsModal").hidden = true;
   document.body.style.overflow = "";
+}
+
+// Las portadas son URLs externas (dominios de cada fuente de noticias) que
+// pueden dar 404, bloquear hotlinking, o simplemente rotar con el tiempo —
+// a diferencia del resto de la data, esto no lo controla el pipeline. En
+// vez de dejar el ícono roto del navegador, se saca el elemento entero al
+// fallar la carga y el layout cae de nuevo al de "sin portada". "error" en
+// <img> no burbujea, así que se escucha en fase de captura sobre todo el
+// documento en vez de delegar sobre un contenedor con addEventListener normal.
+function initNewsImageFallback() {
+  document.addEventListener(
+    "error",
+    (e) => {
+      const img = e.target;
+      if (!(img instanceof HTMLImageElement)) return;
+      if (img.classList.contains("news-thumb")) {
+        img.closest(".news-item")?.classList.remove("has-thumb");
+        img.remove();
+      } else if (img.id === "modalImage") {
+        img.hidden = true;
+        img.removeAttribute("src");
+      }
+    },
+    true
+  );
 }
 
 function initNewsModal() {
@@ -2489,6 +2526,7 @@ async function init() {
   initLedgerSort();
   initStocksViewToggle();
   initNewsModal();
+  initNewsImageFallback();
   initStockModal();
   initPositionSection();
   initHeroChartRange();

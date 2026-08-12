@@ -9,7 +9,7 @@
      vía addEventListener. style-src necesita unsafe-inline por los pocos
      estilos inline que arma app.js (ancho de la barra de amplitud, color
      de los estados vacíos). -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; manifest-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self'; manifest-src 'self'; base-uri 'self'; form-action 'self'; object-src 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <title>AI Stocks Pulse: Resumen del sector IA</title>
 <meta name="description" content="Resumen diario del sector de acciones de Inteligencia Artificial: precios, tendencia y noticias en una sola vista.">
@@ -175,6 +175,7 @@
 <div class="modal-overlay" id="newsModal" role="dialog" aria-modal="true" aria-labelledby="modalHeadline" hidden>
   <div class="modal-panel">
     <button class="modal-close" aria-label="Cerrar">×</button>
+    <img class="modal-hero-image" id="modalImage" alt="" loading="lazy" referrerpolicy="no-referrer" hidden>
     <span class="news-ticker-tag" id="modalTicker"></span>
     <h2 class="modal-headline" id="modalHeadline"></h2>
     <p class="modal-meta" id="modalMeta"></p>

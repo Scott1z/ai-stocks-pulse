@@ -313,12 +313,17 @@ def finnhub_time_to_iso(raw) -> str | None:
 
 
 def attach_source_meta(items: list[dict], raw_articles: list[dict]) -> list[dict]:
-    """Reasocia source/fecha por URL en vez de pedírselo al LLM (menos tokens de salida)."""
+    """Reasocia source/fecha/imagen por URL en vez de pedírselo al LLM (menos
+    tokens de salida). La imagen es la portada que Finnhub ya trae en el
+    artículo original (campo "image") — no se genera ni se busca aparte,
+    y viene vacía ("") para bastantes artículos, así que se normaliza a
+    None en vez de mandar un string vacío al frontend."""
     lookup = {a.get("url"): a for a in raw_articles}
     for item in items:
         raw = lookup.get(item.get("source_url"))
         item["source"] = raw.get("source") if raw else None
         item["published_at"] = finnhub_time_to_iso(raw.get("datetime")) if raw else None
+        item["image"] = (raw.get("image") or None) if raw else None
     return items
 
 
