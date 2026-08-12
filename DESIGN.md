@@ -327,6 +327,11 @@ The page shipped almost entirely static for most of its life — hover/focus col
 - **Structure:** a small pill (reusing the Sentiment Badge recipe — tinted background, full-opacity text) reading "Superó la estimación en X%" / "Por debajo de la estimación en X%" / "En línea con la estimación", plus a quieter meta line with the period and the actual-vs-estimate figures. Sits right under the chart caption in the Stock Detail Modal.
 - **Empty state:** hidden entirely (`:empty { display: none }`) for any ticker Finnhub hasn't reported a completed quarter for yet — no placeholder, no "coming soon."
 
+### Investment Thesis (weekly)
+- **Purpose:** a short "why this ticker, what to watch for" — the Fundamentals Grid gives numbers, this gives the one sentence a visitor would actually want before clicking away. LLM-written, but on a deliberately slow cadence (once every 7 days, see `pipeline/README.md`) since a thesis doesn't need hourly freshness the way news does.
+- **Structure:** a section title matching the "Fundamentales" / "Noticias relacionadas" label voice, a single prose sentence (`--text-dim`, same size/line-height as the Fundamentals Glossary's definitions), and — when the pipeline supplied one — a quieter one-line catalyst underneath in the same muted meta voice as the Last Earnings Badge's period line. No new typography, no new color.
+- **Empty state:** the whole section (title included) is hidden via the `[hidden]` attribute for any ticker the weekly pipeline call hasn't produced a thesis for yet — never a placeholder, never a fabricated sentence. Same honesty pattern as the Last Earnings Badge and the Earnings Calendar.
+
 ### Inputs
 - **Style:** 4px radius (sharp, matches the panel language, not the pill language), `--line-strong` border, `--panel` background.
 - **Focus:** border shifts to `--accent`; no glow, no shadow — consistent with Flat-By-Default.

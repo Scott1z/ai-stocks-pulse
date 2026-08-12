@@ -16,6 +16,10 @@ const DEMO_STOCKS = [
     spark: [110, 112, 109, 115, 118, 116, 121, 119, 124, 122, 126, 128.45],
     fundamentals: { peTTM: 54.2, epsTTM: 2.37, marketCapM: 3150000, week52High: 153.13, week52Low: 86.62, roeTTM: 91.9, netMarginTTM: 55.7 },
     lastEarnings: { period: "2026-05-28", actual: 0.96, estimate: 0.88, surprisePercent: 9.1 },
+    thesis: {
+      text: "Domina el mercado de GPUs para entrenamiento e inferencia de IA, con márgenes que reflejan esa posición casi monopólica en centros de datos.",
+      catalyst: "Próximo resultado trimestral y ritmo de pedidos de la nueva arquitectura de chips.",
+    },
   },
   {
     ticker: "MSFT",
@@ -67,6 +71,10 @@ const DEMO_STOCKS = [
     spark: [163, 161, 159, 160, 158, 156, 157, 155, 153, 156, 155, 154.75],
     fundamentals: { peTTM: 105.3, epsTTM: 1.47, marketCapM: 251000, week52High: 187.28, week52Low: 76.48, roeTTM: 5.1, netMarginTTM: 6.4 },
     lastEarnings: { period: "2026-05-06", actual: 0.62, estimate: 0.68, surprisePercent: -8.8 },
+    thesis: {
+      text: "Segundo jugador en GPUs de IA, apostando a ganar participación con precio más competitivo frente al líder del mercado.",
+      catalyst: "Adopción de su nueva línea de aceleradores por parte de grandes clientes de nube.",
+    },
   },
 ];
 
@@ -386,6 +394,7 @@ function normalizeRealData(json) {
       fundamentals: s.fundamentals || {},
       ohlc: Array.isArray(s.ohlc) ? s.ohlc : [],
       lastEarnings: s.lastEarnings || null,
+      thesis: s.thesis && s.thesis.text ? s.thesis : null,
     }));
 
   const stats = json.sector?.stats || {};
@@ -1866,6 +1875,26 @@ function renderLastEarnings(stock) {
     <span class="earnings-surprise-meta">Último resultado${periodLabel ? " · " + periodLabel : ""} — EPS real ${actualLabel} vs. estimado ${estimateLabel}</span>`;
 }
 
+// Tesis de inversión + catalizador por ticker, generada por el pipeline una
+// vez por semana (ver pipeline/fetch_and_curate.py). Se esconde entero si
+// todavía no hay una para este ticker — nunca se fabrica en el frontend.
+function renderThesis(stock) {
+  const section = document.getElementById("stockModalThesisSection");
+  if (!stock.thesis) {
+    section.hidden = true;
+    return;
+  }
+  document.getElementById("stockModalThesisText").textContent = stock.thesis.text;
+  const catalystEl = document.getElementById("stockModalThesisCatalyst");
+  if (stock.thesis.catalyst) {
+    catalystEl.textContent = `Catalizador: ${stock.thesis.catalyst}`;
+    catalystEl.hidden = false;
+  } else {
+    catalystEl.hidden = true;
+  }
+  section.hidden = false;
+}
+
 let currentModalStock = null;
 
 function openStockModal(stock) {
@@ -1895,6 +1924,7 @@ function openStockModal(stock) {
     : "Historial de precio todavía corto: se enriquece cada hora que corre el pipeline.";
 
   renderLastEarnings(stock);
+  renderThesis(stock);
 
   document.getElementById("stockModalFundamentals").innerHTML = buildFundamentalsGrid(stock.fundamentals);
   document.getElementById("fundamentalsHelp").hidden = true;

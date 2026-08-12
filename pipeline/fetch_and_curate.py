@@ -157,9 +157,13 @@ PROJECT_ROOT = Path(__file__).resolve().parent.parent
 HISTORY_PATH = Path(__file__).parent / "price_history.json"
 OHLC_PATH = Path(__file__).parent / "daily_ohlc.json"
 ARCHIVE_PATH = Path(__file__).parent / "summary_archive.json"
+THESIS_PATH = Path(__file__).parent / "stock_theses.json"
 DATA_PATH = PROJECT_ROOT / "data.json"
 OHLC_DAYS_KEPT = 60  # ~3 meses hábiles, suficiente para un candlestick legible
 ARCHIVE_DAYS_KEPT = 30  # historial de resúmenes del sector que se muestra en el frontend
+THESIS_REFRESH_DAYS = 7  # una tesis de inversión no cambia hora a hora — generarla
+# una vez por semana (no en cada corrida horaria) alcanza y mantiene el costo
+# extra de LLM en centavos por mes en vez de por hora.
 
 SYSTEM_PROMPT = """Sos un editor financiero especializado en inteligencia artificial y mercados bursátiles.
 
@@ -200,6 +204,36 @@ Formato de salida — SOLO JSON, sin texto antes ni después, sin markdown dentr
 }
 
 No incluyas campos extra. Si hay menos de 8 artículos relevantes, devolvé los que haya."""
+
+THESIS_SYSTEM_PROMPT = """Sos un analista financiero especializado en el sector de inteligencia artificial.
+
+Recibís un JSON con una lista "stocks", cada uno con ticker, name, changePct, y fundamentales
+cuando están disponibles (peTTM, epsTTM, marketCapM, roeTTM, netMarginTTM). Estos campos pueden
+faltar para algunos tickers — no inventes valores que no te dieron.
+
+Para CADA ticker de la lista, escribí en ESPAÑOL:
+1. "text": una tesis de inversión de máximo 30 palabras — por qué este ticker está en el radar
+   de un inversor enfocado en IA, basada en su negocio y (si están disponibles) sus fundamentales.
+   No repitas el nombre completo de la empresa dos veces.
+2. "catalyst": un catalizador concreto de máximo 12 palabras — el próximo evento o tendencia que
+   podría moverlo (próximo resultado, lanzamiento de producto, decisión regulatoria, etc.), o
+   null si no hay uno identificable con la información dada.
+
+No fabriques datos financieros que no estén en el JSON de entrada. Si un ticker no tiene
+suficiente información para una tesis sustantiva, escribí una tesis general basada en el sector
+pero mantené el catalyst en null.
+
+Formato de salida — SOLO JSON, sin texto antes ni después, sin markdown dentro del JSON. Un
+objeto con una clave por cada ticker recibido:
+
+{
+  "<TICKER>": {
+    "text": "<máx 30 palabras>",
+    "catalyst": "<máx 12 palabras>" | null
+  }
+}
+
+Incluí una entrada para TODOS los tickers que recibiste, sin excepción."""
 
 
 # --- Noticias (Finnhub) -----------------------------------------------------
@@ -724,6 +758,108 @@ def _strip_markdown_fence(text: str) -> str:
     return text.strip()
 
 
+# --- LLM (tesis de inversión por ticker, una vez por semana) ---------------
+
+
+def generate_stock_theses(stocks: list[dict]) -> dict[str, dict]:
+    """Genera una tesis de inversión corta + catalizador por ticker en una
+    sola llamada a Claude que cubre los 50 tickers de una — se llama desde
+    fetch_weekly_theses(), que la gatea a una vez por semana (ver ese
+    docstring). A diferencia de curate_with_claude() (que corre cada hora
+    porque las noticias sí cambian hora a hora), una tesis de inversión no
+    tiene motivo para regenerarse tan seguido."""
+    if not ANTHROPIC_API_KEY:
+        raise ValueError("Falta ANTHROPIC_API_KEY en el entorno.")
+
+    client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
+
+    payload = {
+        "stocks": [
+            {
+                "ticker": s["ticker"],
+                "name": s["name"],
+                "changePct": s["changePct"],
+                **{k: v for k, v in (s.get("fundamentals") or {}).items() if v is not None},
+            }
+            for s in stocks
+        ]
+    }
+
+    response = client.messages.create(
+        model=MODEL,
+        # 50 tickers x (tesis ~30 palabras + catalizador ~12 palabras) en
+        # JSON ronda fácil los 3000-4000 tokens de salida; el techo de abajo
+        # es solo un límite duro — se factura por lo que el modelo
+        # efectivamente genera, no por max_tokens.
+        max_tokens=8000,
+        system=[
+            {
+                "type": "text",
+                "text": THESIS_SYSTEM_PROMPT,
+                "cache_control": {"type": "ephemeral"},
+            }
+        ],
+        messages=[
+            {
+                "role": "user",
+                "content": json.dumps(payload, ensure_ascii=False),
+            }
+        ],
+    )
+
+    raw_text = "".join(block.text for block in response.content if block.type == "text")
+
+    try:
+        parsed = json.loads(_strip_markdown_fence(raw_text))
+    except json.JSONDecodeError:
+        raise ValueError(f"El modelo no devolvió JSON válido para las tesis:\n{raw_text}")
+
+    return {
+        ticker: entry
+        for ticker, entry in parsed.items()
+        if isinstance(entry, dict) and entry.get("text")
+    }
+
+
+def fetch_weekly_theses(stocks: list[dict]) -> dict[str, dict]:
+    """Caché-con-fecha para las tesis de inversión, mismo patrón que
+    fetch_daily_batch() para las velas OHLC: si ya se generaron dentro de los
+    últimos THESIS_REFRESH_DAYS días, se reusa el archivo en disco sin
+    llamar a Claude. Si la generación falla (red, JSON inválido, etc.), se
+    sigue sirviendo la tesis de la semana anterior en vez de perderla — el
+    caché en disco no se pisa hasta que una generación nueva tiene éxito, así
+    que un fallo transitorio en una corrida horaria simplemente se reintenta
+    en la próxima, sin dejar al frontend sin tesis mientras tanto."""
+    today = datetime.now(timezone.utc).date()
+
+    cached: dict = {}
+    if THESIS_PATH.exists():
+        try:
+            cached = json.loads(THESIS_PATH.read_text())
+        except json.JSONDecodeError:
+            cached = {}
+
+    fetched_date_raw = cached.pop("_generatedDate", None)
+    if fetched_date_raw:
+        try:
+            fetched_date = datetime.fromisoformat(fetched_date_raw).date()
+            if (today - fetched_date).days < THESIS_REFRESH_DAYS:
+                return cached
+        except ValueError:
+            pass
+
+    try:
+        theses = generate_stock_theses(stocks)
+    except Exception as exc:
+        print(f"Aviso: generación semanal de tesis falló, sigo con la del caché anterior: {exc}", file=sys.stderr)
+        return cached  # puede estar vacío si nunca se generó, o ser la de la semana pasada
+
+    to_save = dict(theses)
+    to_save["_generatedDate"] = today.isoformat()
+    THESIS_PATH.write_text(json.dumps(to_save, ensure_ascii=False), encoding="utf-8")
+    return theses
+
+
 # --- Orquestación ------------------------------------------------------------
 
 
@@ -751,6 +887,15 @@ def main():
         ohlc, earnings_calendar = {}, []
 
     stocks = build_stocks(prices, history, fundamentals, ohlc, earnings_actuals)
+
+    try:
+        theses = fetch_weekly_theses(stocks)
+    except Exception as exc:  # nunca debe impedir que se escriba data.json con
+        # todo lo demás ya obtenido — la tesis es un extra, no un dato crítico.
+        print(f"Aviso: tesis de inversión falló, sigo sin eso: {exc}", file=sys.stderr)
+        theses = {}
+    for s in stocks:
+        s["thesis"] = theses.get(s["ticker"])
 
     valid_changes = [s["changePct"] for s in stocks if s["changePct"] is not None]
     up_count = sum(1 for c in valid_changes if c > 0)
@@ -799,10 +944,12 @@ def main():
 
     DATA_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
     reported_count = sum(1 for s in stocks if s["lastEarnings"] is not None)
+    thesis_count = sum(1 for s in stocks if s["thesis"] is not None)
     print(
         f"OK — {len(stocks)} precios, {len(items)} noticias, "
         f"{len(earnings_calendar)} resultados próximos, {reported_count} últimos "
-        f"resultados reportados y {len(archive)} días de historial escritos en {DATA_PATH}"
+        f"resultados reportados, {thesis_count} tesis de inversión y "
+        f"{len(archive)} días de historial escritos en {DATA_PATH}"
     )
 
 

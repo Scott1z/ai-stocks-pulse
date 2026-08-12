@@ -51,6 +51,13 @@ datos de demostración — así que es seguro probar esto sin romper nada.
    - las 8 noticias curadas, y
    - un resumen narrativo del sector + su sentimiento general,
    en la misma respuesta. Nunca se llama al LLM por artículo ni dos veces por corrida.
+8b. Una **segunda** llamada a Claude, separada de la del punto 8 y mucho menos frecuente
+   (una vez cada 7 días, no en cada corrida horaria): genera una tesis de inversión corta
+   (~30 palabras) más un catalizador (~12 palabras) para cada uno de los 50 tickers, en una
+   sola respuesta que cubre el catálogo completo. Se gatea con el mismo patrón de
+   caché-con-fecha que las velas OHLC (ver más abajo) — el resultado vive en
+   `stock_theses.json`. No tiene sentido regenerar una tesis de inversión cada hora: no cambia
+   tan rápido, y hacerlo igual sería pagar tokens de LLM sin ninguna ganancia real.
 9. Reasocia localmente la fuente y fecha de cada noticia (por URL) en vez de pedírselo al modelo,
    así el JSON de salida del LLM se mantiene chico.
 10. Actualiza `summary_archive.json` (historial de resúmenes del sector, ver más abajo) y lo
@@ -68,6 +75,21 @@ nunca termina con 24 entradas, solo la más reciente. Se recorta a los últimos
 `ARCHIVE_DAYS_KEPT` (30) días en cada escritura, mismo patrón de archivo-caché-en-disco que
 `price_history.json`. Un fallo acá nunca impide que se escriba el resto de `data.json` —
 está envuelto en su propio try/except en `main()`, igual que el calendario de resultados.
+
+## Tesis de inversión semanal (`stock_theses.json`)
+
+Igual que `daily_ohlc.json`, es un caché con fecha en disco: `fetch_weekly_theses()` guarda
+`_generatedDate` adentro de `stock_theses.json` y, si ya se generó dentro de los últimos
+`THESIS_REFRESH_DAYS` (7) días, devuelve el archivo tal cual sin llamar a Claude — así 6 de
+cada 7 corridas diarias (y 167 de cada 168 corridas horarias) no gastan tokens extra en esto.
+A diferencia de `daily_ohlc.json`, que se resetea a un cupo diario duro de Alpha Vantage, acá
+un fallo en la generación (red, JSON inválido del modelo, etc.) **no** pisa el caché existente:
+`fetch_weekly_theses()` devuelve la tesis de la semana anterior tal cual estaba, y la próxima
+corrida horaria vuelve a intentar generar una nueva — nunca se deja al frontend sin tesis por
+un error transitorio de una sola corrida.
+
+Costo aproximado: ~3,000 tokens de salida extra por generación (50 tickers × tesis + catalizador)
+con Sonnet, una vez por semana — del orden de centavos de dólar por mes, no por hora.
 
 ## Por qué las velas diarias y el calendario de resultados corren aparte, una vez por día
 
@@ -125,7 +147,7 @@ export $(grep -v '^#' .env | xargs)
 python3 fetch_and_curate.py
 ```
 
-Si todo sale bien vas a ver algo como `OK — 50 precios, 8 noticias, 6 resultados próximos y 41 últimos resultados reportados escritos en .../data.json`.
+Si todo sale bien vas a ver algo como `OK — 50 precios, 8 noticias, 6 resultados próximos, 41 últimos resultados reportados, 50 tesis de inversión y 12 días de historial escritos en .../data.json`.
 Abrí `../data.json` para revisar el resultado, y recargá la landing page — el indicador de
 arriba debería cambiar de "DATOS DE DEMOSTRACIÓN" a "DATOS EN VIVO".
 
