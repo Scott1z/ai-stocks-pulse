@@ -28,7 +28,7 @@ A visitor understands what moved AI-sector stocks today, and why, in under 30 se
 
 - [ ] Visitor can opt in to browser push notifications from the site
 - [ ] Opted-in visitors receive one push per day, at NYSE/Nasdaq market close, with the day's sector summary (same narrative as the hero card)
-- [ ] Push subscriptions are stored server-side (Vercel KV) — no user accounts, subscription tied to browser/device
+- [ ] Push subscriptions are stored server-side (Redis via Upstash for Redis, provisioned through the Vercel Marketplace — the successor to the now-discontinued "Vercel KV") — no user accounts, subscription tied to browser/device
 - [ ] A Vercel serverless Function sends the push; triggered from the existing hourly pipeline's market-close run (no new schedule/infra)
 - [ ] Visitor can unsubscribe from push notifications as easily as they subscribed
 
@@ -51,7 +51,7 @@ A visitor understands what moved AI-sector stocks today, and why, in under 30 se
 ## Constraints
 
 - **Tech stack**: Frontend stays vanilla JS/CSS/HTML — the Push API and Service Worker are native browser APIs, no framework needed for the client side.
-- **Backend**: Vercel Functions + Vercel KV only — explicitly chosen over a third-party push SaaS (OneSignal/Firebase) now that the site is already on Vercel, to avoid a second account/platform for a single feature.
+- **Backend**: Vercel Functions + Upstash for Redis (Vercel Marketplace) only — explicitly chosen over a third-party push SaaS (OneSignal/Firebase) now that the site is already on Vercel, to avoid a second account/platform for a single feature.
 - **No accounts**: Push subscriptions must work anonymously, tied to the browser's push subscription object, consistent with the existing no-login watchlist.
 - **Budget**: User wants "lo más simple posible" — stay within Vercel's free Hobby tier; avoid paid third-party notification services.
 - **Trigger source**: Must reuse the existing hourly GitHub Actions pipeline run that lands at/after market close — no new scheduler.
