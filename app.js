@@ -564,6 +564,7 @@ async function refreshData() {
     renderSectorSummary();
     renderHeroMovers();
     renderHeroBreadth();
+    renderSelection();
     renderStocksViews();
     renderCompareSection();
     renderNews();
@@ -1324,6 +1325,52 @@ function renderHeroMovers() {
       const stock = STOCKS.find((s) => s.ticker === btn.dataset.ticker);
       if (stock) openStockModal(stock);
     });
+  });
+}
+
+// "Tu selección" — landing section for favorited tickers, separate from the
+// existing "Favoritas" filter chip inside the ledger below. Reuses the exact
+// hero-mover button (ticker + price change, opens the Stock Detail Modal)
+// already used for the hero's top movers and Historial's daily movers — no
+// new card component. Hidden entirely until the visitor has favorited at
+// least one ticker; never touches the sector-wide hero stats above it, which
+// must keep reflecting the full 50-ticker universe, not a personal subset.
+function renderSelection() {
+  const section = document.getElementById("seleccion");
+  const container = document.getElementById("selectionMovers");
+  if (favorites.size === 0) {
+    section.hidden = true;
+    return;
+  }
+  section.hidden = false;
+
+  const favStocks = STOCKS.filter((s) => favorites.has(s.ticker));
+
+  container.innerHTML = favStocks
+    .map((stock) => {
+      const hasChange = stock.changePct != null;
+      const tagCls = hasChange ? (stock.changePct >= 0 ? "bullish" : "bearish") : "mixed";
+      const changeCls = hasChange ? (stock.changePct >= 0 ? "up" : "down") : "";
+      const sign = hasChange && stock.changePct >= 0 ? "+" : "";
+      const changeText = hasChange ? `${sign}${stock.changePct.toFixed(1)}%` : "—";
+      return `<button type="button" class="hero-mover" data-ticker="${escapeHtml(stock.ticker)}">
+        <span class="hero-mover-label">${escapeHtml(stock.name)}</span>
+        <span class="hero-mover-row">
+          <span class="stock-tag ${tagCls}">${escapeHtml(stock.ticker)}</span>
+          <span class="hero-mover-change ${changeCls}">${changeText}</span>
+        </span>
+      </button>`;
+    })
+    .join("");
+}
+
+function initSelection() {
+  const container = document.getElementById("selectionMovers");
+  container.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-ticker]");
+    if (!btn) return;
+    const stock = STOCKS.find((s) => s.ticker === btn.dataset.ticker);
+    if (stock) openStockModal(stock);
   });
 }
 
@@ -2091,6 +2138,7 @@ function initStockModal() {
     if (starBtn) {
       e.stopPropagation();
       toggleFavorite(starBtn.dataset.star);
+      renderSelection();
       const activeChip = document.querySelector(".chip.active");
       renderStocksViews(activeChip ? activeChip.dataset.filter : "all", document.getElementById("searchInput").value);
       return;
@@ -2595,6 +2643,7 @@ async function init() {
   renderSectorSummary();
   renderHeroMovers();
   renderHeroBreadth();
+  renderSelection();
   renderStocksViews();
   renderCompareSection();
   renderNews();
@@ -2619,6 +2668,7 @@ async function init() {
   initShareButton();
   initEarningsCalendar();
   initHistory();
+  initSelection();
   initSectionNav();
   initScrollReveal();
   initThemeManager();

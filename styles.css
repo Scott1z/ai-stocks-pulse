@@ -610,6 +610,16 @@ header, main, footer { position: relative; z-index: 1; }
 .hero-mover-change.up { color: var(--rise); }
 .hero-mover-change.down { color: var(--fall); }
 
+/* "Tu selección" reuses .hero-movers/.hero-mover verbatim (same button that
+   opens the Stock Detail Modal); only the border-top/margin are dropped
+   since here the row sits directly under its own section heading instead
+   of at the bottom of the hero-text column. */
+.selection-movers {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
 /* Market breadth — proportion of bullish/bearish/mixed among tracked
    stocks, computed client-side same as the movers above. The bar is the
    one new visual element; the counts reuse the existing stock-tag pill
@@ -971,13 +981,13 @@ header, main, footer { position: relative; z-index: 1; }
    Section headings
    --------------------------------------------------------------------- */
 
-.stocks, .news, .earnings, .compare, .history {
+.stocks, .news, .earnings, .compare, .history, .selection {
   max-width: var(--maxw);
   margin: 0 auto;
   padding: 44px 24px;
 }
 
-.stocks h2, .news h2, .earnings h2, .compare h2, .history h2 {
+.stocks h2, .news h2, .earnings h2, .compare h2, .history h2, .selection h2 {
   display: flex;
   align-items: center;
   gap: 8px;
