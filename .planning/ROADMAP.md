@@ -28,7 +28,16 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Clicking that test notification focuses an already-open app tab if one exists, or opens the homepage if not.
   3. A subscription object can be written to and read back from Redis via the Upstash for Redis integration.
   4. The VAPID public key is embedded in client-side code; the private key exists only as a Vercel environment variable, not in the repo.
-**Plans**: TBD
+**Plans**: 4 plans (2 waves)
+
+Plans:
+- [ ] 01-01-PLAN.md — Generate the VAPID key pair, store the private half in Vercel env vars only, embed the public half in app.js (BACK-01)
+- [ ] 01-02-PLAN.md — Lock in the push:subscriptions Redis schema and prove a live write/read round trip with a stdlib-only CLI (BACK-02)
+- [ ] 01-03-PLAN.md — Extend service-worker.js with push + notificationclick listeners and bump CACHE_NAME to v46 (BACK-03, BACK-04)
+- [ ] 01-04-PLAN.md — End-to-end manual verification: real browser subscription, Redis round trip, real test push, both click branches (BACK-01..04)
+
+Wave 1 (parallel): 01-01, 01-02, 01-03 — no shared files
+Wave 2: 01-04 — depends on all three
 
 ### Phase 2: Subscribe/Unsubscribe UX
 **Goal**: Visitors can opt in and out of daily push notifications through UI that respects browser-permission and iOS platform constraints, never damaging the visitor's ability to be asked again.
@@ -71,7 +80,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Backend Foundation | 0/TBD | Not started | - |
+| 1. Backend Foundation | 0/4 | Planned | - |
 | 2. Subscribe/Unsubscribe UX | 0/TBD | Not started | - |
 | 3. Daily Send Function | 0/TBD | Not started | - |
 | 4. Pipeline Trigger Integration | 0/TBD | Not started | - |
