@@ -1,4 +1,4 @@
-const CACHE_NAME = "ai-stocks-pulse-v45";
+const CACHE_NAME = "ai-stocks-pulse-v46";
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -63,5 +63,20 @@ self.addEventListener("fetch", (event) => {
           })
           .catch(() => cached)
     )
+  );
+});
+
+// El payload de un push es opcional y no confiable: si falta o viene mal formado
+// igual hay que mostrar una notificación (nunca lanzar), y se reusa el icono de
+// marca de la PWA (ya precacheado en CORE_ASSETS) tanto para icon como para badge.
+self.addEventListener("push", (event) => {
+  const data = event.data ? event.data.json() : {};
+  event.waitUntil(
+    self.registration.showNotification(data.title || "AI QuickCap", {
+      body: data.body || "",
+      icon: "./icons/icon.svg",
+      badge: "./icons/icon.svg",
+      data: { url: data.url || "./" },
+    })
   );
 });
