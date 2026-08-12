@@ -1832,7 +1832,7 @@ function renderPositionSection(stock) {
       <form class="position-form" data-position-form>
         <input type="number" inputmode="decimal" step="0.01" min="0" placeholder="Precio de compra, ej: ${stock.price.toFixed(2)}" aria-label="Precio de compra" data-field="price">
         <input type="number" inputmode="decimal" step="any" min="0" placeholder="Cantidad de acciones" aria-label="Cantidad de acciones" data-field="shares">
-        <button type="submit" class="btn-ghost">Guardar</button>
+        <button type="submit" class="btn btn-ghost">Guardar</button>
       </form>`;
     return;
   }
