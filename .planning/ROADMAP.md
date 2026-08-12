@@ -32,12 +32,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. A subscription object can be written to and read back from Redis via the Upstash for Redis integration.
   4. The VAPID public key is embedded in client-side code; the private key exists only as a Vercel environment variable, not in the repo.
 
-**Plans**: 4 plans (2 waves)
+**Plans**: 4 plans (2 waves), 2/4 complete
 
 Plans:
 
 - [x] 01-01-PLAN.md — Generate the VAPID key pair, store the private half in Vercel env vars only, embed the public half in app.js (BACK-01)
-- [ ] 01-02-PLAN.md — Lock in the push:subscriptions Redis schema and prove a live write/read round trip with a stdlib-only CLI (BACK-02)
+- [x] 01-02-PLAN.md — Lock in the push:subscriptions Redis schema and prove a live write/read round trip with a stdlib-only CLI (BACK-02)
 - [ ] 01-03-PLAN.md — Extend service-worker.js with push + notificationclick listeners and bump CACHE_NAME to v46 (BACK-03, BACK-04)
 - [ ] 01-04-PLAN.md — End-to-end manual verification: real browser subscription, Redis round trip, real test push, both click branches (BACK-01..04)
 
