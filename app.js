@@ -2598,6 +2598,16 @@ function initInstallPrompt() {
   });
 }
 
+// ---------------------------------------------------------------------------
+// Clave pública VAPID — es pública por diseño, segura de enviar al navegador.
+// Tiene que ser byte-idéntica a VAPID_PUBLIC_KEY en Vercel: el navegador ata
+// la suscripción a esta clave exacta al momento de suscribirse, y cualquier
+// diferencia hace que el envío falle con 401/403. El par se genera una sola
+// vez para la vida del producto — regenerarlo invalida todas las
+// suscripciones existentes, así que nunca se rota por rutina.
+// ---------------------------------------------------------------------------
+const VAPID_PUBLIC_KEY = "BACPmh4L94DuAOLgZWz9MJ8uZJUVdpWw5tp4zEVnMtz-Xzh0ba5SSa9b8Ts6dTs1GKYdpqgk9zcvksCKUSpqXtA";
+
 function initServiceWorker() {
   if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
     window.addEventListener("load", () => {
