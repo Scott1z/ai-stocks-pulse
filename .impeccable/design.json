@@ -12,8 +12,8 @@
       "ink-dim": { "role": "neutral", "displayName": "Faded Ink", "canonical": "#475467", "tonalRamp": ["#1f252d", "#3a4555", "#536279", "#6e809b", "#92a0b4", "#b4bdcb", "#d5dae2", "#f0f2f5"] },
       "ink-faint": { "role": "neutral", "displayName": "Pencil Grey", "canonical": "#666c79", "tonalRamp": ["#20252c", "#3d4552", "#576275", "#728097", "#95a0b1", "#b6bdc9", "#d6dae1", "#f0f2f4"] },
       "accent-navy": { "role": "primary", "displayName": "Ledger Navy", "canonical": "#1c3a5e", "tonalRamp": ["#12243b", "#21446e", "#2f619d", "#427fc7", "#729fd5", "#9dbce2", "#c8daef", "#ebf2f9"] },
-      "rise-green": { "role": "secondary", "displayName": "Ledger Green", "canonical": "#2e7d4f", "tonalRamp": ["#153823", "#266842", "#37955e", "#4cbd7b", "#79ce9c", "#a2ddba", "#cbecd9", "#ecf8f1"] },
-      "fall-red": { "role": "secondary", "displayName": "Ledger Red", "canonical": "#9e3a2f", "tonalRamp": ["#3b1612", "#6e2821", "#9d3a2f", "#c74f42", "#d57b71", "#e2a49d", "#efccc8", "#f9edeb"] },
+      "rise-green": { "role": "secondary", "displayName": "Ledger Green", "canonical": "#15803d", "tonalRamp": ["#093519", "#116932", "#1a9e4b", "#23d264", "#59e48d", "#8decb1", "#bdf4d2", "#e5fbed"] },
+      "fall-red": { "role": "secondary", "displayName": "Ledger Red", "canonical": "#b91c1c", "tonalRamp": ["#350808", "#6a1010", "#9f1818", "#d52020", "#e65757", "#ee8c8c", "#f5bdbd", "#fbe4e4"] },
       "mixed-slate": { "role": "secondary", "displayName": "Ink Slate", "canonical": "#5b6b7a", "tonalRamp": ["#21262c", "#3d4852", "#576675", "#738596", "#96a4b1", "#b6c0c9", "#d6dbe0", "#f0f2f4"] },
       "icon-teal": { "role": "tertiary", "displayName": "Icon Teal", "canonical": "#1f7a72", "tonalRamp": ["#0f3d39", "#1a665f", "#248e85", "#2fb7ab", "#54d4c8", "#85e0d8", "#b6ece8", "#def7f5"] },
       "icon-indigo": { "role": "tertiary", "displayName": "Icon Indigo", "canonical": "#4a5a8f", "tonalRamp": ["#1a2032", "#2b3554", "#3d4a76", "#4e5f97", "#7282b6", "#9aa5cb", "#c3c9e0", "#e4e7f1"] }
@@ -30,7 +30,11 @@
     "motion": [
       { "name": "ease-standard", "value": "0.12s ease", "purpose": "Default transition for hover/focus/active state changes on buttons, chips, rows, inputs." },
       { "name": "ticker-scroll", "value": "translateX(-50%) over 42s linear infinite", "purpose": "Continuous, calm ticker-tape scroll; pauses on hover; disabled (falls back to manual overflow-x scroll) under prefers-reduced-motion." },
-      { "name": "press-scale", "value": "scale(0.96)", "purpose": "Tactile :active feedback on buttons." }
+      { "name": "press-scale", "value": "scale(0.96)", "purpose": "Tactile :active feedback on buttons." },
+      { "name": "stagger-in", "value": "0.35s ease both, animation-delay = min(index * 15ms, 200ms)", "purpose": "Fade+slide entrance for list items rebuilt on every render (ledger rows, news items, heatmap tiles, history cards) — fires on filter/search/sort changes and live data refreshes, not just first load, since each render creates fresh DOM nodes." },
+      { "name": "sparkline-reveal", "value": "0.6s ease-out both, clip-path inset(0 100% 0 0) to inset(0)", "purpose": "Left-to-right draw-in for every SVG line chart on the page (ledger sparklines, hero/comparador composite chart, Stock Detail Modal line/candlestick chart) on creation." },
+      { "name": "count-up", "value": "700ms ease-out-cubic (animateNumber() in app.js)", "purpose": "Tweens displayed numbers instead of snapping — hero stats (from previous value on live refresh, from 0 on first load) and the Stock Detail Modal's price/change (from 0 on every open)." },
+      { "name": "scroll-reveal", "value": "0.5s ease, opacity+translateY(18px), IntersectionObserver-driven", "purpose": "One-time fade+slide for below-the-fold sections (Empresas, Comparar, Noticias, Calendario, Historial) the first time they cross into the viewport; sections already visible at load are excluded so nothing above the fold ever flashes." }
     ],
     "breakpoints": [
       { "name": "tablet", "value": "860px" },

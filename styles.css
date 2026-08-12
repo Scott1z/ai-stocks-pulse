@@ -66,10 +66,15 @@
   --icon-teal: #1f7a72;
   --icon-indigo: #4a5a8f;
 
-  --rise: #2e7d4f;
-  --rise-dim: rgba(46, 125, 79, 0.1);
-  --fall: #9e3a2f;
-  --fall-dim: rgba(158, 58, 47, 0.1);
+  /* Verde/rojo recalibrados a pedido del usuario ("que el verde sea más
+     verde y el rojo más rojo") — versiones más saturadas de la misma
+     familia, elegidas para mantener el mismo margen de contraste AA que
+     los tonos anteriores tenían contra blanco (~5:1 y ~6.5:1
+     respectivamente), no solo "más brillante a como dé lugar". */
+  --rise: #15803d;
+  --rise-dim: rgba(21, 128, 61, 0.1);
+  --fall: #b91c1c;
+  --fall-dim: rgba(185, 28, 28, 0.1);
   --mixed: #5b6b7a;
   --mixed-dim: rgba(91, 107, 122, 0.1);
 
@@ -96,26 +101,27 @@
   color-scheme: light;
 }
 
-/* Modo oscuro — recalibrado a pedido del usuario para que se vea como el
-   dark mode de finance.yahoo.com: un charcoal neutro casi negro (no el
-   navy-tinted anterior), texto casi blanco, y el mismo carácter de
-   verde/rojo que usa Yahoo (muestreado en vivo de la página real),
-   ajustados apenas para pasar WCAG AA en texto chico — Yahoo corta esa
-   esquina en algunos números, este sitio no. Sigue siendo el mismo
-   sistema de un solo acento (No-Black Rule: ni #000 puro ni #fff puro).
+/* Modo oscuro — base recalibrada una segunda vez a pedido del usuario:
+   el charcoal anterior (#14181c, muestreado de finance.yahoo.com) todavía
+   se leía "azulado" para su gusto — B más alto que R en esos tonos. Esta
+   versión es prácticamente neutra (R/G/B a menos de 2 puntos entre sí) y
+   más oscura, más cerca de negro real sin ser #000 puro (sigue la
+   No-Black Rule). Verde/rojo recalibrados junto con el modo claro para
+   ser más saturados ("más verde", "más rojo"), verificados con margen de
+   contraste AA de sobra contra este fondo más oscuro (~10:1 y ~5.5:1).
    Como cada color del sitio ya pasa por estas variables (auditado: cero
    hex hardcodeado fuera de este bloque, ni en styles.css ni en app.js),
    redefinir el bloque alcanza para que absolutamente todo — gráficos,
    badges, hairlines — herede el tema nuevo sin tocar una sola regla más. */
 :root[data-theme="dark"] {
-  --paper: #14181c;
-  --panel: #1c2228;
-  --panel-raised: #262d34;
-  --line: #2c333b;
-  --line-strong: #3d4750;
-  --text: #e3e3e3;
-  --text-dim: #a8adb5;
-  --text-faint: #7c828a;
+  --paper: #0e0e10;
+  --panel: #17171a;
+  --panel-raised: #202023;
+  --line: #27272b;
+  --line-strong: #38383d;
+  --text: #ececec;
+  --text-dim: #a8a8ad;
+  --text-faint: #7c7c82;
 
   --accent: #8ec8f2;
   --accent-dim: rgba(142, 200, 242, 0.16);
@@ -123,12 +129,12 @@
   --icon-teal: #4fc2b0;
   --icon-indigo: #9aa7e8;
 
-  --rise: #00c896;
-  --rise-dim: rgba(0, 200, 150, 0.16);
-  --fall: #ff4143;
-  --fall-dim: rgba(255, 65, 67, 0.16);
-  --mixed: #a3aab3;
-  --mixed-dim: rgba(163, 170, 179, 0.16);
+  --rise: #17d968;
+  --rise-dim: rgba(23, 217, 104, 0.16);
+  --fall: #ff3b3b;
+  --fall-dim: rgba(255, 59, 59, 0.16);
+  --mixed: #9a9aa0;
+  --mixed-dim: rgba(154, 154, 160, 0.16);
 
   color-scheme: dark;
 }
@@ -138,24 +144,24 @@
      mano todavía (initThemeManager() en app.js recién agrega
      data-theme="light" cuando hay una elección explícita guardada). */
   :root:not([data-theme="light"]):not([data-theme="dark"]) {
-    --paper: #14181c;
-    --panel: #1c2228;
-    --panel-raised: #262d34;
-    --line: #2c333b;
-    --line-strong: #3d4750;
-    --text: #e3e3e3;
-    --text-dim: #a8adb5;
-    --text-faint: #7c828a;
+    --paper: #0e0e10;
+    --panel: #17171a;
+    --panel-raised: #202023;
+    --line: #27272b;
+    --line-strong: #38383d;
+    --text: #ececec;
+    --text-dim: #a8a8ad;
+    --text-faint: #7c7c82;
     --accent: #8ec8f2;
     --accent-dim: rgba(142, 200, 242, 0.16);
     --icon-teal: #4fc2b0;
     --icon-indigo: #9aa7e8;
-    --rise: #00c896;
-    --rise-dim: rgba(0, 200, 150, 0.16);
-    --fall: #ff4143;
-    --fall-dim: rgba(255, 65, 67, 0.16);
-    --mixed: #a3aab3;
-    --mixed-dim: rgba(163, 170, 179, 0.16);
+    --rise: #17d968;
+    --rise-dim: rgba(23, 217, 104, 0.16);
+    --fall: #ff3b3b;
+    --fall-dim: rgba(255, 59, 59, 0.16);
+    --mixed: #9a9aa0;
+    --mixed-dim: rgba(154, 154, 160, 0.16);
     color-scheme: dark;
   }
 }
@@ -197,6 +203,83 @@ a { color: inherit; }
 @media (prefers-reduced-motion: reduce) {
   * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
   html { scroll-behavior: auto; }
+}
+
+/* ---------------------------------------------------------------------
+   Motion — utilidades compartidas del pase de "interfaz más dinámica".
+   Todo pasa igual por la regla global de prefers-reduced-motion de
+   arriba (animation-duration: 0.01ms !important), así que ningún classname
+   nuevo necesita su propio caso especial de accesibilidad — ya heredan el
+   apagado automático.
+   --------------------------------------------------------------------- */
+
+/* Entrada escalonada de items de lista (filas de la tabla, noticias,
+   celdas del heatmap, tarjetas de historial) — cada .map() que arma una
+   lista le suma esta clase + un animation-delay creciente por índice
+   (staggerDelay() en app.js). Como cada render reconstruye el HTML entero
+   (innerHTML), son elementos nuevos de verdad cada vez, así que la
+   animación se dispara sola sin necesidad de reiniciarla a mano. */
+@keyframes stagger-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.stagger-item {
+  animation: stagger-in 0.35s ease both;
+}
+
+/* Sparklines y gráficos "dibujándose" — revela el trazo de izquierda a
+   derecha en vez de aparecer ya completo. clip-path en vez de
+   stroke-dasharray: no hace falta medir la longitud real de cada path en
+   JS (habría que hacerlo por cada sparkline de la tabla, hasta 50
+   elementos), y el efecto visual es prácticamente el mismo para una línea
+   de tendencia. Cubre las sparklines de la tabla, el gráfico compuesto
+   del hero y del comparador (misma clase `.hero-chart-svg` para ambos), y
+   el gráfico del modal de acción (línea de respaldo o velas reales,
+   ambas comparten `.stock-detail-chart`) — se anima una sola vez al
+   crearse el SVG, así que no interfiere con el crosshair interactivo del
+   hero, que solo cambia opacity en elementos internos después. */
+@keyframes sparkline-reveal {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+.sparkline,
+.hero-chart-svg,
+.stock-detail-chart {
+  animation: sparkline-reveal 0.6s ease-out both;
+}
+
+/* Revelado por scroll — cada <section> arranca "pendiente" solo si ya
+   estaba fuera de la ventana al cargar (initScrollReveal() en app.js
+   decide eso mirando getBoundingClientRect antes de sumar esta clase,
+   así el contenido visible al cargar nunca parpadea). */
+.reveal-target {
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.reveal-target.reveal-pending {
+  opacity: 0;
+  transform: translateY(18px);
+}
+
+/* Feedback táctil compartido — el resto de los controles pill/botón que
+   todavía no tenían su propio :active (los que sí lo tenían, como
+   .btn/.heatmap-tile/.stock-star, se dejan como están; sus selectores ya
+   incluyen transform en su propia transition, mismo criterio acá abajo
+   donde el elemento no tenía ninguna). Mismo recorte que el resto del
+   sitio: nunca sombra, solo un empujoncito físico. */
+.chip:active,
+.hero-mover:active,
+.list-toggle:active,
+.cal-entry:active,
+.cal-nav:active:not(:disabled),
+.compare-suggestion-item:active,
+.share-btn:active,
+.theme-toggle:active,
+.stocks-view-toggle button:active {
+  transform: scale(0.96);
+}
+.hero-mover,
+.compare-suggestion-item {
+  transition: transform 0.1s ease;
 }
 
 header, main, footer { position: relative; z-index: 1; }
@@ -298,7 +381,7 @@ header, main, footer { position: relative; z-index: 1; }
   background: transparent;
   color: var(--text-dim);
   cursor: pointer;
-  transition: border-color 0.12s ease, color 0.12s ease;
+  transition: border-color 0.12s ease, color 0.12s ease, transform 0.1s ease;
 }
 .theme-toggle:hover { color: var(--text); border-color: var(--accent); }
 .theme-toggle-icon { width: 15px; height: 15px; }
@@ -643,7 +726,7 @@ header, main, footer { position: relative; z-index: 1; }
   color: var(--text-dim);
   cursor: pointer;
   flex-shrink: 0;
-  transition: border-color 0.12s ease, color 0.12s ease;
+  transition: border-color 0.12s ease, color 0.12s ease, transform 0.1s ease;
 }
 .share-btn:hover:not(:disabled) { color: var(--text); border-color: var(--accent); }
 .share-btn:disabled { opacity: 0.5; cursor: default; }
@@ -681,7 +764,7 @@ header, main, footer { position: relative; z-index: 1; }
   background: transparent;
   color: var(--text-dim);
   cursor: pointer;
-  transition: border-color 0.12s ease, color 0.12s ease, background 0.12s ease;
+  transition: border-color 0.12s ease, color 0.12s ease, background 0.12s ease, transform 0.1s ease;
 }
 .hero-chart-range button:hover { color: var(--text); border-color: var(--accent); }
 .hero-chart-range button.active {
@@ -818,7 +901,7 @@ header, main, footer { position: relative; z-index: 1; }
   background: transparent;
   color: var(--text-dim);
   cursor: pointer;
-  transition: border-color 0.12s ease, color 0.12s ease, background 0.12s ease;
+  transition: border-color 0.12s ease, color 0.12s ease, background 0.12s ease, transform 0.1s ease;
 }
 .chip:hover { color: var(--text); border-color: var(--accent); }
 .chip-favorites { display: inline-flex; align-items: center; gap: 5px; }
@@ -887,7 +970,7 @@ header, main, footer { position: relative; z-index: 1; }
   background: transparent;
   color: var(--text-dim);
   cursor: pointer;
-  transition: border-color 0.12s ease, color 0.12s ease, background 0.12s ease;
+  transition: border-color 0.12s ease, color 0.12s ease, background 0.12s ease, transform 0.1s ease;
 }
 .stocks-view-toggle button:hover { color: var(--text); border-color: var(--accent); }
 .stocks-view-toggle button.active {
@@ -921,7 +1004,9 @@ header, main, footer { position: relative; z-index: 1; }
   border-radius: var(--radius-sm);
   padding: 18px 20px;
   background: var(--panel);
+  transition: border-color 0.15s ease;
 }
+.history-card:hover { border-color: var(--line-strong); }
 
 .history-card-head {
   display: flex;
@@ -1214,7 +1299,7 @@ header, main, footer { position: relative; z-index: 1; }
   color: var(--text-dim);
   text-align: center;
   cursor: pointer;
-  transition: color 0.12s ease, background 0.12s ease;
+  transition: color 0.12s ease, background 0.12s ease, transform 0.1s ease;
 }
 .list-toggle:hover,
 .list-toggle:focus-visible { color: var(--accent); background: var(--panel-raised); }
@@ -1227,11 +1312,15 @@ header, main, footer { position: relative; z-index: 1; }
   padding: 18px 4px;
   border-bottom: 1px solid var(--line);
   cursor: pointer;
-  transition: background 0.12s ease;
+  transition: background 0.12s ease, transform 0.12s ease;
 }
 .stock-row:hover,
 .stock-row:focus-visible { background: var(--panel-raised); }
 .stock-row:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+/* Feedback táctil sin sombra (la regla del sistema es "sin drop-shadow en
+   elementos permanentes en flujo" — cards/rows nunca levantan con sombra,
+   pero sí pueden dar un empujoncito físico al tocar/clickear). */
+.stock-row:active { transform: scale(0.994); }
 
 .stock-id { display: flex; flex-direction: column; min-width: 0; }
 .stock-id-top { display: flex; align-items: center; gap: 6px; }
@@ -1335,7 +1424,7 @@ header, main, footer { position: relative; z-index: 1; }
   padding: 16px 4px;
   border-bottom: 1px solid var(--line);
   cursor: pointer;
-  transition: background 0.12s ease;
+  transition: background 0.12s ease, transform 0.12s ease;
 }
 .news-item:hover,
 .news-item:focus-visible {
@@ -1345,6 +1434,7 @@ header, main, footer { position: relative; z-index: 1; }
   outline: 2px solid var(--accent);
   outline-offset: -2px;
 }
+.news-item:active { transform: scale(0.994); }
 
 .news-dot {
   width: 10px; height: 10px;
@@ -1421,7 +1511,7 @@ header, main, footer { position: relative; z-index: 1; }
   font-size: 1rem;
   line-height: 1;
   cursor: pointer;
-  transition: border-color 0.12s ease, color 0.12s ease;
+  transition: border-color 0.12s ease, color 0.12s ease, transform 0.1s ease;
 }
 .cal-nav:hover:not(:disabled) { color: var(--text); border-color: var(--accent); }
 .cal-nav:disabled { opacity: 0.3; cursor: default; }
@@ -1480,7 +1570,7 @@ header, main, footer { position: relative; z-index: 1; }
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  transition: opacity 0.12s ease;
+  transition: opacity 0.12s ease, transform 0.1s ease;
 }
 .cal-entry:hover { opacity: 0.82; }
 

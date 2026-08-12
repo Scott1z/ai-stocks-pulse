@@ -152,9 +152,9 @@ const DEMO_SECTOR_SUMMARY = {
     "tras resultados que superan expectativas. AMD es la excepción, cayendo por temores de mayor competencia. " +
     "El mercado sigue de cerca el gasto en infraestructura ('capex') de las grandes tecnológicas como principal riesgo a vigilar.",
   stats: [
-    { label: "Empresas al alza", value: "4 / 6", cls: "up" },
-    { label: "Cambio promedio", value: "+0.7%", cls: "up" },
-    { label: "Noticias hoy", value: "8" },
+    { label: "Empresas al alza", value: "4 / 6", cls: "up", kind: "ratio", raw: 4, total: 6 },
+    { label: "Cambio promedio", value: "+0.7%", cls: "up", kind: "percent", raw: 0.7 },
+    { label: "Noticias hoy", value: "8", kind: "count", raw: 8 },
   ],
 };
 
@@ -317,12 +317,57 @@ function findBlurbForTicker(newsItems, ticker) {
   return match ? match.summary : "Sin noticias recientes para este ticker.";
 }
 
+// ---------------------------------------------------------------------------
+// Animación — utilidades compartidas para el pase de "hacer la interfaz
+// más dinámica": conteo animado de números, y ayuda para respetar
+// prefers-reduced-motion en el JS (el CSS global ya lo respeta para
+// transiciones/animaciones declarativas; esto cubre las que se calculan
+// a mano cuadro a cuadro).
+// ---------------------------------------------------------------------------
+
+function prefersReducedMotion() {
+  return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
+// Delay (ms) para la animación de entrada escalonada de items de lista
+// (.stagger-item en styles.css) — crece con el índice pero con techo, así
+// una lista larga no tarda "sensiblemente más" en terminar de aparecer
+// que una corta.
+function staggerDelay(i) {
+  return Math.min(i * 15, 200);
+}
+
+// Anima el texto de `el` de `from` a `to`, con easing ease-out cúbico.
+// `decimals`/`prefix`/`suffix`/`signed` controlan el formato de cada
+// cuadro para que coincida exactamente con el string final que hubiera
+// puesto un render estático (así no hay salto al terminar la animación).
+function animateNumber(el, from, to, { duration = 700, decimals = 0, prefix = "", suffix = "", signed = false } = {}) {
+  if (!el) return;
+  const format = (n) => {
+    const sign = signed && n >= 0 ? "+" : "";
+    return `${sign}${prefix}${n.toFixed(decimals)}${suffix}`;
+  };
+  if (prefersReducedMotion() || from === to || !Number.isFinite(from) || !Number.isFinite(to)) {
+    el.textContent = format(to);
+    return;
+  }
+  const start = performance.now();
+  function tick(now) {
+    const t = Math.min(1, (now - start) / duration);
+    const eased = 1 - Math.pow(1 - t, 3);
+    el.textContent = format(from + (to - from) * eased);
+    if (t < 1) requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
 function normalizeRealData(json) {
   const news = (json.news || []).map((n) => ({
     headline: n.headline,
     summary: n.summary || "",
     source: n.source || hostnameFromUrl(n.source_url),
     time: relativeTime(n.published_at),
+    publishedAt: n.published_at || null,
     ticker: (n.tickers && n.tickers[0]) || null,
     sentiment: NEWS_SENTIMENT_MAP[n.sentiment] || "mixed",
     url: n.source_url || null,
@@ -353,13 +398,18 @@ function normalizeRealData(json) {
         label: "Empresas al alza",
         value: `${stats.upCount ?? 0} / ${stats.totalCount ?? stocks.length}`,
         cls: (stats.upCount ?? 0) >= (stats.totalCount ?? stocks.length) / 2 ? "up" : "down",
+        kind: "ratio",
+        raw: stats.upCount ?? 0,
+        total: stats.totalCount ?? stocks.length,
       },
       {
         label: "Cambio promedio",
         value: `${avg >= 0 ? "+" : ""}${avg.toFixed(1)}%`,
         cls: avg >= 0 ? "up" : "down",
+        kind: "percent",
+        raw: avg,
       },
-      { label: "Noticias hoy", value: String(stats.newsCount ?? news.length) },
+      { label: "Noticias hoy", value: String(stats.newsCount ?? news.length), kind: "count", raw: stats.newsCount ?? news.length },
     ],
   };
 
@@ -414,6 +464,63 @@ async function loadData() {
     isLiveData = false;
     lastUpdatedIso = null;
   }
+}
+
+// Auto-refresh silencioso: cada REFRESH_INTERVAL_MS, si la pestaña está
+// visible, vuelve a pedir data.json y — solo si updated_at cambió de
+// verdad — re-renderiza todo con los mismos render*() que usa la carga
+// inicial (misma lista de siempre, así nunca queda una sección desactualizada
+// mientras otra sí se actualiza). Un fallo de red acá se ignora en
+// silencio: a diferencia de loadData(), NO cae a datos de demostración —
+// eso reemplazaría datos reales ya buenos por placeholders, peor que
+// simplemente reintentar en el próximo ciclo.
+const REFRESH_INTERVAL_MS = 5 * 60 * 1000;
+
+async function refreshData() {
+  if (document.visibilityState === "hidden") return;
+  try {
+    const res = await fetch("data.json", { cache: "no-store" });
+    if (!res.ok) return;
+    const json = await res.json();
+    if (!json.updated_at || json.updated_at === lastUpdatedIso) return; // nada nuevo, no re-renderizar por las dudas
+
+    const normalized = normalizeRealData(json);
+    if (!normalized.stocks.length) return;
+
+    STOCKS = normalized.stocks;
+    NEWS = normalized.news;
+    SECTOR_SUMMARY = normalized.sectorSummary;
+    EARNINGS = normalized.earnings;
+    ARCHIVE = normalized.archive;
+    isLiveData = true;
+    lastUpdatedIso = json.updated_at;
+
+    renderHeroChart();
+    renderSectorSummary();
+    renderHeroMovers();
+    renderHeroBreadth();
+    renderStocksViews();
+    renderCompareSection();
+    renderNews();
+    renderEarningsCalendar();
+    renderHistory();
+    renderLastUpdated();
+    renderDataSourcePill();
+    renderTickerTape();
+    showToast("Datos actualizados");
+  } catch {
+    // Falla silenciosa — se reintenta solo en el próximo ciclo.
+  }
+}
+
+function initAutoRefresh() {
+  setInterval(refreshData, REFRESH_INTERVAL_MS);
+  // Si la pestaña estuvo oculta un rato largo (usuario cambió de tab),
+  // conviene chequear apenas vuelve en vez de esperar hasta el próximo
+  // tick del interval, que puede estar lejos.
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") refreshData();
+  });
 }
 
 // ---------------------------------------------------------------------------
@@ -1053,6 +1160,12 @@ function initCompareSection() {
   });
 }
 
+// Guarda los valores numéricos crudos del render anterior de los stats del
+// hero, para poder animar "del valor viejo al nuevo" en vez de siempre
+// arrancar desde 0 — así una actualización en vivo (auto-refresh) cuenta
+// desde donde estaba, y solo la primera carga cuenta desde cero.
+let prevSectorStatsRaw = null;
+
 function renderSectorSummary() {
   document.getElementById("sectorSummaryText").textContent =
     SECTOR_SUMMARY.text || "Sin resumen disponible todavía.";
@@ -1070,12 +1183,23 @@ function renderSectorSummary() {
   const statsEl = document.getElementById("sectorStats");
   statsEl.innerHTML = SECTOR_SUMMARY.stats
     .map(
-      (s) => `<div class="stat">
-        <div class="stat-value ${s.cls || ""}">${s.value}</div>
+      (s, i) => `<div class="stat">
+        <div class="stat-value ${s.cls || ""}" data-stat-index="${i}">${s.value}</div>
         <div class="stat-label">${HERO_STAT_ICONS[s.label] || ""}${s.label}</div>
       </div>`
     )
     .join("");
+
+  const valueEls = statsEl.querySelectorAll(".stat-value");
+  SECTOR_SUMMARY.stats.forEach((s, i) => {
+    const el = valueEls[i];
+    if (typeof s.raw !== "number") return; // sin dato numérico crudo, dejar el texto estático ya puesto
+    const from = prevSectorStatsRaw ? prevSectorStatsRaw[i] : 0;
+    if (s.kind === "ratio") animateNumber(el, from, s.raw, { decimals: 0, suffix: ` / ${s.total}` });
+    else if (s.kind === "percent") animateNumber(el, from, s.raw, { decimals: 1, suffix: "%", signed: true });
+    else animateNumber(el, from, s.raw, { decimals: 0 });
+  });
+  prevSectorStatsRaw = SECTOR_SUMMARY.stats.map((s) => (typeof s.raw === "number" ? s.raw : 0));
 }
 
 function renderHeroMovers() {
@@ -1240,12 +1364,12 @@ function renderStocks(filter = "all", query = "") {
     '<svg viewBox="0 0 16 16" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true"><path d="M8 1.6l1.87 3.98 4.33.5-3.23 3.02.9 4.4L8 11.35l-3.87 2.15.9-4.4-3.23-3.02 4.33-.5L8 1.6Z"/></svg>';
 
   const rowsHtml = visible
-    .map((s) => {
+    .map((s, i) => {
       const changeSign = s.changePct >= 0 ? "+" : "";
       const changeCls = s.changePct >= 0 ? "up" : "down";
       const isFav = favorites.has(s.ticker);
       return `
-      <article class="stock-row" data-ticker="${s.ticker}" tabindex="0" role="button" aria-haspopup="dialog">
+      <article class="stock-row stagger-item" style="animation-delay:${staggerDelay(i)}ms" data-ticker="${s.ticker}" tabindex="0" role="button" aria-haspopup="dialog">
         <div class="stock-id">
           <div class="stock-id-top">
             <button type="button" class="stock-star ${isFav ? "active" : ""}" data-star="${s.ticker}" aria-pressed="${isFav}" aria-label="${isFav ? "Quitar de favoritas" : "Agregar a favoritas"}">${STAR_ICON}</button>
@@ -1317,7 +1441,7 @@ function renderHeatmap(filter = "all", query = "") {
     .map((s, i) => {
       const tierClass = i < 3 ? "heatmap-tile-lg" : i < 10 ? "heatmap-tile-md" : "heatmap-tile-sm";
       const sign = s.changePct >= 0 ? "+" : "";
-      return `<button type="button" class="heatmap-tile ${tierClass} ${heatmapIntensityClass(s.changePct)}" data-ticker="${escapeHtml(s.ticker)}" title="${escapeHtml(s.name)}">
+      return `<button type="button" class="heatmap-tile stagger-item ${tierClass} ${heatmapIntensityClass(s.changePct)}" style="animation-delay:${staggerDelay(i)}ms" data-ticker="${escapeHtml(s.ticker)}" title="${escapeHtml(s.name)}">
         <span class="heatmap-tile-ticker">${escapeHtml(s.ticker)}</span>
         <span class="heatmap-tile-change">${sign}${s.changePct.toFixed(1)}%</span>
       </button>`;
@@ -1332,25 +1456,45 @@ function renderStocksViews(filter = currentStocksFilter, query = currentStocksQu
   renderHeatmap(filter, query);
 }
 
-function initStocksViewToggle() {
+// La vista de Empresas siempre arranca en "Tabla" — nunca se guarda en
+// localStorage a propósito, es una preferencia de sesión de lectura, no una
+// configuración persistente. applyStocksView() fuerza el estado del DOM a
+// mano en vez de confiar en los atributos estáticos del HTML, porque el
+// bfcache del navegador (restaurar la página al volver con "atrás") puede
+// reponer un estado visual viejo (ej. el heatmap quedó activo) sin volver a
+// correr este script — el listener de "pageshow" de más abajo cubre
+// justamente ese caso.
+function applyStocksView(view) {
+  stocksView = view;
   const toggle = document.getElementById("stocksViewToggle");
   const ledgerHead = document.getElementById("ledgerHead");
   const stockGrid = document.getElementById("stockGrid");
   const heatmapGrid = document.getElementById("heatmapGrid");
+  const isHeatmap = view === "heatmap";
+
+  toggle.querySelectorAll("[data-view]").forEach((b) => {
+    const active = b.dataset.view === view;
+    b.classList.toggle("active", active);
+    b.setAttribute("aria-selected", String(active));
+  });
+  ledgerHead.hidden = isHeatmap;
+  stockGrid.hidden = isHeatmap;
+  heatmapGrid.hidden = !isHeatmap;
+}
+
+function initStocksViewToggle() {
+  const toggle = document.getElementById("stocksViewToggle");
+  const heatmapGrid = document.getElementById("heatmapGrid");
+
+  applyStocksView("table");
+  window.addEventListener("pageshow", (e) => {
+    if (e.persisted) applyStocksView("table");
+  });
 
   toggle.addEventListener("click", (e) => {
     const btn = e.target.closest("[data-view]");
     if (!btn) return;
-    stocksView = btn.dataset.view;
-    toggle.querySelectorAll("[data-view]").forEach((b) => {
-      const active = b === btn;
-      b.classList.toggle("active", active);
-      b.setAttribute("aria-selected", String(active));
-    });
-    const isHeatmap = stocksView === "heatmap";
-    ledgerHead.hidden = isHeatmap;
-    stockGrid.hidden = isHeatmap;
-    heatmapGrid.hidden = !isHeatmap;
+    applyStocksView(btn.dataset.view);
   });
 
   heatmapGrid.addEventListener("click", (e) => {
@@ -1369,15 +1513,15 @@ function renderNews() {
 
   const itemsHtml = visible
     .map(
-      ({ n, i }) => `
-    <article class="news-item" data-index="${i}" tabindex="0" role="button" aria-haspopup="dialog">
+      ({ n, i }, visibleIndex) => `
+    <article class="news-item stagger-item" style="animation-delay:${staggerDelay(visibleIndex)}ms" data-index="${i}" tabindex="0" role="button" aria-haspopup="dialog">
       <span class="news-dot ${n.sentiment}" aria-hidden="true"></span>
       <div class="news-body">
         <p class="news-headline">${escapeHtml(n.headline)}</p>
         <div class="news-meta">
           <span>${escapeHtml(n.source)}</span>
           <span>·</span>
-          <span>${n.time}</span>
+          <span data-published-at="${escapeHtml(n.publishedAt || "")}">${n.time}</span>
         </div>
       </div>
       ${n.ticker ? `<span class="news-ticker-tag">[${escapeHtml(n.ticker)}]</span>` : `<span></span>`}
@@ -1507,10 +1651,10 @@ function renderHistory() {
   const sortedDesc = [...ARCHIVE].sort((a, b) => (a.date < b.date ? 1 : -1));
 
   list.innerHTML = sortedDesc
-    .map((entry) => {
+    .map((entry, i) => {
       const stats = entry.stats || {};
       const avg = stats.avgChangePct ?? 0;
-      return `<article class="history-card">
+      return `<article class="history-card stagger-item" style="animation-delay:${staggerDelay(i)}ms">
         <div class="history-card-head">
           <span class="history-date">${formatShortDate(entry.date)}</span>
           <span class="sentiment-badge sentiment-${entry.sentiment}">${sentimentLabel[entry.sentiment] || entry.sentiment}</span>
@@ -1726,15 +1870,14 @@ let currentModalStock = null;
 
 function openStockModal(stock) {
   currentModalStock = stock;
-  const changeSign = stock.changePct >= 0 ? "+" : "";
   const changeCls = stock.changePct >= 0 ? "up" : "down";
 
   document.getElementById("stockModalTicker").textContent = stock.ticker;
   document.getElementById("stockModalName").textContent = stock.name;
-  document.getElementById("stockModalPrice").textContent = `$${stock.price.toFixed(2)}`;
+  animateNumber(document.getElementById("stockModalPrice"), 0, stock.price, { decimals: 2, prefix: "$", duration: 500 });
   const changeEl = document.getElementById("stockModalChange");
-  changeEl.textContent = `${changeSign}${stock.changePct.toFixed(1)}%`;
   changeEl.className = `stock-modal-change ${changeCls}`;
+  animateNumber(changeEl, 0, stock.changePct, { decimals: 1, suffix: "%", signed: true, duration: 500 });
   const tagEl = document.getElementById("stockModalTag");
   tagEl.textContent = sentimentLabel[stock.sentiment];
   tagEl.className = `stock-tag ${stock.sentiment}`;
@@ -1967,6 +2110,50 @@ function initSectionNav() {
     { rootMargin: "-45% 0px -50% 0px" }
   );
   sections.forEach((s) => observer.observe(s));
+}
+
+// Revelado por scroll — cada .reveal-target arranca invisible/corrido SOLO
+// si ya estaba fuera de la ventana al momento de llamar esto (chequeado con
+// getBoundingClientRect antes de sumarle la clase), así el contenido que
+// ya se ve al cargar (ej. la sección Empresas en una pantalla grande)
+// nunca parpadea con un fade que el usuario no llega a percibir como
+// "entrada", solo como un salto raro.
+// Recalcula "hace X min/h/d" de las noticias visibles cada minuto, sin
+// tocar el resto del DOM — mucho más barato que re-renderizar la lista
+// entera solo para que el reloj relativo no se quede viejo mientras la
+// pestaña sigue abierta. Los items de datos de demostración no tienen
+// data-published-at real (string vacío), así que se saltean solos.
+function tickRelativeTimes() {
+  document.querySelectorAll("[data-published-at]").forEach((el) => {
+    const iso = el.dataset.publishedAt;
+    if (!iso) return;
+    el.textContent = relativeTime(iso);
+  });
+}
+
+function initScrollReveal() {
+  if (!("IntersectionObserver" in window)) return;
+  const targets = document.querySelectorAll(".reveal-target");
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.remove("reveal-pending");
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      });
+    },
+    { threshold: 0.08, rootMargin: "0px 0px -60px 0px" }
+  );
+
+  targets.forEach((el) => {
+    const rect = el.getBoundingClientRect();
+    const alreadyVisible = rect.top < window.innerHeight && rect.bottom > 0;
+    if (alreadyVisible) return; // ya se ve: se queda como está, sin animar
+    el.classList.add("reveal-pending");
+    observer.observe(el);
+  });
 }
 
 function showToast(message) {
@@ -2281,9 +2468,12 @@ async function init() {
   initEarningsCalendar();
   initHistory();
   initSectionNav();
+  initScrollReveal();
   initThemeManager();
   initInstallPrompt();
   initServiceWorker();
+  initAutoRefresh();
+  setInterval(tickRelativeTimes, 60000);
   hidePreloader();
 }
 
