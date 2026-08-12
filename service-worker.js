@@ -1,4 +1,4 @@
-const CACHE_NAME = "ai-stocks-pulse-v45";
+const CACHE_NAME = "ai-stocks-pulse-v46";
 const CORE_ASSETS = [
   "./",
   "./index.html",
@@ -63,5 +63,41 @@ self.addEventListener("fetch", (event) => {
           })
           .catch(() => cached)
     )
+  );
+});
+
+// El payload de un push es opcional y no confiable: si falta o viene mal formado
+// igual hay que mostrar una notificación (nunca lanzar), y se reusa el icono de
+// marca de la PWA (ya precacheado en CORE_ASSETS) tanto para icon como para badge.
+self.addEventListener("push", (event) => {
+  const data = event.data ? event.data.json() : {};
+  event.waitUntil(
+    self.registration.showNotification(data.title || "AI QuickCap", {
+      body: data.body || "",
+      icon: "./icons/icon.svg",
+      badge: "./icons/icon.svg",
+      data: { url: data.url || "./" },
+    })
+  );
+});
+
+// Si ya hay una pestaña de la app abierta, se enfoca en vez de abrir una nueva
+// (la app es de una sola página, así que enfocar alcanza). includeUncontrolled
+// es necesario porque tras un bump de CACHE_NAME una pestaña abierta puede seguir
+// controlada por el service worker anterior y matchAll no la vería sin esta opción.
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  const targetUrl = new URL(
+    (event.notification.data && event.notification.data.url) || "./",
+    self.registration.scope
+  ).href;
+  event.waitUntil(
+    self.clients
+      .matchAll({ type: "window", includeUncontrolled: true })
+      .then((clientList) => {
+        const existing = clientList.find((client) => client.url.startsWith(self.registration.scope));
+        if (existing && "focus" in existing) return existing.focus();
+        return self.clients.openWindow(targetUrl);
+      })
   );
 });
