@@ -80,3 +80,24 @@ self.addEventListener("push", (event) => {
     })
   );
 });
+
+// Si ya hay una pestaña de la app abierta, se enfoca en vez de abrir una nueva
+// (la app es de una sola página, así que enfocar alcanza). includeUncontrolled
+// es necesario porque tras un bump de CACHE_NAME una pestaña abierta puede seguir
+// controlada por el service worker anterior y matchAll no la vería sin esta opción.
+self.addEventListener("notificationclick", (event) => {
+  event.notification.close();
+  const targetUrl = new URL(
+    (event.notification.data && event.notification.data.url) || "./",
+    self.registration.scope
+  ).href;
+  event.waitUntil(
+    self.clients
+      .matchAll({ type: "window", includeUncontrolled: true })
+      .then((clientList) => {
+        const existing = clientList.find((client) => client.url.startsWith(self.registration.scope));
+        if (existing && "focus" in existing) return existing.focus();
+        return self.clients.openWindow(targetUrl);
+      })
+  );
+});
