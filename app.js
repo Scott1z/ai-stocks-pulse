@@ -1112,7 +1112,7 @@ function renderCompareSection() {
   </div>`;
 
   if (compareTickers.length < 2) {
-    chartEl.innerHTML = `${rangeToggle}<p class="compare-empty">Agregá al menos 2 empresas para comparar su rendimiento.</p>`;
+    chartEl.innerHTML = `${rangeToggle}<p class="compare-empty"><svg class="icon-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V9M12 19V4M20 19v-6"/></svg>Agregá al menos 2 empresas para comparar su rendimiento.</p>`;
     return;
   }
 
@@ -1362,7 +1362,7 @@ function renderStocks(filter = "all", query = "") {
   if (!filtered.length) {
     grid.innerHTML =
       filter === "favorites"
-        ? `<p style="color:var(--text-faint)">Todavía no marcaste ninguna acción como favorita. Tocá la estrella junto al ticker para agregarla.</p>`
+        ? `<p class="favorites-empty"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 1.6l1.87 3.98 4.33.5-3.23 3.02.9 4.4L8 11.35l-3.87 2.15.9-4.4-3.23-3.02 4.33-.5L8 1.6Z"/></svg>Todavía no marcaste ninguna acción como favorita. Tocá la estrella junto al ticker para agregarla.</p>`
         : `<p style="color:var(--text-faint)">No hay empresas que coincidan con tu búsqueda.</p>`;
     return;
   }
@@ -1437,7 +1437,7 @@ function renderHeatmap(filter = "all", query = "") {
   if (!filtered.length) {
     grid.innerHTML =
       filter === "favorites"
-        ? `<p style="color:var(--text-faint)">Todavía no marcaste ninguna acción como favorita. Tocá la estrella junto al ticker para agregarla.</p>`
+        ? `<p class="favorites-empty"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 1.6l1.87 3.98 4.33.5-3.23 3.02.9 4.4L8 11.35l-3.87 2.15.9-4.4-3.23-3.02 4.33-.5L8 1.6Z"/></svg>Todavía no marcaste ninguna acción como favorita. Tocá la estrella junto al ticker para agregarla.</p>`
         : `<p style="color:var(--text-faint)">No hay empresas que coincidan con tu búsqueda.</p>`;
     return;
   }
@@ -1978,7 +1978,7 @@ function openStockModal(stock) {
           </button>`
         )
         .join("")
-    : `<p class="stock-modal-news-empty">Sin noticias recientes para este ticker.</p>`;
+    : `<p class="stock-modal-news-empty"><svg class="icon-glyph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4.5h11.5A1.5 1.5 0 0 1 18 6v13a1 1 0 0 1-1 1H6.5A2.5 2.5 0 0 1 4 17.5V6a1.5 1.5 0 0 1 1-1.4Z"/><path d="M8 9h6M8 12.5h6M8 16h3.5"/></svg>Sin noticias recientes para este ticker.</p>`;
 
   const overlay = document.getElementById("stockModal");
   overlay.hidden = false;

@@ -681,6 +681,8 @@ header, main, footer { position: relative; z-index: 1; }
    instead of a gradient card, so it reads as an instrument, not a
    marketing tile. */
 .hero-card {
+  position: relative;
+  z-index: 0;
   background: var(--panel);
   border: 1px solid var(--line);
   border-top: 2px solid var(--accent);
@@ -688,6 +690,31 @@ header, main, footer { position: relative; z-index: 1; }
   padding: 26px 26px 28px;
   display: flex;
   flex-direction: column;
+}
+
+/* Anillos concéntricos decorativos, radiando desde la esquina superior
+   derecha de la card del resumen — un motivo "pulso" literal para "AI
+   Stocks Pulse", tomado de bullmarket.com.ar (solo el lenguaje visual, no
+   su marca ni contenido). z-index -1 + el z-index 0 de arriba en .hero-card
+   crean un contexto de apilamiento propio, así el SVG queda detrás del
+   fondo opaco de la card (donde se superponen quedan ocultos, no compiten
+   con los datos) y solo se ve donde sobresale por arriba/al costado, hacia
+   el padding vacío de la sección. Puramente decorativo — pointer-events:none
+   y aria-hidden para que no interfiera con el foco/lectura de pantalla. */
+.hero-pulse-rings {
+  position: absolute;
+  z-index: -1;
+  top: -70px;
+  right: -20px;
+  width: 260px;
+  height: 260px;
+  pointer-events: none;
+}
+.hero-pulse-rings circle {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1;
+  opacity: 0.14;
 }
 
 .hero-card-head {
@@ -1142,10 +1169,25 @@ header, main, footer { position: relative; z-index: 1; }
 .compare-suggestion-name { font-size: 0.78rem; color: var(--text-faint); }
 
 .compare-empty {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-size: 0.85rem;
   color: var(--text-faint);
   padding: 24px 0;
 }
+.compare-empty .icon-glyph { flex-shrink: 0; opacity: 0.7; }
+
+/* Estrella reusada de la chip "Favoritas" — mismo ícono, mismo significado,
+   en vez de inventar uno nuevo para el mismo concepto. */
+.favorites-empty {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-faint);
+  font-size: 0.85rem;
+}
+.favorites-empty svg { flex-shrink: 0; width: 16px; height: 16px; opacity: 0.7; }
 
 .compare-legend { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 10px; }
 .compare-legend-item {
@@ -1949,6 +1991,9 @@ header, main, footer { position: relative; z-index: 1; }
   white-space: nowrap;
 }
 .stock-modal-news-empty {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-size: 0.85rem;
   color: var(--text-faint);
   padding: 12px 4px;
