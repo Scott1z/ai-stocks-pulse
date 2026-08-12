@@ -149,6 +149,68 @@ TICKER_NAMES = {
     "UBER": "Uber Technologies",
 }
 
+# Sub-sector editorial, no una clasificación GICS oficial — sirve para poder
+# filtrar/etiquetar el catálogo en el frontend ("Semis" / "Software y nube" /
+# "Mega-cap"), no para análisis financiero riguroso. Los gigantes diversificados
+# (Microsoft, Alphabet, Meta, Amazon, Apple, Tesla, Netflix, Uber) van a
+# "megacap" aunque también vendan software/nube, porque su historia de IA es
+# una pieza de un negocio mucho más grande, no una apuesta enfocada — el
+# criterio que separa "semis" de "software" es si la empresa fabrica/diseña
+# hardware o vende software con licencia (ej. CDNS/SNPS son software de
+# diseño de chips, no fabricantes, así que van a "software").
+SUBSECTOR = {
+    "NVDA": "semis",
+    "MSFT": "megacap",
+    "GOOGL": "megacap",
+    "META": "megacap",
+    "AMZN": "megacap",
+    "AVGO": "semis",
+    "ORCL": "software",
+    "PLTR": "software",
+    "AMD": "semis",
+    "TSM": "semis",
+    "ARM": "semis",
+    "SMCI": "semis",
+    "MRVL": "semis",
+    "QCOM": "semis",
+    "MU": "semis",
+    "SNDK": "semis",
+    "CRM": "software",
+    "NOW": "software",
+    "ADBE": "software",
+    "SNOW": "software",
+    "IBM": "software",
+    "AAPL": "megacap",
+    "TSLA": "megacap",
+    "INTC": "semis",
+    "TXN": "semis",
+    "ASML": "semis",
+    "LRCX": "semis",
+    "AMAT": "semis",
+    "KLAC": "semis",
+    "ANET": "semis",
+    "DELL": "semis",
+    "HPE": "semis",
+    "CDNS": "software",
+    "SNPS": "software",
+    "DDOG": "software",
+    "PANW": "software",
+    "CRWD": "software",
+    "MDB": "software",
+    "WDAY": "software",
+    "INTU": "software",
+    "SAP": "software",
+    "TEAM": "software",
+    "STX": "semis",
+    "WDC": "semis",
+    "AI": "software",
+    "SOUN": "software",
+    "IONQ": "semis",
+    "CSCO": "semis",
+    "NFLX": "megacap",
+    "UBER": "megacap",
+}
+
 MAX_CANDIDATES = 15  # cuántos artículos pre-filtrados se mandan al LLM
 HISTORY_POINTS = 12  # puntos que se guardan por ticker para el sparkline
 MODEL = "claude-sonnet-5"
@@ -685,6 +747,7 @@ def build_stocks(
         stocks.append({
             "ticker": ticker,
             "name": TICKER_NAMES.get(ticker, ticker),
+            "subsector": SUBSECTOR.get(ticker),
             "price": price,
             "changePct": info.get("changePct"),
             "spark": series,

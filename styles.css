@@ -914,7 +914,20 @@ header, main, footer { position: relative; z-index: 1; }
   justify-content: space-between;
 }
 
+.filter-groups { display: flex; flex-direction: column; gap: 10px; }
 .filter-group { display: flex; gap: 8px; flex-wrap: wrap; }
+
+/* Filtro de sub-sector — eje independiente del de sentimiento/favoritas de
+   arriba (se combinan con AND, ver currentSubsectorFilter en app.js), así
+   que es su propia fila de chips en vez de mezclarse en la misma. Un
+   escalón más chico/tenue que el filtro principal para que quede claro
+   cuál es la jerarquía sin inventar un componente nuevo — mismo chip,
+   mismo comportamiento activo/hover. */
+.filter-group-secondary .chip {
+  font-size: 0.66rem;
+  padding: 6px 12px;
+  color: var(--text-faint);
+}
 
 .chip {
   font-family: var(--font-data);

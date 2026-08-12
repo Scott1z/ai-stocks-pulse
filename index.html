@@ -110,12 +110,20 @@
   </section>
 
   <section class="filters" aria-label="Filtros">
-    <div class="filter-group" id="filterGroup">
-      <button class="chip active" data-filter="all">Todas</button>
-      <button class="chip" data-filter="bullish">Alcistas</button>
-      <button class="chip" data-filter="bearish">Bajistas</button>
-      <button class="chip" data-filter="mixed">Mixtas</button>
-      <button class="chip chip-favorites" data-filter="favorites"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 1.6l1.87 3.98 4.33.5-3.23 3.02.9 4.4L8 11.35l-3.87 2.15.9-4.4-3.23-3.02 4.33-.5L8 1.6Z"/></svg>Favoritas</button>
+    <div class="filter-groups">
+      <div class="filter-group" id="filterGroup">
+        <button class="chip active" data-filter="all">Todas</button>
+        <button class="chip" data-filter="bullish">Alcistas</button>
+        <button class="chip" data-filter="bearish">Bajistas</button>
+        <button class="chip" data-filter="mixed">Mixtas</button>
+        <button class="chip chip-favorites" data-filter="favorites"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 1.6l1.87 3.98 4.33.5-3.23 3.02.9 4.4L8 11.35l-3.87 2.15.9-4.4-3.23-3.02 4.33-.5L8 1.6Z"/></svg>Favoritas</button>
+      </div>
+      <div class="filter-group filter-group-secondary" id="subsectorFilterGroup">
+        <button class="chip active" data-subsector="all">Todos los sectores</button>
+        <button class="chip" data-subsector="semis">Semis</button>
+        <button class="chip" data-subsector="software">Software y nube</button>
+        <button class="chip" data-subsector="megacap">Mega-cap</button>
+      </div>
     </div>
     <label class="search-box">
       <span class="sr-only">Buscar empresa o ticker</span>

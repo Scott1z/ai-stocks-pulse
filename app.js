@@ -9,6 +9,7 @@ const DEMO_STOCKS = [
   {
     ticker: "NVDA",
     name: "NVIDIA",
+    subsector: "semis",
     price: 128.45,
     changePct: 3.2,
     sentiment: "bullish",
@@ -24,6 +25,7 @@ const DEMO_STOCKS = [
   {
     ticker: "MSFT",
     name: "Microsoft",
+    subsector: "megacap",
     price: 441.2,
     changePct: 1.1,
     sentiment: "bullish",
@@ -34,6 +36,7 @@ const DEMO_STOCKS = [
   {
     ticker: "GOOGL",
     name: "Alphabet",
+    subsector: "megacap",
     price: 178.9,
     changePct: -0.8,
     sentiment: "mixed",
@@ -44,6 +47,7 @@ const DEMO_STOCKS = [
   {
     ticker: "META",
     name: "Meta Platforms",
+    subsector: "megacap",
     price: 512.6,
     changePct: 2.4,
     sentiment: "bullish",
@@ -54,6 +58,7 @@ const DEMO_STOCKS = [
   {
     ticker: "AMZN",
     name: "Amazon",
+    subsector: "megacap",
     price: 189.3,
     changePct: 0.4,
     sentiment: "mixed",
@@ -64,6 +69,7 @@ const DEMO_STOCKS = [
   {
     ticker: "AMD",
     name: "Advanced Micro Devices",
+    subsector: "semis",
     price: 154.75,
     changePct: -2.1,
     sentiment: "bearish",
@@ -387,6 +393,7 @@ function normalizeRealData(json) {
     .map((s) => ({
       ticker: s.ticker,
       name: s.name || s.ticker,
+      subsector: s.subsector || null,
       price: s.price,
       changePct: s.changePct ?? 0,
       sentiment: classifyBySign(s.changePct ?? 0),
@@ -538,6 +545,12 @@ function initAutoRefresh() {
 // ---------------------------------------------------------------------------
 
 const sentimentLabel = { bullish: "Alcista", bearish: "Bajista", mixed: "Mixta" };
+
+// Sub-sector editorial (ver SUBSECTOR en pipeline/fetch_and_curate.py para el
+// criterio de clasificación) — el pipeline manda la clave cruda ("semis" /
+// "software" / "megacap"), el frontend es dueño del texto que se muestra,
+// mismo patrón que sentimentLabel de arriba.
+const SUBSECTOR_LABEL = { semis: "Semis", software: "Software y nube", megacap: "Mega-cap" };
 
 // Category icon set — inspired by how broker sites like invertironline
 // color-code a small icon per product/data category. Deliberately outside
@@ -1354,16 +1367,17 @@ function renderStocks(filter = "all", query = "") {
   const filtered = STOCKS.filter((s) => {
     const matchesFilter =
       filter === "all" || (filter === "favorites" ? favorites.has(s.ticker) : s.sentiment === filter);
+    const matchesSubsector = currentSubsectorFilter === "all" || s.subsector === currentSubsectorFilter;
     const matchesQuery =
       !q || s.ticker.toLowerCase().includes(q) || s.name.toLowerCase().includes(q);
-    return matchesFilter && matchesQuery;
+    return matchesFilter && matchesSubsector && matchesQuery;
   });
 
   if (!filtered.length) {
     grid.innerHTML =
-      filter === "favorites"
+      filter === "favorites" && currentSubsectorFilter === "all"
         ? `<p class="favorites-empty"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 1.6l1.87 3.98 4.33.5-3.23 3.02.9 4.4L8 11.35l-3.87 2.15.9-4.4-3.23-3.02 4.33-.5L8 1.6Z"/></svg>Todavía no marcaste ninguna acción como favorita. Tocá la estrella junto al ticker para agregarla.</p>`
-        : `<p style="color:var(--text-faint)">No hay empresas que coincidan con tu búsqueda.</p>`;
+        : `<p style="color:var(--text-faint)">No hay empresas que coincidan con estos filtros.</p>`;
     return;
   }
 
@@ -1385,7 +1399,7 @@ function renderStocks(filter = "all", query = "") {
             <button type="button" class="stock-star ${isFav ? "active" : ""}" data-star="${s.ticker}" aria-pressed="${isFav}" aria-label="${isFav ? "Quitar de favoritas" : "Agregar a favoritas"}">${STAR_ICON}</button>
             <span class="stock-ticker">${s.ticker}</span>
           </div>
-          <span class="stock-name">${s.name}</span>
+          <span class="stock-name">${s.name}${s.subsector ? ` · ${SUBSECTOR_LABEL[s.subsector] || ""}` : ""}</span>
           <p class="stock-blurb">${escapeHtml(s.blurb)}</p>
         </div>
         <div class="price-value">$${s.price.toFixed(2)}</div>
@@ -1414,6 +1428,13 @@ function renderStocks(filter = "all", query = "") {
 let stocksView = "table";
 let currentStocksFilter = "all";
 let currentStocksQuery = "";
+// Eje de filtro independiente del chip de sentimiento/favoritas — se
+// combinan con AND ("Alcistas" + "Semis" es válido), no se leen como
+// parámetro de renderStocks()/renderHeatmap() porque hay varios call sites
+// que las invocan directo (ver initLedgerSort, el toggle de estrella) y
+// forzarlos a pasar un tercer argumento en cada uno es más frágil que leer
+// este estado de módulo, mismo patrón que stocksExpanded.
+let currentSubsectorFilter = "all";
 
 function heatmapIntensityClass(changePct) {
   const abs = Math.abs(changePct);
@@ -1430,15 +1451,16 @@ function renderHeatmap(filter = "all", query = "") {
   const filtered = STOCKS.filter((s) => {
     const matchesFilter =
       filter === "all" || (filter === "favorites" ? favorites.has(s.ticker) : s.sentiment === filter);
+    const matchesSubsector = currentSubsectorFilter === "all" || s.subsector === currentSubsectorFilter;
     const matchesQuery = !q || s.ticker.toLowerCase().includes(q) || s.name.toLowerCase().includes(q);
-    return matchesFilter && matchesQuery && s.changePct != null;
+    return matchesFilter && matchesSubsector && matchesQuery && s.changePct != null;
   });
 
   if (!filtered.length) {
     grid.innerHTML =
-      filter === "favorites"
+      filter === "favorites" && currentSubsectorFilter === "all"
         ? `<p class="favorites-empty"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 1.6l1.87 3.98 4.33.5-3.23 3.02.9 4.4L8 11.35l-3.87 2.15.9-4.4-3.23-3.02 4.33-.5L8 1.6Z"/></svg>Todavía no marcaste ninguna acción como favorita. Tocá la estrella junto al ticker para agregarla.</p>`
-        : `<p style="color:var(--text-faint)">No hay empresas que coincidan con tu búsqueda.</p>`;
+        : `<p style="color:var(--text-faint)">No hay empresas que coincidan con estos filtros.</p>`;
     return;
   }
 
@@ -2132,6 +2154,19 @@ function initFilters() {
   });
 }
 
+function initSubsectorFilter() {
+  const group = document.getElementById("subsectorFilterGroup");
+  group.addEventListener("click", (e) => {
+    const btn = e.target.closest(".chip");
+    if (!btn) return;
+    group.querySelectorAll(".chip").forEach((c) => c.classList.remove("active"));
+    btn.classList.add("active");
+    currentSubsectorFilter = btn.dataset.subsector;
+    stocksExpanded = false;
+    renderStocksViews();
+  });
+}
+
 function initLedgerSort() {
   const head = document.getElementById("ledgerHead");
   head.addEventListener("click", (e) => {
@@ -2523,6 +2558,7 @@ async function init() {
   renderMarketStatus();
   setInterval(renderMarketStatus, 60000);
   initFilters();
+  initSubsectorFilter();
   initLedgerSort();
   initStocksViewToggle();
   initNewsModal();

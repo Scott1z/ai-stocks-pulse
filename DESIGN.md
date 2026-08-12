@@ -196,12 +196,15 @@ The page shipped almost entirely static for most of its life — hover/focus col
 - **Style:** transparent, `--line-strong` border, `--text-dim` label, uppercase tracked text (label voice, same Montserrat as everything else).
 - **State:** `.active` fills solid navy with panel-white text — the only place a chip becomes a filled surface.
 - **Hover (inactive):** border and text shift to `--accent`, background stays transparent.
+- **Two independent rows, combined with AND, not OR:** the sentiment/favorites row (Todas/Alcistas/Bajistas/Mixtas/Favoritas) and the sub-sector row (Semis/Software y nube/Mega-cap) are separate filter axes — picking "Alcistas" and "Semis" together narrows to stocks matching both, never replaces one selection with the other. Kept as two rows instead of merging into one long chip list specifically so that combination stays legible — one flat row of 8 chips would hide which ones are mutually exclusive and which aren't.
+- **Secondary row is visually quieter, same component:** the sub-sector row reuses the exact same `.chip` markup/behavior at a smaller font-size and more muted resting color (`.filter-group-secondary`) — a size/weight step down, not a different component, so the two rows read as "primary filter, secondary refinement" without inventing new chip styling.
 
 ### Ledger Row (signature component)
 - **Corner Style:** none — flat row, not a card.
 - **Background:** transparent at rest, `--panel-raised` on hover.
 - **Border:** single bottom hairline (`--line`); no top border, no side borders, no box.
 - **Internal layout:** fixed 5-column grid shared with the header row (see Layout); ticker + name + one-line blurb in column 1 (label-voice ticker, body-voice name/blurb), tabular-nums price and change right-aligned, a compact SVG sparkline, and a pill sentiment tag.
+- **Sub-sector tag:** appended inline to the name (`NVIDIA · Semis`), same `--text-faint` muted styling as the name itself — not a colored badge, since color in this row is reserved for sentiment. It's supplementary metadata riding on an existing line, not a new visual element competing for attention.
 - **Interaction:** the entire row is clickable/focusable (`role="button"`, `tabindex="0"`) — opens the Stock Detail Modal. This is deliberate: a table of bare numbers reads as a spreadsheet, so every row is a door to a richer view instead of decoration bolted onto the layout.
 
 ### Sortable Ledger Header
