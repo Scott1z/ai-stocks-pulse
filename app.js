@@ -2719,6 +2719,51 @@ function renderPushToggle(state) {
   toggle.setAttribute("aria-label", labels[state]);
 }
 
+// Asume permiso ya "granted" — el llamador es responsable de ese chequeo.
+async function subscribeToPush() {
+  const reg = await navigator.serviceWorker.ready;
+  const sub = await reg.pushManager.subscribe({
+    userVisibleOnly: true,
+    applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
+  });
+  try {
+    const res = await fetch("/api/subscribe", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ subscription: sub.toJSON() }),
+    });
+    if (!res.ok) {
+      // El servidor no guardó la suscripción: no dejar al navegador con un
+      // registro huérfano que nunca recibiría nada.
+      await sub.unsubscribe();
+      return false;
+    }
+  } catch {
+    await sub.unsubscribe();
+    return false;
+  }
+  return true;
+}
+
+async function unsubscribeFromPush() {
+  const reg = await navigator.serviceWorker.ready;
+  const sub = await reg.pushManager.getSubscription();
+  if (!sub) return true; // ya estaba desuscripto, nada que hacer
+  const endpoint = sub.endpoint; // capturar ANTES de unsubscribe(): el objeto queda inservible después
+  await sub.unsubscribe();
+  try {
+    await fetch("/api/unsubscribe", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ endpoint }),
+    });
+  } catch {
+    // El navegador ya quedó desuscripto localmente aunque falle la red; la
+    // Fase 3 poda filas muertas (410/404) como resguardo adicional.
+  }
+  return true;
+}
+
 // ---------------------------------------------------------------------------
 // Preloader — shown instantly from the HTML, hidden once init() has
 // actually painted real content (not on a fixed timer, and not on window
