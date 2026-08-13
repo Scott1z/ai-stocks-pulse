@@ -8,7 +8,10 @@ Flujo:
   1. Trae noticias generales de mercado de Finnhub (/news?category=general) y se queda
      localmente con las que mencionan alguna de nuestras empresas de IA (por nombre o
      ticker) — Finnhub no tiene una categoría "technology", así que filtramos igual que
-     antes, un paso más temprano en la cadena.
+     antes, un paso más temprano en la cadena. Además trae noticias específicas por
+     ticker (/company-news, un request por empresa) porque el feed general casi nunca
+     menciona por nombre a las semiconductoras/software chicas del catálogo — sin esto,
+     esos tickers quedan sin noticias corrida tras corrida aunque el pipeline funcione bien.
   2. Trae precios actuales de Finnhub para los 50 tickers de AI_TICKERS (con pausa entre
      requests — ver FINNHUB_PACING_SECONDS — para no pasarse del límite de 60 calls/min).
   3. Actualiza price_history.json (ventana local de los últimos puntos) para poder dibujar
@@ -211,7 +214,12 @@ SUBSECTOR = {
     "UBER": "megacap",
 }
 
-MAX_CANDIDATES = 15  # cuántos artículos pre-filtrados se mandan al LLM
+MAX_CANDIDATES = 40  # cuántos artículos pre-filtrados se mandan al LLM — subido de
+# 15 a 40 al sumar noticias por ticker (fetch_company_news): con el feed general
+# solo, casi todos los candidatos eran de un puñado de tickers grandes; con
+# cobertura por empresa el pool es más ancho y necesita más margen para que el
+# LLM (que igual elige solo 8 al final, ver SYSTEM_PROMPT) tenga diversidad real
+# para elegir, no solo los mismos 3-4 nombres de siempre.
 HISTORY_POINTS = 12  # puntos que se guardan por ticker para el sparkline
 MODEL = "claude-sonnet-5"
 
@@ -331,19 +339,71 @@ def fetch_finnhub_news() -> list[dict]:
     return feed
 
 
+def fetch_company_news(tickers: list[str], per_ticker_limit: int = 3) -> list[dict]:
+    """Noticias específicas por empresa vía Finnhub /company-news — el feed
+    general (/news?category=general) casi nunca menciona por nombre a las
+    semiconductoras/software chicas del catálogo (SNDK, WDC, IONQ, SOUN,
+    etc.), así que se quedan sin noticias corrida tras corrida aunque el
+    pipeline funcione perfecto. Este endpoint sí devuelve noticias que
+    Finnhub ya asocia directamente con cada ticker. Un request por ticker,
+    mismo patrón de pacing que fetch_prices; ventana de los últimos 2 días
+    para mantener la misma frescura que el feed general; recortado a
+    per_ticker_limit artículos por ticker para que un nombre muy cubierto
+    (ej. NVDA) no inunde el pool de candidatos a costa de los demás."""
+    if not FINNHUB_API_KEY:
+        sys.exit("Falta FINNHUB_API_KEY en el entorno.")
+
+    today = datetime.now(timezone.utc).date()
+    date_from = (today - timedelta(days=2)).isoformat()
+    date_to = today.isoformat()
+
+    articles = []
+    for i, ticker in enumerate(tickers):
+        if i > 0:
+            time.sleep(FINNHUB_PACING_SECONDS)
+        params = {"symbol": ticker, "from": date_from, "to": date_to, "token": FINNHUB_API_KEY}
+        url = "https://finnhub.io/api/v1/company-news?" + urlencode(params)
+        try:
+            with urlopen(url, timeout=10) as resp:
+                feed = json.loads(resp.read().decode())
+            if isinstance(feed, list):
+                for a in feed[:per_ticker_limit]:
+                    a["_source_ticker"] = ticker
+                    articles.append(a)
+        except Exception as exc:  # red intermitente, ticker sin cobertura, etc.
+            print(f"Aviso: no se pudieron obtener noticias de {ticker}: {exc}", file=sys.stderr)
+    return articles
+
+
 def pre_filter(articles: list[dict]) -> list[dict]:
     """Se queda solo con artículos que mencionan alguna de nuestras empresas
     de IA (por nombre o ticker), ordenados por cuántas mencionan (match_count),
     y recorta al top N. Esto es lo que evita mandarle al LLM artículos
     irrelevantes — Finnhub no manda un relevance_score como Alpha Vantage,
-    así que lo calculamos nosotros."""
+    así que lo calculamos nosotros.
+
+    Deduplica por URL (un artículo de fetch_company_news puede repetirse en
+    el feed general) y, para artículos de fetch_company_news, suma el ticker
+    de origen al match aunque el texto no lo mencione literalmente — Finnhub
+    ya lo asoció con esa empresa al momento de traerlo, así que confiar solo
+    en el texto perdería cobertura real."""
 
     def matched_tickers(article: dict) -> list[str]:
         text = f"{article.get('headline') or ''} {article.get('summary') or ''}"
-        return [t for t in AI_TICKERS if _mentions(text, t, TICKER_NAMES[t])]
+        matches = [t for t in AI_TICKERS if _mentions(text, t, TICKER_NAMES[t])]
+        source_ticker = article.get("_source_ticker")
+        if source_ticker and source_ticker not in matches:
+            matches.append(source_ticker)
+        return matches
 
     scored = []
+    seen_urls = set()
     for a in articles:
+        url = a.get("url")
+        if url:
+            if url in seen_urls:
+                continue
+            seen_urls.add(url)
         matches = matched_tickers(a)
         if matches:
             scored.append((a, matches))
@@ -932,7 +992,16 @@ def fetch_weekly_theses(stocks: list[dict]) -> dict[str, dict]:
 
 
 def main():
-    raw_articles = fetch_finnhub_news()
+    raw_general = fetch_finnhub_news()
+    try:
+        raw_company = fetch_company_news(AI_TICKERS)
+    except Exception as exc:  # cada ticker ya tiene su propio try/except adentro;
+        # esto es solo por si algo más general falla (ej. FINNHUB_API_KEY se cae
+        # a mitad de corrida) — no debe impedir que se escriba data.json con el
+        # feed general solo, como pasaba antes de este cambio.
+        print(f"Aviso: noticias por ticker fallaron, sigo solo con el feed general: {exc}", file=sys.stderr)
+        raw_company = []
+    raw_articles = raw_general + raw_company
     candidates = pre_filter(raw_articles)
 
     prices = fetch_prices(AI_TICKERS)

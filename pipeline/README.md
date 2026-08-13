@@ -11,9 +11,14 @@ datos de demostración — así que es seguro probar esto sin romper nada.
    Finnhub no tiene una categoría "technology" (solo general/forex/crypto/merger), así que se
    filtra localmente igual que antes: se queda con los artículos que mencionan a alguna de
    nuestras 50 empresas (por nombre o ticker) y descarta el resto antes de gastar tokens de LLM.
+1b. Trae noticias específicas por empresa de **Finnhub** (`/company-news`, mismo API key) —
+   50 requests más (uno por ticker), últimos 2 días, recortado a 3 artículos por ticker. El feed
+   general casi nunca menciona por nombre a las semiconductoras/software chicas del catálogo, así
+   que sin esto la mayoría de los 50 tickers queda sin noticias corrida tras corrida aunque el
+   pipeline funcione bien (confirmado en producción antes de agregar esto).
 2. Trae precios actuales de **Finnhub** (`/quote`) para 50 tickers — 50 requests, pausados
    ~1.1s entre sí (`FINNHUB_PACING_SECONDS`) para no pasarse del límite de 60 calls/min una vez
-   que se suman los tres loops de Finnhub de la misma corrida (ver más abajo).
+   que se suman los cuatro loops de Finnhub de la misma corrida (ver más abajo).
 3. Guarda cada precio en `price_history.json` (ventana local de 12 puntos) para poder dibujar
    un sparkline de respaldo si todavía no hay velas diarias reales para un ticker.
 4. Trae fundamentales básicos de **Finnhub** (`/stock/metric`, mismo API key) para los mismos
@@ -170,9 +175,9 @@ Si el cron no dispara en macOS reciente, es casi siempre un tema de permisos: en
 
 Las noticias, precios, fundamentales y los últimos resultados reportados van todos por Finnhub
 (60 calls/min, sin límite diario publicado), así que refrescarlos cada hora no es un problema:
-151 requests por corrida (50 quotes + 50 metrics + 50 earnings actuals + 1 de noticias),
-pausados ~1.1s entre sí (`FINNHUB_PACING_SECONDS`) para quedarse cómodo por debajo del límite
-por minuto. Alpha Vantage solo entra en
+201 requests por corrida (50 quotes + 50 metrics + 50 earnings actuals + 50 noticias por
+empresa + 1 de noticias generales), pausados ~1.1s entre sí (`FINNHUB_PACING_SECONDS`) para
+quedarse cómodo por debajo del límite por minuto. Alpha Vantage solo entra en
 juego una vez por día, para las velas y el calendario de resultados — ver la sección de arriba.
 Correr más seguido que cada hora no rompería el presupuesto de Finnhub, pero tampoco aportaría
 mucho: los precios de Finnhub no cambian tan rápido como para justificarlo, y la corrida diaria
@@ -198,5 +203,5 @@ ticker del cupo de 23, porque el límite de Alpha Vantage es duro).
 
 Si agregás muchos tickers más a `AI_TICKERS` (decenas), revisá que el pacing de Finnhub
 (`FINNHUB_PACING_SECONDS`, 1.1s entre requests) siga alcanzando para quedarse por debajo de
-60 calls/min — con 3 requests/ticker (quote + metric + earnings actuals), a partir de ~180
-tickers habría que revisar el pacing de nuevo.
+60 calls/min — con 4 requests/ticker (quote + metric + earnings actuals + company-news), a
+partir de ~135 tickers habría que revisar el pacing de nuevo.
