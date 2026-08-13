@@ -68,6 +68,11 @@
       <svg class="theme-toggle-icon icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M4.6 4.6l1.8 1.8M17.6 17.6l1.8 1.8M2.5 12h2.5M19 12h2.5M4.6 19.4l1.8-1.8M17.6 6.4l1.8-1.8"/></svg>
       <svg class="theme-toggle-icon icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
     </button>
+    <button id="pushToggle" class="theme-toggle" type="button" data-push-state="default" hidden aria-label="Activar notificaciones">
+      <svg class="theme-toggle-icon icon-bell-outline" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 4 1.5 5 1.5 5h-15S6 13 6 9Z"/><path d="M10.5 19a2 2 0 0 0 3 0"/></svg>
+      <svg class="theme-toggle-icon icon-bell-filled" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 4 1.5 5 1.5 5h-15S6 13 6 9Z"/><path d="M10.5 19a2 2 0 0 0 3 0"/></svg>
+      <svg class="theme-toggle-icon icon-bell-slash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9a6 6 0 1 1 12 0c0 4 1.5 5 1.5 5h-15S6 13 6 9Z"/><path d="M10.5 19a2 2 0 0 0 3 0"/><path d="M4 4l16 16"/></svg>
+    </button>
     <button id="installBtn" class="btn btn-ghost" hidden>Instalar app</button>
   </div>
 </header>
@@ -268,6 +273,13 @@
     <h3 class="stock-modal-news-title">Noticias relacionadas</h3>
     <div class="stock-modal-news" id="stockModalNews"></div>
   </div>
+</div>
+
+<div id="pushSoftAsk" class="push-soft-ask" role="region" aria-label="Notificaciones diarias" hidden>
+  <p class="push-soft-ask-text" id="pushSoftAskText">Recibí el resumen del sector todos los días al cierre del mercado, sin abrir la app.</p>
+  <p class="push-soft-ask-note" id="pushIosNote" hidden>Las notificaciones en iPhone requieren instalar la app primero. Tocá compartir → &quot;Agregar a inicio&quot;, abrí AI QuickCap desde el ícono nuevo y activalas desde ahí.</p>
+  <button id="pushSoftAskAccept" class="btn btn-ghost" type="button" aria-label="Activar notificaciones">Activar</button>
+  <button id="pushSoftAskClose" class="push-soft-ask-close" type="button" aria-label="Cerrar">×</button>
 </div>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>

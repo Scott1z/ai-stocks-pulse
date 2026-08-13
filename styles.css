@@ -409,6 +409,26 @@ header, main, footer { position: relative; z-index: 1; }
   :root:not([data-theme="light"]):not([data-theme="dark"]) .theme-toggle .icon-moon { display: block; }
 }
 
+/* Toggle de push — reutiliza el mismo shell de .theme-toggle (30x30,
+   pill, ghost) a propósito, no un componente nuevo. Solo cambia qué
+   campana se ve según data-push-state, con el mismo mecanismo de
+   display none/block que el icono sol/luna de arriba, pero atado al
+   propio atributo del botón en vez del tema del documento. */
+#pushToggle .icon-bell-outline,
+#pushToggle .icon-bell-filled,
+#pushToggle .icon-bell-slash {
+  display: none;
+}
+#pushToggle[data-push-state="default"] .icon-bell-outline { display: block; }
+#pushToggle[data-push-state="subscribed"] .icon-bell-filled { display: block; }
+#pushToggle[data-push-state="denied"] .icon-bell-slash { display: block; }
+#pushToggle[data-push-state="subscribed"] { color: var(--accent); border-color: var(--accent); }
+/* Denegado no es un error que el visitante causó adentro de la app —
+   es una decisión tomada en el navegador, así que va en --text-faint
+   (mismo tratamiento que el pill de "Mercado cerrado"), nunca en un
+   rojo semántico/destructivo. No "corregir" esto a rojo. */
+#pushToggle[data-push-state="denied"] { color: var(--text-faint); }
+
 .demo-pill {
   font-family: var(--font-data);
   font-size: 0.65rem;
@@ -2154,6 +2174,65 @@ header, main, footer { position: relative; z-index: 1; }
 }
 
 /* ---------------------------------------------------------------------
+   Soft-ask de notificaciones push — reutiliza a propósito la receta de
+   flotación de .toast (posición, transición de entrada, sombra), pero
+   con la superficie neutra de --panel en vez del tratamiento invertido
+   del toast, porque este banner necesita alojar un botón secundario
+   legible además de un control de cierre, no solo texto efímero.
+   --------------------------------------------------------------------- */
+
+.push-soft-ask {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%) translateY(20px);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  max-width: 560px;
+  padding: 12px 20px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 10px 30px -12px rgba(16, 24, 40, 0.35);
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 10;
+}
+.push-soft-ask.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.push-soft-ask-text {
+  flex: 1 1 220px;
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--text);
+}
+.push-soft-ask-note {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--text-dim);
+}
+.push-soft-ask-close {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-strong);
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+.push-soft-ask-close:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ---------------------------------------------------------------------
    Responsive
    --------------------------------------------------------------------- */
 
@@ -2180,6 +2259,17 @@ header, main, footer { position: relative; z-index: 1; }
   }
   .demo-pill { display: none; }
   .market-status { display: none; }
+
+  /* El soft-ask pasa de flotar centrado a ocupar el ancho completo con
+     márgenes laterales — ya no está centrado por left:50%, así que la
+     traducción horizontal se saca de la transición de entrada. */
+  .push-soft-ask {
+    left: 12px;
+    right: 12px;
+    transform: translateY(20px);
+    max-width: none;
+  }
+  .push-soft-ask.show { transform: translateY(0); }
 
   .cal-cell { min-height: 40px; padding: 3px; }
   .cal-day-num { font-size: 0.6rem; }
