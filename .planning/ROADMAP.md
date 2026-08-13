@@ -57,8 +57,19 @@ Wave 2: 01-04 — depends on all three
   4. Subscribed visitors see a persistent toggle reflecting live subscription state, and toggling off deletes the subscription from Redis (server-side), not just locally.
   5. Visitors who have denied browser notification permission see a quiet help message and are never shown the soft-ask or native prompt again.
 
-**Plans**: TBD
+**Plans**: 4 plans (3 waves), 0/4 complete
 **UI hint**: yes
+
+Plans:
+
+- [ ] 02-01-PLAN.md — Repo's first package.json + the two Vercel Functions (api/subscribe.js, api/unsubscribe.js) proven against live Upstash Redis (OPTIN-02, OPTIN-05)
+- [ ] 02-02-PLAN.md — Static shell: #pushSoftAsk banner + #pushToggle topbar button in index.html, styled with zero new design primitives (OPTIN-01, OPTIN-03, OPTIN-04, OPTIN-06)
+- [ ] 02-03-PLAN.md — initPushNotifications() state machine in app.js: dwell timer, permission gating, iOS gate, three-state toggle, subscribe/unsubscribe flows; CACHE_NAME v47->v48 (OPTIN-01..06)
+- [ ] 02-04-PLAN.md — Deploy + live endpoint probes + full six-behavior verification pass with Redis round-trip evidence (OPTIN-01..06)
+
+Wave 1 (parallel): 02-01, 02-02 — no shared files (backend/config vs. index.html+styles.css)
+Wave 2: 02-03 — needs 02-02's element ids and 02-01's endpoints
+Wave 3: 02-04 — end-to-end verification on the deployed site
 
 ### Phase 3: Daily Send Function
 
@@ -95,7 +106,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Backend Foundation | 4/4 | Complete   | 2026-08-13 |
-| 2. Subscribe/Unsubscribe UX | 0/TBD | Not started | - |
+| 2. Subscribe/Unsubscribe UX | 0/4 | Not started | - |
 | 3. Daily Send Function | 0/TBD | Not started | - |
 | 4. Pipeline Trigger Integration | 0/TBD | Not started | - |
 </content>
