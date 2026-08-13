@@ -351,19 +351,31 @@ header, main, footer { position: relative; z-index: 1; }
 .brand-name { font-size: 1rem; font-weight: 600; letter-spacing: -0.01em; }
 .brand-name strong { color: var(--accent); font-weight: 700; }
 
-.topbar-nav { display: flex; gap: 4px; }
+/* Nav de solo íconos en pastilla — mismos paths SVG que ya usa cada sección
+   en su propio <h2> (Empresas/Comparar/Noticias/Calendario/Historial), así
+   que no hay set de íconos nuevo, solo una segunda ubicación reusando los
+   mismos glyphs. El título vía atributo `title` + `aria-label` reemplaza al
+   texto visible que tenía antes. */
+.topbar-nav {
+  display: flex;
+  gap: 2px;
+  padding: 4px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
 .topbar-nav a {
-  font-family: var(--font-data);
-  font-size: 0.72rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
   border-radius: var(--radius-pill);
   color: var(--text-dim);
   text-decoration: none;
   transition: background 0.12s ease, color 0.12s ease;
 }
+.topbar-nav a svg { width: 17px; height: 17px; }
 .topbar-nav a:hover { color: var(--text); background: var(--panel-raised); }
 .topbar-nav a.active { color: var(--accent); background: var(--accent-dim); }
 
@@ -537,6 +549,35 @@ header, main, footer { position: relative; z-index: 1; }
   grid-template-columns: 1.15fr 0.85fr;
   gap: 40px;
   align-items: stretch;
+  position: relative;
+  z-index: 0;
+}
+
+/* Resplandor radial detrás del título — inspirado en pelositracker.app.
+   Solo en modo oscuro: sobre el fondo casi-blanco del modo claro este
+   mismo gradiente no se leería igual (o se vería sucio), así que se activa
+   con el mismo patrón de dos reglas que ya usa el theme-toggle para
+   dark-mode explícito vs. preferencia de sistema. Puramente decorativo:
+   z-index negativo, no compite con el texto, mismo criterio que las
+   pulse rings del hero-card. */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: -40px -10% auto -10%;
+  height: 420px;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+}
+:root[data-theme="dark"] .hero::before {
+  opacity: 1;
+  background: radial-gradient(50% 60% at 28% 30%, var(--accent-dim), transparent 70%);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]):not([data-theme="dark"]) .hero::before {
+    opacity: 1;
+    background: radial-gradient(50% 60% at 28% 30%, var(--accent-dim), transparent 70%);
+  }
 }
 
 .eyebrow {
@@ -1667,6 +1708,33 @@ header, main, footer { position: relative; z-index: 1; }
 }
 .footer-sub { margin: 6px 0 0; }
 
+/* Botón flotante de "volver arriba" — inspirado en pelositracker.app.
+   Mismo lenguaje visual que el theme-toggle (círculo, hairline, hover con
+   --accent) pero fixed y con sombra, porque es genuinamente flotante sobre
+   el contenido (mismo criterio que toast/modales en la Shadow Vocabulary).
+   Oculto hasta que initScrollTopButton() lo muestra tras bajar un poco. */
+.scroll-top-btn {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--line-strong);
+  background: var(--panel);
+  color: var(--text-dim);
+  cursor: pointer;
+  box-shadow: 0 10px 30px -12px rgba(16, 24, 40, 0.35);
+  transition: border-color 0.12s ease, color 0.12s ease, transform 0.1s ease, opacity 0.15s ease;
+}
+.scroll-top-btn svg { width: 18px; height: 18px; }
+.scroll-top-btn:hover { color: var(--accent); border-color: var(--accent); }
+.scroll-top-btn:active { transform: scale(0.92); }
+
 /* ---------------------------------------------------------------------
    News modal — reading a summary in place instead of leaving the page.
    Genuinely floating/temporary, so (like the toast) it earns a shadow.
@@ -1773,6 +1841,38 @@ header, main, footer { position: relative; z-index: 1; }
 
 /* Stock detail modal — wider than the news modal to fit the chart. */
 .stock-modal-panel { max-width: 600px; }
+
+/* Banner degradé + avatar solapado — inspirado en pelositracker.app. No
+   hay fotos de empresa en los datos, así que el avatar muestra la primera
+   letra del ticker en vez de una imagen inventada (misma regla de "nunca
+   fabricar" que rige las noticias). Mismo truco de sangrado a los bordes
+   que .modal-hero-image, y el gradiente se queda dentro de --accent/
+   --accent-dim — no introduce un segundo color, solo dos paradas del
+   mismo tono. */
+.stock-modal-banner {
+  position: relative;
+  height: 88px;
+  margin: -32px -28px 28px;
+  border-radius: calc(var(--radius-sm) - 1px) calc(var(--radius-sm) - 1px) 0 0;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dim) 100%);
+}
+.stock-modal-avatar {
+  position: absolute;
+  left: 28px;
+  bottom: -28px;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-pill);
+  border: 3px solid var(--panel);
+  background: var(--panel-raised);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-data);
+  font-weight: 700;
+  font-size: 1.3rem;
+}
 
 .stock-modal-head {
   display: flex;
@@ -2061,7 +2161,19 @@ header, main, footer { position: relative; z-index: 1; }
   html { scroll-padding-top: 68px; }
   .topbar { padding: 16px; height: auto; }
   .hero, .filters, .stocks, .news, .earnings, .compare { padding-left: 16px; padding-right: 16px; }
-  .topbar-nav { display: none; }
+  /* El nav de texto no entraba en mobile y se ocultaba entero — ahora que
+     es solo íconos (ver .topbar-nav más arriba) entra perfecto como barra
+     flotante abajo, mismo patrón que la nav inferior de pelositracker.app.
+     Mismo elemento, misma lógica de .active de initSectionNav(), solo
+     reposicionado con position:fixed — no hay una segunda nav duplicada. */
+  .topbar-nav {
+    position: fixed;
+    left: 50%;
+    bottom: 16px;
+    transform: translateX(-50%);
+    z-index: 20;
+    box-shadow: 0 10px 30px -12px rgba(16, 24, 40, 0.35);
+  }
   .demo-pill { display: none; }
   .market-status { display: none; }
 

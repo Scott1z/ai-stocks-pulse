@@ -2057,6 +2057,7 @@ function openStockModal(stock) {
 
   document.getElementById("stockModalTicker").textContent = stock.ticker;
   document.getElementById("stockModalName").textContent = stock.name;
+  document.getElementById("stockModalAvatar").textContent = stock.ticker.charAt(0);
   animateNumber(document.getElementById("stockModalPrice"), 0, stock.price, { decimals: 2, prefix: "$", duration: 500 });
   const changeEl = document.getElementById("stockModalChange");
   changeEl.className = `stock-modal-change ${changeCls}`;
@@ -2308,6 +2309,27 @@ function initSectionNav() {
     { rootMargin: "-45% 0px -50% 0px" }
   );
   sections.forEach((s) => observer.observe(s));
+}
+
+// Botón flotante de "volver arriba" — aparece recién después de bajar un
+// poco (no tiene sentido mostrarlo con el hero a la vista). El threshold
+// coincide aproximadamente con la altura del hero, así que aparece justo
+// cuando el visitante ya scrolleó más allá del punto de partida.
+function initScrollTopButton() {
+  const btn = document.getElementById("scrollTopBtn");
+  const SHOW_AFTER_PX = 480;
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      btn.hidden = window.scrollY < SHOW_AFTER_PX;
+    },
+    { passive: true }
+  );
+
+  btn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: prefersReducedMotion() ? "auto" : "smooth" });
+  });
 }
 
 // Revelado por scroll — cada .reveal-target arranca invisible/corrido SOLO
@@ -2680,6 +2702,7 @@ async function init() {
   initHistory();
   initSelection();
   initSectionNav();
+  initScrollTopButton();
   initScrollReveal();
   initThemeManager();
   initInstallPrompt();
