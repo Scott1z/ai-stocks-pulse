@@ -14,7 +14,7 @@ This milestone adds daily web push notifications to AI QuickCap's existing anony
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Backend Foundation** - VAPID keys, Redis storage, and service worker push handlers exist and are independently verifiable (completed 2026-08-13)
-- [ ] **Phase 2: Subscribe/Unsubscribe UX** - Visitors can safely opt in and out of push notifications from the app
+- [x] **Phase 2: Subscribe/Unsubscribe UX** - Visitors can safely opt in and out of push notifications from the app (completed 2026-08-13)
 - [ ] **Phase 3: Daily Send Function** - A backend Function reliably delivers the daily digest to all subscribers exactly once, pruning dead subscriptions
 - [ ] **Phase 4: Pipeline Trigger Integration** - The existing hourly pipeline automatically triggers the daily send at market close
 
@@ -73,7 +73,7 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 02-04-PLAN.md — Deploy + live endpoint probes + full six-behavior verification pass with Redis round-trip evidence (OPTIN-01..06)
+- [x] 02-04-PLAN.md — Deploy + live endpoint probes + full six-behavior verification pass with Redis round-trip evidence (OPTIN-01..06)
 
 Wave 1 (parallel): 02-01, 02-02 — no shared files (backend/config vs. index.html+styles.css)
 Wave 2: 02-03 — needs 02-02's element ids and 02-01's endpoints
@@ -114,7 +114,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Backend Foundation | 4/4 | Complete   | 2026-08-13 |
-| 2. Subscribe/Unsubscribe UX | 3/4 | In Progress|  |
+| 2. Subscribe/Unsubscribe UX | 4/4 | Complete   | 2026-08-13 |
 | 3. Daily Send Function | 0/TBD | Not started | - |
 | 4. Pipeline Trigger Integration | 0/TBD | Not started | - |
 </content>
