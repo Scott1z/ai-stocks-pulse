@@ -13,7 +13,7 @@ This milestone adds daily web push notifications to AI QuickCap's existing anony
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Backend Foundation** - VAPID keys, Redis storage, and service worker push handlers exist and are independently verifiable
+- [x] **Phase 1: Backend Foundation** - VAPID keys, Redis storage, and service worker push handlers exist and are independently verifiable (completed 2026-08-13)
 - [ ] **Phase 2: Subscribe/Unsubscribe UX** - Visitors can safely opt in and out of push notifications from the app
 - [ ] **Phase 3: Daily Send Function** - A backend Function reliably delivers the daily digest to all subscribers exactly once, pruning dead subscriptions
 - [ ] **Phase 4: Pipeline Trigger Integration** - The existing hourly pipeline automatically triggers the daily send at market close
@@ -32,14 +32,14 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. A subscription object can be written to and read back from Redis via the Upstash for Redis integration.
   4. The VAPID public key is embedded in client-side code; the private key exists only as a Vercel environment variable, not in the repo.
 
-**Plans**: 4 plans (2 waves), 3/4 complete
+**Plans**: 4 plans (2 waves), 4/4 complete
 
 Plans:
 
 - [x] 01-01-PLAN.md — Generate the VAPID key pair, store the private half in Vercel env vars only, embed the public half in app.js (BACK-01)
 - [x] 01-02-PLAN.md — Lock in the push:subscriptions Redis schema and prove a live write/read round trip with a stdlib-only CLI (BACK-02)
 - [x] 01-03-PLAN.md — Extend service-worker.js with push + notificationclick listeners and bump CACHE_NAME to v46 (BACK-03, BACK-04)
-- [ ] 01-04-PLAN.md — End-to-end manual verification: real browser subscription, Redis round trip, real test push, both click branches (BACK-01..04)
+- [x] 01-04-PLAN.md — End-to-end manual verification: real browser subscription, Redis round trip, real test push, both click branches (BACK-01..04)
 
 Wave 1 (parallel): 01-01, 01-02, 01-03 — no shared files
 Wave 2: 01-04 — depends on all three
@@ -94,7 +94,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Backend Foundation | 1/4 | In Progress|  |
+| 1. Backend Foundation | 4/4 | Complete   | 2026-08-13 |
 | 2. Subscribe/Unsubscribe UX | 0/TBD | Not started | - |
 | 3. Daily Send Function | 0/TBD | Not started | - |
 | 4. Pipeline Trigger Integration | 0/TBD | Not started | - |
