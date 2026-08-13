@@ -389,12 +389,13 @@ async function unsubscribeFromPush() {
 
 **If this table is empty:** N/A — two low-risk assumptions logged above; everything else in this research (package versions, env var fallback behavior, iOS platform constraints, existing code entry points) was verified directly against the live repo, official Upstash docs, or prior-phase research already marked HIGH confidence.
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Should the `package.json`-introduction decision be raised explicitly with the user before execution, given CLAUDE.md's "no `package.json`" framing?**
    - What we know: CLAUDE.md documents zero `package.json` as "a deliberate architectural choice, not an oversight," but that framing is scoped to the *frontend* ("Any new frontend code must run as-is in the browser"). The `.planning/research/STACK.md` (already-completed prior research, referenced as canonical in `02-CONTEXT.md`) explicitly anticipates and accepts this exact tradeoff for the backend Functions.
    - What's unclear: Whether the user has seen/internalized that this specific phase is where that first `package.json` lands (vs. assuming it was a Phase 1 concern already handled).
    - Recommendation: Planner should surface this as a one-line callout in the plan (not re-litigate the decision — it's already implicitly approved via the locked architecture research) so it's not a surprise in a later review.
+   - **RESOLVED:** surfaced verbatim in `02-01-PLAN.md`'s `<objective>` ("Repo's first `package.json`...") and confirmed non-blocking by `gsd-plan-checker` (Dimension 10).
 
 ## Environment Availability
 
