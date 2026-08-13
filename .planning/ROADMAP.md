@@ -62,9 +62,17 @@ Wave 2: 01-04 — depends on all three
 
 Plans:
 
+**Wave 1**
+
 - [ ] 02-01-PLAN.md — Repo's first package.json + the two Vercel Functions (api/subscribe.js, api/unsubscribe.js) proven against live Upstash Redis (OPTIN-02, OPTIN-05)
 - [ ] 02-02-PLAN.md — Static shell: #pushSoftAsk banner + #pushToggle topbar button in index.html, styled with zero new design primitives (OPTIN-01, OPTIN-03, OPTIN-04, OPTIN-06)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 02-03-PLAN.md — initPushNotifications() state machine in app.js: dwell timer, permission gating, iOS gate, three-state toggle, subscribe/unsubscribe flows; CACHE_NAME v47->v48 (OPTIN-01..06)
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
 - [ ] 02-04-PLAN.md — Deploy + live endpoint probes + full six-behavior verification pass with Redis round-trip evidence (OPTIN-01..06)
 
 Wave 1 (parallel): 02-01, 02-02 — no shared files (backend/config vs. index.html+styles.css)
