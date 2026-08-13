@@ -2764,6 +2764,135 @@ async function unsubscribeFromPush() {
   return true;
 }
 
+function initPushNotifications() {
+  const softAsk = document.getElementById("pushSoftAsk");
+  const softAskText = document.getElementById("pushSoftAskText");
+  const softAskAccept = document.getElementById("pushSoftAskAccept");
+  const softAskClose = document.getElementById("pushSoftAskClose");
+  const iosNote = document.getElementById("pushIosNote");
+  const toggle = document.getElementById("pushToggle");
+
+  function showSoftAsk() {
+    if (!softAsk) return;
+    softAsk.hidden = false;
+    requestAnimationFrame(() => softAsk.classList.add("show"));
+  }
+
+  function hideSoftAsk() {
+    if (!softAsk) return;
+    softAsk.classList.remove("show");
+    setTimeout(() => {
+      softAsk.hidden = true;
+    }, 200);
+  }
+
+  function markSoftAskSeen() {
+    try {
+      localStorage.setItem(PUSH_SOFT_ASK_SEEN_KEY, "1");
+    } catch {
+      /* localStorage unavailable — el flag no persiste, el banner podría reaparecer */
+    }
+  }
+
+  function softAskSeen() {
+    try {
+      return localStorage.getItem(PUSH_SOFT_ASK_SEEN_KEY) === "1";
+    } catch {
+      return false;
+    }
+  }
+
+  async function refresh() {
+    renderPushToggle(await getPushState());
+  }
+
+  // Lógica compartida posterior a la decisión del prompt nativo (no contiene
+  // la llamada a requestPermission() en sí — cada gesto la hace por su
+  // cuenta, ver los dos handlers de abajo, para que la atribución del gesto
+  // del usuario no dependa de una función intermedia).
+  async function afterPermissionDecision(permission) {
+    hideSoftAsk();
+    markSoftAskSeen();
+    if (permission === "granted") {
+      try {
+        const ok = await subscribeToPush();
+        showToast(
+          ok
+            ? "¡Notificaciones activadas!"
+            : "No se pudo activar las notificaciones. Probá de nuevo más tarde."
+        );
+      } catch {
+        showToast("No se pudo activar las notificaciones. Probá de nuevo más tarde.");
+      }
+    }
+    await refresh();
+  }
+
+  softAskClose?.addEventListener("click", () => {
+    hideSoftAsk();
+    markSoftAskSeen();
+  });
+
+  softAskAccept?.addEventListener("click", async () => {
+    // Guard sincrónico + primer await: nada puede await-earse antes de esta
+    // línea o el navegador pierde la atribución del gesto del usuario y
+    // puede auto-denegar el prompt.
+    if (Notification.permission !== "default") return;
+    const permission = await Notification.requestPermission();
+    await afterPermissionDecision(permission);
+  });
+
+  toggle?.addEventListener("click", async () => {
+    // El estado se lee sincrónicamente del propio atributo del botón (que
+    // renderPushToggle() mantiene al día), no con un await getPushState(),
+    // para no perder la atribución del gesto en la rama "default".
+    const currentState = toggle.getAttribute("data-push-state");
+    if (currentState === "denied") {
+      showToast(
+        "Bloqueaste las notificaciones en tu navegador. Para activarlas, entrá a la configuración del sitio (ícono de candado en la barra de direcciones) y permitilas."
+      );
+      return;
+    }
+    if (currentState === "subscribed") {
+      await unsubscribeFromPush();
+      showToast("Notificaciones desactivadas.");
+      await refresh();
+      return;
+    }
+    // "default"
+    if (Notification.permission !== "default") return;
+    const permission = await Notification.requestPermission();
+    await afterPermissionDecision(permission);
+  });
+
+  (async () => {
+    const state = await getPushState();
+    renderPushToggle(state);
+
+    if (state === "unsupported") return; // sin banner, sin toggle, sin timer
+
+    if (state === "ios-not-installed") {
+      if (!softAskSeen()) {
+        setTimeout(() => {
+          if (softAskText) softAskText.hidden = true;
+          if (softAskAccept) softAskAccept.hidden = true;
+          if (iosNote) iosNote.hidden = false;
+          showSoftAsk();
+        }, PUSH_SOFT_ASK_DELAY_MS);
+      }
+      return; // no hay acción funcional en esta pestaña de iOS Safari
+    }
+
+    if (state === "denied") return; // permiso permanente, nunca más se puede pedir
+
+    if (state === "subscribed") return; // nada que ofrecer, el toggle ya lo refleja
+
+    if (state === "default" && !softAskSeen()) {
+      setTimeout(showSoftAsk, PUSH_SOFT_ASK_DELAY_MS);
+    }
+  })();
+}
+
 // ---------------------------------------------------------------------------
 // Preloader — shown instantly from the HTML, hidden once init() has
 // actually painted real content (not on a fixed timer, and not on window
@@ -2831,6 +2960,7 @@ async function init() {
   initThemeManager();
   initInstallPrompt();
   initServiceWorker();
+  initPushNotifications();
   initAutoRefresh();
   setInterval(tickRelativeTimes, 60000);
   hidePreloader();
