@@ -1,0 +1,10 @@
+{
+  "name": "ai-stocks-pulse",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Este package.json existe únicamente para que Vercel pueda resolver la única dependencia de las dos Functions en api/ (@upstash/redis); el frontend (index.html/app.js/styles.css) sigue sin paso de build y sin dependencias npm.",
+  "dependencies": {
+    "@upstash/redis": "^1.38.2"
+  }
+}

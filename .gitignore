@@ -25,3 +25,9 @@ pipeline/pipeline.log
 .DS_Store
 .vercel
 .env*
+
+# Node (api/) — package.json es el primero del repo. Existe solo para que
+# Vercel resuelva @upstash/redis en las Functions de api/; node_modules/ se
+# reinstala en cada deploy a partir de package-lock.json (que SÍ se commitea)
+# y nunca debe llegar al repo.
+node_modules/
