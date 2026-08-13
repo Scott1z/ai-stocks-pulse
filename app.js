@@ -2641,6 +2641,85 @@ function initServiceWorker() {
 }
 
 // ---------------------------------------------------------------------------
+// Push notifications (opt-in) — implementa OPTIN-01..06. Punto crítico: una
+// vez que el visitante elige "Bloquear" en el prompt nativo del navegador,
+// Notification.permission queda en "denied" para siempre — no existe ninguna
+// API de JS para revertirlo. Por eso requestPermission() solo puede llamarse
+// desde gestos directos del usuario y siempre detrás de un chequeo
+// permission === "default"; nunca automáticamente ni al cargar la página.
+// ---------------------------------------------------------------------------
+
+const PUSH_SOFT_ASK_SEEN_KEY = "aisp_push_soft_ask_seen";
+// D-01: el banner no aparece en la primera pintura — espera este tiempo de
+// permanencia antes de mostrarse. 6000ms, elegido dentro de la banda 5-10s.
+const PUSH_SOFT_ASK_DELAY_MS = 6000;
+
+function pushSupported() {
+  return "Notification" in window && "serviceWorker" in navigator && "PushManager" in window;
+}
+
+function isIosNonStandalone() {
+  const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+  // Safari en iOS históricamente solo expone navigator.standalone (no
+  // estándar); display-mode: standalone es el chequeo moderno/estándar.
+  // Se consultan los dos porque ninguno solo alcanza en todos los casos.
+  const isStandalone =
+    window.navigator.standalone === true || window.matchMedia("(display-mode: standalone)").matches;
+  return isIos && !isStandalone;
+}
+
+// Conversión base64url -> Uint8Array probada en la Fase 1 contra el par de
+// claves VAPID real (scripts/make-test-subscription.js) — copiada tal cual,
+// no reescribir.
+function urlBase64ToUint8Array(base64) {
+  const padded = base64 + "=".repeat((4 - (base64.length % 4)) % 4);
+  const b64 = padded.replace(/-/g, "+").replace(/_/g, "/");
+  const raw = atob(b64);
+  const output = new Uint8Array(raw.length);
+  for (let i = 0; i < raw.length; i++) output[i] = raw.charCodeAt(i);
+  return output;
+}
+
+// Única fuente de verdad de qué debe mostrar la UI. El orden de evaluación
+// importa: iOS se chequea antes que el permiso (en una pestaña de Safari en
+// iOS no hay nada que activar, sin importar el permiso), y "subscribed" solo
+// se da si además de "granted" existe una suscripción viva en este
+// navegador — un permiso concedido no implica una suscripción activa.
+async function getPushState() {
+  if (!pushSupported()) return "unsupported";
+  if (isIosNonStandalone()) return "ios-not-installed";
+  if (Notification.permission === "denied") return "denied";
+  if (Notification.permission === "granted") {
+    try {
+      const reg = await navigator.serviceWorker.ready;
+      const sub = await reg.pushManager.getSubscription();
+      if (sub) return "subscribed";
+    } catch {
+      /* sin registro/listo aún — se degrada a "default" */
+    }
+  }
+  return "default";
+}
+
+// Único lugar que toca el DOM de #pushToggle.
+function renderPushToggle(state) {
+  const toggle = document.getElementById("pushToggle");
+  if (!toggle) return;
+  if (state === "unsupported" || state === "ios-not-installed") {
+    toggle.hidden = true;
+    return;
+  }
+  toggle.hidden = false;
+  toggle.setAttribute("data-push-state", state);
+  const labels = {
+    default: "Activar notificaciones",
+    subscribed: "Notificaciones activadas — click para desactivar",
+    denied: "Notificaciones bloqueadas por el navegador",
+  };
+  toggle.setAttribute("aria-label", labels[state]);
+}
+
+// ---------------------------------------------------------------------------
 // Preloader — shown instantly from the HTML, hidden once init() has
 // actually painted real content (not on a fixed timer, and not on window
 // "load", which would wait on fonts/icons that don't block first paint).
