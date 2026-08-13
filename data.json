@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-08-13T20:04:11.266441+00:00",
+  "updated_at": "2026-08-13T22:30:03.089949+00:00",
   "sector": {
-    "sentiment": "bullish",
-    "text": "El sector IA muestra fuerte impulso: SanDisk dispara +14% tras objetivos alcistas que arrastran a Micron y equipos de memoria, mientras AMD prepara una emisión récord de bonos de US$5.000M para infraestructura. Cisco cae 8% por temores de márgenes pese a resultados sólidos.",
+    "sentiment": "mixed",
+    "text": "",
     "stats": {
       "upCount": 43,
       "totalCount": 50,
-      "avgChangePct": 2.53,
-      "newsCount": 8
+      "avgChangePct": 2.52,
+      "newsCount": 0
     }
   },
   "stocks": [
@@ -15,10 +15,9 @@
       "ticker": "NVDA",
       "name": "NVIDIA",
       "subsector": "semis",
-      "price": 225.01,
-      "changePct": 0.4105,
+      "price": 225.3,
+      "changePct": 0.54,
       "spark": [
-        217.5,
         217.5,
         217.5,
         217.5,
@@ -29,7 +28,8 @@
         224.09,
         224.09,
         225.16,
-        225.01
+        225.01,
+        225.3
       ],
       "fundamentals": {
         "peTTM": 33.9758,
@@ -469,7 +469,7 @@
         "surprisePercent": 4.341
       },
       "thesis": {
-        "text": "Líder indiscutido en GPUs para IA, con márgenes netos de 63% y ROE de 112%. Valuación de 34x ganancias sigue razonable dado el crecimiento.",
+        "text": "Líder indiscutido en GPUs para IA, con ROE de 111,66% y margen neto de 62,97% que reflejan dominio absoluto del mercado de aceleradores.",
         "catalyst": "Próximo reporte trimestral y demanda de chips Blackwell"
       }
     },
@@ -477,10 +477,9 @@
       "ticker": "MSFT",
       "name": "Microsoft",
       "subsector": "megacap",
-      "price": 496.7,
-      "changePct": 0.8671,
+      "price": 496.88,
+      "changePct": 0.9037,
       "spark": [
-        503.81,
         503.81,
         503.81,
         503.81,
@@ -491,7 +490,8 @@
         492.43,
         492.43,
         494.35,
-        496.7
+        496.7,
+        496.88
       ],
       "fundamentals": {
         "peTTM": 27.6621,
@@ -931,18 +931,17 @@
         "surprisePercent": 9.5346
       },
       "thesis": {
-        "text": "Azure y Copilot posicionan a Microsoft como motor central de infraestructura y monetización de IA empresarial, con márgenes de 40%.",
-        "catalyst": "Crecimiento de Azure AI en próximo trimestre"
+        "text": "Azure y Copilot posicionan a Microsoft como motor de monetización de IA empresarial, con márgenes sólidos (40,31%) y ROE de 33,22%.",
+        "catalyst": "Resultados trimestrales de Azure y adopción de Copilot"
       }
     },
     {
       "ticker": "GOOGL",
       "name": "Alphabet",
       "subsector": "megacap",
-      "price": 346.2,
-      "changePct": 0.7743,
+      "price": 346.36,
+      "changePct": 0.8209,
       "spark": [
-        343.8,
         343.8,
         343.8,
         343.8,
@@ -953,7 +952,8 @@
         343.54,
         343.54,
         345.4,
-        346.2
+        346.2,
+        346.36
       ],
       "fundamentals": {
         "peTTM": 17.3095,
@@ -1393,18 +1393,17 @@
         "surprisePercent": -4.356
       },
       "thesis": {
-        "text": "Gemini y su nube compiten fuerte en IA, con PE de solo 17x pese a márgenes de 55% y ROE de 51%.",
-        "catalyst": "Resultados de Google Cloud y adopción de Gemini"
+        "text": "Alphabet combina Gemini, TPUs propios y un PE bajo (17,31) frente a pares, con márgenes altísimos (54,77%) para el sector IA.",
+        "catalyst": "Expansión de Gemini y demanda de infraestructura cloud"
       }
     },
     {
       "ticker": "META",
       "name": "Meta Platforms",
       "subsector": "megacap",
-      "price": 594.57,
-      "changePct": 2.7157,
+      "price": 594.97,
+      "changePct": 2.7848,
       "spark": [
-        599.12,
         599.12,
         599.12,
         599.12,
@@ -1415,7 +1414,8 @@
         578.85,
         578.85,
         586.89,
-        594.57
+        594.57,
+        594.97
       ],
       "fundamentals": {
         "peTTM": 21.6544,
@@ -1855,18 +1855,17 @@
         "surprisePercent": -16.0258
       },
       "thesis": {
-        "text": "Invierte fuerte en IA para publicidad y modelos Llama, con márgenes de 30% que financian el gasto en infraestructura.",
-        "catalyst": "Actualización de capex en IA en próximo balance"
+        "text": "Meta invierte fuerte en IA generativa (Llama) para publicidad y contenido, con ROE de 29,73% y margen neto de 29,84%.",
+        "catalyst": "Resultados de capex en IA y monetización publicitaria"
       }
     },
     {
       "ticker": "AMZN",
       "name": "Amazon",
       "subsector": "megacap",
-      "price": 264.99,
-      "changePct": -0.8568,
+      "price": 265.13,
+      "changePct": -0.8044,
       "spark": [
-        272.27,
         272.27,
         272.27,
         272.27,
@@ -1877,7 +1876,8 @@
         267.28,
         267.28,
         265.77,
-        264.99
+        264.99,
+        265.13
       ],
       "fundamentals": {
         "peTTM": 21.3109,
@@ -2317,18 +2317,17 @@
         "surprisePercent": 6.1251
       },
       "thesis": {
-        "text": "AWS lidera infraestructura cloud para IA vía Bedrock, aunque márgenes netos más bajos (17%) reflejan diversificación del negocio.",
-        "catalyst": "Crecimiento de AWS y servicios de IA generativa"
+        "text": "AWS lidera infraestructura cloud para IA con chips propios Trainium, aunque su margen neto (17,44%) es menor que el de sus pares tech.",
+        "catalyst": "Crecimiento de AWS y lanzamiento de nuevos chips IA"
       }
     },
     {
       "ticker": "AVGO",
       "name": "Broadcom",
       "subsector": "semis",
-      "price": 417.58,
-      "changePct": 0.3677,
+      "price": 417.82,
+      "changePct": 0.4254,
       "spark": [
-        416.08,
         416.08,
         416.08,
         416.08,
@@ -2339,7 +2338,8 @@
         416.05,
         416.05,
         422.63,
-        417.58
+        417.58,
+        417.82
       ],
       "fundamentals": {
         "peTTM": 68.3526,
@@ -2779,18 +2779,17 @@
         "surprisePercent": -0.2371
       },
       "thesis": {
-        "text": "Diseña chips custom (ASICs) para hyperscalers de IA, con márgenes de 39% pero valuación exigente a 68x ganancias.",
-        "catalyst": "Guidance sobre silicio custom para clientes de IA"
+        "text": "Broadcom fabrica ASICs de IA a medida para hiperescaladores, con margen neto de 38,85%, aunque cotiza a un PE elevado (68,35).",
+        "catalyst": "Nuevos contratos de chips custom para datacenters IA"
       }
     },
     {
       "ticker": "ORCL",
       "name": "Oracle",
       "subsector": "software",
-      "price": 156.46,
-      "changePct": 2.0746,
+      "price": 156.22,
+      "changePct": 1.9181,
       "spark": [
-        145.48,
         145.48,
         145.48,
         145.48,
@@ -2801,7 +2800,8 @@
         153.28,
         153.28,
         153.49,
-        156.46
+        156.46,
+        156.22
       ],
       "fundamentals": {
         "peTTM": 26.4497,
@@ -3241,18 +3241,17 @@
         "surprisePercent": 1.4087
       },
       "thesis": {
-        "text": "Su nube OCI capta demanda de entrenamiento de IA, con backlog creciente y ROE de 50%, aunque PE moderado.",
-        "catalyst": "Crecimiento del backlog de contratos OCI"
+        "text": "Oracle Cloud Infrastructure gana tracción como alternativa para cargas de IA, con ROE destacado de 50,38% y PE razonable (26,45).",
+        "catalyst": "Crecimiento de backlog en contratos de nube IA"
       }
     },
     {
       "ticker": "PLTR",
       "name": "Palantir",
       "subsector": "software",
-      "price": 179.12,
-      "changePct": 4.724,
+      "price": 179.01,
+      "changePct": 4.6597,
       "spark": [
-        174.94,
         174.94,
         174.94,
         174.94,
@@ -3263,12 +3262,13 @@
         171.04,
         171.04,
         175.57,
-        179.12
+        179.12,
+        179.01
       ],
       "fundamentals": {
-        "peTTM": 139.588,
+        "peTTM": 143.2245,
         "epsTTM": 1.1735,
-        "marketCapM": 421094,
+        "marketCapM": 432064.12,
         "week52High": 207.52,
         "week52Low": 106.37,
         "roeTTM": 37.47,
@@ -3703,18 +3703,17 @@
         "surprisePercent": 15.6885
       },
       "thesis": {
-        "text": "Software de IA para gobierno y empresas con márgenes de 49%, pero valuación extrema de 140x ganancias exige ejecución perfecta.",
-        "catalyst": "Nuevos contratos gubernamentales o empresariales grandes"
+        "text": "Palantir capitaliza analítica de IA para gobiernos y empresas, con margen neto de 49%, aunque su PE de 143 refleja expectativas muy altas.",
+        "catalyst": "Nuevos contratos gubernamentales y expansión comercial"
       }
     },
     {
       "ticker": "AMD",
       "name": "Advanced Micro Devices",
       "subsector": "semis",
-      "price": 483.45,
-      "changePct": 0.1077,
+      "price": 483.01,
+      "changePct": 0.0166,
       "spark": [
-        474.32,
         474.32,
         474.32,
         474.32,
@@ -3725,12 +3724,13 @@
         482.93,
         482.93,
         493.28,
-        483.45
+        483.45,
+        483.01
       ],
       "fundamentals": {
-        "peTTM": 120.1889,
+        "peTTM": 123.2831,
         "epsTTM": 3.8971999999999998,
-        "marketCapM": 773295.2,
+        "marketCapM": 793203.25,
         "week52High": 584.73,
         "week52Low": 149.22,
         "roeTTM": 10.07,
@@ -4165,18 +4165,17 @@
         "surprisePercent": 1.7593
       },
       "thesis": {
-        "text": "Compite con Nvidia en GPUs de datacenter (MI300), aunque ROE bajo (10%) y PE de 120x reflejan expectativas altas.",
-        "catalyst": "Ventas de aceleradores MI350/MI400 en datacenter"
+        "text": "AMD compite con sus GPUs MI300 en el mercado de aceleradores IA, pero su ROE (10,07%) aún es bajo frente a Nvidia.",
+        "catalyst": "Adopción de GPUs MI300/MI350 por hiperescaladores"
       }
     },
     {
       "ticker": "TSM",
       "name": "Taiwan Semiconductor",
       "subsector": "semis",
-      "price": 430.64,
-      "changePct": 0.3472,
+      "price": 430.49,
+      "changePct": 0.3122,
       "spark": [
-        422.06,
         422.06,
         422.06,
         422.06,
@@ -4187,7 +4186,8 @@
         429.15,
         429.15,
         433.76,
-        430.64
+        430.64,
+        430.49
       ],
       "fundamentals": {
         "peTTM": 27.6382,
@@ -4627,18 +4627,17 @@
         "surprisePercent": 10.9248
       },
       "thesis": {
-        "text": "Fabricante clave de todos los chips de IA avanzados, con margen neto de 51% y ROE de 40%, PE razonable.",
-        "catalyst": "Ramp de capacidad en nodos de 2nm"
+        "text": "Taiwan Semiconductor fabrica los chips de IA más avanzados del mundo, con margen neto de 50,7% y ROE de 39,86%.",
+        "catalyst": "Ramp de producción de nodos 3nm/2nm para clientes IA"
       }
     },
     {
       "ticker": "ARM",
       "name": "Arm Holdings",
       "subsector": "semis",
-      "price": 278.84,
-      "changePct": 2.5637,
+      "price": 278.65,
+      "changePct": 2.4938,
       "spark": [
-        268.93,
         268.93,
         268.93,
         268.93,
@@ -4649,7 +4648,8 @@
         271.87,
         271.87,
         282.53,
-        278.84
+        278.84,
+        278.65
       ],
       "fundamentals": {
         "peTTM": 289.0659,
@@ -5089,18 +5089,17 @@
         "surprisePercent": 10.8101
       },
       "thesis": {
-        "text": "Su arquitectura domina chips eficientes para IA edge y móvil, aunque PE de 289x es extremadamente exigente.",
-        "catalyst": "Nuevas licencias de arquitectura para IA"
+        "text": "Arm Holdings licencia arquitecturas clave para chips de IA móviles y de datacenter, aunque su PE de 289 es extremadamente exigente.",
+        "catalyst": "Nuevos acuerdos de licencia para chips de IA"
       }
     },
     {
       "ticker": "SMCI",
       "name": "Super Micro Computer",
       "subsector": "semis",
-      "price": 39.18,
-      "changePct": 4.1744,
+      "price": 39.16,
+      "changePct": 4.1212,
       "spark": [
-        31.6,
         31.6,
         31.6,
         31.6,
@@ -5111,12 +5110,13 @@
         37.61,
         37.61,
         40.47,
-        39.18
+        39.18,
+        39.16
       ],
       "fundamentals": {
-        "peTTM": 16.3794,
+        "peTTM": 20.3647,
         "epsTTM": 1.8352000000000002,
-        "marketCapM": 20431.482,
+        "marketCapM": 25402.768,
         "week52High": 58.78,
         "week52Low": 19.48,
         "roeTTM": 18.22,
@@ -5551,18 +5551,17 @@
         "surprisePercent": 74.0555
       },
       "thesis": {
-        "text": "Ensambla servidores optimizados para IA con PE bajo (16x), pero margen neto delgado (3.7%) revela presión competitiva.",
-        "catalyst": "Entregas de servidores con GPUs de nueva generación"
+        "text": "Super Micro Computer arma servidores optimizados para IA, con PE razonable (20,36) pero margen neto muy bajo (3,7%).",
+        "catalyst": "Recuperación de márgenes y nuevos pedidos de servidores IA"
       }
     },
     {
       "ticker": "MRVL",
       "name": "Marvell Technology",
       "subsector": "semis",
-      "price": 222.38,
-      "changePct": 2.4415,
+      "price": 222.18,
+      "changePct": 2.3494,
       "spark": [
-        212.31,
         212.31,
         212.31,
         212.31,
@@ -5573,7 +5572,8 @@
         217.08,
         217.08,
         228.36,
-        222.38
+        222.38,
+        222.18
       ],
       "fundamentals": {
         "peTTM": 76.4316,
@@ -6013,18 +6013,17 @@
         "surprisePercent": -0.9411
       },
       "thesis": {
-        "text": "Provee chips de red y silicio custom para IA en hyperscalers, con margen neto de 29% pero valuación alta (76x).",
-        "catalyst": "Nuevos contratos ASIC con grandes nubes"
+        "text": "Marvell Technology diseña silicio custom para redes y aceleradores de IA, con margen neto de 28,99% pero PE elevado (76,43).",
+        "catalyst": "Nuevos diseños custom para hiperescaladores"
       }
     },
     {
       "ticker": "QCOM",
       "name": "Qualcomm",
       "subsector": "semis",
-      "price": 164.82,
-      "changePct": 1.0732,
+      "price": 164.79,
+      "changePct": 1.0548,
       "spark": [
-        162.68,
         162.68,
         162.68,
         162.68,
@@ -6035,7 +6034,8 @@
         163.07,
         163.07,
         165.22,
-        164.82
+        164.82,
+        164.79
       ],
       "fundamentals": {
         "peTTM": 18.6879,
@@ -6475,18 +6475,17 @@
         "surprisePercent": -2.746
       },
       "thesis": {
-        "text": "Lleva IA a dispositivos edge y automotriz, con PE bajo (19x) y ROE sólido de 37%, diversificando fuera de móviles.",
-        "catalyst": "Crecimiento en IA para IoT y automotriz"
+        "text": "Qualcomm impulsa IA en el borde (edge) para móviles y PCs, con PE atractivo (18,69) y ROE sólido de 37,33%.",
+        "catalyst": "Adopción de chips Snapdragon con NPU para IA"
       }
     },
     {
       "ticker": "MU",
       "name": "Micron Technology",
       "subsector": "semis",
-      "price": 950.62,
-      "changePct": 4.3159,
+      "price": 949.83,
+      "changePct": 4.2292,
       "spark": [
-        868.52,
         868.52,
         868.52,
         868.52,
@@ -6497,7 +6496,8 @@
         911.29,
         911.29,
         965.04,
-        950.62
+        950.62,
+        949.83
       ],
       "fundamentals": {
         "peTTM": 21.5314,
@@ -6937,18 +6937,17 @@
         "surprisePercent": 17.326
       },
       "thesis": {
-        "text": "Memoria HBM esencial para entrenamiento de IA, con ROE excepcional de 71% y márgenes de 56%, PE aún moderado.",
-        "catalyst": "Demanda de memoria HBM para datacenters IA"
+        "text": "Micron Technology provee memoria HBM crítica para servidores de IA, con ROE excepcional (70,55%) y margen neto de 55,91%.",
+        "catalyst": "Demanda de memoria HBM para GPUs de IA"
       }
     },
     {
       "ticker": "SNDK",
       "name": "SanDisk",
       "subsector": "semis",
-      "price": 1530.29,
-      "changePct": 13.8363,
+      "price": 1528.11,
+      "changePct": 13.6741,
       "spark": [
-        1271.05,
         1271.05,
         1271.05,
         1271.05,
@@ -6959,7 +6958,8 @@
         1344.29,
         1344.29,
         1548.26,
-        1530.29
+        1530.29,
+        1528.11
       ],
       "fundamentals": {
         "peTTM": 16.0346,
@@ -7399,18 +7399,17 @@
         "surprisePercent": 11.6977
       },
       "thesis": {
-        "text": "Beneficiada por ciclo alcista de NAND ligado a almacenamiento para IA, con ROE de 93% y fuerte suba reciente.",
-        "catalyst": "Recuperación de precios de memoria NAND"
+        "text": "SanDisk se beneficia del boom de almacenamiento flash para IA, con ROE de 93,13% y una suba reciente de 13,67%.",
+        "catalyst": "Repunte de precios de memoria NAND"
       }
     },
     {
       "ticker": "CRM",
       "name": "Salesforce",
       "subsector": "software",
-      "price": 201.44,
-      "changePct": 4.2003,
+      "price": 201.37,
+      "changePct": 4.1641,
       "spark": [
-        197.47,
         197.47,
         197.47,
         197.47,
@@ -7421,7 +7420,8 @@
         193.32,
         193.32,
         191.69,
-        201.44
+        201.44,
+        201.37
       ],
       "fundamentals": {
         "peTTM": 19.8896,
@@ -7861,18 +7861,17 @@
         "surprisePercent": 23.245
       },
       "thesis": {
-        "text": "Integra agentes de IA (Agentforce) en su CRM, con PE bajo (20x) y márgenes sólidos de 19%.",
-        "catalyst": "Adopción comercial de Agentforce"
+        "text": "Salesforce apuesta a agentes de IA (Agentforce) para su plataforma CRM, con PE bajo (19,89) y ROE de 14,95%.",
+        "catalyst": "Adopción empresarial de Agentforce"
       }
     },
     {
       "ticker": "NOW",
       "name": "ServiceNow",
       "subsector": "software",
-      "price": 127.07,
-      "changePct": 1.7048,
+      "price": 127.25,
+      "changePct": 1.8489,
       "spark": [
-        127.54,
         127.54,
         127.54,
         127.54,
@@ -7883,7 +7882,8 @@
         124.94,
         124.94,
         122.45,
-        127.07
+        127.07,
+        127.25
       ],
       "fundamentals": {
         "peTTM": 77.3581,
@@ -8323,18 +8323,17 @@
         "surprisePercent": 4.3478
       },
       "thesis": {
-        "text": "Automatiza flujos empresariales con IA, aunque su PE de 77x exige crecimiento sostenido pese a ROE de solo 14%.",
-        "catalyst": "Crecimiento de Pro Plus con IA"
+        "text": "ServiceNow integra IA generativa en flujos de trabajo empresariales, aunque su PE de 77,36 refleja expectativas de crecimiento altas.",
+        "catalyst": "Expansión de módulos de IA en su plataforma"
       }
     },
     {
       "ticker": "ADBE",
       "name": "Adobe",
       "subsector": "software",
-      "price": 270.43,
-      "changePct": 4.514,
+      "price": 270.49,
+      "changePct": 4.5372,
       "spark": [
-        263.71,
         263.71,
         263.71,
         263.71,
@@ -8345,7 +8344,8 @@
         258.75,
         258.75,
         256.29,
-        270.43
+        270.43,
+        270.49
       ],
       "fundamentals": {
         "peTTM": 14.2278,
@@ -8785,18 +8785,17 @@
         "surprisePercent": 0.362
       },
       "thesis": {
-        "text": "Monetiza IA generativa vía Firefly con margen neto de 29% y PE bajo (14x) frente a pares del sector.",
-        "catalyst": "Monetización de Firefly y Creative Cloud IA"
+        "text": "Adobe monetiza IA generativa con Firefly en su suite creativa, con PE atractivo (14,23) y ROE muy alto (62,39%).",
+        "catalyst": "Adopción de herramientas Firefly en suscripciones"
       }
     },
     {
       "ticker": "SNOW",
       "name": "Snowflake",
       "subsector": "software",
-      "price": 338.48,
-      "changePct": 1.872,
+      "price": 337.38,
+      "changePct": 1.541,
       "spark": [
-        334.14,
         334.14,
         334.14,
         334.14,
@@ -8807,12 +8806,13 @@
         332.26,
         332.26,
         334.93,
-        338.48
+        338.48,
+        337.38
       ],
       "fundamentals": {
         "peTTM": null,
         "epsTTM": -3.5145,
-        "marketCapM": 116007.016,
+        "marketCapM": 117455.81,
         "week52High": 341.9498,
         "week52Low": 118.3,
         "roeTTM": -57.21000000000001,
@@ -9247,7 +9247,7 @@
         "surprisePercent": 20.1479
       },
       "thesis": {
-        "text": "Plataforma de datos clave para entrenar modelos de IA, aunque aún no es rentable (margen neto -24%).",
+        "text": "Snowflake es clave en almacenamiento de datos para entrenar modelos de IA, aunque aún reporta márgenes negativos (-23,79%).",
         "catalyst": null
       }
     },
@@ -9255,10 +9255,9 @@
       "ticker": "IBM",
       "name": "IBM",
       "subsector": "software",
-      "price": 236.78,
-      "changePct": 0.339,
+      "price": 237.14,
+      "changePct": 0.4916,
       "spark": [
-        238.42,
         238.42,
         238.42,
         238.42,
@@ -9269,7 +9268,8 @@
         235.98,
         235.98,
         234.01,
-        236.78
+        236.78,
+        237.14
       ],
       "fundamentals": {
         "peTTM": 20.6487,
@@ -9709,18 +9709,17 @@
         "surprisePercent": -2.2812
       },
       "thesis": {
-        "text": "Ofrece consultoría e IA empresarial vía Watsonx, con PE de 21x y ROE sólido de 34%.",
-        "catalyst": "Adopción de Watsonx en clientes corporativos"
+        "text": "IBM impulsa su plataforma watsonx para IA empresarial híbrida, con PE moderado (20,65) y ROE de 33,51%.",
+        "catalyst": "Adopción de watsonx en clientes corporativos"
       }
     },
     {
       "ticker": "AAPL",
       "name": "Apple",
       "subsector": "megacap",
-      "price": 305.05,
-      "changePct": 0.9264,
+      "price": 305.26,
+      "changePct": 0.9959,
       "spark": [
-        304.91,
         304.91,
         304.91,
         304.91,
@@ -9731,7 +9730,8 @@
         302.25,
         302.25,
         303.17,
-        305.05
+        305.05,
+        305.26
       ],
       "fundamentals": {
         "peTTM": 34.3608,
@@ -10171,7 +10171,7 @@
         "surprisePercent": -0.8873
       },
       "thesis": {
-        "text": "Apple Intelligence lleva IA a su ecosistema masivo, con ROE extraordinario de 137% pese a PE de 34x.",
+        "text": "Apple integra Apple Intelligence en su ecosistema, con ROE extraordinario (137,18%) aunque su PE de 34,36 ya descuenta ese potencial.",
         "catalyst": "Expansión de funciones de Apple Intelligence"
       }
     },
@@ -10179,10 +10179,9 @@
       "ticker": "TSLA",
       "name": "Tesla",
       "subsector": "megacap",
-      "price": 339.95,
-      "changePct": 3.7984,
+      "price": 339.96,
+      "changePct": 3.8014,
       "spark": [
-        332.81,
         332.81,
         332.81,
         332.81,
@@ -10193,7 +10192,8 @@
         327.51,
         327.51,
         334.19,
-        339.95
+        339.95,
+        339.96
       ],
       "fundamentals": {
         "peTTM": 343.3595,
@@ -10633,18 +10633,17 @@
         "surprisePercent": -36.4284
       },
       "thesis": {
-        "text": "Apuesta a IA autónoma con FSD y robotaxis, aunque PE de 343x y ROE de solo 4.6% reflejan alta especulación.",
-        "catalyst": "Avances en robotaxi y despliegue de FSD"
+        "text": "Tesla apuesta a IA en conducción autónoma (FSD) y robótica, pero su PE de 343 y margen bajo (3,67%) son de alto riesgo.",
+        "catalyst": "Avances en FSD y lanzamiento de robotaxi"
       }
     },
     {
       "ticker": "INTC",
       "name": "Intel",
       "subsector": "semis",
-      "price": 104.72,
-      "changePct": 3.7345,
+      "price": 104.56,
+      "changePct": 3.576,
       "spark": [
-        97.71,
         97.71,
         97.71,
         97.71,
@@ -10655,7 +10654,8 @@
         100.95,
         100.95,
         105.66,
-        104.72
+        104.72,
+        104.56
       ],
       "fundamentals": {
         "peTTM": null,
@@ -10674,18 +10674,17 @@
         "surprisePercent": 92.926
       },
       "thesis": {
-        "text": "En recuperación con foundry propia para chips de IA, aunque aún reporta pérdidas y margen neto negativo.",
-        "catalyst": "Avance del proceso de fabricación 18A"
+        "text": "Intel busca reinventarse como fundidora de chips de IA, aunque aún reporta márgenes negativos (-19,79%) en su recuperación.",
+        "catalyst": "Progreso del proceso 18A y clientes de foundry"
       }
     },
     {
       "ticker": "TXN",
       "name": "Texas Instruments",
       "subsector": "semis",
-      "price": 273.44,
-      "changePct": -1.1389,
+      "price": 273.43,
+      "changePct": -1.1425,
       "spark": [
-        281.24,
         281.24,
         281.24,
         281.24,
@@ -10696,7 +10695,8 @@
         276.59,
         276.59,
         277.15,
-        273.44
+        273.44,
+        273.43
       ],
       "fundamentals": {
         "peTTM": 41.6877,
@@ -10715,7 +10715,7 @@
         "surprisePercent": 9.5021
       },
       "thesis": {
-        "text": "Semiconductores analógicos con exposición indirecta a IA industrial, márgenes de 31% pero PE elevado (42x) para su crecimiento.",
+        "text": "Texas Instruments provee chips analógicos esenciales para infraestructura de IA, con ROE de 35,77% pero PE elevado (41,69).",
         "catalyst": null
       }
     },
@@ -10723,10 +10723,9 @@
       "ticker": "ASML",
       "name": "ASML Holding",
       "subsector": "semis",
-      "price": 1850.03,
-      "changePct": 2.2076,
+      "price": 1847.9,
+      "changePct": 2.09,
       "spark": [
-        1799.38,
         1799.38,
         1799.38,
         1799.38,
@@ -10737,7 +10736,8 @@
         1810.07,
         1810.07,
         1857.61,
-        1850.03
+        1850.03,
+        1847.9
       ],
       "fundamentals": {
         "peTTM": 57.4581,
@@ -10756,18 +10756,17 @@
         "surprisePercent": 9.4379
       },
       "thesis": {
-        "text": "Monopolio en litografía EUV, tecnología indispensable para fabricar chips de IA de última generación, con ROE de 42%.",
-        "catalyst": "Pedidos de máquinas EUV High-NA"
+        "text": "ASML Holding tiene el monopolio de litografía EUV imprescindible para fabricar chips de IA, con margen neto de 29,49%.",
+        "catalyst": "Pedidos de máquinas EUV de próxima generación"
       }
     },
     {
       "ticker": "LRCX",
       "name": "Lam Research",
       "subsector": "semis",
-      "price": 337.68,
-      "changePct": 3.5479,
+      "price": 337.01,
+      "changePct": 3.3424,
       "spark": [
-        311.41,
         311.41,
         311.41,
         311.41,
@@ -10778,7 +10777,8 @@
         326.11,
         326.11,
         339.66,
-        337.68
+        337.68,
+        337.01
       ],
       "fundamentals": {
         "peTTM": 56.166,
@@ -10797,18 +10797,17 @@
         "surprisePercent": 5.9865
       },
       "thesis": {
-        "text": "Provee equipos de fabricación de semiconductores para memoria y lógica de IA, con ROE alto de 67%.",
-        "catalyst": "Gasto de capex en fabs de memoria"
+        "text": "Lam Research fabrica equipos clave para producir chips de IA, con ROE muy alto (66,97%) aunque PE exigente (56,17).",
+        "catalyst": "Gasto de capital en fabs de memoria/lógica avanzada"
       }
     },
     {
       "ticker": "AMAT",
       "name": "Applied Materials",
       "subsector": "semis",
-      "price": 534.785,
-      "changePct": -2.4382,
+      "price": 534.54,
+      "changePct": -2.4829,
       "spark": [
-        525.61,
         525.61,
         525.61,
         525.61,
@@ -10819,7 +10818,8 @@
         548.15,
         548.15,
         555.92,
-        534.785
+        534.785,
+        534.54
       ],
       "fundamentals": {
         "peTTM": 51.1529,
@@ -10832,24 +10832,23 @@
       },
       "ohlc": [],
       "lastEarnings": {
-        "period": "2026-06-30",
-        "actual": 2.86,
-        "estimate": 2.7176,
-        "surprisePercent": 5.2399
+        "period": "2026-09-30",
+        "actual": 3.5,
+        "estimate": 3.4544,
+        "surprisePercent": 1.3201
       },
       "thesis": {
-        "text": "Equipa fabs de chips de IA, con margen neto de 29%, aunque PE de 51x anticipa fuerte crecimiento futuro.",
-        "catalyst": "Gasto de capex de clientes semiconductores"
+        "text": "Applied Materials provee equipos de fabricación esenciales para chips de IA, con ROE de 39,78% y margen neto de 29,31%.",
+        "catalyst": "Inversión en capacidad de fabs para IA"
       }
     },
     {
       "ticker": "KLAC",
       "name": "KLA Corporation",
       "subsector": "semis",
-      "price": 209.56,
-      "changePct": 0.6291,
+      "price": 209.37,
+      "changePct": 0.5378,
       "spark": [
-        200.47,
         200.47,
         200.47,
         200.47,
@@ -10860,12 +10859,13 @@
         208.25,
         208.25,
         212.75,
-        209.56
+        209.56,
+        209.37
       ],
       "fundamentals": {
-        "peTTM": 52.4429,
+        "peTTM": 56.5539,
         "epsTTM": 3.6663,
-        "marketCapM": 253339.42,
+        "marketCapM": 273198.94,
         "week52High": 307.3743,
         "week52Low": 83.22,
         "roeTTM": 85.38,
@@ -10879,18 +10879,17 @@
         "surprisePercent": 3.316
       },
       "thesis": {
-        "text": "Domina el control de calidad en fabricación de chips avanzados de IA, con ROE excepcional de 85%.",
-        "catalyst": "Demanda de inspección para nodos avanzados"
+        "text": "KLA Corporation domina el control de procesos en fabricación de chips avanzados de IA, con ROE excepcional de 85,38%.",
+        "catalyst": null
       }
     },
     {
       "ticker": "ANET",
       "name": "Arista Networks",
       "subsector": "semis",
-      "price": 204.06,
-      "changePct": -3.0594,
+      "price": 203.62,
+      "changePct": -3.2684,
       "spark": [
-        197.85,
         197.85,
         197.85,
         197.85,
@@ -10901,7 +10900,8 @@
         210.5,
         210.5,
         208.53,
-        204.06
+        204.06,
+        203.62
       ],
       "fundamentals": {
         "peTTM": 65.6401,
@@ -10920,18 +10920,17 @@
         "surprisePercent": 13.0069
       },
       "thesis": {
-        "text": "Provee switches de red de alta velocidad críticos para datacenters de IA, con margen neto de 38%.",
-        "catalyst": "Crecimiento de switches Ethernet para IA"
+        "text": "Arista Networks provee switches de alta velocidad para datacenters de IA, con margen neto de 38,37% pero PE elevado (65,64).",
+        "catalyst": "Demanda de redes de alta velocidad en datacenters IA"
       }
     },
     {
       "ticker": "DELL",
       "name": "Dell Technologies",
       "subsector": "semis",
-      "price": 494.29,
-      "changePct": 2.0206,
+      "price": 494.51,
+      "changePct": 2.066,
       "spark": [
-        440.97,
         440.97,
         440.97,
         440.97,
@@ -10942,12 +10941,13 @@
         484.5,
         484.5,
         497.64,
-        494.29
+        494.29,
+        494.51
       ],
       "fundamentals": {
-        "peTTM": 35.5919,
+        "peTTM": 38.1013,
         "epsTTM": 12.5909,
-        "marketCapM": 299291.9,
+        "marketCapM": 320393.47,
         "week52High": 485.7,
         "week52Low": 110.22,
         "roeTTM": 130.7,
@@ -10961,8 +10961,8 @@
         "surprisePercent": 62.081
       },
       "thesis": {
-        "text": "Vende servidores optimizados para IA a empresas, con ROE altísimo de 131% aunque margen neto delgado (6%).",
-        "catalyst": "Backlog de servidores con GPUs de IA"
+        "text": "Dell Technologies vende servidores optimizados para IA con ROE altísimo (130,7%), aunque su margen neto es bajo (6,28%).",
+        "catalyst": "Pedidos de servidores con GPUs para IA"
       }
     },
     {
@@ -10975,7 +10975,6 @@
         54.38,
         54.38,
         54.38,
-        54.38,
         56.31,
         58.79,
         58.79,
@@ -10983,6 +10982,7 @@
         58.79,
         58.79,
         61.27,
+        59.82,
         59.82
       ],
       "fundamentals": {
@@ -11002,18 +11002,17 @@
         "surprisePercent": 46.4047
       },
       "thesis": {
-        "text": "Compite en servidores y redes para IA empresarial, con márgenes bajos (4%) tras la integración de Juniper.",
-        "catalyst": "Sinergias de la adquisición de Juniper"
+        "text": "Hewlett Packard Enterprise apuesta a servidores de IA, pero su margen neto (4,01%) y ROE (6,28%) son aún modestos.",
+        "catalyst": "Integración de Juniper y pedidos de IA"
       }
     },
     {
       "ticker": "CDNS",
       "name": "Cadence Design Systems",
       "subsector": "software",
-      "price": 323.94,
-      "changePct": 0.2507,
+      "price": 323.77,
+      "changePct": 0.1981,
       "spark": [
-        327.53,
         327.53,
         327.53,
         327.53,
@@ -11024,7 +11023,8 @@
         323.13,
         323.13,
         325.74,
-        323.94
+        323.94,
+        323.77
       ],
       "fundamentals": {
         "peTTM": 64.5777,
@@ -11043,18 +11043,17 @@
         "surprisePercent": 0.6727
       },
       "thesis": {
-        "text": "Sus herramientas de diseño de chips incorporan IA para acelerar desarrollo de semiconductores, con ROE de 23%.",
-        "catalyst": "Adopción de IA en diseño de chips"
+        "text": "Cadence Design Systems provee software EDA acelerado con IA para diseñar chips avanzados, con ROE de 22,88%.",
+        "catalyst": null
       }
     },
     {
       "ticker": "SNPS",
       "name": "Synopsys",
       "subsector": "software",
-      "price": 411.8,
-      "changePct": -0.1261,
+      "price": 411.75,
+      "changePct": -0.1382,
       "spark": [
-        410.91,
         410.91,
         410.91,
         410.91,
@@ -11065,7 +11064,8 @@
         412.32,
         412.32,
         414.55,
-        411.8
+        411.8,
+        411.75
       ],
       "fundamentals": {
         "peTTM": 101.6965,
@@ -11084,7 +11084,7 @@
         "surprisePercent": 4.144
       },
       "thesis": {
-        "text": "Software EDA con IA para diseño de semiconductores, aunque ROE bajo (2.6%) y PE de 102x son exigentes.",
+        "text": "Synopsys ofrece herramientas de diseño de chips potenciadas por IA, aunque su ROE (2,64%) es bajo pese al PE de 101,7.",
         "catalyst": null
       }
     },
@@ -11092,10 +11092,9 @@
       "ticker": "DDOG",
       "name": "Datadog",
       "subsector": "software",
-      "price": 252.175,
-      "changePct": 4.676,
+      "price": 252.24,
+      "changePct": 4.703,
       "spark": [
-        246.78,
         246.78,
         246.78,
         246.78,
@@ -11106,12 +11105,13 @@
         240.91,
         240.91,
         248.71,
-        252.175
+        252.175,
+        252.24
       ],
       "fundamentals": {
-        "peTTM": 524.5098,
+        "peTTM": 512.001,
         "epsTTM": 0.4843,
-        "marketCapM": 93144.54,
+        "marketCapM": 90923.19,
         "week52High": 292.72,
         "week52Low": 98.01,
         "roeTTM": 4.569999999999999,
@@ -11125,18 +11125,17 @@
         "surprisePercent": 7.9914
       },
       "thesis": {
-        "text": "Monitorea infraestructura cloud con IA, pero su PE de 524x refleja expectativas extremas frente a rentabilidad aún débil.",
-        "catalyst": "Adopción de monitoreo con IA generativa"
+        "text": "Datadog monitorea infraestructura de IA en la nube, con crecimiento fuerte pero PE extremo (512) que exige ejecución perfecta.",
+        "catalyst": null
       }
     },
     {
       "ticker": "PANW",
       "name": "Palo Alto Networks",
       "subsector": "software",
-      "price": 396.03,
-      "changePct": 2.3307,
+      "price": 396,
+      "changePct": 2.3229,
       "spark": [
-        383.8,
         383.8,
         383.8,
         383.8,
@@ -11147,7 +11146,8 @@
         387.01,
         387.01,
         391.01,
-        396.03
+        396.03,
+        396
       ],
       "fundamentals": {
         "peTTM": 374.2444,
@@ -11166,18 +11166,17 @@
         "surprisePercent": 4.783
       },
       "thesis": {
-        "text": "Ciberseguridad potenciada por IA para detectar amenazas, con PE de 374x que exige ejecución impecable.",
-        "catalyst": "Adopción de plataforma de seguridad con IA"
+        "text": "Palo Alto Networks incorpora IA en ciberseguridad, aunque su PE de 374 y márgenes bajos (7,95%) reflejan alta expectativa.",
+        "catalyst": null
       }
     },
     {
       "ticker": "CRWD",
       "name": "CrowdStrike",
       "subsector": "software",
-      "price": 225.5,
-      "changePct": 1.6773,
+      "price": 225.53,
+      "changePct": 1.6909,
       "spark": [
-        221.9,
         221.9,
         221.9,
         221.9,
@@ -11188,12 +11187,13 @@
         221.78,
         221.78,
         222.87,
-        225.5
+        225.5,
+        225.53
       ],
       "fundamentals": {
         "peTTM": null,
         "epsTTM": -0.025800000000000003,
-        "marketCapM": 229780.39,
+        "marketCapM": 230152.05,
         "week52High": 226.9,
         "week52Low": 85.68,
         "roeTTM": -0.58,
@@ -11207,18 +11207,17 @@
         "surprisePercent": 1.0287
       },
       "thesis": {
-        "text": "Ciberseguridad con IA para detección de amenazas en tiempo real, aunque aún con márgenes ligeramente negativos.",
-        "catalyst": "Crecimiento de suscripciones con módulos IA"
+        "text": "CrowdStrike usa IA para detección de amenazas en tiempo real, aunque aún reporta márgenes ligeramente negativos.",
+        "catalyst": null
       }
     },
     {
       "ticker": "MDB",
       "name": "MongoDB",
       "subsector": "software",
-      "price": 471.87,
-      "changePct": 7.7747,
+      "price": 472.29,
+      "changePct": 7.8706,
       "spark": [
-        439.16,
         439.16,
         439.16,
         439.16,
@@ -11229,7 +11228,8 @@
         437.83,
         437.83,
         453.28,
-        471.87
+        471.87,
+        472.29
       ],
       "fundamentals": {
         "peTTM": null,
@@ -11248,8 +11248,8 @@
         "surprisePercent": 10.0642
       },
       "thesis": {
-        "text": "Base de datos flexible usada para aplicaciones de IA generativa, aunque todavía no alcanza rentabilidad neta.",
-        "catalyst": "Adopción de búsqueda vectorial Atlas"
+        "text": "MongoDB es base de datos flexible para aplicaciones de IA, aunque su margen neto (-1,12%) sigue siendo negativo.",
+        "catalyst": null
       }
     },
     {
@@ -11262,7 +11262,6 @@
         181.27,
         181.27,
         181.27,
-        181.27,
         174.56,
         175.29,
         175.29,
@@ -11270,6 +11269,7 @@
         175.29,
         175.29,
         175.18,
+        206.45,
         206.45
       ],
       "fundamentals": {
@@ -11289,18 +11289,17 @@
         "surprisePercent": 3.9956
       },
       "thesis": {
-        "text": "Incorpora IA en gestión de RRHH y finanzas empresariales, con fuerte suba reciente y PE de 51x.",
-        "catalyst": "Adopción de asistentes IA en HCM"
+        "text": "Workday integra agentes de IA en gestión de RRHH y finanzas, con una fuerte suba reciente de 17,78% tras resultados.",
+        "catalyst": "Adopción de agentes de IA en clientes corporativos"
       }
     },
     {
       "ticker": "INTU",
       "name": "Intuit",
       "subsector": "software",
-      "price": 358.1,
-      "changePct": 6.9881,
+      "price": 358.29,
+      "changePct": 7.0449,
       "spark": [
-        336.44,
         336.44,
         336.44,
         336.44,
@@ -11311,7 +11310,8 @@
         334.71,
         334.71,
         337.87,
-        358.1
+        358.1,
+        358.29
       ],
       "fundamentals": {
         "peTTM": 19.9729,
@@ -11330,18 +11330,17 @@
         "surprisePercent": -0.1747
       },
       "thesis": {
-        "text": "Usa IA en TurboTax y QuickBooks para automatizar finanzas, con ROE sólido de 23% y PE razonable (20x).",
-        "catalyst": "Adopción de IA en productos fiscales/contables"
+        "text": "Intuit lanza agentes de IA para asesoría fiscal y contable, con PE atractivo (19,97) y suba reciente de 7,04%.",
+        "catalyst": "Expansión de agentes de IA en TurboTax/QuickBooks"
       }
     },
     {
       "ticker": "SAP",
       "name": "SAP",
       "subsector": "software",
-      "price": 209.21,
-      "changePct": 2.4786,
+      "price": 209.28,
+      "changePct": 2.5129,
       "spark": [
-        209.68,
         209.68,
         209.68,
         209.68,
@@ -11352,7 +11351,8 @@
         204.15,
         204.15,
         201.65,
-        209.21
+        209.21,
+        209.28
       ],
       "fundamentals": {
         "peTTM": 26.3524,
@@ -11371,18 +11371,17 @@
         "surprisePercent": -11.1136
       },
       "thesis": {
-        "text": "Integra el copiloto Joule con IA en su ERP empresarial, con margen neto de 20% y ROE de 18%.",
-        "catalyst": "Adopción del copiloto Joule"
+        "text": "SAP integra su asistente Joule con IA en su suite empresarial, con ROE de 17,62% y PE de 26,35.",
+        "catalyst": "Adopción de Joule en clientes empresariales"
       }
     },
     {
       "ticker": "TEAM",
       "name": "Atlassian",
       "subsector": "software",
-      "price": 165.88,
-      "changePct": 6.8539,
+      "price": 165.98,
+      "changePct": 6.9183,
       "spark": [
-        154.08,
         154.08,
         154.08,
         154.08,
@@ -11393,7 +11392,8 @@
         155.24,
         155.24,
         155.59,
-        165.88
+        165.88,
+        165.98
       ],
       "fundamentals": {
         "peTTM": null,
@@ -11412,8 +11412,8 @@
         "surprisePercent": 21.9671
       },
       "thesis": {
-        "text": "Suma IA (Rovo) a sus herramientas de colaboración, aunque aún reporta pérdidas netas leves.",
-        "catalyst": "Adopción del asistente IA Rovo"
+        "text": "Atlassian incorpora IA en sus herramientas de colaboración, aunque aún registra márgenes negativos en su transición.",
+        "catalyst": null
       }
     },
     {
@@ -11426,7 +11426,6 @@
         820.52,
         820.52,
         820.52,
-        820.52,
         883.44,
         878.21,
         878.21,
@@ -11434,6 +11433,7 @@
         878.21,
         878.21,
         915.09,
+        921.37,
         921.37
       ],
       "fundamentals": {
@@ -11453,18 +11453,17 @@
         "surprisePercent": 11.1133
       },
       "thesis": {
-        "text": "Fabrica discos duros de alta capacidad para almacenamiento en datacenters de IA, con ROE extraordinario de 212%.",
-        "catalyst": "Demanda de almacenamiento para nube IA"
+        "text": "Seagate Technology se beneficia de la demanda de almacenamiento masivo para datos de IA, con ROE extraordinario de 212,44%.",
+        "catalyst": "Demanda de discos de alta capacidad para datacenters"
       }
     },
     {
       "ticker": "WDC",
       "name": "Western Digital",
       "subsector": "semis",
-      "price": 487.025,
-      "changePct": 7.2506,
+      "price": 487.29,
+      "changePct": 7.309,
       "spark": [
-        437.93,
         437.93,
         437.93,
         437.93,
@@ -11475,7 +11474,8 @@
         454.1,
         454.1,
         491.61,
-        487.025
+        487.025,
+        487.29
       ],
       "fundamentals": {
         "peTTM": 16.6087,
@@ -11494,8 +11494,8 @@
         "surprisePercent": 6.9679
       },
       "thesis": {
-        "text": "Almacenamiento clave para infraestructura de IA, con ROE de 118% y margen neto excepcional de 73%.",
-        "catalyst": "Demanda de NAND y HDD para IA"
+        "text": "Western Digital provee almacenamiento clave para infraestructura de IA, con ROE de 117,8% y margen neto excepcional (72,95%).",
+        "catalyst": "Ciclo de precios de NAND y HDD para IA"
       }
     },
     {
@@ -11508,7 +11508,6 @@
         10.63,
         10.63,
         10.63,
-        10.63,
         10.29,
         10.08,
         10.08,
@@ -11516,6 +11515,7 @@
         10.08,
         10.08,
         9.73,
+        10.18,
         10.18
       ],
       "fundamentals": {
@@ -11535,7 +11535,7 @@
         "surprisePercent": 14.0625
       },
       "thesis": {
-        "text": "Pure-play de software de IA empresarial, pero con pérdidas profundas (margen neto -188%) que generan alta incertidumbre.",
+        "text": "C3.ai ofrece software de IA empresarial, pero su margen neto profundamente negativo (-187,95%) refleja quema de caja significativa.",
         "catalyst": null
       }
     },
@@ -11543,10 +11543,9 @@
       "ticker": "SOUN",
       "name": "SoundHound AI",
       "subsector": "software",
-      "price": 7.47,
-      "changePct": 0.9459,
+      "price": 7.48,
+      "changePct": 1.0811,
       "spark": [
-        7.41,
         7.41,
         7.41,
         7.41,
@@ -11557,7 +11556,8 @@
         7.4,
         7.4,
         7.28,
-        7.47
+        7.47,
+        7.48
       ],
       "fundamentals": {
         "peTTM": null,
@@ -11576,18 +11576,17 @@
         "surprisePercent": 64.8506
       },
       "thesis": {
-        "text": "Especializada en IA de voz para automotriz y restaurantes, aún no rentable con margen neto negativo de -92%.",
-        "catalyst": "Expansión de contratos en automotriz y retail"
+        "text": "SoundHound AI desarrolla tecnología de voz conversacional con IA, aunque su margen neto (-91,84%) muestra pérdidas relevantes.",
+        "catalyst": null
       }
     },
     {
       "ticker": "IONQ",
       "name": "IonQ",
       "subsector": "semis",
-      "price": 44.99,
-      "changePct": -0.4646,
+      "price": 44.98,
+      "changePct": -0.4867,
       "spark": [
-        43.44,
         43.44,
         43.44,
         43.44,
@@ -11598,7 +11597,8 @@
         45.2,
         45.2,
         45.2,
-        44.99
+        44.99,
+        44.98
       ],
       "fundamentals": {
         "peTTM": 51.6359,
@@ -11617,8 +11617,8 @@
         "surprisePercent": -13.3242
       },
       "thesis": {
-        "text": "Apuesta especulativa a computación cuántica como frontera futura de IA, con métricas de rentabilidad aún volátiles.",
-        "catalyst": "Avances comerciales en computación cuántica"
+        "text": "IonQ apuesta a computación cuántica como complemento futuro de la IA, con métricas volátiles y alta especulación en el mercado.",
+        "catalyst": null
       }
     },
     {
@@ -11631,7 +11631,6 @@
         120.43,
         120.43,
         120.43,
-        120.43,
         122.79,
         123.88,
         123.88,
@@ -11639,6 +11638,7 @@
         123.88,
         123.88,
         112.65,
+        113.47,
         113.47
       ],
       "fundamentals": {
@@ -11658,18 +11658,17 @@
         "surprisePercent": 2.2032
       },
       "thesis": {
-        "text": "Provee redes para datacenters de IA, aunque la fuerte caída reciente refleja preocupación sobre su crecimiento.",
-        "catalyst": null
+        "text": "Cisco Systems provee redes para datacenters de IA, con ROE de 25,14%, aunque sufrió una fuerte caída reciente de 8,4%.",
+        "catalyst": "Reacción del mercado tras última publicación de resultados"
       }
     },
     {
       "ticker": "NFLX",
       "name": "Netflix",
       "subsector": "megacap",
-      "price": 78.25,
-      "changePct": 5.444,
+      "price": 78.24,
+      "changePct": 5.4305,
       "spark": [
-        74.79,
         74.79,
         74.79,
         74.79,
@@ -11680,7 +11679,8 @@
         74.21,
         74.21,
         76.6,
-        78.25
+        78.25,
+        78.24
       ],
       "fundamentals": {
         "peTTM": 23.4437,
@@ -11699,7 +11699,7 @@
         "surprisePercent": -0.5223
       },
       "thesis": {
-        "text": "Usa IA para personalización y recomendación de contenido, con márgenes sólidos de 28% aunque no es un puro jugador de IA.",
+        "text": "Netflix usa IA en recomendación de contenido y producción, con ROE sólido (47,96%) y margen neto de 28,22%.",
         "catalyst": null
       }
     },
@@ -11707,10 +11707,9 @@
       "ticker": "UBER",
       "name": "Uber Technologies",
       "subsector": "megacap",
-      "price": 75.86,
-      "changePct": 0.6635,
+      "price": 75.88,
+      "changePct": 0.69,
       "spark": [
-        78.54,
         78.54,
         78.54,
         78.54,
@@ -11721,12 +11720,13 @@
         75.36,
         75.36,
         74.76,
-        75.86
+        75.86,
+        75.88
       ],
       "fundamentals": {
-        "peTTM": 16.5576,
+        "peTTM": 16.1972,
         "epsTTM": 4.5543000000000005,
-        "marketCapM": 158604.8,
+        "marketCapM": 155152.88,
         "week52High": 101.99,
         "week52Low": 65.41,
         "roeTTM": 35.730000000000004,
@@ -11740,119 +11740,12 @@
         "surprisePercent": 43.0843
       },
       "thesis": {
-        "text": "Aplica IA en logística y rutas, con ROE de 36% y posicionamiento estratégico en vehículos autónomos.",
-        "catalyst": "Expansión de alianzas en robotaxis"
+        "text": "Uber Technologies avanza en vehículos autónomos mediante alianzas de IA, con PE atractivo (16,2) y ROE de 35,73%.",
+        "catalyst": "Expansión de acuerdos de robotaxis autónomos"
       }
     }
   ],
-  "news": [
-    {
-      "headline": "AMD emitirá bonos récord de US$5.000M para IA",
-      "summary": "AMD planea una emisión histórica de deuda para financiar infraestructura de IA y refinanciar deuda, ligada a acuerdos con Microsoft y Anthropic.",
-      "tickers": [
-        "MSFT",
-        "AMD",
-        "TSM"
-      ],
-      "sentiment": "positive",
-      "source_url": "https://finnhub.io/api/news?id=d7829df9bb82f3ae92f4ef79d2e4eff0a0f97b8115b9cdab3e96e886b05dda93",
-      "source": "Benzinga",
-      "published_at": "2026-08-13T13:14:33+00:00",
-      "image": "https://cdn.benzinga.com/files/images/story/2026/08/13/Shanghai-china-nov-22nd-2025-Amd-Company.jpg?width=2048&height=1536"
-    },
-    {
-      "headline": "Nvidia e Intel enfrentan la carrera de financiamiento de IA",
-      "summary": "Ambas compañías buscan resolver distintos desafíos financieros vinculados al auge de centros de datos de IA, según Cramer la jugada de Nvidia es 'monumentalmente positiva'.",
-      "tickers": [
-        "NVDA",
-        "INTC",
-        "META"
-      ],
-      "sentiment": "positive",
-      "source_url": "https://finnhub.io/api/news?id=2057776cf3bec3ce61e438d1ba9189777df50c4adb70a427ea9af0a97f84130b",
-      "source": "Yahoo",
-      "published_at": "2026-08-13T16:51:00+00:00",
-      "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png"
-    },
-    {
-      "headline": "SanDisk lidera repunte de acciones de memoria",
-      "summary": "SanDisk saltó 15% tras dar objetivos financieros alcistas en su Investor Day, arrastrando a Micron (+6%) y SK Hynix (+8%).",
-      "tickers": [
-        "SNDK",
-        "WDC"
-      ],
-      "sentiment": "positive",
-      "source_url": "https://finnhub.io/api/news?id=2bcee8c680bede05260525a3da4b071dc8ff9192b2117d86954c572ca9d8911e",
-      "source": "Yahoo",
-      "published_at": "2026-08-13T16:50:54+00:00",
-      "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png"
-    },
-    {
-      "headline": "Cisco cae 7% pese a superar expectativas de ingresos",
-      "summary": "A pesar de resultados sólidos y pedidos de IA, temores sobre márgenes brutos hundieron la acción; analistas siguen divididos sobre el futuro.",
-      "tickers": [
-        "CSCO",
-        "ANET"
-      ],
-      "sentiment": "negative",
-      "source_url": "https://finnhub.io/api/news?id=d48e0e3e74e67d62ed046192f240de1f5281474f7f0a1bec1adf7056d2e98580",
-      "source": "Yahoo",
-      "published_at": "2026-08-13T14:31:27+00:00",
-      "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png"
-    },
-    {
-      "headline": "Cerebras se desploma 13% tras resultados débiles",
-      "summary": "Mientras Cerebras cae fuerte tras su reporte, Intel y AMD siguen subiendo con fuerza en el segmento de chips de IA.",
-      "tickers": [
-        "AMD",
-        "INTC"
-      ],
-      "sentiment": "mixed",
-      "source_url": "https://finnhub.io/api/news?id=310a10ba2298e2e85ac0362b9b37f2a21b4387b1c7880ee0fa5dbb0fbf61c17f",
-      "source": "Yahoo",
-      "published_at": "2026-08-13T17:35:40+00:00",
-      "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png"
-    },
-    {
-      "headline": "Silver Lake evalúa comprar Workday",
-      "summary": "Reuters reporta conversaciones para una posible adquisición de Workday, impulsando la acción un 18% en la sesión.",
-      "tickers": [
-        "WDAY",
-        "NOW"
-      ],
-      "sentiment": "positive",
-      "source_url": "https://finnhub.io/api/news?id=7b4a33ebb14f13262416c70045faabdc9bfe064f1c1936497907d6181c722abb",
-      "source": "Benzinga",
-      "published_at": "2026-08-13T14:42:15+00:00",
-      "image": null
-    },
-    {
-      "headline": "Applied Materials casi triplica valor por demanda de fabs",
-      "summary": "La acción sube fuerte ante pedidos que no puede despachar a tiempo, reflejando expansión multianual de capacidad de semiconductores.",
-      "tickers": [
-        "AMAT",
-        "TXN"
-      ],
-      "sentiment": "positive",
-      "source_url": "https://finnhub.io/api/news?id=bb7176ca3cee015a093093736c3b7b4f48860539280ce36d670003e39d1478a5",
-      "source": "Yahoo",
-      "published_at": "2026-08-13T15:19:57+00:00",
-      "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png"
-    },
-    {
-      "headline": "Super Micro sube 7% por backlog récord",
-      "summary": "Resultados sólidos de Super Micro impulsan también a Dell y Hewlett Packard Enterprise, aunque persisten dudas por flujo de caja negativo.",
-      "tickers": [
-        "HPE",
-        "DELL"
-      ],
-      "sentiment": "positive",
-      "source_url": "https://finnhub.io/api/news?id=6c9852af5bf1dd23a2dd84c1d4f41fe28e870f40b37c0087825957f09c81ee12",
-      "source": "Yahoo",
-      "published_at": "2026-08-13T17:09:47+00:00",
-      "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png"
-    }
-  ],
+  "news": [],
   "earningsCalendar": [
     {
       "ticker": "CSCO",
@@ -12051,13 +11944,13 @@
     },
     {
       "date": "2026-08-13",
-      "sentiment": "bullish",
-      "text": "El sector IA muestra fuerte impulso: SanDisk dispara +14% tras objetivos alcistas que arrastran a Micron y equipos de memoria, mientras AMD prepara una emisión récord de bonos de US$5.000M para infraestructura. Cisco cae 8% por temores de márgenes pese a resultados sólidos.",
+      "sentiment": "mixed",
+      "text": "",
       "stats": {
         "upCount": 43,
         "totalCount": 50,
-        "avgChangePct": 2.53,
-        "newsCount": 8
+        "avgChangePct": 2.52,
+        "newsCount": 0
       },
       "topMover": {
         "ticker": "WDAY",
