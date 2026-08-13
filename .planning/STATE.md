@@ -4,8 +4,8 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Phase 2 UI-SPEC approved
-last_updated: "2026-08-13T23:37:25.923Z"
-last_activity: 2026-08-13 -- Phase 2 planning complete
+last_updated: "2026-08-13T23:41:02.870Z"
+last_activity: 2026-08-13 -- Phase 2 execution started
 progress:
   total_phases: 4
   completed_phases: 1
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-08-12)
 
 **Core value:** A visitor understands what moved AI-sector stocks today, and why, in under 30 seconds — now delivered proactively via a daily push notification, not just to whoever happens to open the tab.
-**Current focus:** Phase 01 — Backend Foundation
+**Current focus:** Phase 2 — subscribe-unsubscribe-ux
 
 ## Current Position
 
-Phase: 01 (Backend Foundation) — EXECUTING
-Plan: 4 of 4
-Status: Ready to execute
-Last activity: 2026-08-13 -- Phase 2 planning complete
+Phase: 2 (subscribe-unsubscribe-ux) — EXECUTING
+Plan: 1 of 4
+Status: Executing Phase 2
+Last activity: 2026-08-13 -- Phase 2 execution started
 
 Progress: [███████░░░] 75%
 
