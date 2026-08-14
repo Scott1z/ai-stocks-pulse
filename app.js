@@ -2859,7 +2859,23 @@ function initPushNotifications() {
       await refresh();
       return;
     }
-    // "default"
+    // "default": el permiso del navegador puede estar realmente indeciso, o
+    // puede que ya esté "granted" pero sin suscripción activa (un intento
+    // previo de subscribeToPush() falló y se deshizo el lado del navegador,
+    // sin poder deshacer el permiso ya concedido). En ese segundo caso no
+    // hay que volver a pedir permiso (el navegador ni mostraría el prompt);
+    // hay que reintentar subscribeToPush() directamente para no dejar al
+    // visitante sin forma de reintentar desde la UI.
+    if (Notification.permission === "granted") {
+      const ok = await subscribeToPush();
+      showToast(
+        ok
+          ? "¡Notificaciones activadas!"
+          : "No se pudo activar las notificaciones. Probá de nuevo más tarde."
+      );
+      await refresh();
+      return;
+    }
     if (Notification.permission !== "default") return;
     const permission = await Notification.requestPermission();
     await afterPermissionDecision(permission);
