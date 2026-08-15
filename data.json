@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-15T11:46:30.074878+00:00",
+  "updated_at": "2026-08-15T13:45:42.216450+00:00",
   "sector": {
     "sentiment": "mixed",
     "text": "",
@@ -18,7 +18,7 @@
       "price": 225.16,
       "changePct": -0.0621,
       "spark": [
-        225.01,
+        225.16,
         225.16,
         225.16,
         225.16,
@@ -468,10 +468,7 @@
         "estimate": 1.7922,
         "surprisePercent": 4.341
       },
-      "thesis": {
-        "text": "Líder indiscutido en GPUs para IA, con márgenes y ROE extraordinarios que reflejan su dominio en entrenamiento e inferencia.",
-        "catalyst": "Próximo reporte trimestral y ramp de Blackwell"
-      }
+      "thesis": null
     },
     {
       "ticker": "MSFT",
@@ -480,7 +477,7 @@
       "price": 495.4,
       "changePct": -0.2979,
       "spark": [
-        495.39,
+        495.4,
         495.4,
         495.4,
         495.4,
@@ -930,10 +927,7 @@
         "estimate": 4.3274,
         "surprisePercent": 9.5346
       },
-      "thesis": {
-        "text": "Azure y Copilot integran IA generativa a escala empresarial, con múltiplo razonable frente a su rentabilidad.",
-        "catalyst": "Adopción de Copilot y crecimiento de Azure AI"
-      }
+      "thesis": null
     },
     {
       "ticker": "GOOGL",
@@ -942,7 +936,7 @@
       "price": 345.9,
       "changePct": -0.1328,
       "spark": [
-        345.08,
+        345.9,
         345.9,
         345.9,
         345.9,
@@ -1392,10 +1386,7 @@
         "estimate": 2.9798,
         "surprisePercent": -4.356
       },
-      "thesis": {
-        "text": "Gemini potencia Search y Cloud; cotiza barata frente a pares pese a su fuerte rentabilidad.",
-        "catalyst": "Expansión de Gemini y resultados trimestrales"
-      }
+      "thesis": null
     },
     {
       "ticker": "META",
@@ -1404,7 +1395,7 @@
       "price": 589.85,
       "changePct": -0.8605,
       "spark": [
-        591.25,
+        589.85,
         589.85,
         589.85,
         589.85,
@@ -1854,10 +1845,7 @@
         "estimate": 7.3594,
         "surprisePercent": -16.0258
       },
-      "thesis": {
-        "text": "IA mejora segmentación publicitaria y motores de recomendación, financiando fuerte capex en infraestructura de IA.",
-        "catalyst": "Guía de capex e impacto en ingresos publicitarios"
-      }
+      "thesis": null
     },
     {
       "ticker": "AMZN",
@@ -1866,7 +1854,7 @@
       "price": 262.65,
       "changePct": -0.9354,
       "spark": [
-        263.19,
+        262.65,
         262.65,
         262.65,
         262.65,
@@ -2316,10 +2304,7 @@
         "estimate": 1.8563,
         "surprisePercent": 6.1251
       },
-      "thesis": {
-        "text": "AWS impulsa demanda de cómputo IA con chips propios Trainium, aunque márgenes menores que otros gigantes tech.",
-        "catalyst": "Resultados de AWS y adopción de Trainium"
-      }
+      "thesis": null
     },
     {
       "ticker": "AVGO",
@@ -2328,7 +2313,7 @@
       "price": 392.99,
       "changePct": -5.9428,
       "spark": [
-        389.47,
+        392.99,
         392.99,
         392.99,
         392.99,
@@ -2778,10 +2763,7 @@
         "estimate": 2.4458,
         "surprisePercent": -0.2371
       },
-      "thesis": {
-        "text": "Diseña ASICs personalizados para hyperscalers e infraestructura de red clave para clústeres de IA.",
-        "catalyst": "Nuevos contratos de chips custom con hyperscalers"
-      }
+      "thesis": null
     },
     {
       "ticker": "ORCL",
@@ -2790,7 +2772,7 @@
       "price": 150.52,
       "changePct": -3.6487,
       "spark": [
-        149.77,
+        150.52,
         150.52,
         150.52,
         150.52,
@@ -3240,10 +3222,7 @@
         "estimate": 2.0018,
         "surprisePercent": 1.4087
       },
-      "thesis": {
-        "text": "OCI capitaliza demanda de cómputo IA con contratos de nube que impulsan crecimiento acelerado.",
-        "catalyst": "Crecimiento de backlog de OCI en próximo reporte"
-      }
+      "thesis": null
     },
     {
       "ticker": "PLTR",
@@ -3252,7 +3231,7 @@
       "price": 174.04,
       "changePct": -2.7764,
       "spark": [
-        175.03,
+        174.04,
         174.04,
         174.04,
         174.04,
@@ -3702,10 +3681,7 @@
         "estimate": 0.3544,
         "surprisePercent": 15.6885
       },
-      "thesis": {
-        "text": "Plataforma de IA para gobiernos y empresas con alto margen neto, aunque valuación extremadamente exigente.",
-        "catalyst": "Nuevos contratos gubernamentales y próximo reporte"
-      }
+      "thesis": null
     },
     {
       "ticker": "AMD",
@@ -3714,7 +3690,7 @@
       "price": 514.39,
       "changePct": 6.4968,
       "spark": [
-        507.77,
+        514.39,
         514.39,
         514.39,
         514.39,
@@ -4164,10 +4140,7 @@
         "estimate": 1.6313,
         "surprisePercent": 1.7593
       },
-      "thesis": {
-        "text": "Compite con Nvidia en aceleradores IA vía línea MI, con valuación elevada frente a rentabilidad actual.",
-        "catalyst": "Lanzamiento de MI350/400 y resultados trimestrales"
-      }
+      "thesis": null
     },
     {
       "ticker": "TSM",
@@ -4176,7 +4149,7 @@
       "price": 426.35,
       "changePct": -0.9617,
       "spark": [
-        425.56,
+        426.35,
         426.35,
         426.35,
         426.35,
@@ -4626,10 +4599,7 @@
         "estimate": 24.5662,
         "surprisePercent": 10.9248
       },
-      "thesis": {
-        "text": "Fabricante fundamental de chips de IA para todos los grandes diseñadores, con márgenes y ROE sólidos.",
-        "catalyst": "Expansión de capacidad y próximo reporte"
-      }
+      "thesis": null
     },
     {
       "ticker": "ARM",
@@ -4638,7 +4608,7 @@
       "price": 279.44,
       "changePct": 0.2835,
       "spark": [
-        276.31,
+        279.44,
         279.44,
         279.44,
         279.44,
@@ -5088,10 +5058,7 @@
         "estimate": 0.4061,
         "surprisePercent": 10.8101
       },
-      "thesis": {
-        "text": "Licencia arquitectura clave para chips de IA móviles y de servidor, aunque cotiza a múltiplos extremos.",
-        "catalyst": "Nuevos acuerdos de licencia para chips custom"
-      }
+      "thesis": null
     },
     {
       "ticker": "SMCI",
@@ -5100,7 +5067,7 @@
       "price": 39.84,
       "changePct": 1.7365,
       "spark": [
-        39.79,
+        39.84,
         39.84,
         39.84,
         39.84,
@@ -5550,10 +5517,7 @@
         "estimate": 0.9767,
         "surprisePercent": 74.0555
       },
-      "thesis": {
-        "text": "Fabricante de servidores optimizados para GPUs de IA, con valuación atractiva frente a pares del sector.",
-        "catalyst": "Pedidos de servidores IA y próximo reporte"
-      }
+      "thesis": null
     },
     {
       "ticker": "MRVL",
@@ -5562,7 +5526,7 @@
       "price": 222.02,
       "changePct": -0.072,
       "spark": [
-        218.97,
+        222.02,
         222.02,
         222.02,
         222.02,
@@ -6012,10 +5976,7 @@
         "estimate": 0.8076,
         "surprisePercent": -0.9411
       },
-      "thesis": {
-        "text": "Diseña silicio custom para redes y IA en la nube, aunque su múltiplo aún es elevado.",
-        "catalyst": "Nuevos diseños ganados con hyperscalers"
-      }
+      "thesis": null
     },
     {
       "ticker": "QCOM",
@@ -6024,7 +5985,7 @@
       "price": 165.79,
       "changePct": 0.6068,
       "spark": [
-        164.42,
+        165.79,
         165.79,
         165.79,
         165.79,
@@ -6474,10 +6435,7 @@
         "estimate": 2.2724,
         "surprisePercent": -2.746
       },
-      "thesis": {
-        "text": "Impulsa IA en el edge para smartphones y PCs, con valuación moderada y buena rentabilidad.",
-        "catalyst": "Adopción de IA on-device en próximos dispositivos"
-      }
+      "thesis": null
     },
     {
       "ticker": "MU",
@@ -6486,7 +6444,7 @@
       "price": 971.66,
       "changePct": 2.2983,
       "spark": [
-        960.32,
+        971.66,
         971.66,
         971.66,
         971.66,
@@ -6936,10 +6894,7 @@
         "estimate": 21.4019,
         "surprisePercent": 17.326
       },
-      "thesis": {
-        "text": "Memoria HBM crítica para entrenamiento de IA, con márgenes y ROE en máximos históricos.",
-        "catalyst": "Demanda de HBM y próximo reporte trimestral"
-      }
+      "thesis": null
     },
     {
       "ticker": "SNDK",
@@ -6948,7 +6903,7 @@
       "price": 1641.11,
       "changePct": 7.3948,
       "spark": [
-        1628.01,
+        1641.11,
         1641.11,
         1641.11,
         1641.11,
@@ -7398,10 +7353,7 @@
         "estimate": 35.1395,
         "surprisePercent": 11.6977
       },
-      "thesis": {
-        "text": "Spin-off de almacenamiento flash con ROE excepcional, beneficiado por demanda de datos para IA.",
-        "catalyst": "Resultados tras separación y demanda de NAND"
-      }
+      "thesis": null
     },
     {
       "ticker": "CRM",
@@ -7410,7 +7362,7 @@
       "price": 196.21,
       "changePct": -2.5624,
       "spark": [
-        196.7,
+        196.21,
         196.21,
         196.21,
         196.21,
@@ -7860,10 +7812,7 @@
         "estimate": 3.1482,
         "surprisePercent": 23.245
       },
-      "thesis": {
-        "text": "Agentforce lleva agentes de IA a CRM empresarial, con valuación razonable frente al sector software.",
-        "catalyst": "Adopción de Agentforce y próximo reporte"
-      }
+      "thesis": null
     },
     {
       "ticker": "NOW",
@@ -7872,7 +7821,7 @@
       "price": 124,
       "changePct": -2.554,
       "spark": [
-        125.04,
+        124,
         124,
         124,
         124,
@@ -8322,10 +8271,7 @@
         "estimate": 0.8625,
         "surprisePercent": 4.3478
       },
-      "thesis": {
-        "text": "Automatiza flujos empresariales con IA generativa (Now Assist), aunque cotiza a múltiplos exigentes.",
-        "catalyst": "Adopción de Now Assist y próximo reporte"
-      }
+      "thesis": null
     },
     {
       "ticker": "ADBE",
@@ -8334,7 +8280,7 @@
       "price": 264.02,
       "changePct": -2.392,
       "spark": [
-        264.94,
+        264.02,
         264.02,
         264.02,
         264.02,
@@ -8784,10 +8730,7 @@
         "estimate": 5.9385,
         "surprisePercent": 0.362
       },
-      "thesis": {
-        "text": "Firefly integra IA generativa en herramientas creativas, con valuación atractiva y alta rentabilidad.",
-        "catalyst": "Monetización de Firefly y próximo reporte"
-      }
+      "thesis": null
     },
     {
       "ticker": "SNOW",
@@ -8796,7 +8739,7 @@
       "price": 328.92,
       "changePct": -2.5076,
       "spark": [
-        329.45,
+        328.92,
         328.92,
         328.92,
         328.92,
@@ -9246,10 +9189,7 @@
         "estimate": 0.3246,
         "surprisePercent": 20.1479
       },
-      "thesis": {
-        "text": "Plataforma de datos para entrenar modelos de IA, aún no rentable pese al fuerte crecimiento.",
-        "catalyst": "Adopción de Cortex AI y próximo reporte"
-      }
+      "thesis": null
     },
     {
       "ticker": "IBM",
@@ -9258,7 +9198,7 @@
       "price": 234.32,
       "changePct": -1.1892,
       "spark": [
-        235.26,
+        234.32,
         234.32,
         234.32,
         234.32,
@@ -9708,10 +9648,7 @@
         "estimate": 2.9984,
         "surprisePercent": -2.2812
       },
-      "thesis": {
-        "text": "Watsonx apunta a IA empresarial híbrida, con valuación moderada y rentabilidad sólida.",
-        "catalyst": "Adopción de watsonx y próximo reporte"
-      }
+      "thesis": null
     },
     {
       "ticker": "AAPL",
@@ -9720,7 +9657,7 @@
       "price": 305.93,
       "changePct": 0.2195,
       "spark": [
-        306.03,
+        305.93,
         305.93,
         305.93,
         305.93,
@@ -10170,10 +10107,7 @@
         "estimate": 1.9271,
         "surprisePercent": -0.8873
       },
-      "thesis": {
-        "text": "Apple Intelligence lleva IA on-device a su ecosistema, con ROE excepcional pese a valuación elevada.",
-        "catalyst": "Despliegue de Apple Intelligence en nuevos dispositivos"
-      }
+      "thesis": null
     },
     {
       "ticker": "TSLA",
@@ -10182,7 +10116,7 @@
       "price": 342.27,
       "changePct": 0.6795,
       "spark": [
-        341.52,
+        342.27,
         342.27,
         342.27,
         342.27,
@@ -10632,10 +10566,7 @@
         "estimate": 0.5191,
         "surprisePercent": -36.4284
       },
-      "thesis": {
-        "text": "Apuesta por FSD y robótica con IA, aunque su valuación no refleja aún la rentabilidad actual.",
-        "catalyst": "Avances en FSD y lanzamiento de robotaxi"
-      }
+      "thesis": null
     },
     {
       "ticker": "INTC",
@@ -10644,7 +10575,7 @@
       "price": 102.5,
       "changePct": -1.9702,
       "spark": [
-        102.49,
+        102.5,
         102.5,
         102.5,
         102.5,
@@ -10673,10 +10604,7 @@
         "estimate": 0.2177,
         "surprisePercent": 92.926
       },
-      "thesis": {
-        "text": "Intenta recuperar terreno en fabricación e IA con su proceso 18A, aún en pérdidas netas.",
-        "catalyst": "Ramp del proceso 18A y contratos foundry"
-      }
+      "thesis": null
     },
     {
       "ticker": "TXN",
@@ -10685,7 +10613,7 @@
       "price": 279.58,
       "changePct": 2.2492,
       "spark": [
-        278.53,
+        279.58,
         279.58,
         279.58,
         279.58,
@@ -10714,10 +10642,7 @@
         "estimate": 1.9543,
         "surprisePercent": 9.5021
       },
-      "thesis": {
-        "text": "Chips analógicos esenciales para infraestructura de datacenters IA, con rentabilidad estable y valuación premium.",
-        "catalyst": "Ciclo de capex de clientes y próximo reporte"
-      }
+      "thesis": null
     },
     {
       "ticker": "ASML",
@@ -10726,7 +10651,7 @@
       "price": 1844.08,
       "changePct": -0.2067,
       "spark": [
-        1822.25,
+        1844.08,
         1844.08,
         1844.08,
         1844.08,
@@ -10755,10 +10680,7 @@
         "estimate": 6.9263,
         "surprisePercent": 9.4379
       },
-      "thesis": {
-        "text": "Monopolio en litografía EUV, indispensable para fabricar los chips más avanzados de IA.",
-        "catalyst": "Pedidos de EUV y próximo reporte trimestral"
-      }
+      "thesis": null
     },
     {
       "ticker": "LRCX",
@@ -10767,7 +10689,7 @@
       "price": 332.36,
       "changePct": -1.3798,
       "spark": [
-        328.65,
+        332.36,
         332.36,
         332.36,
         332.36,
@@ -10796,10 +10718,7 @@
         "estimate": 1.7172,
         "surprisePercent": 5.9865
       },
-      "thesis": {
-        "text": "Equipos de fabricación clave para nodos avanzados usados en chips de IA, alta rentabilidad.",
-        "catalyst": "Ciclo de capex semiconductor y próximo reporte"
-      }
+      "thesis": null
     },
     {
       "ticker": "AMAT",
@@ -10808,7 +10727,7 @@
       "price": 507.18,
       "changePct": -5.1184,
       "spark": [
-        505.57,
+        507.18,
         507.18,
         507.18,
         507.18,
@@ -10837,10 +10756,7 @@
         "estimate": 3.4544,
         "surprisePercent": 1.3201
       },
-      "thesis": {
-        "text": "Proveedor de equipos de semiconductores beneficiado por el auge de capex en fabs para IA.",
-        "catalyst": "Tendencias de capex de clientes y próximo reporte"
-      }
+      "thesis": null
     },
     {
       "ticker": "KLAC",
@@ -10849,7 +10765,7 @@
       "price": 203.72,
       "changePct": -2.6986,
       "spark": [
-        202.66,
+        203.72,
         203.72,
         203.72,
         203.72,
@@ -10878,10 +10794,7 @@
         "estimate": 1.0163,
         "surprisePercent": 3.316
       },
-      "thesis": {
-        "text": "Control de procesos crítico para producir chips avanzados de IA, con ROE muy alto.",
-        "catalyst": "Demanda de equipos de fab y próximo reporte"
-      }
+      "thesis": null
     },
     {
       "ticker": "ANET",
@@ -10890,7 +10803,7 @@
       "price": 198.82,
       "changePct": -2.3573,
       "spark": [
-        199.28,
+        198.82,
         198.82,
         198.82,
         198.82,
@@ -10919,10 +10832,7 @@
         "estimate": 0.9026,
         "surprisePercent": 13.0069
       },
-      "thesis": {
-        "text": "Redes de alta velocidad para datacenters de IA, con fuerte rentabilidad y crecimiento sostenido.",
-        "catalyst": "Pedidos de hyperscalers y próximo reporte"
-      }
+      "thesis": null
     },
     {
       "ticker": "DELL",
@@ -10931,7 +10841,7 @@
       "price": 490.81,
       "changePct": -0.7482,
       "spark": [
-        490.89,
+        490.81,
         490.81,
         490.81,
         490.81,
@@ -10960,10 +10870,7 @@
         "estimate": 2.9985,
         "surprisePercent": 62.081
       },
-      "thesis": {
-        "text": "Provee servidores e infraestructura para clústeres de IA, con ROE elevado pese a bajo margen neto.",
-        "catalyst": "Backlog de servidores IA y próximo reporte"
-      }
+      "thesis": null
     },
     {
       "ticker": "HPE",
@@ -10972,7 +10879,7 @@
       "price": 58.71,
       "changePct": -1.8556,
       "spark": [
-        59.15,
+        58.71,
         58.71,
         58.71,
         58.71,
@@ -11001,10 +10908,7 @@
         "estimate": 0.5396,
         "surprisePercent": 46.4047
       },
-      "thesis": {
-        "text": "Servidores IA y networking tras integrar Juniper, con rentabilidad aún modesta.",
-        "catalyst": "Integración de Juniper y próximo reporte"
-      }
+      "thesis": null
     },
     {
       "ticker": "CDNS",
@@ -11013,7 +10917,7 @@
       "price": 324.82,
       "changePct": 0.3243,
       "spark": [
-        325.69,
+        324.82,
         324.82,
         324.82,
         324.82,
@@ -11042,10 +10946,7 @@
         "estimate": 2.0959,
         "surprisePercent": 0.6727
       },
-      "thesis": {
-        "text": "Software de diseño de chips potenciado por IA, esencial para el desarrollo de semiconductores avanzados.",
-        "catalyst": "Demanda de diseño de chips IA y reporte"
-      }
+      "thesis": null
     },
     {
       "ticker": "SNPS",
@@ -11054,7 +10955,7 @@
       "price": 421.5,
       "changePct": 2.3679,
       "spark": [
-        421.3,
+        421.5,
         421.5,
         421.5,
         421.5,
@@ -11083,10 +10984,7 @@
         "estimate": 3.2167,
         "surprisePercent": 4.144
       },
-      "thesis": {
-        "text": "Líder en EDA con herramientas de IA para diseño de chips, aunque su ROE es bajo actualmente.",
-        "catalyst": "Demanda de diseño de chips IA y reporte"
-      }
+      "thesis": null
     },
     {
       "ticker": "DDOG",
@@ -11095,7 +10993,7 @@
       "price": 255.46,
       "changePct": 1.2766,
       "spark": [
-        256.31,
+        255.46,
         255.46,
         255.46,
         255.46,
@@ -11124,10 +11022,7 @@
         "estimate": 0.6019,
         "surprisePercent": 7.9914
       },
-      "thesis": {
-        "text": "Observabilidad para infraestructura de IA en la nube, con valuación extremadamente alta frente a rentabilidad.",
-        "catalyst": "Adopción de monitoreo IA y próximo reporte"
-      }
+      "thesis": null
     },
     {
       "ticker": "PANW",
@@ -11165,10 +11060,7 @@
         "estimate": 0.8112,
         "surprisePercent": 4.783
       },
-      "thesis": {
-        "text": "Ciberseguridad potenciada por IA en su plataforma unificada, cotiza a múltiplos muy exigentes.",
-        "catalyst": "Progreso de platformización y próximo reporte"
-      }
+      "thesis": null
     },
     {
       "ticker": "CRWD",
@@ -11177,7 +11069,7 @@
       "price": 216.95,
       "changePct": -3.8044,
       "spark": [
-        218.69,
+        216.95,
         216.95,
         216.95,
         216.95,
@@ -11206,10 +11098,7 @@
         "estimate": 0.2722,
         "surprisePercent": 1.0287
       },
-      "thesis": {
-        "text": "Seguridad endpoint impulsada por IA (Falcon), aún cerca del punto de equilibrio en rentabilidad.",
-        "catalyst": "Crecimiento de plataforma Falcon y próximo reporte"
-      }
+      "thesis": null
     },
     {
       "ticker": "MDB",
@@ -11218,7 +11107,7 @@
       "price": 460.33,
       "changePct": -2.5323,
       "spark": [
-        460.07,
+        460.33,
         460.33,
         460.33,
         460.33,
@@ -11247,10 +11136,7 @@
         "estimate": 1.1993,
         "surprisePercent": 10.0642
       },
-      "thesis": {
-        "text": "Base de datos flexible usada para construir aplicaciones de IA, todavía no rentable.",
-        "catalyst": "Adopción de Atlas para IA y próximo reporte"
-      }
+      "thesis": null
     },
     {
       "ticker": "WDAY",
@@ -11259,7 +11145,7 @@
       "price": 198.68,
       "changePct": -3.7636,
       "spark": [
-        200.36,
+        198.68,
         198.68,
         198.68,
         198.68,
@@ -11288,10 +11174,7 @@
         "estimate": 2.5578,
         "surprisePercent": 3.9956
       },
-      "thesis": {
-        "text": "Incorpora agentes de IA a software de RRHH y finanzas empresarial, con rentabilidad moderada.",
-        "catalyst": "Adopción de agentes IA y próximo reporte"
-      }
+      "thesis": null
     },
     {
       "ticker": "INTU",
@@ -11300,7 +11183,7 @@
       "price": 345.66,
       "changePct": -3.5251,
       "spark": [
-        346.72,
+        345.66,
         345.66,
         345.66,
         345.66,
@@ -11329,10 +11212,7 @@
         "estimate": 12.8224,
         "surprisePercent": -0.1747
       },
-      "thesis": {
-        "text": "IA generativa potencia herramientas fiscales y contables, con valuación razonable y buena rentabilidad.",
-        "catalyst": "Rollout de agentes IA y próximo reporte"
-      }
+      "thesis": null
     },
     {
       "ticker": "SAP",
@@ -11341,7 +11221,7 @@
       "price": 207.97,
       "changePct": -0.626,
       "spark": [
-        208.73,
+        207.97,
         207.97,
         207.97,
         207.97,
@@ -11370,10 +11250,7 @@
         "estimate": 1.7888,
         "surprisePercent": -11.1136
       },
-      "thesis": {
-        "text": "Joule lleva IA a software empresarial mientras completa su transición a la nube.",
-        "catalyst": "Backlog de nube y próximo reporte trimestral"
-      }
+      "thesis": null
     },
     {
       "ticker": "TEAM",
@@ -11382,7 +11259,7 @@
       "price": 162.22,
       "changePct": -2.2653,
       "spark": [
-        162.44,
+        162.22,
         162.22,
         162.22,
         162.22,
@@ -11411,10 +11288,7 @@
         "estimate": 1.5332,
         "surprisePercent": 21.9671
       },
-      "thesis": {
-        "text": "Suite de colaboración con funciones de IA, aún no rentable pese a fuerte crecimiento.",
-        "catalyst": "Adopción de funciones IA y próximo reporte"
-      }
+      "thesis": null
     },
     {
       "ticker": "STX",
@@ -11423,7 +11297,7 @@
       "price": 973.44,
       "changePct": 5.6514,
       "spark": [
-        973.53,
+        973.44,
         973.44,
         973.44,
         973.44,
@@ -11452,10 +11326,7 @@
         "estimate": 5.1389,
         "surprisePercent": 11.1133
       },
-      "thesis": {
-        "text": "Discos duros de alta capacidad para almacenar datos de entrenamiento IA, con ROE excepcional.",
-        "catalyst": "Demanda de almacenamiento datacenter y próximo reporte"
-      }
+      "thesis": null
     },
     {
       "ticker": "WDC",
@@ -11464,7 +11335,7 @@
       "price": 508.8,
       "changePct": 4.4142,
       "spark": [
-        497.76,
+        508.8,
         508.8,
         508.8,
         508.8,
@@ -11493,10 +11364,7 @@
         "estimate": 3.3281,
         "surprisePercent": 6.9679
       },
-      "thesis": {
-        "text": "Almacenamiento NAND y HDD para infraestructura de datos IA, con rentabilidad sobresaliente.",
-        "catalyst": "Ciclo de demanda de storage y próximo reporte"
-      }
+      "thesis": null
     },
     {
       "ticker": "AI",
@@ -11505,7 +11373,7 @@
       "price": 9.93,
       "changePct": -2.4558,
       "spark": [
-        9.8,
+        9.93,
         9.93,
         9.93,
         9.93,
@@ -11534,10 +11402,7 @@
         "estimate": -0.384,
         "surprisePercent": 14.0625
       },
-      "thesis": {
-        "text": "Software de IA empresarial de nicho, con pérdidas profundas que generan alta especulación en el mercado.",
-        "catalyst": "Nuevas alianzas y próximo reporte trimestral"
-      }
+      "thesis": null
     },
     {
       "ticker": "SOUN",
@@ -11546,7 +11411,7 @@
       "price": 7.43,
       "changePct": -0.6684,
       "spark": [
-        7.4,
+        7.43,
         7.43,
         7.43,
         7.43,
@@ -11575,10 +11440,7 @@
         "estimate": -0.0569,
         "surprisePercent": 64.8506
       },
-      "thesis": {
-        "text": "IA de voz para autos y restaurantes, small cap especulativa aún con fuertes pérdidas operativas.",
-        "catalyst": "Nuevos contratos y próximo reporte trimestral"
-      }
+      "thesis": null
     },
     {
       "ticker": "IONQ",
@@ -11587,7 +11449,7 @@
       "price": 46.26,
       "changePct": 2.8457,
       "spark": [
-        46.38,
+        46.26,
         46.26,
         46.26,
         46.26,
@@ -11616,10 +11478,7 @@
         "estimate": -0.2912,
         "surprisePercent": -13.3242
       },
-      "thesis": {
-        "text": "Computación cuántica emergente, tecnología complementaria a la IA de próxima generación, altamente especulativa.",
-        "catalyst": "Hitos técnicos y próximo reporte trimestral"
-      }
+      "thesis": null
     },
     {
       "ticker": "CSCO",
@@ -11628,7 +11487,7 @@
       "price": 111.68,
       "changePct": -1.5775,
       "spark": [
-        111.5,
+        111.68,
         111.68,
         111.68,
         111.68,
@@ -11657,10 +11516,7 @@
         "estimate": 1.1937,
         "surprisePercent": 2.2032
       },
-      "thesis": {
-        "text": "Networking esencial para conectar clústeres de IA en datacenters, con valuación y rentabilidad sólidas.",
-        "catalyst": "Pedidos de redes para IA y próximo reporte"
-      }
+      "thesis": null
     },
     {
       "ticker": "NFLX",
@@ -11669,7 +11525,7 @@
       "price": 78.16,
       "changePct": -0.1022,
       "spark": [
-        77.93,
+        78.16,
         78.16,
         78.16,
         78.16,
@@ -11698,10 +11554,7 @@
         "estimate": 0.8042,
         "surprisePercent": -0.5223
       },
-      "thesis": {
-        "text": "Usa IA para recomendaciones y publicidad, con alta rentabilidad y valuación razonable frente al crecimiento.",
-        "catalyst": "Crecimiento de suscriptores y próximo reporte"
-      }
+      "thesis": null
     },
     {
       "ticker": "UBER",
@@ -11710,7 +11563,7 @@
       "price": 75.95,
       "changePct": 0.0923,
       "spark": [
-        76.13,
+        75.95,
         75.95,
         75.95,
         75.95,
@@ -11739,10 +11592,7 @@
         "estimate": 0.8177,
         "surprisePercent": 43.0843
       },
-      "thesis": {
-        "text": "IA optimiza rutas y precios, además de asociaciones en vehículos autónomos que abren nuevo mercado.",
-        "catalyst": "Acuerdos de robotaxi y próximo reporte"
-      }
+      "thesis": null
     }
   ],
   "news": [],
