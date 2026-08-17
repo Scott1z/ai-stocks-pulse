@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-16T23:43:43.860329+00:00",
+  "updated_at": "2026-08-17T03:25:20.073556+00:00",
   "sector": {
     "sentiment": "mixed",
     "text": "",
@@ -11845,6 +11845,25 @@
     },
     {
       "date": "2026-08-16",
+      "sentiment": "mixed",
+      "text": "",
+      "stats": {
+        "upCount": 16,
+        "totalCount": 50,
+        "avgChangePct": -0.57,
+        "newsCount": 0
+      },
+      "topMover": {
+        "ticker": "SNDK",
+        "changePct": 7.3948
+      },
+      "topLoser": {
+        "ticker": "AVGO",
+        "changePct": -5.9428
+      }
+    },
+    {
+      "date": "2026-08-17",
       "sentiment": "mixed",
       "text": "",
       "stats": {
