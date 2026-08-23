@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-22T23:46:47.130446+00:00",
+  "updated_at": "2026-08-23T03:39:53.856268+00:00",
   "sector": {
     "sentiment": "mixed",
     "text": "",
@@ -11601,7 +11601,7 @@
       "ticker": "INTU",
       "name": "Intuit",
       "date": "2026-08-25",
-      "epsEstimate": 2.14
+      "epsEstimate": 2.12
     },
     {
       "ticker": "CRM",
@@ -11640,6 +11640,12 @@
       "epsEstimate": 1.26
     },
     {
+      "ticker": "DELL",
+      "name": "Dell Technologies",
+      "date": "2026-09-01",
+      "epsEstimate": 4.63
+    },
+    {
       "ticker": "MDB",
       "name": "MongoDB",
       "date": "2026-09-01",
@@ -11676,16 +11682,10 @@
       "epsEstimate": -0.51
     },
     {
-      "ticker": "DELL",
-      "name": "Dell Technologies",
-      "date": "2026-09-03",
-      "epsEstimate": 4.63
-    },
-    {
       "ticker": "ORCL",
       "name": "Oracle",
       "date": "2026-09-08",
-      "epsEstimate": 1.39
+      "epsEstimate": 1.4
     },
     {
       "ticker": "ADBE",
@@ -11959,6 +11959,25 @@
     },
     {
       "date": "2026-08-22",
+      "sentiment": "mixed",
+      "text": "",
+      "stats": {
+        "upCount": 32,
+        "totalCount": 50,
+        "avgChangePct": 0.77,
+        "newsCount": 0
+      },
+      "topMover": {
+        "ticker": "IONQ",
+        "changePct": 8.0183
+      },
+      "topLoser": {
+        "ticker": "MRVL",
+        "changePct": -5.5655
+      }
+    },
+    {
+      "date": "2026-08-23",
       "sentiment": "mixed",
       "text": "",
       "stats": {
