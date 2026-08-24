@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-23T23:47:24.193670+00:00",
+  "updated_at": "2026-08-24T03:42:22.304334+00:00",
   "sector": {
     "sentiment": "mixed",
     "text": "",
@@ -11978,6 +11978,25 @@
     },
     {
       "date": "2026-08-23",
+      "sentiment": "mixed",
+      "text": "",
+      "stats": {
+        "upCount": 32,
+        "totalCount": 50,
+        "avgChangePct": 0.77,
+        "newsCount": 0
+      },
+      "topMover": {
+        "ticker": "IONQ",
+        "changePct": 8.0183
+      },
+      "topLoser": {
+        "ticker": "MRVL",
+        "changePct": -5.5655
+      }
+    },
+    {
+      "date": "2026-08-24",
       "sentiment": "mixed",
       "text": "",
       "stats": {
