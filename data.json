@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-29T14:08:48.477047+00:00",
+  "updated_at": "2026-08-29T15:08:29.327837+00:00",
   "sector": {
     "sentiment": "mixed",
     "text": "",
@@ -8294,9 +8294,9 @@
         291.52
       ],
       "fundamentals": {
-        "peTTM": 15.8995,
+        "peTTM": 16.0567,
         "epsTTM": 17.474200000000003,
-        "marketCapM": 114937.125,
+        "marketCapM": 116073.97,
         "week52High": 370.86,
         "week52Low": 190.12,
         "roeTTM": 62.39,
