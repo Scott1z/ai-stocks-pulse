@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-29T23:08:23.015840+00:00",
+  "updated_at": "2026-08-30T00:15:15.045731+00:00",
   "sector": {
     "sentiment": "mixed",
     "text": "",
@@ -11601,7 +11601,7 @@
       "ticker": "DELL",
       "name": "Dell Technologies",
       "date": "2026-09-01",
-      "epsEstimate": 4.63
+      "epsEstimate": 4.72
     },
     {
       "ticker": "MDB",
@@ -11631,7 +11631,7 @@
       "ticker": "HPE",
       "name": "Hewlett Packard Enterprise",
       "date": "2026-09-02",
-      "epsEstimate": 0.81
+      "epsEstimate": 0.82
     },
     {
       "ticker": "SNOW",
@@ -11654,7 +11654,7 @@
     {
       "ticker": "MU",
       "name": "Micron Technology",
-      "date": "2026-09-22",
+      "date": "2026-09-30",
       "epsEstimate": 31.17
     },
     {
@@ -12031,6 +12031,25 @@
     },
     {
       "date": "2026-08-29",
+      "sentiment": "mixed",
+      "text": "",
+      "stats": {
+        "upCount": 18,
+        "totalCount": 50,
+        "avgChangePct": -1.21,
+        "newsCount": 0
+      },
+      "topMover": {
+        "ticker": "WDAY",
+        "changePct": 5.7602
+      },
+      "topLoser": {
+        "ticker": "MRVL",
+        "changePct": -10.2837
+      }
+    },
+    {
+      "date": "2026-08-30",
       "sentiment": "mixed",
       "text": "",
       "stats": {
