@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-08-31T09:10:51.114668+00:00",
+  "updated_at": "2026-08-31T11:10:58.899478+00:00",
   "sector": {
     "sentiment": "mixed",
     "text": "",
     "stats": {
-      "upCount": 3,
-      "totalCount": 13,
-      "avgChangePct": -1.41,
+      "upCount": 4,
+      "totalCount": 9,
+      "avgChangePct": -0.92,
       "newsCount": 0
     }
   },
@@ -928,7 +928,15 @@
         346.59,
         346.59
       ],
-      "fundamentals": {},
+      "fundamentals": {
+        "peTTM": 17.3095,
+        "epsTTM": 19.9118,
+        "marketCapM": 4227055,
+        "week52High": 408.61,
+        "week52Low": 206.2,
+        "roeTTM": 50.839999999999996,
+        "netMarginTTM": 54.77
+      },
       "ohlc": [
         {
           "date": "2026-06-04",
@@ -1351,12 +1359,7 @@
           "close": 346.59
         }
       ],
-      "lastEarnings": {
-        "period": "2026-06-30",
-        "actual": 2.85,
-        "estimate": 2.9798,
-        "surprisePercent": -4.356
-      },
+      "lastEarnings": null,
       "thesis": null
     },
     {
@@ -1833,15 +1836,7 @@
         266.43,
         266.43
       ],
-      "fundamentals": {
-        "peTTM": 21.1395,
-        "epsTTM": 12.4325,
-        "marketCapM": 2859775.5,
-        "week52High": 287.2,
-        "week52Low": 196,
-        "roeTTM": 30.5,
-        "netMarginTTM": 17.44
-      },
+      "fundamentals": {},
       "ohlc": [
         {
           "date": "2026-06-04",
@@ -2264,12 +2259,7 @@
           "close": 266.43
         }
       ],
-      "lastEarnings": {
-        "period": "2026-06-30",
-        "actual": 1.97,
-        "estimate": 1.8563,
-        "surprisePercent": 6.1251
-      },
+      "lastEarnings": null,
       "thesis": null
     },
     {
@@ -2292,15 +2282,7 @@
         368.79,
         368.79
       ],
-      "fundamentals": {
-        "peTTM": 68.3526,
-        "epsTTM": 6.007099999999999,
-        "marketCapM": 2003892.6,
-        "week52High": 495,
-        "week52Low": 287.17,
-        "roeTTM": 36.4,
-        "netMarginTTM": 38.85
-      },
+      "fundamentals": {},
       "ohlc": [
         {
           "date": "2026-06-04",
@@ -2723,7 +2705,12 @@
           "close": 368.79
         }
       ],
-      "lastEarnings": null,
+      "lastEarnings": {
+        "period": "2026-06-30",
+        "actual": 2.44,
+        "estimate": 2.4458,
+        "surprisePercent": -0.2371
+      },
       "thesis": null
     },
     {
@@ -3169,7 +3156,12 @@
           "close": 150.85
         }
       ],
-      "lastEarnings": null,
+      "lastEarnings": {
+        "period": "2026-06-30",
+        "actual": 2.03,
+        "estimate": 2.0018,
+        "surprisePercent": 1.4087
+      },
       "thesis": null
     },
     {
@@ -3615,7 +3607,12 @@
           "close": 186.29
         }
       ],
-      "lastEarnings": null,
+      "lastEarnings": {
+        "period": "2026-06-30",
+        "actual": 0.41,
+        "estimate": 0.3544,
+        "surprisePercent": 15.6885
+      },
       "thesis": null
     },
     {
@@ -3638,7 +3635,15 @@
         465.58,
         465.58
       ],
-      "fundamentals": {},
+      "fundamentals": {
+        "peTTM": 123.2831,
+        "epsTTM": 3.8971999999999998,
+        "marketCapM": 793203.25,
+        "week52High": 584.73,
+        "week52Low": 149.22,
+        "roeTTM": 10.07,
+        "netMarginTTM": 15.58
+      },
       "ohlc": [
         {
           "date": "2026-06-04",
@@ -4061,7 +4066,12 @@
           "close": 465.58
         }
       ],
-      "lastEarnings": null,
+      "lastEarnings": {
+        "period": "2026-06-30",
+        "actual": 1.66,
+        "estimate": 1.6313,
+        "surprisePercent": 1.7593
+      },
       "thesis": null
     },
     {
@@ -4507,12 +4517,7 @@
           "close": 417.52
         }
       ],
-      "lastEarnings": {
-        "period": "2026-06-30",
-        "actual": 27.25,
-        "estimate": 24.5662,
-        "surprisePercent": 10.9248
-      },
+      "lastEarnings": null,
       "thesis": null
     },
     {
@@ -4966,7 +4971,12 @@
           "close": 239.05
         }
       ],
-      "lastEarnings": null,
+      "lastEarnings": {
+        "period": "2026-06-30",
+        "actual": 0.45,
+        "estimate": 0.4061,
+        "surprisePercent": 10.8101
+      },
       "thesis": null
     },
     {
@@ -5448,15 +5458,7 @@
         216.62,
         216.62
       ],
-      "fundamentals": {
-        "peTTM": 77.0087,
-        "epsTTM": 2.9195,
-        "marketCapM": 194577.78,
-        "week52High": 329.88,
-        "week52Low": 61.44,
-        "roeTTM": 16.84,
-        "netMarginTTM": 28.99
-      },
+      "fundamentals": {},
       "ohlc": [
         {
           "date": "2026-06-04",
@@ -5879,7 +5881,12 @@
           "close": 216.62
         }
       ],
-      "lastEarnings": null,
+      "lastEarnings": {
+        "period": "2026-09-30",
+        "actual": 0.94,
+        "estimate": 0.9428,
+        "surprisePercent": -0.297
+      },
       "thesis": null
     },
     {
@@ -6345,8 +6352,8 @@
       "ticker": "MU",
       "name": "Micron Technology",
       "subsector": "semis",
-      "price": 932.86,
-      "changePct": -0.2705,
+      "price": null,
+      "changePct": null,
       "spark": [
         932.86,
         932.86,
@@ -6784,7 +6791,12 @@
           "close": 932.86
         }
       ],
-      "lastEarnings": null,
+      "lastEarnings": {
+        "period": "2026-06-30",
+        "actual": 25.11,
+        "estimate": 21.4019,
+        "surprisePercent": 17.326
+      },
       "thesis": null
     },
     {
@@ -6807,7 +6819,15 @@
         1484.98,
         1484.98
       ],
-      "fundamentals": {},
+      "fundamentals": {
+        "peTTM": 19.7934,
+        "epsTTM": 72.89280000000001,
+        "marketCapM": 226297.47,
+        "week52High": 2354.39,
+        "week52Low": 48.56,
+        "roeTTM": 93.13,
+        "netMarginTTM": 56.46
+      },
       "ohlc": [
         {
           "date": "2026-06-04",
@@ -7237,8 +7257,8 @@
       "ticker": "CRM",
       "name": "Salesforce",
       "subsector": "software",
-      "price": null,
-      "changePct": null,
+      "price": 256,
+      "changePct": 1.5671,
       "spark": [
         256,
         256,
@@ -7253,7 +7273,15 @@
         256,
         256
       ],
-      "fundamentals": {},
+      "fundamentals": {
+        "peTTM": 19.8896,
+        "epsTTM": 8.6432,
+        "marketCapM": 159573.97,
+        "week52High": 269.11,
+        "week52Low": 146.32,
+        "roeTTM": 14.95,
+        "netMarginTTM": 18.73
+      },
       "ohlc": [
         {
           "date": "2026-06-04",
@@ -7676,12 +7704,7 @@
           "close": 256.0
         }
       ],
-      "lastEarnings": {
-        "period": "2026-09-30",
-        "actual": 5.9,
-        "estimate": 3.3065,
-        "surprisePercent": 78.4364
-      },
+      "lastEarnings": null,
       "thesis": null
     },
     {
@@ -7704,15 +7727,7 @@
         144.71,
         144.71
       ],
-      "fundamentals": {
-        "peTTM": 78.7883,
-        "epsTTM": 1.6017000000000001,
-        "marketCapM": 131576.5,
-        "week52High": 194.73,
-        "week52Low": 81.24,
-        "roeTTM": 13.77,
-        "netMarginTTM": 11.34
-      },
+      "fundamentals": {},
       "ohlc": [
         {
           "date": "2026-06-04",
@@ -8586,20 +8601,15 @@
           "close": 291.52
         }
       ],
-      "lastEarnings": {
-        "period": "2026-06-30",
-        "actual": 5.96,
-        "estimate": 5.9385,
-        "surprisePercent": 0.362
-      },
+      "lastEarnings": null,
       "thesis": null
     },
     {
       "ticker": "SNOW",
       "name": "Snowflake",
       "subsector": "software",
-      "price": 328,
-      "changePct": -0.3373,
+      "price": null,
+      "changePct": null,
       "spark": [
         328,
         328,
@@ -8614,15 +8624,7 @@
         328,
         328
       ],
-      "fundamentals": {
-        "peTTM": null,
-        "epsTTM": -3.5145,
-        "marketCapM": 117455.81,
-        "week52High": 341.9498,
-        "week52Low": 118.3,
-        "roeTTM": -57.21000000000001,
-        "netMarginTTM": -23.79
-      },
+      "fundamentals": {},
       "ohlc": [
         {
           "date": "2026-06-04",
@@ -9057,8 +9059,8 @@
       "ticker": "IBM",
       "name": "IBM",
       "subsector": "software",
-      "price": 235.59,
-      "changePct": -1.3401,
+      "price": null,
+      "changePct": null,
       "spark": [
         235.59,
         235.59,
@@ -9073,15 +9075,7 @@
         235.59,
         235.59
       ],
-      "fundamentals": {
-        "peTTM": 20.6487,
-        "epsTTM": 11.2633,
-        "marketCapM": 221415.72,
-        "week52High": 332.46,
-        "week52Low": 199.19,
-        "roeTTM": 33.51,
-        "netMarginTTM": 15.52
-      },
+      "fundamentals": {},
       "ohlc": [
         {
           "date": "2026-06-04",
@@ -9967,8 +9961,8 @@
       "ticker": "TSLA",
       "name": "Tesla",
       "subsector": "megacap",
-      "price": 348.75,
-      "changePct": -1.708,
+      "price": null,
+      "changePct": null,
       "spark": [
         348.75,
         348.75,
@@ -9983,7 +9977,15 @@
         348.75,
         348.75
       ],
-      "fundamentals": {},
+      "fundamentals": {
+        "peTTM": 352.782,
+        "epsTTM": 1.0766,
+        "marketCapM": 1342688.2,
+        "week52High": 498.83,
+        "week52Low": 297.38,
+        "roeTTM": 4.569999999999999,
+        "netMarginTTM": 3.67
+      },
       "ohlc": [
         {
           "date": "2026-06-04",
@@ -10464,7 +10466,12 @@
       ],
       "fundamentals": {},
       "ohlc": [],
-      "lastEarnings": null,
+      "lastEarnings": {
+        "period": "2026-06-30",
+        "actual": 2.14,
+        "estimate": 1.9543,
+        "surprisePercent": 9.5021
+      },
       "thesis": null
     },
     {
@@ -10489,20 +10496,15 @@
       ],
       "fundamentals": {},
       "ohlc": [],
-      "lastEarnings": {
-        "period": "2026-06-30",
-        "actual": 7.58,
-        "estimate": 6.9263,
-        "surprisePercent": 9.4379
-      },
+      "lastEarnings": null,
       "thesis": null
     },
     {
       "ticker": "LRCX",
       "name": "Lam Research",
       "subsector": "semis",
-      "price": 301.9,
-      "changePct": -5.2357,
+      "price": null,
+      "changePct": null,
       "spark": [
         301.9,
         301.9,
@@ -10517,15 +10519,7 @@
         301.9,
         301.9
       ],
-      "fundamentals": {
-        "peTTM": 56.166,
-        "epsTTM": 5.7641,
-        "marketCapM": 408068.28,
-        "week52High": 438.5,
-        "week52Low": 94.11,
-        "roeTTM": 66.97,
-        "netMarginTTM": 31.27
-      },
+      "fundamentals": {},
       "ohlc": [],
       "lastEarnings": null,
       "thesis": null
@@ -10550,25 +10544,22 @@
         461.67,
         461.67
       ],
-      "fundamentals": {
-        "peTTM": 45.7972,
-        "epsTTM": 11.5943,
-        "marketCapM": 424403.03,
-        "week52High": 739.67,
-        "week52Low": 154.47,
-        "roeTTM": 39.78,
-        "netMarginTTM": 30.05
-      },
+      "fundamentals": {},
       "ohlc": [],
-      "lastEarnings": null,
+      "lastEarnings": {
+        "period": "2026-09-30",
+        "actual": 3.5,
+        "estimate": 3.4626,
+        "surprisePercent": 1.0801
+      },
       "thesis": null
     },
     {
       "ticker": "KLAC",
       "name": "KLA Corporation",
       "subsector": "semis",
-      "price": 175.54,
-      "changePct": -4.4784,
+      "price": null,
+      "changePct": null,
       "spark": [
         175.54,
         175.54,
@@ -10585,15 +10576,20 @@
       ],
       "fundamentals": {},
       "ohlc": [],
-      "lastEarnings": null,
+      "lastEarnings": {
+        "period": "2026-06-30",
+        "actual": 1.05,
+        "estimate": 1.0163,
+        "surprisePercent": 3.316
+      },
       "thesis": null
     },
     {
       "ticker": "ANET",
       "name": "Arista Networks",
       "subsector": "semis",
-      "price": null,
-      "changePct": null,
+      "price": 195.38,
+      "changePct": -2.8395,
       "spark": [
         195.38,
         195.38,
@@ -10618,15 +10614,20 @@
         "netMarginTTM": 38.37
       },
       "ohlc": [],
-      "lastEarnings": null,
+      "lastEarnings": {
+        "period": "2026-06-30",
+        "actual": 1.02,
+        "estimate": 0.9026,
+        "surprisePercent": 13.0069
+      },
       "thesis": null
     },
     {
       "ticker": "DELL",
       "name": "Dell Technologies",
       "subsector": "semis",
-      "price": 456.24,
-      "changePct": -3.3922,
+      "price": null,
+      "changePct": null,
       "spark": [
         456.24,
         456.24,
@@ -10641,15 +10642,7 @@
         456.24,
         456.24
       ],
-      "fundamentals": {
-        "peTTM": 38.1013,
-        "epsTTM": 12.5909,
-        "marketCapM": 320393.47,
-        "week52High": 514,
-        "week52Low": 110.22,
-        "roeTTM": 130.7,
-        "netMarginTTM": 6.28
-      },
+      "fundamentals": {},
       "ohlc": [],
       "lastEarnings": null,
       "thesis": null
@@ -10658,8 +10651,8 @@
       "ticker": "HPE",
       "name": "Hewlett Packard Enterprise",
       "subsector": "semis",
-      "price": 52.31,
-      "changePct": -3.8596,
+      "price": null,
+      "changePct": null,
       "spark": [
         52.31,
         52.31,
@@ -10688,8 +10681,8 @@
       "ticker": "CDNS",
       "name": "Cadence Design Systems",
       "subsector": "software",
-      "price": 340.39,
-      "changePct": -2.0601,
+      "price": null,
+      "changePct": null,
       "spark": [
         340.39,
         340.39,
@@ -10706,15 +10699,20 @@
       ],
       "fundamentals": {},
       "ohlc": [],
-      "lastEarnings": null,
+      "lastEarnings": {
+        "period": "2026-06-30",
+        "actual": 2.11,
+        "estimate": 2.0959,
+        "surprisePercent": 0.6727
+      },
       "thesis": null
     },
     {
       "ticker": "SNPS",
       "name": "Synopsys",
       "subsector": "software",
-      "price": null,
-      "changePct": null,
+      "price": 442.61,
+      "changePct": -4.7925,
       "spark": [
         442.61,
         442.61,
@@ -10738,8 +10736,8 @@
       "ticker": "DDOG",
       "name": "Datadog",
       "subsector": "software",
-      "price": null,
-      "changePct": null,
+      "price": 236.98,
+      "changePct": -2.4493,
       "spark": [
         236.98,
         236.98,
@@ -10754,17 +10752,14 @@
         236.98,
         236.98
       ],
-      "fundamentals": {
-        "peTTM": 512.001,
-        "epsTTM": 0.4843,
-        "marketCapM": 90923.19,
-        "week52High": 292.72,
-        "week52Low": 98.01,
-        "roeTTM": 4.569999999999999,
-        "netMarginTTM": 4.48
-      },
+      "fundamentals": {},
       "ohlc": [],
-      "lastEarnings": null,
+      "lastEarnings": {
+        "period": "2026-06-30",
+        "actual": 0.65,
+        "estimate": 0.6063,
+        "surprisePercent": 7.2077
+      },
       "thesis": null
     },
     {
@@ -10812,15 +10807,7 @@
         218.4,
         218.4
       ],
-      "fundamentals": {
-        "peTTM": null,
-        "epsTTM": -0.025800000000000003,
-        "marketCapM": 230152.05,
-        "week52High": 229.08,
-        "week52Low": 85.68,
-        "roeTTM": -0.58,
-        "netMarginTTM": -0.48
-      },
+      "fundamentals": {},
       "ohlc": [],
       "lastEarnings": {
         "period": "2026-09-30",
@@ -10850,15 +10837,7 @@
         446.62,
         446.62
       ],
-      "fundamentals": {
-        "peTTM": null,
-        "epsTTM": -0.35950000000000004,
-        "marketCapM": 36985.816,
-        "week52High": 473.1,
-        "week52Low": 215.68,
-        "roeTTM": -0.9900000000000001,
-        "netMarginTTM": -1.12
-      },
+      "fundamentals": {},
       "ohlc": [],
       "lastEarnings": null,
       "thesis": null
@@ -10867,8 +10846,8 @@
       "ticker": "WDAY",
       "name": "Workday",
       "subsector": "software",
-      "price": null,
-      "changePct": null,
+      "price": 204.72,
+      "changePct": 5.7602,
       "spark": [
         204.72,
         204.72,
@@ -10943,15 +10922,20 @@
         "netMarginTTM": 20.41
       },
       "ohlc": [],
-      "lastEarnings": null,
+      "lastEarnings": {
+        "period": "2026-06-30",
+        "actual": 1.59,
+        "estimate": 1.7888,
+        "surprisePercent": -11.1136
+      },
       "thesis": null
     },
     {
       "ticker": "TEAM",
       "name": "Atlassian",
       "subsector": "software",
-      "price": 190.415,
-      "changePct": 2.5832,
+      "price": null,
+      "changePct": null,
       "spark": [
         190.415,
         190.415,
@@ -10966,7 +10950,15 @@
         190.415,
         190.415
       ],
-      "fundamentals": {},
+      "fundamentals": {
+        "peTTM": null,
+        "epsTTM": -0.18700000000000003,
+        "marketCapM": 42120.39,
+        "week52High": 194.96,
+        "week52Low": 56.0101,
+        "roeTTM": -4.390000000000001,
+        "netMarginTTM": -0.82
+      },
       "ohlc": [],
       "lastEarnings": null,
       "thesis": null
@@ -10991,14 +10983,17 @@
         829.76,
         829.76
       ],
-      "fundamentals": {},
-      "ohlc": [],
-      "lastEarnings": {
-        "period": "2026-06-30",
-        "actual": 5.71,
-        "estimate": 5.1389,
-        "surprisePercent": 11.1133
+      "fundamentals": {
+        "peTTM": 65.5853,
+        "epsTTM": 13.8741,
+        "marketCapM": 208823.47,
+        "week52High": 1145,
+        "week52Low": 163.86,
+        "roeTTM": 212.44,
+        "netMarginTTM": 26.11
       },
+      "ohlc": [],
+      "lastEarnings": null,
       "thesis": null
     },
     {
@@ -11023,20 +11018,15 @@
       ],
       "fundamentals": {},
       "ohlc": [],
-      "lastEarnings": {
-        "period": "2026-06-30",
-        "actual": 3.56,
-        "estimate": 3.3281,
-        "surprisePercent": 6.9679
-      },
+      "lastEarnings": null,
       "thesis": null
     },
     {
       "ticker": "AI",
       "name": "C3.ai",
       "subsector": "software",
-      "price": 10.53,
-      "changePct": 1.9361,
+      "price": null,
+      "changePct": null,
       "spark": [
         10.53,
         10.53,
@@ -11051,22 +11041,9 @@
         10.53,
         10.53
       ],
-      "fundamentals": {
-        "peTTM": null,
-        "epsTTM": -3.3482,
-        "marketCapM": 1546.8436,
-        "week52High": 20.22,
-        "week52Low": 7.675,
-        "roeTTM": -63.91,
-        "netMarginTTM": -187.95
-      },
+      "fundamentals": {},
       "ohlc": [],
-      "lastEarnings": {
-        "period": "2026-06-30",
-        "actual": -0.33,
-        "estimate": -0.384,
-        "surprisePercent": 14.0625
-      },
+      "lastEarnings": null,
       "thesis": null
     },
     {
@@ -11091,20 +11068,15 @@
       ],
       "fundamentals": {},
       "ohlc": [],
-      "lastEarnings": {
-        "period": "2026-06-30",
-        "actual": -0.02,
-        "estimate": -0.0569,
-        "surprisePercent": 64.8506
-      },
+      "lastEarnings": null,
       "thesis": null
     },
     {
       "ticker": "IONQ",
       "name": "IonQ",
       "subsector": "semis",
-      "price": null,
-      "changePct": null,
+      "price": 39.2,
+      "changePct": -7.6778,
       "spark": [
         39.2,
         39.2,
@@ -11121,12 +11093,7 @@
       ],
       "fundamentals": {},
       "ohlc": [],
-      "lastEarnings": {
-        "period": "2026-06-30",
-        "actual": -0.33,
-        "estimate": -0.2912,
-        "surprisePercent": -13.3242
-      },
+      "lastEarnings": null,
       "thesis": null
     },
     {
@@ -11163,8 +11130,8 @@
       "ticker": "NFLX",
       "name": "Netflix",
       "subsector": "megacap",
-      "price": null,
-      "changePct": null,
+      "price": 81.72,
+      "changePct": 2.3547,
       "spark": [
         81.72,
         81.72,
@@ -11179,15 +11146,7 @@
         81.72,
         81.72
       ],
-      "fundamentals": {
-        "peTTM": 23.4437,
-        "epsTTM": 3.1742,
-        "marketCapM": 319998.78,
-        "week52High": 126.71,
-        "week52Low": 65.08,
-        "roeTTM": 47.96,
-        "netMarginTTM": 28.22
-      },
+      "fundamentals": {},
       "ohlc": [],
       "lastEarnings": null,
       "thesis": null
@@ -11222,12 +11181,7 @@
         "netMarginTTM": 17.34
       },
       "ohlc": [],
-      "lastEarnings": {
-        "period": "2026-06-30",
-        "actual": 1.17,
-        "estimate": 0.8177,
-        "surprisePercent": 43.0843
-      },
+      "lastEarnings": null,
       "thesis": null
     }
   ],
@@ -11708,18 +11662,18 @@
       "sentiment": "mixed",
       "text": "",
       "stats": {
-        "upCount": 3,
-        "totalCount": 13,
-        "avgChangePct": -1.41,
+        "upCount": 4,
+        "totalCount": 9,
+        "avgChangePct": -0.92,
         "newsCount": 0
       },
       "topMover": {
-        "ticker": "TEAM",
-        "changePct": 2.5832
+        "ticker": "WDAY",
+        "changePct": 5.7602
       },
       "topLoser": {
-        "ticker": "LRCX",
-        "changePct": -5.2357
+        "ticker": "IONQ",
+        "changePct": -7.6778
       }
     }
   ]
