@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-02T11:12:43.580548+00:00",
+  "updated_at": "2026-09-02T12:15:27.321257+00:00",
   "sector": {
     "sentiment": "mixed",
     "text": "",
@@ -8294,9 +8294,9 @@
         286.08
       ],
       "fundamentals": {
-        "peTTM": 16.0996,
+        "peTTM": 15.7306,
         "epsTTM": 17.474200000000003,
-        "marketCapM": 116384.03,
+        "marketCapM": 113716.805,
         "week52High": 370.86,
         "week52Low": 190.12,
         "roeTTM": 62.39,
@@ -10865,10 +10865,10 @@
       },
       "ohlc": [],
       "lastEarnings": {
-        "period": "2026-06-30",
-        "actual": 4.86,
-        "estimate": 2.9985,
-        "surprisePercent": 62.081
+        "period": "2027-06-30",
+        "actual": 7.04,
+        "estimate": 5.012,
+        "surprisePercent": 40.4629
       },
       "thesis": null
     },
