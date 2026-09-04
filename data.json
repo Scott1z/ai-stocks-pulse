@@ -1,12 +1,12 @@
 {
-  "updated_at": "2026-09-04T18:14:22.913463+00:00",
+  "updated_at": "2026-09-04T19:11:08.152108+00:00",
   "sector": {
     "sentiment": "mixed",
     "text": "",
     "stats": {
-      "upCount": 25,
+      "upCount": 24,
       "totalCount": 50,
-      "avgChangePct": 0.2,
+      "avgChangePct": 0.04,
       "newsCount": 0
     }
   },
@@ -15,10 +15,9 @@
       "ticker": "NVDA",
       "name": "NVIDIA",
       "subsector": "semis",
-      "price": 230.4,
-      "changePct": 0.8536,
+      "price": 230.21,
+      "changePct": 0.7704,
       "spark": [
-        228.45,
         228.45,
         228.45,
         228.45,
@@ -29,7 +28,8 @@
         232.63,
         231.2,
         231.38,
-        230.4
+        230.4,
+        230.21
       ],
       "fundamentals": {
         "peTTM": 28.0398,
@@ -474,10 +474,9 @@
       "ticker": "MSFT",
       "name": "Microsoft",
       "subsector": "megacap",
-      "price": 500.12,
-      "changePct": -1.9603,
+      "price": 500.39,
+      "changePct": -1.9074,
       "spark": [
-        510.12,
         510.12,
         510.12,
         510.12,
@@ -488,7 +487,8 @@
         501.23,
         500.88,
         500.9,
-        500.12
+        500.12,
+        500.39
       ],
       "fundamentals": {
         "peTTM": 27.5827,
@@ -933,10 +933,9 @@
       "ticker": "GOOGL",
       "name": "Alphabet",
       "subsector": "megacap",
-      "price": 338.1,
-      "changePct": -1.2789,
+      "price": 339.06,
+      "changePct": -0.9986,
       "spark": [
-        342.48,
         342.48,
         342.48,
         342.48,
@@ -947,7 +946,8 @@
         337.74,
         338.07,
         338.87,
-        338.1
+        338.1,
+        339.06
       ],
       "fundamentals": {
         "peTTM": 17.1642,
@@ -1392,10 +1392,9 @@
       "ticker": "META",
       "name": "Meta Platforms",
       "subsector": "megacap",
-      "price": 608.18,
-      "changePct": -0.4094,
+      "price": 614.39,
+      "changePct": 0.6075,
       "spark": [
-        610.68,
         610.68,
         610.68,
         610.68,
@@ -1406,7 +1405,8 @@
         613.17,
         612.35,
         610.3,
-        608.18
+        608.18,
+        614.39
       ],
       "fundamentals": {
         "peTTM": 22.1782,
@@ -1851,10 +1851,9 @@
       "ticker": "AMZN",
       "name": "Amazon",
       "subsector": "megacap",
-      "price": 257.4,
-      "changePct": -0.5794,
+      "price": 258.01,
+      "changePct": -0.3438,
       "spark": [
-        258.9,
         258.9,
         258.9,
         258.9,
@@ -1865,7 +1864,8 @@
         255.56,
         256.2,
         257.21,
-        257.4
+        257.4,
+        258.01
       ],
       "fundamentals": {
         "peTTM": 20.3302,
@@ -2310,10 +2310,9 @@
       "ticker": "AVGO",
       "name": "Broadcom",
       "subsector": "semis",
-      "price": 355.49,
-      "changePct": -0.4676,
+      "price": 356.84,
+      "changePct": -0.0896,
       "spark": [
-        357.16,
         357.16,
         357.16,
         357.16,
@@ -2324,7 +2323,8 @@
         357.28,
         356.48,
         355.85,
-        355.49
+        355.49,
+        356.84
       ],
       "fundamentals": {
         "peTTM": 44.0472,
@@ -2769,10 +2769,9 @@
       "ticker": "ORCL",
       "name": "Oracle",
       "subsector": "software",
-      "price": 157.68,
-      "changePct": 2.363,
+      "price": 157.28,
+      "changePct": 2.1033,
       "spark": [
-        154.04,
         154.04,
         154.04,
         154.04,
@@ -2783,7 +2782,8 @@
         158.57,
         157.8,
         157.74,
-        157.68
+        157.68,
+        157.28
       ],
       "fundamentals": {
         "peTTM": 24.5701,
@@ -3228,10 +3228,9 @@
       "ticker": "PLTR",
       "name": "Palantir",
       "subsector": "software",
-      "price": 174.39,
-      "changePct": -4.4595,
+      "price": 173.91,
+      "changePct": -4.7225,
       "spark": [
-        182.53,
         182.53,
         182.53,
         182.53,
@@ -3242,7 +3241,8 @@
         177.21,
         175.58,
         174.77,
-        174.39
+        174.39,
+        173.91
       ],
       "fundamentals": {
         "peTTM": 145.4032,
@@ -3687,10 +3687,9 @@
       "ticker": "AMD",
       "name": "Advanced Micro Devices",
       "subsector": "semis",
-      "price": 472.36,
-      "changePct": 3.5514,
+      "price": 471.83,
+      "changePct": 3.4352,
       "spark": [
-        456.16,
         456.16,
         456.16,
         456.16,
@@ -3701,7 +3700,8 @@
         470.96,
         472.37,
         474.84,
-        472.36
+        472.36,
+        471.83
       ],
       "fundamentals": {
         "peTTM": 115.6649,
@@ -4146,10 +4146,9 @@
       "ticker": "TSM",
       "name": "Taiwan Semiconductor",
       "subsector": "semis",
-      "price": 427.64,
-      "changePct": 2.5491,
+      "price": 428.24,
+      "changePct": 2.693,
       "spark": [
-        417.01,
         417.01,
         417.01,
         417.01,
@@ -4160,7 +4159,8 @@
         426.37,
         426.14,
         427.99,
-        427.64
+        427.64,
+        428.24
       ],
       "fundamentals": {
         "peTTM": 27.2948,
@@ -4605,10 +4605,9 @@
       "ticker": "ARM",
       "name": "Arm Holdings",
       "subsector": "semis",
-      "price": 250.44,
-      "changePct": 3.2359,
+      "price": 251.01,
+      "changePct": 3.4709,
       "spark": [
-        242.59,
         242.59,
         242.59,
         242.59,
@@ -4619,7 +4618,8 @@
         252.11,
         251.96,
         251.24,
-        250.44
+        250.44,
+        251.01
       ],
       "fundamentals": {
         "peTTM": 240.2591,
@@ -5064,10 +5064,9 @@
       "ticker": "SMCI",
       "name": "Super Micro Computer",
       "subsector": "semis",
-      "price": 40.62,
-      "changePct": 7.2617,
+      "price": 39.45,
+      "changePct": 4.1722,
       "spark": [
-        37.87,
         37.87,
         37.87,
         37.87,
@@ -5078,7 +5077,8 @@
         39.73,
         40.45,
         40.52,
-        40.62
+        40.62,
+        39.45
       ],
       "fundamentals": {
         "peTTM": 11.1647,
@@ -5523,10 +5523,9 @@
       "ticker": "MRVL",
       "name": "Marvell Technology",
       "subsector": "semis",
-      "price": 221.94,
-      "changePct": 6.2778,
+      "price": 221.2,
+      "changePct": 5.9235,
       "spark": [
-        208.83,
         208.83,
         208.83,
         208.83,
@@ -5537,7 +5536,8 @@
         220.45,
         220.98,
         221.23,
-        221.94
+        221.94,
+        221.2
       ],
       "fundamentals": {
         "peTTM": 69.3674,
@@ -5982,10 +5982,9 @@
       "ticker": "QCOM",
       "name": "Qualcomm",
       "subsector": "semis",
-      "price": 168.77,
-      "changePct": 0.1186,
+      "price": 167.59,
+      "changePct": -0.5814,
       "spark": [
-        168.57,
         168.57,
         168.57,
         168.57,
@@ -5996,7 +5995,8 @@
         169.19,
         168.7,
         168.18,
-        168.77
+        168.77,
+        167.59
       ],
       "fundamentals": {
         "peTTM": 19.1342,
@@ -6441,10 +6441,9 @@
       "ticker": "MU",
       "name": "Micron Technology",
       "subsector": "semis",
-      "price": 998.77,
-      "changePct": 4.2383,
+      "price": 1003.27,
+      "changePct": 4.708,
       "spark": [
-        958.16,
         958.16,
         958.16,
         958.16,
@@ -6455,7 +6454,8 @@
         999.59,
         999.84,
         1000.49,
-        998.77
+        998.77,
+        1003.27
       ],
       "fundamentals": {
         "peTTM": 21.1794,
@@ -6900,10 +6900,9 @@
       "ticker": "SNDK",
       "name": "SanDisk",
       "subsector": "semis",
-      "price": 1716.35,
-      "changePct": 10.3769,
+      "price": 1706.67,
+      "changePct": 9.7544,
       "spark": [
-        1554.99,
         1554.99,
         1554.99,
         1554.99,
@@ -6914,7 +6913,8 @@
         1688.84,
         1699.49,
         1720.55,
-        1716.35
+        1716.35,
+        1706.67
       ],
       "fundamentals": {
         "peTTM": 19.9143,
@@ -7359,10 +7359,9 @@
       "ticker": "CRM",
       "name": "Salesforce",
       "subsector": "software",
-      "price": 261.46,
-      "changePct": -1.1232,
+      "price": 261.17,
+      "changePct": -1.2328,
       "spark": [
-        264.43,
         264.43,
         264.43,
         264.43,
@@ -7373,7 +7372,8 @@
         258.59,
         260,
         260.42,
-        261.46
+        261.46,
+        261.17
       ],
       "fundamentals": {
         "peTTM": 22.664,
@@ -7818,10 +7818,9 @@
       "ticker": "NOW",
       "name": "ServiceNow",
       "subsector": "software",
-      "price": 141.83,
-      "changePct": -2.5826,
+      "price": 141.98,
+      "changePct": -2.4796,
       "spark": [
-        145.59,
         145.59,
         145.59,
         145.59,
@@ -7832,7 +7831,8 @@
         140.68,
         141.5,
         141.29,
-        141.83
+        141.83,
+        141.98
       ],
       "fundamentals": {
         "peTTM": 84.6518,
@@ -8277,10 +8277,9 @@
       "ticker": "ADBE",
       "name": "Adobe",
       "subsector": "software",
-      "price": 269.36,
-      "changePct": -5.7358,
+      "price": 268.71,
+      "changePct": -5.9633,
       "spark": [
-        285.75,
         285.75,
         285.75,
         285.75,
@@ -8291,7 +8290,8 @@
         265.78,
         267.88,
         268.37,
-        269.36
+        269.36,
+        268.71
       ],
       "fundamentals": {
         "peTTM": 15.7125,
@@ -8736,10 +8736,9 @@
       "ticker": "SNOW",
       "name": "Snowflake",
       "subsector": "software",
-      "price": 341.97,
-      "changePct": -4.0677,
+      "price": 340.17,
+      "changePct": -4.5726,
       "spark": [
-        356.47,
         356.47,
         356.47,
         356.47,
@@ -8750,7 +8749,8 @@
         349.51,
         345.93,
         343.27,
-        341.97
+        341.97,
+        340.17
       ],
       "fundamentals": {
         "peTTM": null,
@@ -9195,10 +9195,9 @@
       "ticker": "IBM",
       "name": "IBM",
       "subsector": "software",
-      "price": 235.12,
-      "changePct": 0.1747,
+      "price": 234.67,
+      "changePct": -0.017,
       "spark": [
-        234.71,
         234.71,
         234.71,
         234.71,
@@ -9209,7 +9208,8 @@
         234.02,
         235.65,
         235.36,
-        235.12
+        235.12,
+        234.67
       ],
       "fundamentals": {
         "peTTM": 20.646,
@@ -9654,10 +9654,9 @@
       "ticker": "AAPL",
       "name": "Apple",
       "subsector": "megacap",
-      "price": 321.26,
-      "changePct": -2.1175,
+      "price": 321.68,
+      "changePct": -1.9896,
       "spark": [
-        328.21,
         328.21,
         328.21,
         328.21,
@@ -9668,7 +9667,8 @@
         318.88,
         321.07,
         321.43,
-        321.26
+        321.26,
+        321.68
       ],
       "fundamentals": {
         "peTTM": 37.3169,
@@ -10113,10 +10113,9 @@
       "ticker": "TSLA",
       "name": "Tesla",
       "subsector": "megacap",
-      "price": 353.3,
-      "changePct": -6.1284,
+      "price": 353.83,
+      "changePct": -5.9875,
       "spark": [
-        376.365,
         376.365,
         376.365,
         376.365,
@@ -10127,7 +10126,8 @@
         353.85,
         352.16,
         351.94,
-        353.3
+        353.3,
+        353.83
       ],
       "fundamentals": {
         "peTTM": 390.56,
@@ -10572,10 +10572,9 @@
       "ticker": "INTC",
       "name": "Intel",
       "subsector": "semis",
-      "price": 94.19,
-      "changePct": 2.749,
+      "price": 94.46,
+      "changePct": 3.0435,
       "spark": [
-        91.67,
         91.67,
         91.67,
         91.67,
@@ -10586,7 +10585,8 @@
         95.48,
         95.47,
         95.48,
-        94.19
+        94.19,
+        94.46
       ],
       "fundamentals": {
         "peTTM": null,
@@ -10610,10 +10610,9 @@
       "ticker": "TXN",
       "name": "Texas Instruments",
       "subsector": "semis",
-      "price": 257.97,
-      "changePct": 1.631,
+      "price": 256.94,
+      "changePct": 1.2252,
       "spark": [
-        253.83,
         253.83,
         253.83,
         253.83,
@@ -10624,7 +10623,8 @@
         258.57,
         258.81,
         258.67,
-        257.97
+        257.97,
+        256.94
       ],
       "fundamentals": {
         "peTTM": 37.6609,
@@ -10648,10 +10648,9 @@
       "ticker": "ASML",
       "name": "ASML Holding",
       "subsector": "semis",
-      "price": 1702.44,
-      "changePct": 3.417,
+      "price": 1700.82,
+      "changePct": 3.3186,
       "spark": [
-        1646.19,
         1646.19,
         1646.19,
         1646.19,
@@ -10662,7 +10661,8 @@
         1709.44,
         1708.61,
         1709.87,
-        1702.44
+        1702.44,
+        1700.82
       ],
       "fundamentals": {
         "peTTM": 53.014,
@@ -10686,10 +10686,9 @@
       "ticker": "LRCX",
       "name": "Lam Research",
       "subsector": "semis",
-      "price": 302.92,
-      "changePct": 3.5058,
+      "price": 303.81,
+      "changePct": 3.8099,
       "spark": [
-        292.66,
         292.66,
         292.66,
         292.66,
@@ -10700,7 +10699,8 @@
         302.57,
         303.7,
         304.02,
-        302.92
+        302.92,
+        303.81
       ],
       "fundamentals": {
         "peTTM": 49.6574,
@@ -10724,10 +10724,9 @@
       "ticker": "AMAT",
       "name": "Applied Materials",
       "subsector": "semis",
-      "price": 452.45,
-      "changePct": 3.7944,
+      "price": 451.83,
+      "changePct": 3.6521,
       "spark": [
-        435.91,
         435.91,
         435.91,
         435.91,
@@ -10738,7 +10737,8 @@
         454.74,
         454.9,
         453.14,
-        452.45
+        452.45,
+        451.83
       ],
       "fundamentals": {
         "peTTM": 37.5484,
@@ -10762,10 +10762,9 @@
       "ticker": "KLAC",
       "name": "KLA Corporation",
       "subsector": "semis",
-      "price": 185.5,
-      "changePct": 7.2626,
+      "price": 184.56,
+      "changePct": 6.7191,
       "spark": [
-        172.94,
         172.94,
         172.94,
         172.94,
@@ -10776,7 +10775,8 @@
         186.18,
         186.66,
         186.74,
-        185.5
+        185.5,
+        184.56
       ],
       "fundamentals": {
         "peTTM": 46.636,
@@ -10800,10 +10800,9 @@
       "ticker": "ANET",
       "name": "Arista Networks",
       "subsector": "semis",
-      "price": 191.65,
-      "changePct": 0.1097,
+      "price": 192.05,
+      "changePct": 0.3186,
       "spark": [
-        191.44,
         191.44,
         191.44,
         191.44,
@@ -10814,7 +10813,8 @@
         193.51,
         193.79,
         192.87,
-        191.65
+        191.65,
+        192.05
       ],
       "fundamentals": {
         "peTTM": 58.0314,
@@ -10838,10 +10838,9 @@
       "ticker": "DELL",
       "name": "Dell Technologies",
       "subsector": "semis",
-      "price": 527.45,
-      "changePct": 2.1418,
+      "price": 519.13,
+      "changePct": 0.5306,
       "spark": [
-        516.39,
         516.39,
         516.39,
         516.39,
@@ -10852,7 +10851,8 @@
         514.62,
         521.28,
         522.75,
-        527.45
+        527.45,
+        519.13
       ],
       "fundamentals": {
         "peTTM": 29.2296,
@@ -10876,10 +10876,9 @@
       "ticker": "HPE",
       "name": "Hewlett Packard Enterprise",
       "subsector": "semis",
-      "price": 52.68,
-      "changePct": -3.2329,
+      "price": 51.69,
+      "changePct": -5.0514,
       "spark": [
-        54.44,
         54.44,
         54.44,
         54.44,
@@ -10890,7 +10889,8 @@
         52.52,
         52.46,
         52.71,
-        52.68
+        52.68,
+        51.69
       ],
       "fundamentals": {
         "peTTM": 23.6943,
@@ -10914,10 +10914,9 @@
       "ticker": "CDNS",
       "name": "Cadence Design Systems",
       "subsector": "software",
-      "price": 291.87,
-      "changePct": -4.2657,
+      "price": 292.78,
+      "changePct": -3.9672,
       "spark": [
-        304.875,
         304.875,
         304.875,
         304.875,
@@ -10928,7 +10927,8 @@
         291.07,
         292.86,
         292.44,
-        291.87
+        291.87,
+        292.78
       ],
       "fundamentals": {
         "peTTM": 61.2882,
@@ -10952,10 +10952,9 @@
       "ticker": "SNPS",
       "name": "Synopsys",
       "subsector": "software",
-      "price": 390.68,
-      "changePct": -6.1565,
+      "price": 393.65,
+      "changePct": -5.4431,
       "spark": [
-        416.31,
         416.31,
         416.31,
         416.31,
@@ -10966,7 +10965,8 @@
         386.44,
         393.74,
         392.07,
-        390.68
+        390.68,
+        393.65
       ],
       "fundamentals": {
         "peTTM": 74.0462,
@@ -10990,10 +10990,9 @@
       "ticker": "DDOG",
       "name": "Datadog",
       "subsector": "software",
-      "price": 213.5,
-      "changePct": -0.5867,
+      "price": 212.79,
+      "changePct": -0.9173,
       "spark": [
-        214.76,
         214.76,
         214.76,
         214.76,
@@ -11004,7 +11003,8 @@
         213.95,
         212.8,
         212.41,
-        213.5
+        213.5,
+        212.79
       ],
       "fundamentals": {
         "peTTM": 431.9601,
@@ -11028,10 +11028,9 @@
       "ticker": "PANW",
       "name": "Palo Alto Networks",
       "subsector": "software",
-      "price": 333.59,
-      "changePct": 0.4971,
+      "price": 332.89,
+      "changePct": 0.2862,
       "spark": [
-        331.94,
         331.94,
         331.94,
         331.94,
@@ -11042,7 +11041,8 @@
         331.1,
         332.25,
         332.45,
-        333.59
+        333.59,
+        332.89
       ],
       "fundamentals": {
         "peTTM": 872.0235,
@@ -11075,10 +11075,10 @@
         214.97,
         214.97,
         214.97,
-        214.97,
         214.84,
         215.28,
         213.03,
+        212.73,
         212.73,
         212.73
       ],
@@ -11104,10 +11104,9 @@
       "ticker": "MDB",
       "name": "MongoDB",
       "subsector": "software",
-      "price": 375.1,
-      "changePct": -2.432,
+      "price": 373.02,
+      "changePct": -2.9731,
       "spark": [
-        384.45,
         384.45,
         384.45,
         384.45,
@@ -11118,7 +11117,8 @@
         379.74,
         375.05,
         376.88,
-        375.1
+        375.1,
+        373.02
       ],
       "fundamentals": {
         "peTTM": 521.858,
@@ -11142,10 +11142,9 @@
       "ticker": "WDAY",
       "name": "Workday",
       "subsector": "software",
-      "price": 198.81,
-      "changePct": -3.9194,
+      "price": 197.99,
+      "changePct": -4.3157,
       "spark": [
-        206.92,
         206.92,
         206.92,
         206.92,
@@ -11156,7 +11155,8 @@
         198.61,
         198.83,
         198.38,
-        198.81
+        198.81,
+        197.99
       ],
       "fundamentals": {
         "peTTM": 39.6602,
@@ -11180,10 +11180,9 @@
       "ticker": "INTU",
       "name": "Intuit",
       "subsector": "software",
-      "price": 333.4,
-      "changePct": -3.1658,
+      "price": 332.49,
+      "changePct": -3.4301,
       "spark": [
-        344.3,
         344.3,
         344.3,
         344.3,
@@ -11194,7 +11193,8 @@
         332.32,
         334.33,
         333.03,
-        333.4
+        333.4,
+        332.49
       ],
       "fundamentals": {
         "peTTM": 20.5446,
@@ -11218,10 +11218,9 @@
       "ticker": "SAP",
       "name": "SAP",
       "subsector": "software",
-      "price": 216.67,
-      "changePct": -0.1659,
+      "price": 216.26,
+      "changePct": -0.3548,
       "spark": [
-        217.03,
         217.03,
         217.03,
         217.03,
@@ -11232,7 +11231,8 @@
         215.31,
         216.32,
         216.67,
-        216.67
+        216.67,
+        216.26
       ],
       "fundamentals": {
         "peTTM": 27.1732,
@@ -11256,10 +11256,9 @@
       "ticker": "TEAM",
       "name": "Atlassian",
       "subsector": "software",
-      "price": 189.99,
-      "changePct": -2.4091,
+      "price": 189.27,
+      "changePct": -2.7789,
       "spark": [
-        194.68,
         194.68,
         194.68,
         194.68,
@@ -11270,7 +11269,8 @@
         190.95,
         191.21,
         190.13,
-        189.99
+        189.99,
+        189.27
       ],
       "fundamentals": {
         "peTTM": null,
@@ -11294,10 +11294,9 @@
       "ticker": "STX",
       "name": "Seagate Technology",
       "subsector": "semis",
-      "price": 834.03,
-      "changePct": 4.4352,
+      "price": 837.45,
+      "changePct": 4.8635,
       "spark": [
-        798.61,
         798.61,
         798.61,
         798.61,
@@ -11308,7 +11307,8 @@
         837.29,
         839.65,
         843.12,
-        834.03
+        834.03,
+        837.45
       ],
       "fundamentals": {
         "peTTM": 56.8469,
@@ -11332,10 +11332,9 @@
       "ticker": "WDC",
       "name": "Western Digital",
       "subsector": "semis",
-      "price": 460.48,
-      "changePct": 4.2824,
+      "price": 461.38,
+      "changePct": 4.4863,
       "spark": [
-        441.57,
         441.57,
         441.57,
         441.57,
@@ -11346,7 +11345,8 @@
         459.93,
         460.92,
         463.32,
-        460.48
+        460.48,
+        461.38
       ],
       "fundamentals": {
         "peTTM": 16.4185,
@@ -11370,10 +11370,9 @@
       "ticker": "AI",
       "name": "C3.ai",
       "subsector": "software",
-      "price": 10.61,
-      "changePct": -2.6606,
+      "price": 10.42,
+      "changePct": -4.4037,
       "spark": [
-        10.9,
         10.9,
         10.9,
         10.9,
@@ -11384,7 +11383,8 @@
         10.61,
         10.58,
         10.6,
-        10.61
+        10.61,
+        10.42
       ],
       "fundamentals": {
         "peTTM": null,
@@ -11408,10 +11408,9 @@
       "ticker": "SOUN",
       "name": "SoundHound AI",
       "subsector": "software",
-      "price": 6.68,
-      "changePct": -0.8902,
+      "price": 6.7,
+      "changePct": -0.5935,
       "spark": [
-        6.74,
         6.74,
         6.74,
         6.74,
@@ -11422,7 +11421,8 @@
         6.73,
         6.69,
         6.64,
-        6.68
+        6.68,
+        6.7
       ],
       "fundamentals": {
         "peTTM": null,
@@ -11446,10 +11446,9 @@
       "ticker": "IONQ",
       "name": "IonQ",
       "subsector": "semis",
-      "price": 39.24,
-      "changePct": 0.5638,
+      "price": 39.38,
+      "changePct": 0.9226,
       "spark": [
-        39.02,
         39.02,
         39.02,
         39.02,
@@ -11460,7 +11459,8 @@
         39.44,
         39.45,
         39.1,
-        39.24
+        39.24,
+        39.38
       ],
       "fundamentals": {
         "peTTM": null,
@@ -11484,10 +11484,9 @@
       "ticker": "CSCO",
       "name": "Cisco Systems",
       "subsector": "semis",
-      "price": 109.25,
-      "changePct": 0.5893,
+      "price": 109.22,
+      "changePct": 0.5616,
       "spark": [
-        108.61,
         108.61,
         108.61,
         108.61,
@@ -11498,7 +11497,8 @@
         109.38,
         109.52,
         109.43,
-        109.25
+        109.25,
+        109.22
       ],
       "fundamentals": {
         "peTTM": 32.2665,
@@ -11522,10 +11522,9 @@
       "ticker": "NFLX",
       "name": "Netflix",
       "subsector": "megacap",
-      "price": 79.03,
-      "changePct": -4.403,
+      "price": 79.05,
+      "changePct": -4.3789,
       "spark": [
-        82.67,
         82.67,
         82.67,
         82.67,
@@ -11536,7 +11535,8 @@
         79.77,
         79.26,
         79.07,
-        79.03
+        79.03,
+        79.05
       ],
       "fundamentals": {
         "peTTM": 25.1429,
@@ -11560,10 +11560,9 @@
       "ticker": "UBER",
       "name": "Uber Technologies",
       "subsector": "megacap",
-      "price": 76.34,
-      "changePct": 0.5003,
+      "price": 76.68,
+      "changePct": 0.9479,
       "spark": [
-        75.96,
         75.96,
         75.96,
         75.96,
@@ -11574,7 +11573,8 @@
         75.33,
         75.42,
         75.74,
-        76.34
+        76.34,
+        76.68
       ],
       "fundamentals": {
         "peTTM": 16.1631,
@@ -12124,18 +12124,18 @@
       "sentiment": "mixed",
       "text": "",
       "stats": {
-        "upCount": 25,
+        "upCount": 24,
         "totalCount": 50,
-        "avgChangePct": 0.2,
+        "avgChangePct": 0.04,
         "newsCount": 0
       },
       "topMover": {
         "ticker": "SNDK",
-        "changePct": 10.3769
+        "changePct": 9.7544
       },
       "topLoser": {
-        "ticker": "SNPS",
-        "changePct": -6.1565
+        "ticker": "TSLA",
+        "changePct": -5.9875
       }
     }
   ]
