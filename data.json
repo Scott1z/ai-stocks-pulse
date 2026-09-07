@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-06T23:11:21.426141+00:00",
+  "updated_at": "2026-09-07T00:23:38.702876+00:00",
   "sector": {
     "sentiment": "mixed",
     "text": "",
@@ -6917,9 +6917,9 @@
         1740
       ],
       "fundamentals": {
-        "peTTM": 19.9143,
+        "peTTM": 22.2837,
         "epsTTM": 72.89280000000001,
-        "marketCapM": 227680.1,
+        "marketCapM": 254769.06,
         "week52High": 2354.39,
         "week52Low": 63.74,
         "roeTTM": 93.13,
@@ -10130,9 +10130,9 @@
         354.08
       ],
       "fundamentals": {
-        "peTTM": 390.56,
+        "peTTM": 367.4345,
         "epsTTM": 1.0766,
-        "marketCapM": 1486471.5,
+        "marketCapM": 1398455.8,
         "week52High": 498.83,
         "week52Low": 297.38,
         "roeTTM": 4.569999999999999,
@@ -12177,6 +12177,25 @@
     },
     {
       "date": "2026-09-06",
+      "sentiment": "mixed",
+      "text": "",
+      "stats": {
+        "upCount": 26,
+        "totalCount": 50,
+        "avgChangePct": 0.32,
+        "newsCount": 0
+      },
+      "topMover": {
+        "ticker": "SNDK",
+        "changePct": 11.8978
+      },
+      "topLoser": {
+        "ticker": "ADBE",
+        "changePct": -6.7332
+      }
+    },
+    {
+      "date": "2026-09-07",
       "sentiment": "mixed",
       "text": "",
       "stats": {
