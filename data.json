@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-14T00:50:53.239003+00:00",
+  "updated_at": "2026-09-14T05:49:10.661741+00:00",
   "sector": {
     "sentiment": "mixed",
     "text": "",
@@ -3219,8 +3219,8 @@
       "lastEarnings": {
         "period": "2026-09-30",
         "actual": 1.92,
-        "estimate": 1.7766,
-        "surprisePercent": 8.0716
+        "estimate": 1.7738,
+        "surprisePercent": 8.2422
       },
       "thesis": null
     },
@@ -8727,8 +8727,8 @@
       "lastEarnings": {
         "period": "2026-09-30",
         "actual": 6.13,
-        "estimate": 6.1999,
-        "surprisePercent": -1.1274
+        "estimate": 6.2084,
+        "surprisePercent": -1.2628
       },
       "thesis": null
     },
@@ -10867,8 +10867,8 @@
       "lastEarnings": {
         "period": "2026-09-30",
         "actual": 7.04,
-        "estimate": 5.012,
-        "surprisePercent": 40.4629
+        "estimate": 5.0105,
+        "surprisePercent": 40.5049
       },
       "thesis": null
     },
@@ -10905,8 +10905,8 @@
       "lastEarnings": {
         "period": "2026-09-30",
         "actual": 1.11,
-        "estimate": 0.939,
-        "surprisePercent": 18.2109
+        "estimate": 0.9406,
+        "surprisePercent": 18.0098
       },
       "thesis": null
     },
@@ -11133,8 +11133,8 @@
       "lastEarnings": {
         "period": "2026-09-30",
         "actual": 1.9,
-        "estimate": 1.6221,
-        "surprisePercent": 17.1321
+        "estimate": 1.6135,
+        "surprisePercent": 17.7564
       },
       "thesis": null
     },
@@ -11399,8 +11399,8 @@
       "lastEarnings": {
         "period": "2026-09-30",
         "actual": -0.2,
-        "estimate": -0.2568,
-        "surprisePercent": 22.1184
+        "estimate": -0.2685,
+        "surprisePercent": 25.5121
       },
       "thesis": null
     },
