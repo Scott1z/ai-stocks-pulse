@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-13T22:54:43.008572+00:00",
+  "updated_at": "2026-09-14T00:50:53.239003+00:00",
   "sector": {
     "sentiment": "mixed",
     "text": "",
@@ -2786,13 +2786,13 @@
         150.28
       ],
       "fundamentals": {
-        "peTTM": 25.3337,
-        "epsTTM": 5.8606,
+        "peTTM": 22.8793,
+        "epsTTM": 6.4411000000000005,
         "marketCapM": 432877.2,
         "week52High": 331,
         "week52Low": 114.5,
-        "roeTTM": 50.59,
-        "netMarginTTM": 25.37
+        "roeTTM": 42.480000000000004,
+        "netMarginTTM": 26.36
       },
       "ohlc": [
         {
@@ -11792,25 +11792,6 @@
   ],
   "archive": [
     {
-      "date": "2026-08-14",
-      "sentiment": "mixed",
-      "text": "El sector de IA mostró señales dispares: Applied Materials cayó más de 5% pese a superar expectativas, mientras SanDisk saltó casi 7.4% tras su día del inversor sobre NAND. AMD subió 6.5% en medio de apuestas volátiles, y Oracle retrocedió 3.6% pese a confirmar avances en su proyecto de datacenters IA.",
-      "stats": {
-        "upCount": 16,
-        "totalCount": 50,
-        "avgChangePct": -0.57,
-        "newsCount": 8
-      },
-      "topMover": {
-        "ticker": "SNDK",
-        "changePct": 7.3948
-      },
-      "topLoser": {
-        "ticker": "AVGO",
-        "changePct": -5.9428
-      }
-    },
-    {
       "date": "2026-08-15",
       "sentiment": "mixed",
       "text": "El sector de IA mostró señales encontradas: AMD subió con fuerza tras apuestas de grandes inversores como Druckenmiller, mientras Applied Materials cayó pese a resultados sólidos y Broadcom se desplomó. Alphabet gana respaldo de Ackman y Berkshire, reflejando rotación hacia gigantes de IA en medio de volatilidad en semiconductores.",
@@ -12344,6 +12325,25 @@
     },
     {
       "date": "2026-09-13",
+      "sentiment": "mixed",
+      "text": "",
+      "stats": {
+        "upCount": 36,
+        "totalCount": 50,
+        "avgChangePct": 1.39,
+        "newsCount": 0
+      },
+      "topMover": {
+        "ticker": "HPE",
+        "changePct": 12.4411
+      },
+      "topLoser": {
+        "ticker": "STX",
+        "changePct": -3.7294
+      }
+    },
+    {
+      "date": "2026-09-14",
       "sentiment": "mixed",
       "text": "",
       "stats": {
