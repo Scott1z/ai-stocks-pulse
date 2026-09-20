@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-19T23:56:13.224506+00:00",
+  "updated_at": "2026-09-20T03:26:06.297502+00:00",
   "sector": {
     "sentiment": "mixed",
     "text": "",
@@ -19,8 +19,8 @@
       "changePct": 1.3358,
       "spark": [
         219.34,
-        219.34,
         220.08,
+        222.27,
         222.27,
         222.27,
         222.27,
@@ -32,9 +32,9 @@
         222.27
       ],
       "fundamentals": {
-        "peTTM": 27.4662,
+        "peTTM": 27.7724,
         "epsTTM": 7.9108,
-        "marketCapM": 5297662,
+        "marketCapM": 5356707,
         "week52High": 236.54,
         "week52Low": 164.27,
         "roeTTM": 110.11,
@@ -478,8 +478,8 @@
       "changePct": -0.7976,
       "spark": [
         497.75,
-        497.75,
         494.29,
+        493.78,
         493.78,
         493.78,
         493.78,
@@ -491,9 +491,9 @@
         493.78
       ],
       "fundamentals": {
-        "peTTM": 27.505,
+        "peTTM": 27.4139,
         "epsTTM": 17.9466,
-        "marketCapM": 3678763.5,
+        "marketCapM": 3666585.8,
         "week52High": 553.72,
         "week52Low": 349.2,
         "roeTTM": 33.22,
@@ -937,8 +937,8 @@
       "changePct": 0.6363,
       "spark": [
         347.33,
-        347.33,
         349.46,
+        349.54,
         349.54,
         349.54,
         349.54,
@@ -950,9 +950,9 @@
         349.54
       ],
       "fundamentals": {
-        "peTTM": 17.3946,
+        "peTTM": 17.5053,
         "epsTTM": 19.9118,
-        "marketCapM": 4247846,
+        "marketCapM": 4274874,
         "week52High": 408.61,
         "week52Low": 235.84,
         "roeTTM": 50.839999999999996,
@@ -1396,8 +1396,8 @@
       "changePct": -2.427,
       "spark": [
         682.31,
-        682.31,
         670.84,
+        665.75,
         665.75,
         665.75,
         665.75,
@@ -1409,9 +1409,9 @@
         665.75
       ],
       "fundamentals": {
-        "peTTM": 25.1599,
+        "peTTM": 24.9053,
         "epsTTM": 26.558100000000003,
-        "marketCapM": 1713338,
+        "marketCapM": 1696002.2,
         "week52High": 790.8,
         "week52Low": 520.26,
         "roeTTM": 29.73,
@@ -1855,8 +1855,8 @@
       "changePct": 1.0032,
       "spark": [
         251.19,
-        251.19,
         253.19,
+        253.71,
         253.71,
         253.71,
         253.71,
@@ -1868,9 +1868,9 @@
         253.71
       ],
       "fundamentals": {
-        "peTTM": 20.0217,
+        "peTTM": 20.229,
         "epsTTM": 12.4325,
-        "marketCapM": 2708551.5,
+        "marketCapM": 2736595.8,
         "week52High": 287.2,
         "week52Low": 196,
         "roeTTM": 30.5,
@@ -2314,8 +2314,8 @@
       "changePct": 2.9686,
       "spark": [
         347.3,
-        347.3,
         354.37,
+        357.61,
         357.61,
         357.61,
         357.61,
@@ -2327,9 +2327,9 @@
         357.61
       ],
       "fundamentals": {
-        "peTTM": 42.3545,
+        "peTTM": 44.6125,
         "epsTTM": 7.8333,
-        "marketCapM": 1620695,
+        "marketCapM": 1707097.8,
         "week52High": 495,
         "week52Low": 289.96,
         "roeTTM": 43.91,
@@ -2773,8 +2773,8 @@
       "changePct": -1.9789,
       "spark": [
         150.59,
-        150.59,
         145.86,
+        147.61,
         147.61,
         147.61,
         147.61,
@@ -2786,9 +2786,9 @@
         147.61
       ],
       "fundamentals": {
-        "peTTM": 23.3813,
+        "peTTM": 23.5906,
         "epsTTM": 6.4411000000000005,
-        "marketCapM": 442374.4,
+        "marketCapM": 446333.7,
         "week52High": 329.5,
         "week52Low": 114.5,
         "roeTTM": 42.58,
@@ -3232,8 +3232,8 @@
       "changePct": 0.7944,
       "spark": [
         176.24,
-        176.24,
         175.48,
+        177.64,
         177.64,
         177.64,
         177.64,
@@ -3245,9 +3245,9 @@
         177.64
       ],
       "fundamentals": {
-        "peTTM": 140.3905,
+        "peTTM": 141.5058,
         "epsTTM": 1.1735,
-        "marketCapM": 423515,
+        "marketCapM": 426879.28,
         "week52High": 207.52,
         "week52Low": 106.37,
         "roeTTM": 37.47,
@@ -3691,8 +3691,8 @@
       "changePct": 2.7023,
       "spark": [
         545.09,
-        545.09,
         545.4,
+        559.82,
         559.82,
         559.82,
         559.82,
@@ -3704,9 +3704,9 @@
         559.82
       ],
       "fundamentals": {
-        "peTTM": 130.0347,
+        "peTTM": 142.0411,
         "epsTTM": 3.8971999999999998,
-        "marketCapM": 836643.44,
+        "marketCapM": 913892.2,
         "week52High": 584.73,
         "week52Low": 149.85,
         "roeTTM": 10.07,
@@ -4150,8 +4150,8 @@
       "changePct": 1.025,
       "spark": [
         430.26,
-        430.26,
         430.52,
+        434.67,
         434.67,
         434.67,
         434.67,
@@ -4163,9 +4163,9 @@
         434.67
       ],
       "fundamentals": {
-        "peTTM": 27.2376,
+        "peTTM": 27.7526,
         "epsTTM": 87.3818,
-        "marketCapM": 61719040,
+        "marketCapM": 62885996,
         "week52High": 2535,
         "week52Low": 1250,
         "roeTTM": 39.86,
@@ -4609,8 +4609,8 @@
       "changePct": 4.043,
       "spark": [
         264.9,
-        264.9,
         268.2,
+        275.61,
         275.61,
         275.61,
         275.61,
@@ -4622,9 +4622,9 @@
         275.61
       ],
       "fundamentals": {
-        "peTTM": 249.5887,
+        "peTTM": 270.9897,
         "epsTTM": 0.9748000000000001,
-        "marketCapM": 260570.64,
+        "marketCapM": 282913.2,
         "week52High": 452.7,
         "week52Low": 100.02,
         "roeTTM": 13,
@@ -5068,8 +5068,8 @@
       "changePct": -3.1227,
       "spark": [
         40.35,
-        40.35,
         38.9,
+        39.09,
         39.09,
         39.09,
         39.09,
@@ -5081,9 +5081,9 @@
         39.09
       ],
       "fundamentals": {
-        "peTTM": 11.8848,
+        "peTTM": 11.5137,
         "epsTTM": 3.2003999999999997,
-        "marketCapM": 26508.553,
+        "marketCapM": 25680.775,
         "week52High": 58.78,
         "week52Low": 19.48,
         "roeTTM": 25.080000000000002,
@@ -5527,8 +5527,8 @@
       "changePct": 1.4496,
       "spark": [
         240.76,
-        240.76,
         236.47,
+        244.25,
         244.25,
         244.25,
         244.25,
@@ -5540,11 +5540,11 @@
         244.25
       ],
       "fundamentals": {
-        "peTTM": 79.0852,
+        "peTTM": 81.1329,
         "epsTTM": 3.03,
-        "marketCapM": 208777,
+        "marketCapM": 214182.83,
         "week52High": 329.88,
-        "week52Low": 68.36,
+        "week52Low": 70.685,
         "roeTTM": 16.220000000000002,
         "netMarginTTM": 27.93
       },
@@ -5986,8 +5986,8 @@
       "changePct": -5.8238,
       "spark": [
         188.71,
-        188.71,
         178.33,
+        177.72,
         177.72,
         177.72,
         177.72,
@@ -5999,9 +5999,9 @@
         177.72
       ],
       "fundamentals": {
-        "peTTM": 20.9661,
+        "peTTM": 20.1585,
         "epsTTM": 8.6404,
-        "marketCapM": 194125.23,
+        "marketCapM": 186647.58,
         "week52High": 259.92,
         "week52Low": 121.99,
         "roeTTM": 37.330000000000005,
@@ -6445,8 +6445,8 @@
       "changePct": 3.9182,
       "spark": [
         977.5,
-        977.5,
         996.99,
+        1015.8,
         1015.8,
         1015.8,
         1015.8,
@@ -6458,9 +6458,9 @@
         1015.8
       ],
       "fundamentals": {
-        "peTTM": 21.8745,
+        "peTTM": 22.7315,
         "epsTTM": 44.17209999999999,
-        "marketCapM": 1103981.8,
+        "marketCapM": 1147237.5,
         "week52High": 1255,
         "week52Low": 154.65,
         "roeTTM": 70.55,
@@ -6904,8 +6904,8 @@
       "changePct": 10.9905,
       "spark": [
         1614.39,
-        1614.39,
         1739.68,
+        1791.82,
         1791.82,
         1791.82,
         1791.82,
@@ -6917,11 +6917,11 @@
         1791.82
       ],
       "fundamentals": {
-        "peTTM": 20.4385,
+        "peTTM": 22.9473,
         "epsTTM": 72.89280000000001,
-        "marketCapM": 233673.02,
+        "marketCapM": 262356.5,
         "week52High": 2354.39,
-        "week52Low": 90.22,
+        "week52Low": 93.535,
         "roeTTM": 93.13,
         "netMarginTTM": 56.46
       },
@@ -7363,8 +7363,8 @@
       "changePct": -2.0301,
       "spark": [
         242.85,
-        242.85,
         238.8,
+        237.92,
         237.92,
         237.92,
         237.92,
@@ -7376,9 +7376,9 @@
         237.92
       ],
       "fundamentals": {
-        "peTTM": 20.7479,
+        "peTTM": 20.2658,
         "epsTTM": 10.976500000000001,
-        "marketCapM": 200466.33,
+        "marketCapM": 195808.17,
         "week52High": 269.11,
         "week52Low": 146.32,
         "roeTTM": 20.150000000000002,
@@ -7822,8 +7822,8 @@
       "changePct": -2.1665,
       "spark": [
         138.47,
-        138.47,
         136.88,
+        135.47,
         135.47,
         135.47,
         135.47,
@@ -7835,9 +7835,9 @@
         135.47
       ],
       "fundamentals": {
-        "peTTM": 84.6827,
+        "peTTM": 83.8778,
         "epsTTM": 1.6017000000000001,
-        "marketCapM": 141420.19,
+        "marketCapM": 140075.98,
         "week52High": 194.73,
         "week52Low": 81.24,
         "roeTTM": 13.77,
@@ -8281,8 +8281,8 @@
       "changePct": -1.4841,
       "spark": [
         252.67,
-        252.67,
         249.79,
+        248.92,
         248.92,
         248.92,
         248.92,
@@ -8294,9 +8294,9 @@
         248.92
       ],
       "fundamentals": {
-        "peTTM": 13.7886,
+        "peTTM": 13.584,
         "epsTTM": 17.9203,
-        "marketCapM": 100436.33,
+        "marketCapM": 98945.7,
         "week52High": 370.86,
         "week52Low": 190.12,
         "roeTTM": 62.39,
@@ -8740,8 +8740,8 @@
       "changePct": -1.7613,
       "spark": [
         338.39,
-        338.39,
         334.02,
+        332.43,
         332.43,
         332.43,
         332.43,
@@ -8755,7 +8755,7 @@
       "fundamentals": {
         "peTTM": null,
         "epsTTM": -3.1744,
-        "marketCapM": 119383.99,
+        "marketCapM": 117281.305,
         "week52High": 384.56,
         "week52Low": 118.3,
         "roeTTM": -53.559999999999995,
@@ -9199,8 +9199,8 @@
       "changePct": -3.449,
       "spark": [
         237.75,
-        237.75,
         230.11,
+        229.55,
         229.55,
         229.55,
         229.55,
@@ -9212,9 +9212,9 @@
         229.55
       ],
       "fundamentals": {
-        "peTTM": 20.8661,
+        "peTTM": 20.1685,
         "epsTTM": 11.2633,
-        "marketCapM": 223747.5,
+        "marketCapM": 216266.95,
         "week52High": 332.46,
         "week52Low": 199.19,
         "roeTTM": 33.51,
@@ -9658,8 +9658,8 @@
       "changePct": -0.2582,
       "spark": [
         337,
-        337,
         335.26,
+        336.13,
         336.13,
         336.13,
         336.13,
@@ -9671,9 +9671,9 @@
         336.13
       ],
       "fundamentals": {
-        "peTTM": 37.627,
+        "peTTM": 38.0481,
         "epsTTM": 8.723299999999998,
-        "marketCapM": 4851251,
+        "marketCapM": 4905541.5,
         "week52High": 344.5699,
         "week52Low": 236.65,
         "roeTTM": 137.17999999999998,
@@ -10117,8 +10117,8 @@
       "changePct": -0.527,
       "spark": [
         366.2,
-        366.2,
         362.97,
+        364.27,
         364.27,
         364.27,
         364.27,
@@ -10576,8 +10576,8 @@
       "changePct": -0.1838,
       "spark": [
         108.8,
-        108.8,
         106.99,
+        108.6,
         108.6,
         108.6,
         108.6,
@@ -10591,9 +10591,9 @@
       "fundamentals": {
         "peTTM": null,
         "epsTTM": -2.1202,
-        "marketCapM": 534160.94,
+        "marketCapM": 574071.06,
         "week52High": 142.35,
-        "week52Low": 24.45,
+        "week52Low": 28.73,
         "roeTTM": -10.76,
         "netMarginTTM": -19.79
       },
@@ -10614,8 +10614,8 @@
       "changePct": 3.2928,
       "spark": [
         258.14,
-        258.14,
         263.59,
+        266.64,
         266.64,
         266.64,
         266.64,
@@ -10627,9 +10627,9 @@
         266.64
       ],
       "fundamentals": {
-        "peTTM": 39.9463,
+        "peTTM": 40.236,
         "epsTTM": 6.6129,
-        "marketCapM": 241754.94,
+        "marketCapM": 243508.38,
         "week52High": 334.03,
         "week52Low": 152.73,
         "roeTTM": 35.77,
@@ -10652,8 +10652,8 @@
       "changePct": 3.0834,
       "spark": [
         1629.67,
-        1629.67,
         1646.03,
+        1679.92,
         1679.92,
         1679.92,
         1679.92,
@@ -10669,7 +10669,7 @@
         "epsTTM": 26.964399999999998,
         "marketCapM": 541654.44,
         "week52High": 1741,
-        "week52Low": 796,
+        "week52Low": 801.4,
         "roeTTM": 41.52,
         "netMarginTTM": 29.49
       },
@@ -10690,8 +10690,8 @@
       "changePct": 6.9808,
       "spark": [
         269.31,
-        269.31,
         282.75,
+        288.11,
         288.11,
         288.11,
         288.11,
@@ -10703,11 +10703,11 @@
         288.11
       ],
       "fundamentals": {
-        "peTTM": 48.6344,
+        "peTTM": 49.6213,
         "epsTTM": 5.7641,
-        "marketCapM": 353348.03,
+        "marketCapM": 360518.1,
         "week52High": 438.5,
-        "week52Low": 119.51,
+        "week52Low": 125,
         "roeTTM": 66.97,
         "netMarginTTM": 31.27
       },
@@ -10728,8 +10728,8 @@
       "changePct": 6.5093,
       "spark": [
         417.4,
-        417.4,
         434.67,
+        444.57,
         444.57,
         444.57,
         444.57,
@@ -10741,11 +10741,11 @@
         444.57
       ],
       "fundamentals": {
-        "peTTM": 37.2645,
+        "peTTM": 38.0716,
         "epsTTM": 11.5943,
-        "marketCapM": 345329.94,
+        "marketCapM": 352809.6,
         "week52High": 739.67,
-        "week52Low": 173.97,
+        "week52Low": 183.83,
         "roeTTM": 40.44,
         "netMarginTTM": 30.05
       },
@@ -10766,8 +10766,8 @@
       "changePct": 4.7402,
       "spark": [
         168.98,
-        168.98,
         174.14,
+        176.99,
         176.99,
         176.99,
         176.99,
@@ -10779,11 +10779,11 @@
         176.99
       ],
       "fundamentals": {
-        "peTTM": 45.7029,
+        "peTTM": 47.8693,
         "epsTTM": 3.6663,
-        "marketCapM": 220780.27,
+        "marketCapM": 231245.7,
         "week52High": 307.3743,
-        "week52Low": 97.63,
+        "week52Low": 98.1,
         "roeTTM": 85.38,
         "netMarginTTM": 35.57
       },
@@ -10804,8 +10804,8 @@
       "changePct": -0.0702,
       "spark": [
         199.53,
-        199.53,
         198.43,
+        199.39,
         199.39,
         199.39,
         199.39,
@@ -10817,9 +10817,9 @@
         199.39
       ],
       "fundamentals": {
-        "peTTM": 61.7484,
+        "peTTM": 62.1756,
         "epsTTM": 3.1709,
-        "marketCapM": 249747.7,
+        "marketCapM": 251475.58,
         "week52High": 214.89,
         "week52Low": 114.52,
         "roeTTM": 30.78,
@@ -10842,8 +10842,8 @@
       "changePct": -3.4568,
       "spark": [
         588.4,
-        588.4,
         579.78,
+        568.06,
         568.06,
         568.06,
         568.06,
@@ -10855,10 +10855,10 @@
         568.06
       ],
       "fundamentals": {
-        "peTTM": 32.8803,
+        "peTTM": 31.7437,
         "epsTTM": 17.2331,
-        "marketCapM": 374112.25,
-        "week52High": 593.9799,
+        "marketCapM": 361179.8,
+        "week52High": 595.51,
         "week52Low": 110.22,
         "roeTTM": 130.7,
         "netMarginTTM": 7.53
@@ -10880,8 +10880,8 @@
       "changePct": -0.4587,
       "spark": [
         61.04,
-        61.04,
         60.72,
+        60.76,
         60.76,
         60.76,
         60.76,
@@ -10893,9 +10893,9 @@
         60.76
       ],
       "fundamentals": {
-        "peTTM": 29.032,
+        "peTTM": 28.8989,
         "epsTTM": 1.9631999999999998,
-        "marketCapM": 81028.445,
+        "marketCapM": 80656.76,
         "week52High": 64.25,
         "week52Low": 19.84,
         "roeTTM": 11.020000000000001,
@@ -10918,8 +10918,8 @@
       "changePct": 0.7622,
       "spark": [
         280.76,
-        280.76,
         282.28,
+        282.9,
         282.9,
         282.9,
         282.9,
@@ -10931,9 +10931,9 @@
         282.9
       ],
       "fundamentals": {
-        "peTTM": 56.4678,
+        "peTTM": 56.5378,
         "epsTTM": 5.0263,
-        "marketCapM": 77812.3,
+        "marketCapM": 77908.69,
         "week52High": 416.69,
         "week52Low": 262.75,
         "roeTTM": 22.88,
@@ -10956,8 +10956,8 @@
       "changePct": 0.9969,
       "spark": [
         381.17,
-        381.17,
         383.08,
+        384.97,
         384.97,
         384.97,
         384.97,
@@ -10969,9 +10969,9 @@
         384.97
       ],
       "fundamentals": {
-        "peTTM": 68.2663,
+        "peTTM": 68.5279,
         "epsTTM": 5.6530000000000005,
-        "marketCapM": 73492.66,
+        "marketCapM": 73774.36,
         "week52High": 539.48,
         "week52Low": 362.55,
         "roeTTM": 3.5700000000000003,
@@ -10994,8 +10994,8 @@
       "changePct": -2.5763,
       "spark": [
         236,
-        236,
         230.75,
+        229.92,
         229.92,
         229.92,
         229.92,
@@ -11007,9 +11007,9 @@
         229.92
       ],
       "fundamentals": {
-        "peTTM": 477.1923,
+        "peTTM": 464.8985,
         "epsTTM": 0.4843,
-        "marketCapM": 84741.71,
+        "marketCapM": 82558.53,
         "week52High": 292.72,
         "week52Low": 98.01,
         "roeTTM": 4.569999999999999,
@@ -11032,8 +11032,8 @@
       "changePct": -3.0608,
       "spark": [
         375.06,
-        375.06,
         361.13,
+        363.58,
         363.58,
         363.58,
         363.58,
@@ -11045,9 +11045,9 @@
         363.58
       ],
       "fundamentals": {
-        "peTTM": 1008.7379,
+        "peTTM": 968.7571,
         "epsTTM": 0.5125,
-        "marketCapM": 309682.53,
+        "marketCapM": 297408.44,
         "week52High": 398.88,
         "week52Low": 139.57,
         "roeTTM": 1.68,
@@ -11070,8 +11070,8 @@
       "changePct": -3.2764,
       "spark": [
         245.7,
-        245.7,
         238.11,
+        237.65,
         237.65,
         237.65,
         237.65,
@@ -11083,9 +11083,9 @@
         237.65
       ],
       "fundamentals": {
-        "peTTM": 4303.4687,
+        "peTTM": 4162.4719,
         "epsTTM": 0.056999999999999995,
-        "marketCapM": 251580.78,
+        "marketCapM": 243338.11,
         "week52High": 250.32,
         "week52Low": 85.68,
         "roeTTM": 1.29,
@@ -11108,8 +11108,8 @@
       "changePct": -2.5062,
       "spark": [
         393.42,
-        393.42,
         383.69,
+        383.56,
         383.56,
         383.56,
         383.56,
@@ -11121,9 +11121,9 @@
         383.56
       ],
       "fundamentals": {
-        "peTTM": 514.7389,
+        "peTTM": 524.614,
         "epsTTM": 0.7201,
-        "marketCapM": 30316.576,
+        "marketCapM": 30898.191,
         "week52High": 473.1,
         "week52Low": 215.68,
         "roeTTM": 2,
@@ -11146,8 +11146,8 @@
       "changePct": -2.7148,
       "spark": [
         199.28,
-        199.28,
         194.75,
+        193.87,
         193.87,
         193.87,
         193.87,
@@ -11159,9 +11159,9 @@
         193.87
       ],
       "fundamentals": {
-        "peTTM": 35.7743,
+        "peTTM": 37.3483,
         "epsTTM": 4.9275,
-        "marketCapM": 44753.7,
+        "marketCapM": 46722.67,
         "week52High": 249.85,
         "week52Low": 110.36,
         "roeTTM": 16.78,
@@ -11184,8 +11184,8 @@
       "changePct": -3.1744,
       "spark": [
         313.13,
-        313.13,
         302,
+        303.19,
         303.19,
         303.19,
         303.19,
@@ -11197,9 +11197,9 @@
         303.19
       ],
       "fundamentals": {
-        "peTTM": 17.6267,
+        "peTTM": 17.7449,
         "epsTTM": 16.4982,
-        "marketCapM": 80483.47,
+        "marketCapM": 81023.28,
         "week52High": 705.08,
         "week52Low": 252.84,
         "roeTTM": 23.419999999999998,
@@ -11222,8 +11222,8 @@
       "changePct": -1.9704,
       "spark": [
         213.66,
-        213.66,
         209.91,
+        209.45,
         209.45,
         209.45,
         209.45,
@@ -11235,9 +11235,9 @@
         209.45
       ],
       "fundamentals": {
-        "peTTM": 28.0178,
+        "peTTM": 28.1556,
         "epsTTM": 6.681,
-        "marketCapM": 218426.94,
+        "marketCapM": 219501.08,
         "week52High": 244.3,
         "week52Low": 127.5,
         "roeTTM": 17.62,
@@ -11260,8 +11260,8 @@
       "changePct": -0.2649,
       "spark": [
         192.53,
-        192.53,
         192.65,
+        192.02,
         192.02,
         192.02,
         192.02,
@@ -11275,7 +11275,7 @@
       "fundamentals": {
         "peTTM": null,
         "epsTTM": -0.18700000000000003,
-        "marketCapM": 48941.86,
+        "marketCapM": 48607.715,
         "week52High": 198.5999,
         "week52Low": 56.0101,
         "roeTTM": -4.390000000000001,
@@ -11298,8 +11298,8 @@
       "changePct": 6.9304,
       "spark": [
         803.13,
-        803.13,
         848.17,
+        858.79,
         858.79,
         858.79,
         858.79,
@@ -11311,11 +11311,11 @@
         858.79
       ],
       "fundamentals": {
-        "peTTM": 58.1338,
+        "peTTM": 61.3326,
         "epsTTM": 13.8741,
-        "marketCapM": 185097.92,
+        "marketCapM": 195282.86,
         "week52High": 1145,
-        "week52Low": 206.26,
+        "week52Low": 209,
         "roeTTM": 212.44,
         "netMarginTTM": 26.11
       },
@@ -11336,8 +11336,8 @@
       "changePct": 4.1263,
       "spark": [
         423.87,
-        423.87,
         439.4,
+        441.36,
         441.36,
         441.36,
         441.36,
@@ -11349,11 +11349,11 @@
         441.36
       ],
       "fundamentals": {
-        "peTTM": 17.1081,
+        "peTTM": 16.8854,
         "epsTTM": 24.473300000000002,
-        "marketCapM": 161226.7,
+        "marketCapM": 159128.36,
         "week52High": 799.87,
-        "week52Low": 99.72,
+        "week52Low": 102,
         "roeTTM": 117.8,
         "netMarginTTM": 72.95
       },
@@ -11374,8 +11374,8 @@
       "changePct": -2.7829,
       "spark": [
         10.78,
-        10.78,
         10.77,
+        10.48,
         10.48,
         10.48,
         10.48,
@@ -11389,7 +11389,7 @@
       "fundamentals": {
         "peTTM": null,
         "epsTTM": -3.0844,
-        "marketCapM": 1660.8754,
+        "marketCapM": 1648.2928,
         "week52High": 20.22,
         "week52Low": 7.675,
         "roeTTM": -62.870000000000005,
@@ -11412,7 +11412,7 @@
       "changePct": -1.1667,
       "spark": [
         6,
-        6,
+        5.93,
         5.93,
         5.93,
         5.93,
@@ -11427,7 +11427,7 @@
       "fundamentals": {
         "peTTM": null,
         "epsTTM": -0.3297,
-        "marketCapM": 2645.279,
+        "marketCapM": 2667.773,
         "week52High": 22.17,
         "week52Low": 5.6501,
         "roeTTM": -30.220000000000002,
@@ -11450,8 +11450,8 @@
       "changePct": -2.9995,
       "spark": [
         40.34,
-        40.34,
         38.02,
+        39.13,
         39.13,
         39.13,
         39.13,
@@ -11465,7 +11465,7 @@
       "fundamentals": {
         "peTTM": null,
         "epsTTM": -4.3169,
-        "marketCapM": 15456.019,
+        "marketCapM": 15853.054,
         "week52High": 84.64,
         "week52Low": 25.89,
         "roeTTM": 10.72,
@@ -11488,8 +11488,8 @@
       "changePct": -0.6622,
       "spark": [
         110.24,
-        110.24,
         108.77,
+        109.51,
         109.51,
         109.51,
         109.51,
@@ -11501,11 +11501,11 @@
         109.51
       ],
       "fundamentals": {
-        "peTTM": 32.2551,
+        "peTTM": 32.5434,
         "epsTTM": 3.3282,
-        "marketCapM": 427928.34,
+        "marketCapM": 431752.66,
         "week52High": 130.3656,
-        "week52Low": 66.38,
+        "week52Low": 66.81,
         "roeTTM": 27.389999999999997,
         "netMarginTTM": 20.95
       },
@@ -11526,8 +11526,8 @@
       "changePct": -4.674,
       "spark": [
         75.31,
-        75.31,
         71.96,
+        71.79,
         71.79,
         71.79,
         71.79,
@@ -11539,9 +11539,9 @@
         71.79
       ],
       "fundamentals": {
-        "peTTM": 23.3385,
+        "peTTM": 21.9002,
         "epsTTM": 3.1742,
-        "marketCapM": 318562.22,
+        "marketCapM": 298929.25,
         "week52High": 124.86,
         "week52Low": 65.08,
         "roeTTM": 47.96,
@@ -11564,8 +11564,8 @@
       "changePct": -0.5221,
       "spark": [
         70.87,
-        70.87,
         70.4,
+        70.5,
         70.5,
         70.5,
         70.5,
@@ -11577,9 +11577,9 @@
         70.5
       ],
       "fundamentals": {
-        "peTTM": 15.1118,
+        "peTTM": 15.0329,
         "epsTTM": 4.5543000000000005,
-        "marketCapM": 144756.25,
+        "marketCapM": 144000.5,
         "week52High": 101.99,
         "week52Low": 65.41,
         "roeTTM": 35.730000000000004,
@@ -11601,13 +11601,13 @@
       "ticker": "MU",
       "name": "Micron Technology",
       "date": "2026-09-30",
-      "epsEstimate": 31.17
+      "epsEstimate": 31.24
     },
     {
       "ticker": "ASML",
       "name": "ASML Holding",
       "date": "2026-10-14",
-      "epsEstimate": 12.59
+      "epsEstimate": 12.54
     },
     {
       "ticker": "TSM",
@@ -11679,7 +11679,7 @@
       "ticker": "AMZN",
       "name": "Amazon",
       "date": "2026-10-29",
-      "epsEstimate": 2.03
+      "epsEstimate": 2.0
     },
     {
       "ticker": "TEAM",
@@ -11721,7 +11721,7 @@
       "ticker": "UBER",
       "name": "Uber Technologies",
       "date": "2026-11-03",
-      "epsEstimate": 1.09
+      "epsEstimate": 1.03
     },
     {
       "ticker": "ARM",
@@ -11739,7 +11739,7 @@
       "ticker": "IONQ",
       "name": "IonQ",
       "date": "2026-11-04",
-      "epsEstimate": -0.65
+      "epsEstimate": -0.5
     },
     {
       "ticker": "KLAC",
@@ -11751,13 +11751,13 @@
       "ticker": "META",
       "name": "Meta Platforms",
       "date": "2026-11-04",
-      "epsEstimate": 6.33
+      "epsEstimate": 6.39
     },
     {
       "ticker": "MSFT",
       "name": "Microsoft",
       "date": "2026-11-04",
-      "epsEstimate": 4.67
+      "epsEstimate": 4.69
     },
     {
       "ticker": "NOW",
@@ -11803,25 +11803,6 @@
     }
   ],
   "archive": [
-    {
-      "date": "2026-08-20",
-      "sentiment": "mixed",
-      "text": "",
-      "stats": {
-        "upCount": 15,
-        "totalCount": 50,
-        "avgChangePct": -0.39,
-        "newsCount": 0
-      },
-      "topMover": {
-        "ticker": "MRVL",
-        "changePct": 5.7909
-      },
-      "topLoser": {
-        "ticker": "CRWD",
-        "changePct": -5.5994
-      }
-    },
     {
       "date": "2026-08-21",
       "sentiment": "mixed",
@@ -12356,6 +12337,25 @@
     },
     {
       "date": "2026-09-19",
+      "sentiment": "mixed",
+      "text": "",
+      "stats": {
+        "upCount": 20,
+        "totalCount": 50,
+        "avgChangePct": 0.12,
+        "newsCount": 0
+      },
+      "topMover": {
+        "ticker": "SNDK",
+        "changePct": 10.9905
+      },
+      "topLoser": {
+        "ticker": "QCOM",
+        "changePct": -5.8238
+      }
+    },
+    {
+      "date": "2026-09-20",
       "sentiment": "mixed",
       "text": "",
       "stats": {
