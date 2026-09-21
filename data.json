@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-20T23:01:20.014870+00:00",
+  "updated_at": "2026-09-21T01:01:45.322823+00:00",
   "sector": {
     "sentiment": "mixed",
     "text": "",
@@ -11804,25 +11804,6 @@
   ],
   "archive": [
     {
-      "date": "2026-08-21",
-      "sentiment": "mixed",
-      "text": "",
-      "stats": {
-        "upCount": 32,
-        "totalCount": 50,
-        "avgChangePct": 0.77,
-        "newsCount": 0
-      },
-      "topMover": {
-        "ticker": "IONQ",
-        "changePct": 8.0183
-      },
-      "topLoser": {
-        "ticker": "MRVL",
-        "changePct": -5.5655
-      }
-    },
-    {
       "date": "2026-08-22",
       "sentiment": "mixed",
       "text": "",
@@ -12356,6 +12337,25 @@
     },
     {
       "date": "2026-09-20",
+      "sentiment": "mixed",
+      "text": "",
+      "stats": {
+        "upCount": 20,
+        "totalCount": 50,
+        "avgChangePct": 0.12,
+        "newsCount": 0
+      },
+      "topMover": {
+        "ticker": "SNDK",
+        "changePct": 10.9905
+      },
+      "topLoser": {
+        "ticker": "QCOM",
+        "changePct": -5.8238
+      }
+    },
+    {
+      "date": "2026-09-21",
       "sentiment": "mixed",
       "text": "",
       "stats": {
