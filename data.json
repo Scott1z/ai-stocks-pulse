@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-27T23:40:28.104814+00:00",
+  "updated_at": "2026-09-28T03:39:53.290923+00:00",
   "sector": {
     "sentiment": "mixed",
     "text": "",
@@ -11822,25 +11822,6 @@
   ],
   "archive": [
     {
-      "date": "2026-08-29",
-      "sentiment": "mixed",
-      "text": "",
-      "stats": {
-        "upCount": 18,
-        "totalCount": 50,
-        "avgChangePct": -1.21,
-        "newsCount": 0
-      },
-      "topMover": {
-        "ticker": "WDAY",
-        "changePct": 5.7602
-      },
-      "topLoser": {
-        "ticker": "MRVL",
-        "changePct": -10.2837
-      }
-    },
-    {
       "date": "2026-08-30",
       "sentiment": "mixed",
       "text": "",
@@ -12374,6 +12355,25 @@
     },
     {
       "date": "2026-09-27",
+      "sentiment": "mixed",
+      "text": "",
+      "stats": {
+        "upCount": 29,
+        "totalCount": 50,
+        "avgChangePct": 0.22,
+        "newsCount": 0
+      },
+      "topMover": {
+        "ticker": "DELL",
+        "changePct": 5.0129
+      },
+      "topLoser": {
+        "ticker": "PANW",
+        "changePct": -3.8931
+      }
+    },
+    {
+      "date": "2026-09-28",
       "sentiment": "mixed",
       "text": "",
       "stats": {
