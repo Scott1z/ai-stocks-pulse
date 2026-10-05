@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-04T22:46:09.991916+00:00",
+  "updated_at": "2026-10-05T01:43:07.851631+00:00",
   "sector": {
     "sentiment": "mixed",
     "text": "",
@@ -3707,8 +3707,8 @@
         "peTTM": 160.8396,
         "epsTTM": 3.8971999999999998,
         "marketCapM": 1034842.2,
-        "week52High": 639,
-        "week52Low": 160.49,
+        "week52High": 645.46,
+        "week52Low": 163.14,
         "roeTTM": 10.07,
         "netMarginTTM": 15.58
       },
@@ -11596,27 +11596,237 @@
     }
   ],
   "news": [],
-  "earningsCalendar": [],
-  "archive": [
+  "earningsCalendar": [
     {
-      "date": "2026-09-05",
-      "sentiment": "mixed",
-      "text": "",
-      "stats": {
-        "upCount": 26,
-        "totalCount": 50,
-        "avgChangePct": 0.32,
-        "newsCount": 0
-      },
-      "topMover": {
-        "ticker": "SNDK",
-        "changePct": 11.8978
-      },
-      "topLoser": {
-        "ticker": "ADBE",
-        "changePct": -6.7332
-      }
+      "ticker": "ASML",
+      "name": "ASML Holding",
+      "date": "2026-10-14",
+      "epsEstimate": 12.54
     },
+    {
+      "ticker": "TSM",
+      "name": "Taiwan Semiconductor",
+      "date": "2026-10-15",
+      "epsEstimate": 4.45
+    },
+    {
+      "ticker": "NFLX",
+      "name": "Netflix",
+      "date": "2026-10-20",
+      "epsEstimate": 0.82
+    },
+    {
+      "ticker": "IBM",
+      "name": "IBM",
+      "date": "2026-10-21",
+      "epsEstimate": 2.9
+    },
+    {
+      "ticker": "LRCX",
+      "name": "Lam Research",
+      "date": "2026-10-21",
+      "epsEstimate": 2.17
+    },
+    {
+      "ticker": "SAP",
+      "name": "SAP",
+      "date": "2026-10-21",
+      "epsEstimate": 2.04
+    },
+    {
+      "ticker": "TXN",
+      "name": "Texas Instruments",
+      "date": "2026-10-21",
+      "epsEstimate": 2.39
+    },
+    {
+      "ticker": "INTC",
+      "name": "Intel",
+      "date": "2026-10-22",
+      "epsEstimate": 0.27
+    },
+    {
+      "ticker": "CDNS",
+      "name": "Cadence Design Systems",
+      "date": "2026-10-26",
+      "epsEstimate": 1.6
+    },
+    {
+      "ticker": "STX",
+      "name": "Seagate Technology",
+      "date": "2026-10-27",
+      "epsEstimate": 7.11
+    },
+    {
+      "ticker": "TSLA",
+      "name": "Tesla",
+      "date": "2026-10-28",
+      "epsEstimate": 0.24
+    },
+    {
+      "ticker": "AAPL",
+      "name": "Apple",
+      "date": "2026-10-29",
+      "epsEstimate": 1.98
+    },
+    {
+      "ticker": "AMZN",
+      "name": "Amazon",
+      "date": "2026-10-29",
+      "epsEstimate": 2.02
+    },
+    {
+      "ticker": "SNDK",
+      "name": "SanDisk",
+      "date": "2026-10-29",
+      "epsEstimate": 45.22
+    },
+    {
+      "ticker": "TEAM",
+      "name": "Atlassian",
+      "date": "2026-10-29",
+      "epsEstimate": 0.26
+    },
+    {
+      "ticker": "WDC",
+      "name": "Western Digital",
+      "date": "2026-10-29",
+      "epsEstimate": 3.97
+    },
+    {
+      "ticker": "PLTR",
+      "name": "Palantir",
+      "date": "2026-11-02",
+      "epsEstimate": 0.34
+    },
+    {
+      "ticker": "AMD",
+      "name": "Advanced Micro Devices",
+      "date": "2026-11-03",
+      "epsEstimate": 1.64
+    },
+    {
+      "ticker": "ANET",
+      "name": "Arista Networks",
+      "date": "2026-11-03",
+      "epsEstimate": 0.99
+    },
+    {
+      "ticker": "SMCI",
+      "name": "Super Micro Computer",
+      "date": "2026-11-03",
+      "epsEstimate": 0.94
+    },
+    {
+      "ticker": "UBER",
+      "name": "Uber Technologies",
+      "date": "2026-11-03",
+      "epsEstimate": 1.03
+    },
+    {
+      "ticker": "ARM",
+      "name": "Arm Holdings",
+      "date": "2026-11-04",
+      "epsEstimate": 0.22
+    },
+    {
+      "ticker": "GOOGL",
+      "name": "Alphabet",
+      "date": "2026-11-04",
+      "epsEstimate": 2.95
+    },
+    {
+      "ticker": "IONQ",
+      "name": "IonQ",
+      "date": "2026-11-04",
+      "epsEstimate": -0.5
+    },
+    {
+      "ticker": "KLAC",
+      "name": "KLA Corporation",
+      "date": "2026-11-04",
+      "epsEstimate": 1.18
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms",
+      "date": "2026-11-04",
+      "epsEstimate": 6.39
+    },
+    {
+      "ticker": "MSFT",
+      "name": "Microsoft",
+      "date": "2026-11-04",
+      "epsEstimate": 4.7
+    },
+    {
+      "ticker": "NOW",
+      "name": "ServiceNow",
+      "date": "2026-11-04",
+      "epsEstimate": 0.57
+    },
+    {
+      "ticker": "QCOM",
+      "name": "Qualcomm",
+      "date": "2026-11-04",
+      "epsEstimate": 1.47
+    },
+    {
+      "ticker": "DDOG",
+      "name": "Datadog",
+      "date": "2026-11-05",
+      "epsEstimate": 0.18
+    },
+    {
+      "ticker": "SOUN",
+      "name": "SoundHound AI",
+      "date": "2026-11-05",
+      "epsEstimate": -0.12
+    },
+    {
+      "ticker": "CSCO",
+      "name": "Cisco Systems",
+      "date": "2026-11-11",
+      "epsEstimate": 1.14
+    },
+    {
+      "ticker": "AMAT",
+      "name": "Applied Materials",
+      "date": "2026-11-12",
+      "epsEstimate": 4.06
+    },
+    {
+      "ticker": "NVDA",
+      "name": "NVIDIA",
+      "date": "2026-11-18",
+      "epsEstimate": 2.47
+    },
+    {
+      "ticker": "PANW",
+      "name": "Palo Alto Networks",
+      "date": "2026-11-18",
+      "epsEstimate": 0.52
+    },
+    {
+      "ticker": "INTU",
+      "name": "Intuit",
+      "date": "2026-11-19",
+      "epsEstimate": 2.47
+    },
+    {
+      "ticker": "DELL",
+      "name": "Dell Technologies",
+      "date": "2026-11-24",
+      "epsEstimate": 6.41
+    },
+    {
+      "ticker": "WDAY",
+      "name": "Workday",
+      "date": "2026-11-24",
+      "epsEstimate": 1.27
+    }
+  ],
+  "archive": [
     {
       "date": "2026-09-06",
       "sentiment": "mixed",
@@ -12151,6 +12361,25 @@
     },
     {
       "date": "2026-10-04",
+      "sentiment": "mixed",
+      "text": "",
+      "stats": {
+        "upCount": 30,
+        "totalCount": 50,
+        "avgChangePct": 0.59,
+        "newsCount": 0
+      },
+      "topMover": {
+        "ticker": "HPE",
+        "changePct": 7.3552
+      },
+      "topLoser": {
+        "ticker": "WDC",
+        "changePct": -10.2192
+      }
+    },
+    {
+      "date": "2026-10-05",
       "sentiment": "mixed",
       "text": "",
       "stats": {
