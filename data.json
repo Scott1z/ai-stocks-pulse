@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-10-20T07:12:41.033694+00:00",
+  "updated_at": "2026-10-20T13:23:29.918547+00:00",
   "sector": {
-    "sentiment": "mixed",
-    "text": "",
+    "sentiment": "bullish",
+    "text": "Los semiconductores lideran el rebote tras una fuerte caída previa: Intel sube con mejoras de analistas y Lam Research avanza más de 3% por la demanda de equipos de IA. Western Digital y SanDisk se disparan por el boom de almacenamiento en data centers, mientras Palantir y Snowflake suben con el regreso del apetito por riesgo tecnológico.",
     "stats": {
       "upCount": 40,
       "totalCount": 50,
       "avgChangePct": 1.62,
-      "newsCount": 0
+      "newsCount": 8
     }
   },
   "stocks": [
@@ -25,8 +25,8 @@
         214.13,
         214.13,
         214.13,
-        214.13,
         217.34,
+        217.09,
         217.09,
         217.09,
         217.09
@@ -469,8 +469,8 @@
         "surprisePercent": 3.8159
       },
       "thesis": {
-        "text": "Líder absoluto en GPUs para entrenamiento e inferencia de IA, con márgenes netos del 63% y PE razonable para su crecimiento.",
-        "catalyst": "Próximo reporte trimestral y demanda de chips Blackwell"
+        "text": "Líder absoluto en GPUs para entrenamiento de IA, con márgenes y ROE excepcionales (63,6% y 110%) que validan su posición dominante en el ecosistema.",
+        "catalyst": "Próximo reporte trimestral y ramp de Blackwell"
       }
     },
     {
@@ -487,8 +487,8 @@
         529.05,
         529.05,
         529.05,
-        529.05,
         534.19,
+        533.52,
         533.52,
         533.52,
         533.52
@@ -931,8 +931,8 @@
         "surprisePercent": 9.5346
       },
       "thesis": {
-        "text": "Azure AI y Copilot capturan demanda empresarial de IA generativa, respaldado por la alianza estratégica con OpenAI.",
-        "catalyst": "Crecimiento de ingresos de Azure en próximo resultado"
+        "text": "Azure y Copilot integran IA en toda su suite empresarial; ROE de 33% y PE de 29,5 reflejan monetización sólida del negocio cloud.",
+        "catalyst": "Crecimiento de Azure AI en próximos resultados"
       }
     },
     {
@@ -949,8 +949,8 @@
         340.59,
         340.59,
         340.59,
-        340.59,
         344.81,
+        344.18,
         344.18,
         344.18,
         344.18
@@ -1393,8 +1393,8 @@
         "surprisePercent": -4.356
       },
       "thesis": {
-        "text": "Gemini y la integración de IA en Search/Cloud, con PE bajo (17x) frente a pares, ofrece valor relativo en el sector.",
-        "catalyst": "Adopción de Gemini en productos core y Cloud"
+        "text": "Gemini y la infraestructura TPU posicionan a Alphabet en IA generativa con valuación atractiva: PE de 17,3 y ROE de 50,8%.",
+        "catalyst": "Adopción de Gemini y resultados de cloud"
       }
     },
     {
@@ -1411,8 +1411,8 @@
         709.325,
         709.325,
         709.325,
-        709.325,
         704.53,
+        705.44,
         705.44,
         705.44,
         705.44
@@ -1855,8 +1855,8 @@
         "surprisePercent": -16.0258
       },
       "thesis": {
-        "text": "Invierte fuertemente en infraestructura de IA para mejorar segmentación publicitaria y desarrolla Llama como modelo abierto propio.",
-        "catalyst": "Impacto del capex en IA sobre márgenes futuros"
+        "text": "Invierte fuertemente en IA para publicidad y Llama; margen neto de 29,8% sostiene la apuesta pese a altos capex.",
+        "catalyst": "Resultados de capex en infraestructura IA"
       }
     },
     {
@@ -1873,8 +1873,8 @@
         250,
         250,
         250,
-        250,
         262.29,
+        262.45,
         262.45,
         262.45,
         262.45
@@ -2317,8 +2317,8 @@
         "surprisePercent": 6.1251
       },
       "thesis": {
-        "text": "AWS lidera infraestructura cloud para IA con chips propios Trainium, aunque el margen neto es menor que otros gigantes tech.",
-        "catalyst": "Crecimiento de AWS y adopción de Trainium2"
+        "text": "AWS y chips Trainium capturan demanda de cómputo IA; PE de 19,9 ofrece entrada razonable dentro de los hiperescaladores.",
+        "catalyst": "Crecimiento de AWS en próximo earnings"
       }
     },
     {
@@ -2335,8 +2335,8 @@
         328.75,
         328.75,
         328.75,
-        328.75,
         335.35,
+        334.59,
         334.59,
         334.59,
         334.59
@@ -2779,8 +2779,8 @@
         "surprisePercent": 0.5664
       },
       "thesis": {
-        "text": "Diseña chips ASIC personalizados para hyperscalers de IA y domina networking de datacenters, con márgenes superiores al 40%.",
-        "catalyst": "Nuevos contratos de ASICs con clientes hyperscale"
+        "text": "Diseña chips IA a medida para hiperescaladores y domina networking de datacenters; PE de 41,8 y margen de 42,9%.",
+        "catalyst": "Nuevos contratos de ASICs con hiperescaladores"
       }
     },
     {
@@ -2797,8 +2797,8 @@
         128.23,
         128.23,
         128.23,
-        128.23,
         130.01,
+        129.59,
         129.59,
         129.59,
         129.59
@@ -3241,8 +3241,8 @@
         "surprisePercent": 8.2422
       },
       "thesis": {
-        "text": "Oracle Cloud Infrastructure gana tracción como alternativa para entrenar modelos de IA, con PE atractivo de 20x.",
-        "catalyst": "Expansión de capacidad OCI y contratos de nube"
+        "text": "Oracle Cloud Infrastructure gana tracción como alternativa para cargas de IA; PE de 20,5 relativamente bajo para el sector.",
+        "catalyst": "Crecimiento de backlog de cloud IA"
       }
     },
     {
@@ -3259,8 +3259,8 @@
         186.03,
         186.03,
         186.03,
-        186.03,
         194.5,
+        194.15,
         194.15,
         194.15,
         194.15
@@ -3703,8 +3703,8 @@
         "surprisePercent": 15.6885
       },
       "thesis": {
-        "text": "Plataforma de IA para gobierno y empresas con crecimiento acelerado, aunque su PE de 155x refleja expectativas muy altas.",
-        "catalyst": "Renovación de contratos gubernamentales y expansión comercial"
+        "text": "Su plataforma AIP conecta datos empresariales y gubernamentales con IA; valuación exigente (PE 155) refleja altas expectativas de crecimiento.",
+        "catalyst": "Nuevos contratos gubernamentales/empresariales y earnings"
       }
     },
     {
@@ -3721,8 +3721,8 @@
         528.75,
         528.75,
         528.75,
-        528.75,
         540.39,
+        538.05,
         538.05,
         538.05,
         538.05
@@ -4165,8 +4165,8 @@
         "surprisePercent": 1.7593
       },
       "thesis": {
-        "text": "Compite con NVIDIA en GPUs de IA (serie MI), aunque su ROE de 10% aún refleja un negocio en maduración.",
-        "catalyst": "Ventas de aceleradores MI300/MI400 a hyperscalers"
+        "text": "MI300/MI350 compiten directo con Nvidia en aceleradores IA; PE de 137 anticipa fuerte expansión de márgenes futura.",
+        "catalyst": "Ramp de MI350/MI400 y guidance de datacenter"
       }
     },
     {
@@ -4183,8 +4183,8 @@
         412.61,
         412.61,
         412.61,
-        412.61,
         421.88,
+        420.22,
         420.22,
         420.22,
         420.22
@@ -4627,8 +4627,8 @@
         "surprisePercent": 409.3649
       },
       "thesis": {
-        "text": "Fabricante dominante de los chips de IA más avanzados del mundo, con márgenes netos superiores al 50%.",
-        "catalyst": "Expansión de capacidad de nodos avanzados (3nm/2nm)"
+        "text": "Fabricante clave de los chips IA más avanzados del mundo; PE de 24,6 y margen neto de 51,5% muy sólidos.",
+        "catalyst": "Expansión de capacidad CoWoS para IA"
       }
     },
     {
@@ -4645,8 +4645,8 @@
         227.8,
         227.8,
         227.8,
-        227.8,
         230.82,
+        228.05,
         228.05,
         228.05,
         228.05
@@ -5089,8 +5089,8 @@
         "surprisePercent": 10.8101
       },
       "thesis": {
-        "text": "Licencia arquitecturas de bajo consumo clave para chips de IA en edge y datacenter, aunque cotiza a múltiplos extremos (233x PE).",
-        "catalyst": "Adopción de Arm en servidores de IA"
+        "text": "Su arquitectura domina chips eficientes para IA móvil y edge; PE de 233 refleja expectativas de regalías crecientes.",
+        "catalyst": "Crecimiento de royalties por adopción en IA"
       }
     },
     {
@@ -5107,8 +5107,8 @@
         31.63,
         31.63,
         31.63,
-        31.63,
         32.05,
+        32.1,
         32.1,
         32.1,
         32.1
@@ -5551,8 +5551,8 @@
         "surprisePercent": 74.0555
       },
       "thesis": {
-        "text": "Fabricante de servidores optimizados para IA con PE muy bajo (9.5x), aunque márgenes delgados reflejan presión competitiva.",
-        "catalyst": "Resolución de dudas contables y nuevos pedidos"
+        "text": "Fabricante de servidores optimizados para IA con valuación baja (PE 9,5) tras disipar dudas contables recientes.",
+        "catalyst": "Recuperación de márgenes en próximo reporte"
       }
     },
     {
@@ -5569,8 +5569,8 @@
         227.83,
         227.83,
         227.83,
-        227.83,
         237.81,
+        237.09,
         237.09,
         237.09,
         237.09
@@ -6013,8 +6013,8 @@
         "surprisePercent": -0.2335
       },
       "thesis": {
-        "text": "Provee interconexión y silicio personalizado para datacenters de IA, con fuerte crecimiento pero valuación exigente (79x PE).",
-        "catalyst": "Nuevos diseños custom silicon para hyperscalers"
+        "text": "Diseña silicio custom para redes de IA en datacenters hiperescaladores; PE de 78,7 anticipa fuerte crecimiento futuro.",
+        "catalyst": "Nuevos diseños ASIC con hiperescaladores"
       }
     },
     {
@@ -6031,8 +6031,8 @@
         172.11,
         172.11,
         172.11,
-        172.11,
         174.22,
+        173.53,
         173.53,
         173.53,
         173.53
@@ -6475,8 +6475,8 @@
         "surprisePercent": -2.746
       },
       "thesis": {
-        "text": "Impulsa IA en el edge a través de chips móviles y busca diversificarse más allá de smartphones.",
-        "catalyst": "Diversificación hacia PC y automotriz con IA"
+        "text": "Lleva IA a dispositivos móviles y PCs con Snapdragon; PE de 20,4 bajo para una empresa con 37% de ROE.",
+        "catalyst": "Adopción de Snapdragon en AI PCs"
       }
     },
     {
@@ -6493,8 +6493,8 @@
         878.84,
         878.84,
         878.84,
-        878.84,
         906.38,
+        904.9,
         904.9,
         904.9,
         904.9
@@ -6937,8 +6937,8 @@
         "surprisePercent": 2.6334
       },
       "thesis": {
-        "text": "Memoria HBM esencial para GPUs de IA, con ROE excepcional de 92% gracias al ciclo alcista de precios.",
-        "catalyst": "Precios de memoria HBM y capacidad de producción"
+        "text": "Memoria HBM esencial para aceleradores de IA; ROE de 91,8% y PE de 12,3 muestran ciclo de memoria muy favorable.",
+        "catalyst": "Demanda de HBM en próximo earnings"
       }
     },
     {
@@ -6955,8 +6955,8 @@
         1299.3,
         1299.3,
         1299.3,
-        1299.3,
         1374.22,
+        1371.12,
         1371.12,
         1371.12,
         1371.12
@@ -7399,8 +7399,8 @@
         "surprisePercent": 11.6977
       },
       "thesis": {
-        "text": "Beneficiario del aumento de demanda de almacenamiento flash por el crecimiento de datos generados por IA.",
-        "catalyst": "Ciclo de precios de NAND y demanda de datacenters"
+        "text": "Almacenamiento NAND crítico para datacenters de IA; PE de 17,3 con ROE de 93,1% en un ciclo de recuperación.",
+        "catalyst": "Ciclo de precios de NAND/storage"
       }
     },
     {
@@ -7417,8 +7417,8 @@
         240.7,
         240.7,
         240.7,
-        240.7,
         241.98,
+        242.45,
         242.45,
         242.45,
         242.45
@@ -7861,8 +7861,8 @@
         "surprisePercent": 78.4364
       },
       "thesis": {
-        "text": "Agentforce posiciona a Salesforce en IA agéntica empresarial, con PE moderado de 20x frente al sector software.",
-        "catalyst": "Adopción comercial de agentes de IA (Agentforce)"
+        "text": "Agentforce lleva agentes autónomos de IA al CRM empresarial; PE de 20,3 atractivo frente a software comparable.",
+        "catalyst": "Adopción de Agentforce en próximos resultados"
       }
     },
     {
@@ -7879,8 +7879,8 @@
         141.97,
         141.97,
         141.97,
-        141.97,
         144.99,
+        145.36,
         145.36,
         145.36,
         145.36
@@ -8323,8 +8323,8 @@
         "surprisePercent": 4.3478
       },
       "thesis": {
-        "text": "Automatiza flujos empresariales con IA generativa, aunque su PE de 88x exige ejecución impecable en crecimiento.",
-        "catalyst": "Expansión de Now Assist y nuevos módulos IA"
+        "text": "Automatiza flujos de trabajo empresariales con IA; PE de 87,9 refleja altas expectativas de crecimiento sostenido.",
+        "catalyst": "Adopción de Now Assist/Pro Plus"
       }
     },
     {
@@ -8341,8 +8341,8 @@
         245.2,
         245.2,
         245.2,
-        245.2,
         247.02,
+        247.09,
         247.09,
         247.09,
         247.09
@@ -8785,8 +8785,8 @@
         "surprisePercent": -1.2628
       },
       "thesis": {
-        "text": "Integra IA generativa (Firefly) en su suite creativa, cotizando con PE bajo de 13x pese al liderazgo en el segmento.",
-        "catalyst": "Monetización de Firefly y suscripciones de IA"
+        "text": "Firefly integra IA generativa en su suite creativa; PE de 13,1 bajo pese a ROE de 62,9%, oportunidad de valor.",
+        "catalyst": "Monetización de Firefly en próximo earnings"
       }
     },
     {
@@ -8803,8 +8803,8 @@
         306.84,
         306.84,
         306.84,
-        306.84,
         317.38,
+        315.35,
         315.35,
         315.35,
         315.35
@@ -9247,8 +9247,8 @@
         "surprisePercent": 36.2039
       },
       "thesis": {
-        "text": "Plataforma de datos clave para entrenar modelos de IA empresarial, aunque sigue con márgenes netos negativos (-20%).",
-        "catalyst": "Camino hacia rentabilidad y adopción de Cortex AI"
+        "text": "Cortex AI potencia análisis de datos empresariales; aún con márgenes negativos, apuesta a escalar monetización de IA.",
+        "catalyst": "Adopción de Cortex AI y camino a rentabilidad"
       }
     },
     {
@@ -9265,8 +9265,8 @@
         232.14,
         232.14,
         232.14,
-        232.14,
         237.42,
+        236.39,
         236.39,
         236.39,
         236.39
@@ -9709,8 +9709,8 @@
         "surprisePercent": -2.2812
       },
       "thesis": {
-        "text": "Watsonx y su estrategia híbrida de nube buscan capturar demanda empresarial de IA, con ROE sólido de 33%.",
-        "catalyst": "Crecimiento de adopción de watsonx en empresas"
+        "text": "watsonx y consultoría en IA empresarial sostienen crecimiento estable; PE de 20,6 y ROE de 33,5% razonables.",
+        "catalyst": "Crecimiento de bookings de watsonx"
       }
     },
     {
@@ -9727,8 +9727,8 @@
         343.46,
         343.46,
         343.46,
-        343.46,
         343.41,
+        342.94,
         342.94,
         342.94,
         342.94
@@ -10171,8 +10171,8 @@
         "surprisePercent": -0.8873
       },
       "thesis": {
-        "text": "Apple Intelligence integra IA en el ecosistema de dispositivos, con ROE excepcional de 137% pese a PE elevado (39x).",
-        "catalyst": "Expansión global de Apple Intelligence y Siri renovado"
+        "text": "Apple Intelligence busca reposicionar el ecosistema con IA on-device; ROE excepcional de 137% pese a PE elevado de 38,8.",
+        "catalyst": "Despliegue global de Apple Intelligence"
       }
     },
     {
@@ -10189,8 +10189,8 @@
         354.72,
         354.72,
         354.72,
-        354.72,
         368.95,
+        368.06,
         368.06,
         368.06,
         368.06
@@ -10633,8 +10633,8 @@
         "surprisePercent": -36.4284
       },
       "thesis": {
-        "text": "Apuesta por IA aplicada a conducción autónoma (FSD) y robótica (Optimus), con valuación muy especulativa (PE 382x).",
-        "catalyst": "Avances en FSD y lanzamiento de robotaxis"
+        "text": "FSD, robotaxis y Optimus representan la apuesta de IA física de Tesla; valuación extrema (PE 382) anticipa ese futuro.",
+        "catalyst": "Expansión de robotaxi y actualizaciones FSD"
       }
     },
     {
@@ -10651,8 +10651,8 @@
         89.85,
         89.85,
         89.85,
-        89.85,
         92.52,
+        92.03,
         92.03,
         92.03,
         92.03
@@ -10674,8 +10674,8 @@
         "surprisePercent": 92.926
       },
       "thesis": {
-        "text": "Intenta reposicionarse en fabricación de chips de IA mediante su negocio de foundry, aún con pérdidas netas significativas.",
-        "catalyst": "Progreso del proceso 18A y contratos de foundry"
+        "text": "Busca recuperar terreno en fabricación de chips IA vía su foundry; márgenes aún negativos en plena reestructuración.",
+        "catalyst": "Ramp del proceso 18A y clientes foundry"
       }
     },
     {
@@ -10692,8 +10692,8 @@
         276.48,
         276.48,
         276.48,
-        276.48,
         276.67,
+        276.15,
         276.15,
         276.15,
         276.15
@@ -10715,8 +10715,8 @@
         "surprisePercent": 9.5021
       },
       "thesis": {
-        "text": "Fabrica semiconductores analógicos que soportan infraestructura de IA, aunque su exposición directa al tema es menor que pares.",
-        "catalyst": "Recuperación cíclica de demanda de semiconductores"
+        "text": "Chips analógicos esenciales para infraestructura de IA y datacenters; PE de 42,3 con margen neto de 31,1%.",
+        "catalyst": "Recuperación de demanda industrial/datacenter"
       }
     },
     {
@@ -10733,8 +10733,8 @@
         1641.52,
         1641.52,
         1641.52,
-        1641.52,
         1662.6,
+        1647.12,
         1647.12,
         1647.12,
         1647.12
@@ -10756,8 +10756,8 @@
         "surprisePercent": 17.1037
       },
       "thesis": {
-        "text": "Monopolio en litografía EUV, tecnología indispensable para fabricar los chips de IA más avanzados del mundo.",
-        "catalyst": "Pedidos de equipos EUV de alta apertura numérica"
+        "text": "Monopolio en litografía EUV, tecnología indispensable para fabricar chips de IA; PE de 54,2 refleja su posición única.",
+        "catalyst": "Órdenes de equipos High-NA EUV"
       }
     },
     {
@@ -10774,8 +10774,8 @@
         263.94,
         263.94,
         263.94,
-        263.94,
         272.87,
+        272.2,
         272.2,
         272.2,
         272.2
@@ -10797,8 +10797,8 @@
         "surprisePercent": 5.9865
       },
       "thesis": {
-        "text": "Equipamiento crítico para fabricación de chips avanzados de IA, con ROE elevado de 67% y demanda sostenida.",
-        "catalyst": "Gasto de capital de fabricantes de chips en 2025"
+        "text": "Provee equipos clave para fabricación de semiconductores avanzados usados en IA; ROE de 67% muy sólido.",
+        "catalyst": "Gasto en equipos de fabricación de chips"
       }
     },
     {
@@ -10815,8 +10815,8 @@
         409.29,
         409.29,
         409.29,
-        409.29,
         415.22,
+        413.11,
         413.11,
         413.11,
         413.11
@@ -10838,8 +10838,8 @@
         "surprisePercent": 1.0801
       },
       "thesis": {
-        "text": "Proveedor líder de equipos de fabricación de semiconductores, beneficiado por el ciclo de inversión en chips de IA.",
-        "catalyst": "Expansión de capacidad de clientes foundry"
+        "text": "Equipamiento esencial para fabricar semiconductores de IA; PE de 35 y margen neto de 30% reflejan ciclo favorable.",
+        "catalyst": "Capex de clientes de semiconductores"
       }
     },
     {
@@ -10856,8 +10856,8 @@
         165.74,
         165.74,
         165.74,
-        165.74,
         167.78,
+        166.4,
         166.4,
         166.4,
         166.4
@@ -10879,8 +10879,8 @@
         "surprisePercent": 3.316
       },
       "thesis": {
-        "text": "Control de procesos en fabricación de chips, con ROE excepcional de 85% gracias a su posición casi monopólica.",
-        "catalyst": "Demanda de inspección para nodos avanzados"
+        "text": "Líder en inspección de semiconductores, crítico para chips de IA de alta precisión; ROE de 85,4% destacado.",
+        "catalyst": "Gasto en nodos avanzados de fabricación"
       }
     },
     {
@@ -10897,8 +10897,8 @@
         176.98,
         176.98,
         176.98,
-        176.98,
         183.39,
+        182.95,
         182.95,
         182.95,
         182.95
@@ -10920,8 +10920,8 @@
         "surprisePercent": 13.0069
       },
       "thesis": {
-        "text": "Switches y networking de alta velocidad esenciales para interconectar clusters de GPUs en datacenters de IA.",
-        "catalyst": "Pedidos de hyperscalers para infraestructura de IA"
+        "text": "Networking de alta velocidad para datacenters de IA de hiperescaladores; PE de 55,2 con margen de 38,4%.",
+        "catalyst": "Gasto en redes de datacenters IA"
       }
     },
     {
@@ -10938,8 +10938,8 @@
         451.71,
         451.71,
         451.71,
-        451.71,
         449.56,
+        455.44,
         455.44,
         455.44,
         455.44
@@ -10961,8 +10961,8 @@
         "surprisePercent": 40.5049
       },
       "thesis": {
-        "text": "Vende servidores optimizados para IA a empresas, con ROE sobresaliente de 130% aunque margen neto bajo (7.5%).",
-        "catalyst": "Backlog de servidores de IA y márgenes de servidores"
+        "text": "Servidores de IA con fuerte backlog corporativo; ROE extraordinario de 130,7% pese a margen neto más ajustado.",
+        "catalyst": "Backlog de servidores IA en próximo reporte"
       }
     },
     {
@@ -10979,8 +10979,8 @@
         55.13,
         55.13,
         55.13,
-        55.13,
         55.77,
+        55.87,
         55.87,
         55.87,
         55.87
@@ -11002,8 +11002,8 @@
         "surprisePercent": 18.0098
       },
       "thesis": {
-        "text": "Ofrece servidores y networking para cargas de IA empresarial, con valuación moderada pero rentabilidad aún limitada.",
-        "catalyst": "Integración de Juniper Networks y pedidos de IA"
+        "text": "Servidores y networking para infraestructura de IA, reforzado por integración de Juniper; PE de 26,6 moderado.",
+        "catalyst": "Sinergias de integración con Juniper Networks"
       }
     },
     {
@@ -11020,8 +11020,8 @@
         319.51,
         319.51,
         319.51,
-        319.51,
         325.79,
+        325.86,
         325.86,
         325.86,
         325.86
@@ -11043,8 +11043,8 @@
         "surprisePercent": 0.6727
       },
       "thesis": {
-        "text": "Software de diseño electrónico (EDA) asistido por IA, esencial para crear los chips cada vez más complejos.",
-        "catalyst": "Adopción de IA generativa en diseño de chips"
+        "text": "Software EDA imprescindible para diseñar chips de IA avanzados; PE de 63,9 refleja crecimiento estructural del diseño de semis.",
+        "catalyst": "Demanda de diseño de chips IA"
       }
     },
     {
@@ -11061,8 +11061,8 @@
         454.63,
         454.63,
         454.63,
-        454.63,
         456.08,
+        454.58,
         454.58,
         454.58,
         454.58
@@ -11084,8 +11084,8 @@
         "surprisePercent": 4.5622
       },
       "thesis": {
-        "text": "Líder en EDA que incorpora IA para acelerar el diseño de semiconductores, aunque su ROE es bajo (3.6%).",
-        "catalyst": "Integración de IA en herramientas de diseño"
+        "text": "Herramientas de diseño de semiconductores clave para la era de IA; PE de 80,9 anticipa expansión sostenida.",
+        "catalyst": "Integración de Ansys y demanda de diseño"
       }
     },
     {
@@ -11102,8 +11102,8 @@
         247.11,
         247.11,
         247.11,
-        247.11,
         262.38,
+        260.36,
         260.36,
         260.36,
         260.36
@@ -11125,8 +11125,8 @@
         "surprisePercent": 7.2077
       },
       "thesis": {
-        "text": "Monitorea infraestructura cloud usada para entrenar e implementar modelos de IA, aunque cotiza a PE extremo (528x).",
-        "catalyst": "Crecimiento de clientes que escalan cargas de IA"
+        "text": "Monitorea infraestructura cloud e IA para empresas; valuación muy exigente (PE 528) apuesta a fuerte crecimiento futuro.",
+        "catalyst": "Crecimiento de observabilidad para cargas IA"
       }
     },
     {
@@ -11143,8 +11143,8 @@
         342,
         342,
         342,
-        342,
         347.76,
+        346.95,
         346.95,
         346.95,
         346.95
@@ -11166,8 +11166,8 @@
         "surprisePercent": 2.4199
       },
       "thesis": {
-        "text": "Incorpora IA en ciberseguridad para detectar amenazas, con valuación extremadamente alta (911x PE) y márgenes aún bajos.",
-        "catalyst": "Adopción de plataformas de seguridad con IA"
+        "text": "Ciberseguridad potenciada por IA en plataforma unificada; PE extremo (911) refleja expectativas muy altas de los inversores.",
+        "catalyst": "Adopción de estrategia de platformización"
       }
     },
     {
@@ -11184,8 +11184,8 @@
         227.39,
         227.39,
         227.39,
-        227.39,
         228.81,
+        228.1,
         228.1,
         228.1,
         228.1
@@ -11207,8 +11207,8 @@
         "surprisePercent": 3.8178
       },
       "thesis": {
-        "text": "Plataforma de ciberseguridad potenciada por IA, con valuación desorbitada (PE 4000x) que exige fuerte crecimiento sostenido.",
-        "catalyst": "Expansión de módulos de IA en su plataforma"
+        "text": "Detección de amenazas basada en IA en su plataforma Falcon; valuación extrema (PE 4004) anticipa crecimiento acelerado.",
+        "catalyst": "Expansión de módulos de la plataforma Falcon"
       }
     },
     {
@@ -11225,8 +11225,8 @@
         337.57,
         337.57,
         337.57,
-        337.57,
         348.84,
+        348.69,
         348.69,
         348.69,
         348.69
@@ -11248,8 +11248,8 @@
         "surprisePercent": 17.7564
       },
       "thesis": {
-        "text": "Base de datos flexible usada para aplicaciones de IA generativa, aunque su rentabilidad sigue siendo marginal.",
-        "catalyst": "Adopción de Atlas Vector Search para IA"
+        "text": "Base de datos flexible usada para construir aplicaciones de IA; PE de 476,9 apuesta a monetización futura del vector search.",
+        "catalyst": "Adopción de Atlas Vector Search"
       }
     },
     {
@@ -11266,8 +11266,8 @@
         190.81,
         190.81,
         190.81,
-        190.81,
         194.1,
+        195.2,
         195.2,
         195.2,
         195.2
@@ -11289,8 +11289,8 @@
         "surprisePercent": 3.364
       },
       "thesis": {
-        "text": "Incorpora agentes de IA en software de RRHH y finanzas empresariales, con PE moderado de 38x.",
-        "catalyst": "Lanzamiento de agentes de IA para RRHH"
+        "text": "Incorpora agentes de IA en gestión de RRHH y finanzas corporativas; PE de 38,3 razonable para software empresarial.",
+        "catalyst": "Adopción de agentes de IA empresariales"
       }
     },
     {
@@ -11307,8 +11307,8 @@
         325.15,
         325.15,
         325.15,
-        325.15,
         326.84,
+        325.62,
         325.62,
         325.62,
         325.62
@@ -11330,8 +11330,8 @@
         "surprisePercent": 10.3142
       },
       "thesis": {
-        "text": "Integra IA generativa en TurboTax y QuickBooks, con PE atractivo de 19x y alta rentabilidad (ROE 23%).",
-        "catalyst": "Adopción de asistentes de IA en temporada fiscal"
+        "text": "IA generativa impulsa asistentes fiscales y contables en TurboTax y QuickBooks; PE de 19 atractivo con ROE de 23,4%.",
+        "catalyst": "Adopción de funciones IA en productos clave"
       }
     },
     {
@@ -11348,8 +11348,8 @@
         224.29,
         224.29,
         224.29,
-        224.29,
         226.42,
+        226.03,
         226.03,
         226.03,
         226.03
@@ -11371,8 +11371,8 @@
         "surprisePercent": -11.1136
       },
       "thesis": {
-        "text": "Despliega su asistente Joule con IA generativa en software empresarial, con ROE sólido de 18%.",
-        "catalyst": "Expansión de Joule y migración a cloud"
+        "text": "Integra IA generativa en su suite ERP para empresas globales; PE de 29,8 con margen neto de 20,4%.",
+        "catalyst": "Crecimiento de backlog de cloud con IA"
       }
     },
     {
@@ -11389,8 +11389,8 @@
         207.82,
         207.82,
         207.82,
-        207.82,
         214.25,
+        214.75,
         214.75,
         214.75,
         214.75
@@ -11412,8 +11412,8 @@
         "surprisePercent": 21.9671
       },
       "thesis": {
-        "text": "Suma funciones de IA a sus herramientas de colaboración, aunque aún presenta márgenes netos negativos.",
-        "catalyst": "Camino hacia rentabilidad y adopción de IA"
+        "text": "Rovo lleva IA a sus herramientas de colaboración y desarrollo; aún con márgenes negativos en fase de inversión.",
+        "catalyst": "Adopción de Rovo AI en próximos resultados"
       }
     },
     {
@@ -11430,8 +11430,8 @@
         639.01,
         639.01,
         639.01,
-        639.01,
         657.09,
+        660.81,
         660.81,
         660.81,
         660.81
@@ -11453,8 +11453,8 @@
         "surprisePercent": 11.1133
       },
       "thesis": {
-        "text": "Fabricante de discos duros que se beneficia de la explosión de datos generados por entrenamiento de IA, con ROE extremo de 212%.",
-        "catalyst": "Demanda de almacenamiento de alta capacidad para datacenters"
+        "text": "Discos de alta capacidad críticos para almacenamiento de datos de IA; ROE extraordinario de 212% destaca fuerte momentum.",
+        "catalyst": "Demanda de almacenamiento en datacenters IA"
       }
     },
     {
@@ -11471,8 +11471,8 @@
         332,
         332,
         332,
-        332,
         347.35,
+        352.21,
         352.21,
         352.21,
         352.21
@@ -11494,8 +11494,8 @@
         "surprisePercent": 6.9679
       },
       "thesis": {
-        "text": "Almacenamiento masivo requerido por datacenters de IA, con márgenes netos excepcionales (73%) y ROE de 118%.",
-        "catalyst": "Ciclo de precios de almacenamiento flash y HDD"
+        "text": "Almacenamiento para datacenters de IA con márgenes muy elevados (ROE 117,8%, margen neto 73%); PE bajo de 14,2.",
+        "catalyst": "Ciclo de demanda de storage y earnings"
       }
     },
     {
@@ -11512,8 +11512,8 @@
         11.32,
         11.32,
         11.32,
-        11.32,
         11.29,
+        11.28,
         11.28,
         11.28,
         11.28
@@ -11535,7 +11535,7 @@
         "surprisePercent": 25.5121
       },
       "thesis": {
-        "text": "Empresa pura de software de IA empresarial, aunque sus márgenes netos profundamente negativos (-192%) generan dudas sobre su modelo.",
+        "text": "C3.ai apuesta por software de IA empresarial, pero sus márgenes profundamente negativos reflejan alto riesgo de ejecución.",
         "catalyst": null
       }
     },
@@ -11553,8 +11553,8 @@
         4.72,
         4.72,
         4.72,
-        4.72,
         4.69,
+        4.65,
         4.65,
         4.65,
         4.65
@@ -11576,7 +11576,7 @@
         "surprisePercent": 64.8506
       },
       "thesis": {
-        "text": "Especializada en IA de voz conversacional, en expansión pero con pérdidas netas significativas (-67% margen).",
+        "text": "Tecnología de voz con IA para automotrices y call centers; márgenes negativos muestran que aún no logra rentabilidad.",
         "catalyst": null
       }
     },
@@ -11594,8 +11594,8 @@
         31.28,
         31.28,
         31.28,
-        31.28,
         30.93,
+        30.78,
         30.78,
         30.78,
         30.78
@@ -11617,7 +11617,7 @@
         "surprisePercent": -13.3242
       },
       "thesis": {
-        "text": "Apuesta especulativa en computación cuántica, tecnología potencialmente complementaria a la IA, pero con pérdidas extremas (-553% margen).",
+        "text": "Computación cuántica como posible complemento futuro de la IA; márgenes extremadamente negativos reflejan etapa muy temprana.",
         "catalyst": null
       }
     },
@@ -11635,8 +11635,8 @@
         107.39,
         107.39,
         107.39,
-        107.39,
         107.17,
+        106.5,
         106.5,
         106.5,
         106.5
@@ -11658,8 +11658,8 @@
         "surprisePercent": 2.2032
       },
       "thesis": {
-        "text": "Provee networking crítico para construir la infraestructura de datacenters que soporta cargas de trabajo de IA.",
-        "catalyst": "Pedidos de equipos de red para IA empresarial"
+        "text": "Networking esencial para infraestructura de datacenters de IA; PE de 31,6 con margen neto sólido de 21%.",
+        "catalyst": "Pedidos de redes para datacenters IA"
       }
     },
     {
@@ -11676,8 +11676,8 @@
         70.53,
         70.53,
         70.53,
-        70.53,
         69.71,
+        69.85,
         69.85,
         69.85,
         69.85
@@ -11699,8 +11699,8 @@
         "surprisePercent": -0.3736
       },
       "thesis": {
-        "text": "Usa IA para personalización y recomendación de contenido, aunque no es un jugador central del tema IA.",
-        "catalyst": null
+        "text": "Usa IA para recomendaciones y producción de contenido; PE de 21,2 con ROE de 48% muestra eficiencia del modelo.",
+        "catalyst": "Crecimiento del nivel con publicidad"
       }
     },
     {
@@ -11717,8 +11717,8 @@
         70.35,
         70.35,
         70.35,
-        70.35,
         70.37,
+        69.96,
         69.96,
         69.96,
         69.96
@@ -11740,12 +11740,117 @@
         "surprisePercent": 43.0843
       },
       "thesis": {
-        "text": "Aplica IA para optimizar rutas y avanza en asociaciones de vehículos autónomos, con ROE sólido de 36%.",
-        "catalyst": "Expansión de alianzas en robotaxis y autonomía"
+        "text": "IA optimiza rutas y pricing, con apuestas en autonomía vía alianzas; PE de 15 bajo para su escala de ROE 35,7%.",
+        "catalyst": "Expansión de alianzas de vehículos autónomos"
       }
     }
   ],
-  "news": [],
+  "news": [
+    {
+      "headline": "Chips repiten racha bajista histórica, ¿tocaron piso?",
+      "summary": "El índice SOX cayó ocho sesiones seguidas, algo inédito desde 2008; JPMorgan mejora su visión sobre Intel ante escasez de equipos.",
+      "tickers": [
+        "INTC",
+        "ARM"
+      ],
+      "sentiment": "positive",
+      "source_url": "https://finnhub.io/api/news?id=1fc94f10ac00e510cdb9f7af9a54decff8b8465bde369838cde767fa686faf63",
+      "source": "Benzinga",
+      "published_at": "2026-10-19T08:24:34+00:00",
+      "image": "https://cdn.benzinga.com/files/images/story/2026/10/19/Silicon-Wafer-With-Microchips-Used-In-El.jpg?width=2048&height=1536"
+    },
+    {
+      "headline": "Intel lidera repunte de semiconductores en el trade de IA",
+      "summary": "Las acciones de chips subieron el lunes mientras los inversores regresan al sector impulsados por mejoras de analistas sobre Intel.",
+      "tickers": [
+        "INTC",
+        "ARM"
+      ],
+      "sentiment": "positive",
+      "source_url": "https://finnhub.io/api/news?id=2820dde5cd99817f9b1e95d390cdea94731c177e10050c3fee1068a3326c294a",
+      "source": "Yahoo",
+      "published_at": "2026-10-19T13:57:26+00:00",
+      "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png"
+    },
+    {
+      "headline": "Nvidia sigue cayendo pese a duplicar ingresos",
+      "summary": "Wall Street mantiene sus precios objetivo sin cambios aunque el negocio de Nvidia crece fuerte, generando dudas antes del próximo reporte.",
+      "tickers": [
+        "NVDA",
+        "AMD"
+      ],
+      "sentiment": "negative",
+      "source_url": "https://finnhub.io/api/news?id=7eeca8dee5d9baf6fdf3a513ecc5ae6c36ec00bd998a067a3f5cc39fed72f513",
+      "source": "Yahoo",
+      "published_at": "2026-10-20T12:00:11+00:00",
+      "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png"
+    },
+    {
+      "headline": "Lam Research podría duplicar su valor según Wall Street",
+      "summary": "Pese a caer 20% en tres meses, una firma respetada ve upside fuerte por sólidos fundamentos ligados a la demanda de IA.",
+      "tickers": [
+        "LRCX",
+        "KLAC"
+      ],
+      "sentiment": "positive",
+      "source_url": "https://finnhub.io/api/news?id=43ca83c5777b1ae7ee2a960ec6e298916a1a5a968772dd2e06c45828ec6b75f4",
+      "source": "Yahoo",
+      "published_at": "2026-10-19T12:45:32+00:00",
+      "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png"
+    },
+    {
+      "headline": "Rotación del trade de IA favorece a las Mag 7",
+      "summary": "Analistas en CNBC señalan que preocupaciones de financiamiento llevan a inversores a preferir tecnológicas con caja fuerte sobre neoclouds endeudadas.",
+      "tickers": [
+        "NFLX",
+        "META"
+      ],
+      "sentiment": "neutral",
+      "source_url": "https://finnhub.io/api/news?id=a9c432a14fd5de41ca29a7b37c903dacc74b3bb95e9eb1ffaf7372df4913e101",
+      "source": "Yahoo",
+      "published_at": "2026-10-20T11:41:09+00:00",
+      "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png"
+    },
+    {
+      "headline": "Amazon y chips impulsan al Nasdaq pese a suba de rendimientos",
+      "summary": "El Nasdaq recuperó terreno con chips en rebote y Amazon subiendo 5% tras recomendación de Morgan Stanley, mientras el bono a 10 años supera 5.1%.",
+      "tickers": [
+        "AMZN",
+        "NVDA"
+      ],
+      "sentiment": "positive",
+      "source_url": "https://finnhub.io/api/news?id=b966dbb00d17593a80a8ddd13fa3680f2ec768cf6308e000361ddb3bdc0b8fc4",
+      "source": "ChartMill",
+      "published_at": "2026-10-20T11:54:06+00:00",
+      "image": "https://www.chartmill.com/images/uploads/THUMBNAILS_CHARTMILL_1000_528_24_46bdc3eb0b.webp"
+    },
+    {
+      "headline": "Palantir, Snowflake y otras tecnológicas repuntan fuerte",
+      "summary": "Varias acciones subieron tras la caída de rendimientos y compras oportunistas que revirtieron el fuerte retroceso de la sesión previa.",
+      "tickers": [
+        "PLTR",
+        "SNOW"
+      ],
+      "sentiment": "positive",
+      "source_url": "https://finnhub.io/api/news?id=3848f405ff2e8c41ae3df3ad1a3dd24e85ed211d54e33f1e700e91353cd9d623",
+      "source": "Yahoo",
+      "published_at": "2026-10-19T21:44:55+00:00",
+      "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png"
+    },
+    {
+      "headline": "Datadog sube tras mejora de analistas por demanda de IA",
+      "summary": "Bernstein elevó su calificación a Outperform destacando mayor demanda de clientes de IA de cara a resultados del tercer trimestre.",
+      "tickers": [
+        "INTC",
+        "DDOG"
+      ],
+      "sentiment": "positive",
+      "source_url": "https://finnhub.io/api/news?id=d2ec6e35cc8a9c4a1724e5a810d21f6343c9bb496756077723d285b209860e3f",
+      "source": "Yahoo",
+      "published_at": "2026-10-20T00:24:30+00:00",
+      "image": "https://s.yimg.com/rz/stage/p/yahoo_finance_en-US_h_p_finance_2.png"
+    }
+  ],
   "earningsCalendar": [
     {
       "ticker": "NFLX",
@@ -12584,13 +12689,13 @@
     },
     {
       "date": "2026-10-20",
-      "sentiment": "mixed",
-      "text": "",
+      "sentiment": "bullish",
+      "text": "Los semiconductores lideran el rebote tras una fuerte caída previa: Intel sube con mejoras de analistas y Lam Research avanza más de 3% por la demanda de equipos de IA. Western Digital y SanDisk se disparan por el boom de almacenamiento en data centers, mientras Palantir y Snowflake suben con el regreso del apetito por riesgo tecnológico.",
       "stats": {
         "upCount": 40,
         "totalCount": 50,
         "avgChangePct": 1.62,
-        "newsCount": 0
+        "newsCount": 8
       },
       "topMover": {
         "ticker": "WDC",
